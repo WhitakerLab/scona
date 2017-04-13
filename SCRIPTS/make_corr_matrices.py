@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+# A Global import to make code python 2 and 3 compatible
+from __future__ import print_function
+
 def make_corr_matrices(corrmat_dir, covars_dict, ct_data_file, aparc_names):
     '''
     A function that makes all the required correlation matrices
@@ -22,8 +25,8 @@ def make_corr_matrices(corrmat_dir, covars_dict, ct_data_file, aparc_names):
     #==========================================================================
     # Print to screen what you're up to
     #==========================================================================
-    print "--------------------------------------------------"
-    print "Making or loading correlation matrices"
+    print ("--------------------------------------------------")
+    print ("Making or loading correlation matrices")
 
     #==========================================================================
     # Create an empty dictionary
@@ -43,7 +46,7 @@ def make_corr_matrices(corrmat_dir, covars_dict, ct_data_file, aparc_names):
                                         'COVARS_{}'.format(covars_name.upper()),
                                         'Mat_CT_Corr_{}.txt'.format(age_group))
 
-            print '    {}'.format(key)
+            print ('    {}'.format(key))
 
             #======================================================================
             # If it doesn't already exist, then make it
@@ -155,7 +158,7 @@ def create_mat(df, aparc_names, covar, demean=False):
 
     for i, j in zip(triu_i, triu_j):
         if i%20 == 0 and j == len(aparc_names)-1:
-            print 'Processing row {}'.format(i)
+            print ('Processing row {}'.format(i))
 
         # Calculate the residuals for the two
         # regions you care about

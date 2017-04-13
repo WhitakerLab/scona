@@ -4,16 +4,16 @@
 def read_in_df(data_file, aparc_names):
     '''
     A very useful command for NSPN behavmerge data frames
-    Beware though - this is quite specific and there are 
+    Beware though - this is quite specific and there are
     a few versions floating around! Be careful
     '''
     import pandas as pd
     import numpy as np
     import os
-    
+
     # Read in the data file
     df = pd.read_csv(data_file, sep=',')
-    
+
     # Only keep the first scan!
     df = df.loc[df.occ==0, :]
 
@@ -23,11 +23,11 @@ def read_in_df(data_file, aparc_names):
     df.columns = data_cols
     data_cols = [ x.replace('_{}'.format('thickness'), '') for x in df.columns ]
     df.columns = data_cols
-    
+
     # Define a few variables you'll want in the data frame
     df['ones'] = df['age_scan'] * 0 + 1
     df['age'] = df['age_scan']
-    
+
     df['Global'] = df[aparc_names].mean(axis=1)
     df['Global_std'] = df[aparc_names].mean(axis=1)
 
@@ -37,9 +37,9 @@ def read_in_df(data_file, aparc_names):
         std_data_file = data_file.replace('mean', 'std')
     else:
         std_data_file = data_file.replace('thickness', 'thicknessstd')
-    
+
     if os.path.isfile(std_data_file):
-    
+
         # Repeating the steps really
         # Read in the file
         df_std = pd.read_csv(std_data_file, sep=',')
@@ -50,14 +50,14 @@ def read_in_df(data_file, aparc_names):
         df_std.columns = data_cols
         data_cols = [ x.replace('_{}'.format('thickness'), '') for x in df_std.columns ]
         df_std.columns = data_cols
-        
+
         # Now write the std across all aparc names into the original data frame
         # by averaging the variances
         df['Global_std'] = np.sqrt(np.average(df_std[aparc_names]**2, axis=1))
-    
+
     # Convert the values to floats
     df[aparc_names] = df[aparc_names].astype('float')
-    
+
     # If this is an MT, R2s, synthetic, MD, L1 or L23 file
     # then you have to divide the values by 1000
     # However there have been problems here in the past with
@@ -77,10 +77,45 @@ def read_in_df(data_file, aparc_names):
         df.loc[df['Global']>0.01, cols_list] = df.loc[df['Global']>0.01, cols_list]/1000.0
     if 'MD' in os.path.basename(data_file):
         df.loc[df['Global']>0.01, cols_list] = df.loc[df['Global']>0.01, cols_list]/1000.0
-    
+
     return df
 
+
+
+def read_in_data(regional_measures_file, names_file, covars_file=None, names_308_style=True):
+    '''
+    Read in the data from the three input files:
+        * regional_measures_file
+        * names_file
+        * covars_file
+
+    If the names are in 308 style then drop the first 41 entries from the names
+    and covars files.
+    '''
+    import pandas as pd
     
+    # Load the input files
+    df = pd.read_csv(regional_measures_file)
+    names = [ line.strip() for line in open(names_file) ]
+
+    if covars_file:
+        covars_list = [ line.strip() for line in open(covars_file) ]
+    else:
+        covars_list = []
+
+    # If you have your names in names_308_style you need to strip the
+    # first 41 items
+    if names_308_style:
+        names = names[41:]
+
+    # You may also have to strip the words "thickness" from the
+    # end of the names in the data frame
+    if names_308_style:
+        df.columns = [ col.rsplit('_thickness', 1)[0] for col in df.columns ]
+
+    return df, names, covars_list
+
+
 def residuals(x, y):
     '''
     A useful little function that correlates
@@ -89,7 +124,7 @@ def residuals(x, y):
     partial correlation values
     '''
     import numpy as np
-    
+
     if len(x.shape) == 1:
         x = x[np.newaxis, :]
     A = np.vstack([x, np.ones(x.shape[-1])]).T
@@ -99,4 +134,3 @@ def residuals(x, y):
     pre = np.sum(m * x.T, axis=1) + c
     res = y - pre
     return res
-    

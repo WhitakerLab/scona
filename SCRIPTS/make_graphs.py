@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+# A Global import to make code python 2 and 3 compatible
+from __future__ import print_function
+
 def make_graphs(graph_dir, mat_dict, centroids, aparc_names, n_rand=1000):
     '''
     A function that makes all the required graphs from the correlation
@@ -35,8 +38,8 @@ def make_graphs(graph_dir, mat_dict, centroids, aparc_names, n_rand=1000):
     #==========================================================================
     # Print to screen what you're up to
     #==========================================================================
-    print "--------------------------------------------------"
-    print "Making or loading graphs"
+    print ("--------------------------------------------------")
+    print ("Making or loading graphs")
 
     #==========================================================================
     # Create an empty dictionary
@@ -48,7 +51,7 @@ def make_graphs(graph_dir, mat_dict, centroids, aparc_names, n_rand=1000):
     #==========================================================================
     for k in mat_dict.keys():
 
-        print '    {}'.format(k)
+        print ('    {}'.format(k))
 
         # Read in the matrix
         M = mat_dict[k]
@@ -65,7 +68,7 @@ def make_graphs(graph_dir, mat_dict, centroids, aparc_names, n_rand=1000):
                                     'Graph_{}_COST_100.gpickle'.format(mat_name))
 
         g_key = '{}_COST_100'.format(k)
-        print '      Loading COST: 100',
+        print ('      Loading COST: 100',)
 
         # If it already exists just read it in from the pickled file
         if os.path.isfile(g_filename):
@@ -128,9 +131,9 @@ def make_graphs(graph_dir, mat_dict, centroids, aparc_names, n_rand=1000):
 
                 # Print to screen so you know where you're up to
                 if cost == 20:
-                    print '- {:02.0f}'.format(cost)
+                    print ('- {:02.0f}'.format(cost))
                 else:
-                    print '- {:02.0f}'.format(cost),
+                    print ('- {:02.0f}'.format(cost),)
 
                 graph_dict['{}_GlobalMeasures'.format(g_key)] = pickle.load(open(global_dict_filename))
                 graph_dict['{}_NodalMeasures'.format(g_key)] = pickle.load(open(nodal_dict_filename))
@@ -141,7 +144,7 @@ def make_graphs(graph_dir, mat_dict, centroids, aparc_names, n_rand=1000):
             else:
                 G = graph_dict[g_key]
 
-                print '\n      Calculating COST: {:02.0f}'.format(cost)
+                print ('\n      Calculating COST: {:02.0f}'.format(cost))
 
                 # You need to calculate the same nodal partition for the global
                 # and nodal measures
@@ -214,7 +217,9 @@ def graph_at_cost(M, cost):
     G = nx.from_numpy_matrix(thr_M)
 
     # Make a list of all the sorted edges in the full matrix
-    G_edges_sorted = [ edge for edge in sorted(G.edges(data = True), key = lambda (a, b, dct): dct['weight']) ]
+    print(G.edges(data=True)[-10:])
+    G_edges_sorted = [ edge for edge in sorted(G.edges(data = True), key = lambda edge_info: edge_info[2]['weight']) ]
+    print(G_edges_sorted[-10:])
 
     # Calculate minimum spanning tree and make a list of the mst_edges
     mst = nx.minimum_spanning_tree(G)
@@ -237,7 +242,7 @@ def graph_at_cost(M, cost):
     # then you can't do any better than the MST and you'll just have to return
     # it with an accompanying error message
     if n_edges < 0:
-        print 'Unable to calculate matrix at this cost - minimum spanning tree is too large'
+        print ('Unable to calculate matrix at this cost - minimum spanning tree is too large')
 
     # Otherwise, add in the appropriate number of edges (n_edges)
     # from your sorted list (G_edges_sorted_notmst)
@@ -260,7 +265,7 @@ def make_random_list(G, n_rand=10):
     R_list = []
     R_nodal_partition_list = []
 
-    print '        Creating {} random graphs - may take a little while'.format(n_rand)
+    print ('        Creating {} random graphs - may take a little while'.format(n_rand))
 
     for i in range(n_rand):
         if len(R_list) <= i:
@@ -481,7 +486,7 @@ def random_graph(G, Q=10):
             attempt +=1
 
     if attempt == 15:
-        print '          ** Attempt aborted - can not randomise graph **'
+        print ('          ** Attempt aborted - can not randomise graph **')
         R = G.copy()
 
     return R
@@ -559,7 +564,7 @@ def participation_coefficient(G, nodal_partition):
 
     # Print a little note to the screen because it can take a long
     # time to run this code
-    print '        Calculating participation coefficient - may take a little while'
+    print ('        Calculating participation coefficient - may take a little while')
 
     # Loop through modules
     for m in module_partition.keys():

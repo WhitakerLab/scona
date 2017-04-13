@@ -9,6 +9,8 @@
 #=============================================================================
 # IMPORTS
 #=============================================================================
+from __future__ import print_function # Making code python 2 and 3 compatible
+
 import os
 import sys
 import argparse
@@ -19,6 +21,7 @@ import pandas as pd
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../SCRIPTS/'))
 import make_corr_matrices as mcm
+from useful_functions import read_in_data
 
 #=============================================================================
 # FUNCTIONS
@@ -82,42 +85,10 @@ def setup_argparser():
     return arguments, parser
 
 
-def read_in_data(regional_measures_file, names_file, covars_file=None, names_308_style=True):
-    '''
-    Read in the data from the three input files:
-        * regional_measures_file
-        * names_file
-        * covars_file
-
-    If the names are in 308 style then drop the first 41 entries from the names
-    and covars files
-    '''
-    # Load the input files
-    df = pd.read_csv(regional_measures_file)
-    names = [ line.strip() for line in open(names_file) ]
-
-    if covars_file:
-        covars_list = [ line.strip() for line in open(covars_file) ]
-    else:
-        covars_list = []
-
-    # If you have your names in names_308_style you need to strip the
-    # first 41 items
-    if names_308_style:
-        names = names[41:]
-
-    # You may also have to strip the words "thickness" from the
-    # end of the names in the data frame
-    if names_308_style:
-        df.columns = [ col.rsplit('_thickness', 1)[0] for col in df.columns ]
-
-    return df, names, covars_list
-
-
 def corrmat_from_regionalmeasures(regional_measures_file,
                                   names_file,
-                                  covars_file,
                                   output_name,
+                                  covars_file=None,
                                   names_308_style=False):
     '''
     This is the big function!
@@ -148,8 +119,8 @@ if __name__ == "__main__":
     # Now run the main function :)
     corrmat_from_regionalmeasures(arg.regional_measures_file,
                                       arg.names_file,
-                                      arg.covars_file,
                                       arg.output_name,
+                                      covars_file=arg.covars_file,
                                       names_308_style=arg.names_308_style)
 
 #=============================================================================
