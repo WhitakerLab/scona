@@ -118,8 +118,9 @@ def write_out_nodal_measures(nodal_dict, centroids, output_dir, corr_mat_file, c
     save this data frame into a csv file where columns are the nodal measures
     and the rows are each region.
     '''
+    
     # Put the nodal dict into a pandas dataframe
-    df = pd.DataFrame(nodal_dict)
+    df = pd.DataFrame(nodal_dict)# IS: This works fine since the replacement of "np.array" with list" (see make_graphs.py)
 
     # Add in the centroids
     df['x'] = centroids[:, 0]
@@ -128,7 +129,7 @@ def write_out_nodal_measures(nodal_dict, centroids, output_dir, corr_mat_file, c
 
     # Make the output directory if it doesn't exist already
     if not os.path.isdir(output_dir):
-        os.path.makedirs(output_dir)
+        os.makedirs(output_dir)
 
     # Figure out the output file name
     basename_corr_mat_file = os.path.basename(corr_mat_file).strip('.txt')
@@ -155,7 +156,7 @@ def write_out_global_measures(global_dict, output_dir, corr_mat_file, cost):
 
     # Make the output directory if it doesn't exist already
     if not os.path.isdir(output_dir):
-        os.path.makedirs(output_dir)
+        os.makedirs(output_dir)
 
     # Figure out the output file name
     basename_corr_mat_file = os.path.basename(corr_mat_file).strip('.txt')
