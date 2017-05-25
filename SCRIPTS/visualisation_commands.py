@@ -30,7 +30,7 @@ def rescale(fname, suff='png'):
     import numpy as np
 
     # Open the file and figure out what size it is
-    img = Image.open(fname+'.'suff)
+    img = Image.open(fname+'.'+suff)
     size = img.size
 
     # Calculate the scale factor that sets the width
