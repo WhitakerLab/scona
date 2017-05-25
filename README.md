@@ -1,2 +1,2 @@
 # BrainNetworksInPython
-Code to analyses structural covariance brain networks using python.
+Code to analyse structural covariance brain networks using python.
