@@ -16,7 +16,6 @@ import matplotlib.gridspec as gridspec
 from glob import glob
 import itertools as it
 import matplotlib.patches as mpatches
-import make_graphs as mg
 
 # Read in some of the other NSPN_CODE functions too
 #this_scripts_dir=os.path.dirname(os.path.abspath(__file__))
@@ -101,7 +100,7 @@ def plot_degree_dist(G, ER=True, ax=None, figure_name=None, x_max=200, y_max=0.1
     import seaborn as sns
     
     # Calculate the degrees from the graph
-    degrees = np.array(list(G.degree().values()))
+    degrees = np.array(G.degree().values())
     degrees = degrees.astype('float')
     
     # Calculate the Erdos Renyi graph from the main graph
@@ -111,7 +110,7 @@ def plot_degree_dist(G, ER=True, ax=None, figure_name=None, x_max=200, y_max=0.1
     G_ER = nx.erdos_renyi_graph(nodes, cost)
     
     # Now calculate the degrees for the ER graph
-    degrees_ER = np.array(list(G_ER.degree().values()))
+    degrees_ER = np.array(G_ER.degree().values())
     degrees_ER = degrees_ER.astype('float')
         
     if not ax:
@@ -171,7 +170,7 @@ def plot_network_measures(measure_dict, ax=None, figure_name=None, y_max=2.5, y_
     sns.set_context("poster", font_scale=2)
     
     # Read the measures dictionary into an array
-    df = measure_dict
+    df = pd.DataFrame(measure_dict)
     
     # And re-order the columns in the data frame so that
     # the graph will look nice
@@ -189,7 +188,7 @@ def plot_network_measures(measure_dict, ax=None, figure_name=None, y_max=2.5, y_
         fig=None
     
     # Add a bar plot for each measure
-    for i in range(round(len(df.columns)/2)):
+    for i in range(len(df.columns)/2):
         # Show the actual measure with error bars
         # (Note that the error will be 0 for all measures
         # except the small world coefficient)
@@ -223,7 +222,7 @@ def plot_network_measures(measure_dict, ax=None, figure_name=None, y_max=2.5, y_
                     edgecolor='black')
     
     # Sort out the xtick labels
-    ax.set_xticks(range(round(len(df.columns)/2)))
+    ax.set_xticks(range(len(df.columns)/2))
     ax.set_xticklabels(df.columns[::2])
 
     # Put in a bar at y=0
@@ -2819,7 +2818,7 @@ def add_wedge(df, theta_dict, wedge_colors_list, wedge_measure='von_economo', ax
         
     return ax
     
-def plot_anatomical_network(G, NodalMeasures_file, measure='module', orientation='sagittal', cmap_name='jet_r', continuous=False, vmax=None, vmin=None, sns_palette=None, edge_list=None, edge_color='k', edge_width=0.2, node_list=None, rc_node_list=[], node_shape='o', rc_node_shape='s', node_size=500, node_size_list=None, figure=None, ax=None):
+def plot_anatomical_network(G, measure_dict, centroids, measure='module', cost=10, covar='ONES', orientation='sagittal', cmap_name='jet_r', continuous=False, vmax=None, vmin=None, sns_palette=None, edge_list=None, edge_color='k', edge_width=0.2, node_list=None, rc_node_list=[], node_shape='o', rc_node_shape='s', node_size=500, node_size_list=None, figure=None, ax=None):
     '''
     Plots each node in the graph in one of three orientations
     (sagittal, axial or coronal).
@@ -2835,13 +2834,19 @@ def plot_anatomical_network(G, NodalMeasures_file, measure='module', orientation
                 
     # Put the measures you care about together
     # in a data frame
-    fields = ['degree','module','closeness','x','y','z']
-    if measure not in fields:
-        fields.append(measure)
-    df = pd.read_csv(NodalMeasures_file, skipinitialspace=True, usecols=fields)
+    df = pd.DataFrame({ 'Degree' : measure_dict['Degree_CT_ALL_COVARS_{}_COST_{}'.format(covar, cost)] ,
+                        'Module' : measure_dict['Module_CT_ALL_COVARS_{}_COST_{}'.format(covar, cost)],
+                        'Closeness' : measure_dict['Closeness_CT_ALL_COVARS_{}_COST_{}'.format(covar, cost)],
+                        'x' : centroids[:,0],
+                        'y' : centroids[:,1],
+                        'z' : centroids[:,2]})
+    
+    # If your desired measure isn't in the data frame already, then add it
+    if not measure in df.columns:
+        df[measure] = measure_dict[measure]
     
     # Add in a node index which relates to the node names in the graph
-    df['node'] = range(len(df['degree']))
+    df['node'] = range(len(df['Degree']))
     
     # Then use these node values to get the appropriate positions for each node    
     pos_dict = {}
@@ -2860,11 +2865,11 @@ def plot_anatomical_network(G, NodalMeasures_file, measure='module', orientation
     # If the node size list is none then
     # it'll just be the same size for each node
     if node_size_list is None:
-        node_size_list = [ node_size ] * len(df['degree'])
+        node_size_list = [ node_size ] * len(df['Degree'])
     
     # If you have no rich club nodes then all the nodes will
     # have the same shape
-    node_shape_list = [ node_shape ] * len(df['degree'])
+    node_shape_list = [ node_shape ] * len(df['Degree'])
     # If you have set rich nodes then you'll need to replace
     # those indices with the rc_node_shape
     for i in rc_node_list:
@@ -3356,21 +3361,15 @@ def figs_for_talk(measure_dict, results_dir, talk_figs_dir):
         # Close the figure
         plt.close('all')
         
-def read_in_rich_club(RichClub_file):
-    df = pd.read_csv(RichClub_file)
-    deg = list(df.pop('degree').values)
-    rc = list(df.pop('real graph').values)
-    return deg, rc, df.as_matrix()
-   
-def network_summary_fig(corrmat_file, NodalMeasures_file, GlobalMeasures_file, RichClub_file, figures_dir):
+        
+def network_summary_fig(measure_dict, graph_dict, figures_dir):# Where do measure_dict and graph_dict come from? We have two csvs,
+
+    G = graph_dict['CT_ALL_COVARS_ONES_COST_10']
+    G_02 = graph_dict['CT_ALL_COVARS_ONES_COST_02']
+    network_measures_dict = graph_dict['CT_ALL_COVARS_ONES_COST_10_GlobalMeasures']
+    deg, rc, rc_rand = graph_dict['CT_ALL_COVARS_ONES_COST_10_RichClub']
     
-    M = np.loadtxt(corrmat_file)
-    G = mg.graph_at_cost(M, 10)
-    G_02 = mg.graph_at_cost(M, 2)
-    network_measures_dict = pd.read_csv(GlobalMeasures_file)
-    deg, rc, rc_rand = read_in_rich_club(RichClub_file)
-    
-    node_size = pd.read_csv(NodalMeasures_file, usecols=['degree'], skipinitialspace=True)['degree'].tolist() #talk to kirstie about what the original *12 +5 did, and whether this should be a list or scalar
+    node_size = (measure_dict['308']['Graph_measures']['Degree_CT_ALL_COVARS_ONES_COST_10']*12) + 5
     
     big_fig, big_ax = plt.subplots(figsize=(15,15))
     big_ax.axis('off')
@@ -3383,8 +3382,9 @@ def network_summary_fig(corrmat_file, NodalMeasures_file, GlobalMeasures_file, R
     big_fig.add_subplot(ax)
     
     ax = plot_anatomical_network(G, 
-                                    NodalMeasures_file, 
-                                    measure='module', 
+                                    measure_dict['308']['Graph_measures'], 
+                                    measure_dict['308']['centroids'],
+                                    measure='Module', 
                                     orientation='sagittal', 
                                     sns_palette='bright', 
                                     vmin=0, vmax=80,
@@ -3393,8 +3393,9 @@ def network_summary_fig(corrmat_file, NodalMeasures_file, GlobalMeasures_file, R
                                     ax=ax,
                                     continuous=False)
     ax = plot_anatomical_network(G_02, 
-                                    NodalMeasures_file,
-                                    measure='module', 
+                                    measure_dict['308']['Graph_measures'], 
+                                    measure_dict['308']['centroids'],
+                                    measure='Module', 
                                     orientation='sagittal', 
                                     node_list=[], 
                                     ax=ax)
@@ -3407,8 +3408,9 @@ def network_summary_fig(corrmat_file, NodalMeasures_file, GlobalMeasures_file, R
     big_fig.add_subplot(ax)
     
     ax = plot_anatomical_network(G, 
-                                    NodalMeasures_file,
-                                    measure='module', 
+                                    measure_dict['308']['Graph_measures'], 
+                                    measure_dict['308']['centroids'],
+                                    measure='Module', 
                                     orientation='axial', 
                                     sns_palette='bright', 
                                     vmin=0, vmax=80,
@@ -3417,8 +3419,9 @@ def network_summary_fig(corrmat_file, NodalMeasures_file, GlobalMeasures_file, R
                                     ax=ax,
                                     continuous=False)
     ax = plot_anatomical_network(G_02, 
-                                    NodalMeasures_file,
-                                    measure='module', 
+                                    measure_dict['308']['Graph_measures'], 
+                                    measure_dict['308']['centroids'],
+                                    measure='Module', 
                                     orientation='axial', 
                                     node_list=[], 
                                     ax=ax)
@@ -3453,13 +3456,9 @@ def network_summary_fig(corrmat_file, NodalMeasures_file, GlobalMeasures_file, R
     
     ax = plot_network_measures(network_measures_dict, ax=ax)
     
-        # Make the output directory if it doesn't exist already
-    if not os.path.isdir(figures_dir):
-        os.makedirs(figures_dir)
     filename = os.path.join(figures_dir, 'NetworkSummary.png')
     big_fig.savefig(os.path.join(filename), bbox_inches=0, dpi=100)
-    filenamesanssuff=filename.replace('.png','')# we need to seperate the suffix from the filename for the rescale function
-    rescale(filenamesanssuff, suff='png')
+    rescale(filename, suff='jpg')
     
     plt.close(big_fig)
     
@@ -3522,7 +3521,7 @@ def rescale(fname, suff='png'):
     import numpy as np
     
     # Open the file and figure out what size it is
-    img = Image.open(fname+'.'+suff)
+    img = Image.open(fname)
     size = img.size
     
     # Calculate the scale factor that sets the width

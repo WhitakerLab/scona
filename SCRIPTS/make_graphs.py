@@ -3,7 +3,7 @@
 # A Global import to make code python 2 and 3 compatible
 from __future__ import print_function
 
-def make_graphs(graph_dir, mat_dict, centroids, aparc_names, n_rand=1000):
+def make_graphs(graph_dir, mat_dict, centroids, aparc_names, n_rand=1000): #mat_dict comes from make_corr_matrices.py
     '''
     A function that makes all the required graphs from the correlation
     matrices in mat_dict. These include the full graph with all
@@ -217,9 +217,7 @@ def graph_at_cost(M, cost):
     G = nx.from_numpy_matrix(thr_M)
 
     # Make a list of all the sorted edges in the full matrix
-    print(G.edges(data=True)[-10:])
     G_edges_sorted = [ edge for edge in sorted(G.edges(data = True), key = lambda edge_info: edge_info[2]['weight']) ]
-    print(G_edges_sorted[-10:])
 
     # Calculate minimum spanning tree and make a list of the mst_edges
     mst = nx.minimum_spanning_tree(G)
@@ -755,6 +753,6 @@ def rich_club(G, R_list=None, n=10):
         rc_rand_dict = nx.rich_club_coefficient(R, normalized=False)
 
         # And save the values to the numpy array you created earlier
-        rc_rand[:, i] = rc_rand_dict.values()
+        rc_rand[:, i] = list(rc_rand_dict.values())
 
     return deg, rc, rc_rand
