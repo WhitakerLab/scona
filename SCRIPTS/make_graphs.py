@@ -3,7 +3,7 @@
 # A Global import to make code python 2 and 3 compatible
 from __future__ import print_function
 
-def make_graphs(graph_dir, mat_dict, centroids, aparc_names, n_rand=1000):
+def make_graphs(graph_dir, mat_dict, centroids, aparc_names, n_rand=1000): #mat_dict comes from make_corr_matrices.py
     '''
     A function that makes all the required graphs from the correlation
     matrices in mat_dict. These include the full graph with all
@@ -217,9 +217,7 @@ def graph_at_cost(M, cost):
     G = nx.from_numpy_matrix(thr_M)
 
     # Make a list of all the sorted edges in the full matrix
-    print(G.edges(data=True)[-10:])
     G_edges_sorted = [ edge for edge in sorted(G.edges(data = True), key = lambda edge_info: edge_info[2]['weight']) ]
-    print(G_edges_sorted[-10:])
 
     # Calculate minimum spanning tree and make a list of the mst_edges
     mst = nx.minimum_spanning_tree(G)
@@ -367,6 +365,8 @@ def calculate_nodal_measures(G, centroids, aparc_names, nodal_partition=None, na
         * 34_name (Desikan Killiany atlas region)
         * 68_name (Desikan Killiany atlas region with hemisphere)
     '''
+    #IS: Currently I'm having trouble with this. When network_analysis_from_corrmat tries to convert the output nodal_dict ino a dataframe it fails because inside the np.arrays we have dict_values objects. I am replacing np.array with list in all relevant instances. Hopefully this works. SUCCESS!
+    
     import numpy as np
     import networkx as nx
 
@@ -382,29 +382,29 @@ def calculate_nodal_measures(G, centroids, aparc_names, nodal_partition=None, na
 
     #---- Degree ----------------------
     deg = G.degree().values()
-    nodal_dict['degree'] = np.array(deg)
+    nodal_dict['degree'] = list(deg)
 
     #---- Closeness -------------------
     closeness = nx.closeness_centrality(G).values()
-    nodal_dict['closeness'] = np.array(closeness)
+    nodal_dict['closeness'] = list(closeness)
 
     #---- Betweenness -----------------
     betweenness = nx.betweenness_centrality(G).values()
-    nodal_dict['betweenness'] = np.array(betweenness)
+    nodal_dict['betweenness'] = list(betweenness)
 
     #---- Shortest path length --------
     L = shortest_path(G).values()
-    nodal_dict['shortest_path'] = np.array(L)
+    nodal_dict['shortest_path'] = list(L)
 
     #---- Clustering ------------------
     clustering = nx.clustering(G).values()
-    nodal_dict['clustering'] = np.array(clustering)
+    nodal_dict['clustering'] = list(clustering)
 
     #---- Participation coefficent ----
     #---- and module assignment -------
     partition, pc_dict = participation_coefficient(G, nodal_partition)
-    nodal_dict['module'] = np.array(partition.values())
-    nodal_dict['pc'] = np.array(pc_dict.values())
+    nodal_dict['module'] = list(partition.values())
+    nodal_dict['pc'] = list(pc_dict.values())
 
     #---- Euclidean distance and ------
     #---- interhem proporition --------
@@ -413,21 +413,21 @@ def calculate_nodal_measures(G, centroids, aparc_names, nodal_partition=None, na
     total_dist = nx.get_node_attributes(G, 'total_dist').values()
     interhem_prop = nx.get_node_attributes(G, 'interhem_proportion').values()
 
-    nodal_dict['average_dist'] = np.array(average_dist)
-    nodal_dict['total_dist'] = np.array(total_dist)
-    nodal_dict['interhem_prop'] = np.array(interhem_prop)
+    nodal_dict['average_dist'] = list(average_dist)
+    nodal_dict['total_dist'] = list(total_dist)
+    nodal_dict['interhem_prop'] = list(interhem_prop)
 
     #---- Names -----------------------
     G = assign_node_names(G, aparc_names, names_308_style=names_308_style)
     name = nx.get_node_attributes(G, 'name').values()
-    nodal_dict['name'] = np.array(name)
+    nodal_dict['name'] = list(name)
     if names_308_style:
         name_34 = nx.get_node_attributes(G, 'name_34').values()
         name_68 = nx.get_node_attributes(G, 'name_68').values()
         hemi = nx.get_node_attributes(G, 'hemi').values()
-        nodal_dict['name_34'] = np.array(name_34)
-        nodal_dict['name_68'] = np.array(name_68)
-        nodal_dict['hemi'] = np.array(hemi)
+        nodal_dict['name_34'] = list(name_34)
+        nodal_dict['name_68'] = list(name_68)
+        nodal_dict['hemi'] = list(hemi)
 
     return G, nodal_dict
 
@@ -667,19 +667,19 @@ def assign_nodal_distance(G, centroids):
         interhem_list = [ G.edge[m][n]['interhem'] for m, n in G.edges(nbunch=node) ]
 
         G.node[node]['interhem_proportion'] = np.mean(interhem_list)
-
     return G
 
 def shortest_path(G):
     import networkx as nx
     import numpy as np
+    
 
     shortestpl_dict_dict = nx.shortest_path_length(G)
 
     shortestpl_dict = {}
 
     for node in G.nodes():
-        shortestpl_dict[node] = np.average(shortestpl_dict_dict[node].values())
+        shortestpl_dict[node] = np.average(list(shortestpl_dict_dict[node].values()))# IS: I've been getting an error here beause numpy functions do not take dict_values objects so I've put a list() around it. 
 
     return shortestpl_dict
 
@@ -726,10 +726,10 @@ def rich_club(G, R_list=None, n=10):
     rc_dict = nx.rich_club_coefficient(G, normalized=False)
 
     # Save the degrees as a numpy array
-    deg = np.array(rc_dict.keys())
+    deg = list(rc_dict.keys())
 
     # Save the rich club coefficients as a numpy array
-    rc = np.array(rc_dict.values())
+    rc = list(rc_dict.values())
 
     # Calculate n different random graphs and their
     # rich club coefficients
@@ -753,6 +753,6 @@ def rich_club(G, R_list=None, n=10):
         rc_rand_dict = nx.rich_club_coefficient(R, normalized=False)
 
         # And save the values to the numpy array you created earlier
-        rc_rand[:, i] = rc_rand_dict.values()
+        rc_rand[:, i] = list(rc_rand_dict.values())
 
     return deg, rc, rc_rand

@@ -30,7 +30,7 @@ def rescale(fname, suff='png'):
     import numpy as np
 
     # Open the file and figure out what size it is
-    img = Image.open(fname)
+    img = Image.open(fname+'.'+suff)
     size = img.size
 
     # Calculate the scale factor that sets the width
@@ -94,8 +94,6 @@ def view_corr_mat(corr_mat_file, output_name, cmap_name='RdBu_r', cost=None, bin
                         vmin=vmin,
                         vmax=vmax)
 
-    print(ax.get_xlim())
-    print(ax.get_ylim())
     # Put a box around your data
     ax.add_patch(
      mpatches.Rectangle(

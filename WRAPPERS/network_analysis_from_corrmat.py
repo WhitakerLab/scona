@@ -118,8 +118,9 @@ def write_out_nodal_measures(nodal_dict, centroids, output_dir, corr_mat_file, c
     save this data frame into a csv file where columns are the nodal measures
     and the rows are each region.
     '''
+    
     # Put the nodal dict into a pandas dataframe
-    df = pd.DataFrame(nodal_dict)
+    df = pd.DataFrame(nodal_dict)# IS: This works fine since the replacement of "np.array" with list" (see make_graphs.py)
 
     # Add in the centroids
     df['x'] = centroids[:, 0]
@@ -128,7 +129,7 @@ def write_out_nodal_measures(nodal_dict, centroids, output_dir, corr_mat_file, c
 
     # Make the output directory if it doesn't exist already
     if not os.path.isdir(output_dir):
-        os.path.makedirs(output_dir)
+        os.makedirs(output_dir)
 
     # Figure out the output file name
     basename_corr_mat_file = os.path.basename(corr_mat_file).strip('.txt')
@@ -155,7 +156,7 @@ def write_out_global_measures(global_dict, output_dir, corr_mat_file, cost):
 
     # Make the output directory if it doesn't exist already
     if not os.path.isdir(output_dir):
-        os.path.makedirs(output_dir)
+        os.makedirs(output_dir)
 
     # Figure out the output file name
     basename_corr_mat_file = os.path.basename(corr_mat_file).strip('.txt')
@@ -165,6 +166,31 @@ def write_out_global_measures(global_dict, output_dir, corr_mat_file, cost):
 
     # Write the data frame out (with the name column first)
     df.to_csv(output_f_name)
+
+def write_out_rich_club(deg, rc, rc_rand, output_dir, corr_mat_file, cost):
+    '''
+    Write the rich club array into a pandas data frame and then
+    save this data frame into a csv file where columns are the graphs, and the rows are their kth rich club coefficients.
+    '''
+    
+    # Put the rich club arrays into a pandas dataframe
+    df = pd.DataFrame(rc_rand)
+    df.rename(columns=lambda x: 'random graph '+str(x), inplace=True)
+    df['degree'], df['real graph'] = deg, rc
+    
+    # Make the output directory if it doesn't exist already
+    if not os.path.isdir(output_dir):
+        os.makedirs(output_dir)
+
+    # Figure out the output file name
+    basename_corr_mat_file = os.path.basename(corr_mat_file).strip('.txt')
+    output_f_name = os.path.join(output_dir,
+                                    'RICH_CLUB_{}_COST{:03.0f}.csv'.format(basename_corr_mat_file,
+                                                                          cost))
+
+    # Write the data frame out (with the degree column first)
+    new_col_list = ['degree']+ ['real graph'] + [ col_name for col_name in df.columns if col_name != 'degree' and col_name != 'real graph']
+    df.to_csv(output_f_name, columns=new_col_list)
 
 
 def network_analysis_from_corrmat(corr_mat_file,
@@ -217,6 +243,12 @@ def network_analysis_from_corrmat(corr_mat_file,
 
     # Write out the global measures
     write_out_global_measures(global_dict, output_dir, corr_mat_file, cost)
+    
+    # Get the rich club coefficients
+    deg, rc, rc_rand = mkg.rich_club(G, R_list=R_list, n=n_rand)
+    
+    # Write out the rich club coefficients
+    write_out_rich_club(deg, rc, rc_rand, output_dir, corr_mat_file, cost)
 
 
 if __name__ == "__main__":
