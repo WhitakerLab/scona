@@ -20,7 +20,7 @@ Although GitHub calls them **issues**, we'd like you to think of them as **conve
 
 (If you're here you ***already are*** a member of the Brain Networks in Python team.)
 
-Your thoughts can be [questions][link_question], [bugs][link_bugs], [requests][link_requests], [applications][link_applications] or a myriad of other suggestions. In the next section we'll talk through some of the labels on each issue to help you select the ones you'd most like to help with.
+Your thoughts can be [questions][link_question], [bugs][link_bugs], [requests][link_requests], or a myriad of other suggestions. In the next section we'll talk through some of the labels on each issue to help you select the ones you'd most like to help with.
 
 GitHub has a nice set of help pages if you're looking for more information about [discussing projects in issues][link_discussingissues].
 
@@ -79,7 +79,7 @@ The current list of labels are [here][link_labels] and include:
 
 * [![Requests](https://img.shields.io/badge/-requests-fbca04.svg)][link_requests] These issues are asking for features (or anything else) to be added to the project.
 
-    If you have a good idea and would like to see it implemented in the STEMM Role Models project please open a new issue and add in as much detail as possible.
+    If you have a good idea and would like to see it implemented in the Brain Networks in Python project please open a new issue and add in as much detail as possible.
 
     Please try to make sure that your feature is distinct from any others that have already been requested or implemented. If you find one that's similar but there are subtle differences please reference the other request in your issue.
 
@@ -158,8 +158,8 @@ And if you've found typos in this (or any other) page, you could consider submit
 [link_pushpullblog]: https://www.igvita.com/2011/12/19/dont-push-your-pull-requests/
 [link_branches]: https://help.github.com/articles/creating-and-deleting-branches-within-your-repository/
 [link_updateupstreamwiki]: https://github.com/KirstieJane/STEMMRoleModels/wiki/Syncing-your-fork-to-the-original-repository-via-the-browser
-[link_contributorslive]: https://labhr.github.io/js-hatrack/#repo=WhitakerLab/BrainNetworksInPython
+[link_contributorslive]: https://labhr.github.io/hatrack/#repo=WhitakerLab/BrainNetworksInPython
 [link_hatrackhome]: https://labhr.github.io/
 [link_hatrackidea]: http://hawthornlandings.org/2015/02/13/a-place-to-hang-your-hat/
 [link_hatrackcontributions]: http://opensource.com/life/15/10/octohat-github-non-code-contribution-tracker
-[link_fixingtyposissue]: https://github.com/WhitakerLab/BrainNetworksInPython//issues/2
+[link_fixingtyposissue]: https://github.com/WhitakerLab/BrainNetworksInPython//issues/4
