@@ -20,7 +20,7 @@ Although GitHub calls them **issues**, we'd like you to think of them as **conve
 
 (If you're here you ***already are*** a member of the Brain Networks in Python team.)
 
-Your thoughts can be [questions][link_question], [bugs][link_bugs], [requests][link_requests], or a myriad of other suggestions. In the next section we'll talk through some of the labels on each issue to help you select the ones you'd most like to help with.
+Your thoughts can be [questions][link_question], [bugs][link_bug], [requests][link_request], or a myriad of other suggestions. In the next section we'll talk through some of the labels on each issue to help you select the ones you'd most like to help with.
 
 GitHub has a nice set of help pages if you're looking for more information about [discussing projects in issues][link_discussingissues].
 
@@ -30,7 +30,7 @@ You can find all currently open conversations under the [issues tab][link_issues
 
 The current list of labels are [here][link_labels] and include:
 
-* [![Question](https://img.shields.io/badge/-question-cc317c.svg)][link_question] These issues are questions and represent a great place to start. Whomever has opened the issue wants to hear from you!
+* [![question](https://img.shields.io/badge/-question-cc317c.svg)][link_question] These issues are questions and represent a great place to start. Whomever has opened the issue wants to hear from you!
 
     To reply, read the question and then respond in a variety of different ways:
 
@@ -43,7 +43,7 @@ The current list of labels are [here][link_labels] and include:
 
 <br>
 
-* [![No Code](https://img.shields.io/badge/-no%20code-207de5.svg)][link_nocode] These issues don't require any coding knowledge.
+* [![no-code](https://img.shields.io/badge/-no-code-207de5.svg)][link_nocode] These issues don't require any coding knowledge.
 
     If you're looking to contribute but aren't very confident in your coding skills these issues are a great place to start.
 
@@ -51,7 +51,7 @@ The current list of labels are [here][link_labels] and include:
 
 <br>
 
-* [![Good First Bug](https://img.shields.io/badge/-good%20first%20bug-5319e7.svg)][link_goodfirstbug] These issues contain a task that anyone with any level of experience can help with.
+* [![good-first-bug](https://img.shields.io/badge/-good-first-bug-5319e7.svg)][link_goodfirstbug] These issues contain a task that anyone with any level of experience can help with.
 
     A major goal of the project is to have as many people as possible complete their very first [pull request][link_pullrequest] on one of these issues. They will always have explicit information on who to contact to help you through the process.
 
@@ -61,7 +61,7 @@ The current list of labels are [here][link_labels] and include:
 
 <br>
 
-* [![Help Wanted](https://img.shields.io/badge/-help%20wanted-159818.svg)][link_helpwanted] These issues contain a task that a member of the team has determined we need additional help with.
+* [![help-wanted](https://img.shields.io/badge/-help-wanted-159818.svg)][link_helpwanted] These issues contain a task that a member of the team has determined we need additional help with.
 
     If you have particular skills then consider reading through these issues as they are a great place to offer your expertise.
 
@@ -69,7 +69,7 @@ The current list of labels are [here][link_labels] and include:
 
 <br>
 
-* [![Bugs](https://img.shields.io/badge/-bugs-fc2929.svg)][link_bugs] These issues point to problems in the project.
+* [![bug](https://img.shields.io/badge/-bug-fc2929.svg)][link_bugs] These issues point to problems in the project.
 
     If you find a bug, please give as much detail as possible in your issue.
 
@@ -77,7 +77,7 @@ The current list of labels are [here][link_labels] and include:
 
 <br>
 
-* [![Requests](https://img.shields.io/badge/-requests-fbca04.svg)][link_requests] These issues are asking for features (or anything else) to be added to the project.
+* [![request](https://img.shields.io/badge/-request-fbca04.svg)][link_requests] These issues are asking for features (or anything else) to be added to the project.
 
     If you have a good idea and would like to see it implemented in the Brain Networks in Python project please open a new issue and add in as much detail as possible.
 
@@ -145,12 +145,12 @@ And if you've found typos in this (or any other) page, you could consider submit
 [link_issues]: https://github.com/WhitakerLab/BrainNetworksInPython/issues
 [link_labels]: https://github.com/WhitakerLab/BrainNetworksInPython/labels
 [link_discussingissues]: https://help.github.com/articles/discussing-projects-in-issues-and-pull-requests
-[link_bugs]: https://github.com/WhitakerLab/BrainNetworksInPython/labels/bug
-[link_goodfirstbug]: https://github.com/WhitakerLab/BrainNetworksInPython/labels/good%20first%20bug
-[link_helpwanted]: https://github.com/WhitakerLab/BrainNetworksInPython/labels/help%20wanted
-[link_nocode]: https://github.com/WhitakerLab/BrainNetworksInPython/labels/no%20code
+[link_bug]: https://github.com/WhitakerLab/BrainNetworksInPython/labels/bug
+[link_goodfirstbug]: https://github.com/WhitakerLab/BrainNetworksInPython/labels/good-first-bug
+[link_helpwanted]: https://github.com/WhitakerLab/BrainNetworksInPython/labels/help-wanted
+[link_nocode]: https://github.com/WhitakerLab/BrainNetworksInPython/labels/no-code
 [link_question]: https://github.com/WhitakerLab/BrainNetworksInPython/labels/question
-[link_requests]: https://github.com/WhitakerLab/BrainNetworksInPython/labels/requests
+[link_request]: https://github.com/WhitakerLab/BrainNetworksInPython/labels/request
 
 [link_emojis]: http://www.emoji-cheat-sheet.com/
 [link_pullrequest]: https://help.github.com/articles/proposing-changes-to-a-project-with-pull-requests/
