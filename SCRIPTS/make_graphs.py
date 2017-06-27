@@ -365,7 +365,6 @@ def calculate_nodal_measures(G, centroids, aparc_names, nodal_partition=None, na
         * 34_name (Desikan Killiany atlas region)
         * 68_name (Desikan Killiany atlas region with hemisphere)
     '''
-    #IS: Currently I'm having trouble with this. When network_analysis_from_corrmat tries to convert the output nodal_dict ino a dataframe it fails because inside the np.arrays we have dict_values objects. I am replacing np.array with list in all relevant instances. Hopefully this works. SUCCESS!
     
     import numpy as np
     import networkx as nx
@@ -679,7 +678,7 @@ def shortest_path(G):
     shortestpl_dict = {}
 
     for node in G.nodes():
-        shortestpl_dict[node] = np.average(list(shortestpl_dict_dict[node].values()))# IS: I've been getting an error here beause numpy functions do not take dict_values objects so I've put a list() around it. 
+        shortestpl_dict[node] = np.average(list(shortestpl_dict_dict[node].values()))
 
     return shortestpl_dict
 
