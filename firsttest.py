@@ -1,25 +1,31 @@
 import unittest
 
-class FixturesTest(unittest.TestCase):
+class RegressionTest(unittest.TestCase):
 
 	def setUp(self):
 		print('in setUp()')
-		import os
-		import sys
-		import filecmp
-		sys.path.extend(['./WRAPPERS','./exemplary_brains','./SCRIPTS/'])
-		self.corrmat_path = os.getcwd()+'/corrmat_file_testing.txt'
-		from corrmat_from_regionalmeasures import corrmat_from_regionalmeasures	
-		corrmat_from_regionalmeasures("./exemplary_brains/PARC_500aparc_thickness_behavmerge.csv", "./exemplary_brains/500.names.txt", self.corrmat_path, names_308_style=True)
+		from write_fixtures import write_fixtures
+        write_fixtures('/tmp')
+		import filecmp  
+        self.corrmat = '/corrmat_file.txt'
+        self.global_meas = '/network_analysis/GlobalMeasures_corrmat_file_COST010.csv'
+        self.local_meas = '/network_analysis/NodalMeasures_corrmat_file_COST010.csv'
+        self.rich_club = '/network_analysis/RICH_CLUB_corrmat_file_COST010.csv'
 
 	def tearDown(self):
 		import os
 		print('in tearDown()')
-		os.remove(self.corrmat_path)
+		shutil.rmtree(os.getcwd()+'/tmp')
 
-	def test(self):
-		print('in test()')
-		self.assertEqual(1,1)
-
+	def corrmat_from_regional_measures_test(self):
+		print('regression testing make_corrmat_from_regional_measures')
+		self.assertEqual(filecmp.cmp(os.getcwd()+'/tmp'+self.corrmat, os.getcwd()+'/test_fixtures'+self.corrmat))
+        
+    	def network_analysis_from_corrmat_test(self)
+        	print('regression testing network_analysis_from_corrmat_test')
+        	self.assertEqual(filecmp.cmp(os.getcwd()+'/tmp'+self.global_meas,os.getcwd()+'/test_fixtures'+self.global_meas)
+       	 	self.assertEqual(filecmp.cmp(os.getcwd()+'/tmp'+self.local_meas,os.getcwd()+'/test_fixtures'+self.local_meas)
+        	self.assertEqual(filecmp.cmp(os.getcwd()+'/tmp'+self.rich_club,os.getcwd()+'/test_fixtures'+self.rich_club)                         
+                         
 if __name__ == '__main__':
 	unittest.main()
