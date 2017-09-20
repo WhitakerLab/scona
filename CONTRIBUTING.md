@@ -107,7 +107,7 @@ Once you've identified one of the issues above that you feel you can contribute 
 4. Submit a [pull request][link_pullrequest].
 
     A member of the executive team will review your changes, have a bit of discussion and hopefully merge them in!  
-
+    The earlier you submit a pull request is the earlier you can get feedback on your changes, so don't be afraid to submit pull requests before you've finished making them.
 
 **Success!!** :balloon::balloon::balloon: Well done! And thank you :smiley::tada::sparkles:
 
