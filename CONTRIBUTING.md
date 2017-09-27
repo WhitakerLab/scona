@@ -106,7 +106,8 @@ Once you've identified one of the issues above that you feel you can contribute 
 
 4. Submit a [pull request][link_pullrequest].
 
-    A member of the executive team will review your changes, have a bit of discussion and hopefully merge them in!
+    A member of the executive team will review your changes, have a bit of discussion and hopefully merge them in!  
+    N.B. you don't have to be ready to merge to make a pull request! We encourage you to submit a pull request as early as you want to. They help us to keep track of progress and help you to get earlier feedback.
 
 **Success!!** :balloon::balloon::balloon: Well done! And thank you :smiley::tada::sparkles:
 
@@ -130,7 +131,7 @@ Quoting from their [website][link_hatrackhome]:
 
 If you have a question or a comment we'd love for you to [open an issue][link_issues] because that will be our fastest way of communicating, getting the answers to you and (if necessary) making a change.
 
-If you'd prefer email, you can contact [Kirstie](https://github.com/KirstieJane) at [kw401@cam.ac.uk](mailto:kw401@cam.ac.uk). She's a postdoc who isn't currently paid to develop this app, so please be gentle in your correspondence and give her a couple of days to reply. If she doesn't reply to your email before or during her regular "office hours" on Monday afternoons please feel free to ping her again.
+If you'd prefer email, you can contact [Isla](https://github.com/Islast) at [istaden@turing.ac.uk](mailto:istaden@turing.ac.uk). If she doesn't reply to your email after a couple of days please feel free to ping her again.
 
 ## Thank you!
 
