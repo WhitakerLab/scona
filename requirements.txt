@@ -1,3 +1,1 @@
-# packages to be installed for Travis CI build
-
 pytest
