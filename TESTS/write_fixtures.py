@@ -13,7 +13,7 @@
 # Currently the functionality of write_fixtures is to generate corrmat 
 # and network_analysis data via the functions 
 # corrmat_from_regionalmeasures and network_analysis_from_corrmat.
------------------------------------------------------------------------
+#----------------------------------------------------------------------
                        
 def recreate_correlation_matrix_fixture(folder):
     ##### generate a correlation matrix in the given folder using #####
