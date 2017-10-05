@@ -1,16 +1,16 @@
 # BrainNetworksInPython
 
 [![Join the chat at https://gitter.im/WhitakerLab/BrainNetworksInPython](https://badges.gitter.im/WhitakerLab/BrainNetworksInPython.svg)](https://gitter.im/WhitakerLab/BrainNetworksInPython?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/WhitakerLab/BrainNetworksInPython.svg?branch=master)](https://travis-ci.org/WhitakerLab/BrainNetworksInPython)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/WhitakerLab/BrainNetworksInPython/blob/master/LICENSE)
 
 Welcome to the BrainNetworksInPython GitHub repository!:sparkles:
 
+## What are we doing?
 BrainNetworksInPython is a toolkit to analyse structural covariance brain networks using python.  
 
-BrainNetworksInPython takes regional cortical thickness measures obtained from structural MRI data and generates a matrix of correlations between regions over a cohort of subjects. The correlation matrix is used alongside the networkx package to generate networks and network measures.
+BrainNetworksInPython takes regional cortical thickness data obtained from structural MRI and generates a matrix of correlations between regions over a cohort of subjects. The correlation matrix is used alongside the networkx package to generate networks and network measures.
 
-BrainNetworksInPython is MIT licensed
-
+Check out our [tutorial](https://github.com/WhitakerLab/BrainNetworksInPython/blob/master/Example_JupyterNotebook.ipynb) to get started.
 
 
 
