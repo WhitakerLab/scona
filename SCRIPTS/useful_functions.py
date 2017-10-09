@@ -96,10 +96,12 @@ def read_in_data(regional_measures_file, names_file, covars_file=None, names_308
     
     # Load the input files
     df = pd.read_csv(regional_measures_file)
-    names = [ line.strip() for line in open(names_file) ]
+    with open(names_file) as f:
+        names = [ line.strip() for line in f ]
 
     if covars_file:
-        covars_list = [ line.strip() for line in open(covars_file) ]
+        with open(covars_file) as f:
+            covars_list = [ line.strip() for line in f ]
     else:
         covars_list = []
 

@@ -3382,7 +3382,7 @@ def network_summary_fig(corrmat_file, NodalMeasures_file, GlobalMeasures_file, R
     ax = plt.Subplot(big_fig, grid[0])
     big_fig.add_subplot(ax)
     
-    ax = plot_anatomical_network(G, 
+    ax = plot_anatomical_network(G, # does this need to be here, if we abandon the edges do we need any information from G
                                     NodalMeasures_file, 
                                     measure='module', 
                                     orientation='sagittal', 
