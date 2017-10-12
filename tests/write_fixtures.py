@@ -78,7 +78,7 @@ def write_fixtures(folder='/tmp'):
     # generate and save the network analysis
     if net_analysis==True:
         print("generating new network analysis") 
-        corrmat_path = 'TESTS/test_fixtures/corrmat_file.txt'
+        corrmat_path = 'tests/test_fixtures/corrmat_file.txt'
         recreate_network_analysis_fixture(folder, corrmat_path)
 
 if __name__ == '__main__':

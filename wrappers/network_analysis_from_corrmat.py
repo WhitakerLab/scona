@@ -17,7 +17,7 @@ import textwrap
 import numpy as np
 import pandas as pd
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../SCRIPTS/'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../scripts/'))
 import make_graphs as mkg
 
 #=============================================================================
