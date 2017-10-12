@@ -1,2 +1,8 @@
-requests
 pytest
+unittest
+numpy
+pandas
+matplotlib
+networkx
+python-louvain
+seaborn
