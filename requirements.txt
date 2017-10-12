@@ -1,7 +1,5 @@
 pytest
 numpy
 pandas
-matplotlib
 networkx
 python-louvain
-seaborn
