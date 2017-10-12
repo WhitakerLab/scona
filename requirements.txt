@@ -1,5 +1,4 @@
 pytest
-unittest
 numpy
 pandas
 matplotlib
