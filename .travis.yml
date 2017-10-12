@@ -14,4 +14,5 @@ install:
   - pip install -r requirements.txt
 # command to run tests
 script:
-  - python -m pytest
+# This runs test discovery on all modules with names ending '_tests'
+  - python3 -m unittest discover -p '*_tests.py'
