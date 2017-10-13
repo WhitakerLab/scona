@@ -72,14 +72,12 @@ def write_fixtures(folder='/tmp'):
     if not os.path.isdir(os.getcwd()+folder):
         os.makedirs(os.getcwd()+folder)
     # generate and save the correlation matrix
-    if corrmat == True:
-        print("generating new correlation matrix") 
-        recreate_correlation_matrix_fixture(folder)
+    print("generating new correlation matrix") 
+    recreate_correlation_matrix_fixture(folder)
     # generate and save the network analysis
-    if net_analysis==True:
-        print("generating new network analysis") 
-        corrmat_path = 'tests/test_fixtures/corrmat_file.txt'
-        recreate_network_analysis_fixture(folder, corrmat_path)
+    print("generating new network analysis") 
+    corrmat_path = 'tests/test_fixtures/corrmat_file.txt'
+    recreate_network_analysis_fixture(folder, corrmat_path)
 
 if __name__ == '__main__':
     write_fixtures()

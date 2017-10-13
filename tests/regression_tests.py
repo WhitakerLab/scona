@@ -13,7 +13,7 @@ class FixturesTest(unittest.TestCase):
 	    # to generate new files in a temporary (/tmp) folder.
 	    # Later we will test that these files are identical to the old 
 	    # ones
-        from write_fixtures import write_fixtures
+        from tests.write_fixtures import write_fixtures
         write_fixtures('/tmp')
         # define paths to individual files for checking, relative to 
         # the folder write_fixtures has saved in

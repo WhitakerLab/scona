@@ -1,2 +1,5 @@
-requests
 pytest
+numpy
+pandas
+networkx
+python-louvain
