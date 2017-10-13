@@ -17,19 +17,19 @@
                        
 def recreate_correlation_matrix_fixture(folder):
     ##### generate a correlation matrix in the given folder using #####
-    ##### the data in EXAMPLE_DATA                                ##### 
+    ##### the data in example_data                                ##### 
     import os
     corrmat_path = os.getcwd()+folder+'/corrmat_file.txt'
     from corrmat_from_regionalmeasures import corrmat_from_regionalmeasures
     corrmat_from_regionalmeasures(
-        "EXAMPLE_DATA/PARC_500aparc_thickness_behavmerge.csv",
-        "EXAMPLE_DATA/500.names.txt", 
+        "example_data/PARC_500aparc_thickness_behavmerge.csv",
+        "example_data/500.names.txt", 
         corrmat_path,
         names_308_style=True)
      
 def recreate_network_analysis_fixture(folder, corrmat_path):
     ##### generate network analysis in the given folder using the #####
-    ##### data in EXAMPLE_DATA and the correlation matrix given   #####
+    ##### data in example_data and the correlation matrix given   #####
     ##### by corrmat_path                                         #####  
     import os
     # It is necessary to specify a random seed because 
@@ -39,8 +39,8 @@ def recreate_network_analysis_fixture(folder, corrmat_path):
     random.seed(2984)
     from network_analysis_from_corrmat import network_analysis_from_corrmat
     network_analysis_from_corrmat(corrmat_path,
-                              "EXAMPLE_DATA/500.names.txt",
-                              "EXAMPLE_DATA/500.centroids.txt",
+                              "example_data/500.names.txt",
+                              "example_data/500.centroids.txt",
                               os.getcwd()+folder+'/network-analysis',
                               cost=10,
                               n_rand=10, # this is not a reasonable 
@@ -62,12 +62,12 @@ def write_fixtures(folder='/tmp'):
                 return
             else:
                 folder = input('what would you like to name this folder')
-    # add WRAPPERS, EXAMPLE_DATA and SCRIPTS folders to the syspath
+    # add wrappers, example_data and scripts folders to the syspath
     import os
     import sys
-    sys.path.append(os.path.abspath(os.path.join('WRAPPERS')))
-    sys.path.append(os.path.abspath(os.path.join('EXAMPLE_DATA')))
-    sys.path.append(os.path.abspath(os.path.join('SCRIPTS')))
+    sys.path.append(os.path.abspath(os.path.join('wrappers')))
+    sys.path.append(os.path.abspath(os.path.join('example_data')))
+    sys.path.append(os.path.abspath(os.path.join('scripts')))
     # if the folder does not exist, create it
     if not os.path.isdir(os.getcwd()+folder):
         os.makedirs(os.getcwd()+folder)
@@ -78,7 +78,7 @@ def write_fixtures(folder='/tmp'):
     # generate and save the network analysis
     if net_analysis==True:
         print("generating new network analysis") 
-        corrmat_path = 'TESTS/test_fixtures/corrmat_file.txt'
+        corrmat_path = 'tests/test_fixtures/corrmat_file.txt'
         recreate_network_analysis_fixture(folder, corrmat_path)
 
 if __name__ == '__main__':
