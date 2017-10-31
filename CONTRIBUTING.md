@@ -69,7 +69,7 @@ The current list of labels are [here][link_labels] and include:
 
 <br>
 
-* [![bug](https://img.shields.io/badge/-bug-fc2929.svg)][link_bugs] These issues point to problems in the project.
+* [![bug](https://img.shields.io/badge/-bug-fc2929.svg)][link_bug] These issues point to problems in the project.
 
     If you find a bug, please give as much detail as possible in your issue.
 
@@ -77,7 +77,7 @@ The current list of labels are [here][link_labels] and include:
 
 <br>
 
-* [![request](https://img.shields.io/badge/-request-fbca04.svg)][link_requests] These issues are asking for features (or anything else) to be added to the project.
+* [![request](https://img.shields.io/badge/-request-fbca04.svg)][link_request] These issues are asking for features (or anything else) to be added to the project.
 
     If you have a good idea and would like to see it implemented in the Brain Networks in Python project please open a new issue and add in as much detail as possible.
 
