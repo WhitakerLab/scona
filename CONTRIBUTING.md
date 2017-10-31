@@ -43,7 +43,7 @@ The current list of labels are [here][link_labels] and include:
 
 <br>
 
-* [![no-code](https://img.shields.io/badge/-no-code-207de5.svg)][link_nocode] These issues don't require any coding knowledge.
+* [![no-code](https://img.shields.io/badge/-no--code-207de5.svg)][link_nocode] These issues don't require any coding knowledge.
 
     If you're looking to contribute but aren't very confident in your coding skills these issues are a great place to start.
 
@@ -51,7 +51,7 @@ The current list of labels are [here][link_labels] and include:
 
 <br>
 
-* [![good-first-bug](https://img.shields.io/badge/-good-first-bug-5319e7.svg)][link_goodfirstbug] These issues contain a task that anyone with any level of experience can help with.
+* [![good-first-bug](https://img.shields.io/badge/-good--first--bug-5319e7.svg)][link_goodfirstbug] These issues contain a task that anyone with any level of experience can help with.
 
     A major goal of the project is to have as many people as possible complete their very first [pull request][link_pullrequest] on one of these issues. They will always have explicit information on who to contact to help you through the process.
 
@@ -61,7 +61,7 @@ The current list of labels are [here][link_labels] and include:
 
 <br>
 
-* [![help-wanted](https://img.shields.io/badge/-help-wanted-159818.svg)][link_helpwanted] These issues contain a task that a member of the team has determined we need additional help with.
+* [![help-wanted](https://img.shields.io/badge/-help--wanted-159818.svg)][link_helpwanted] These issues contain a task that a member of the team has determined we need additional help with.
 
     If you have particular skills then consider reading through these issues as they are a great place to offer your expertise.
 
