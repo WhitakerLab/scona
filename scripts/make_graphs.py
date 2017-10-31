@@ -380,7 +380,7 @@ def calculate_nodal_measures(G, centroids, aparc_names, nodal_partition=None, na
     nodal_dict = {}
 
     #---- Degree ----------------------
-    deg = G.degree().values()
+    deg = nx.degree(G).values()
     nodal_dict['degree'] = list(deg)
 
     #---- Closeness -------------------
