@@ -100,7 +100,8 @@ def read_in_data(corr_mat_file, names_file, centroids_file, names_308_style):
     '''
     # Load the input files
     M = np.loadtxt(corr_mat_file)
-    names = [ line.strip() for line in open(names_file) ]
+    with open(names_file) as names:
+        names = [ line.strip() for line in names ]
     centroids = np.loadtxt(centroids_file)
 
     # If you have your names in names_308_style you need to strip the
