@@ -46,7 +46,7 @@ Project maintainers have the right and responsibility to remove, edit, or reject
 
 Members of the community who violate these rules - no matter how much they have contributed to the Whitaker lab, or how specialised their skill set - will be approached by Kirstie Whitaker. If inappropriate behaviour persists after a discussion with Kirstie, the contributer will be asked to discontinue their participation in Whitaker lab projects.
 
-**To report an issue** please contact [Kirstie Whitaker](https://github.com/KirstieJane). All communication will be treated as confidential.
+**To report an issue** please contact [Kirstie Whitaker](https://github.com/KirstieJane) or [Isla Staden](https://github.com/Islast). All communication will be treated as confidential.
 
 ## Attribution
 
