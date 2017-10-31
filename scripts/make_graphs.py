@@ -380,6 +380,7 @@ def calculate_nodal_measures(G, centroids, aparc_names, nodal_partition=None, na
     nodal_dict = {}
 
     #---- Degree ----------------------
+
     print(type(G))
     print(type(G.degree()))
     deg = G.degree().values()
