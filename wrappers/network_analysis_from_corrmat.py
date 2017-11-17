@@ -100,7 +100,11 @@ def read_in_data(corr_mat_file, names_file, centroids_file, names_308_style):
     '''
     # Load the input files
     M = np.loadtxt(corr_mat_file)
-    names = [ line.strip() for line in open(names_file) ]
+    # open the file in a context manager so the list comprehension
+    # iterates over the lines in the file (file will automatically
+    # be closed when the with block is finished
+    with open(names_file) as IN:
+        names = [ line.strip() for line in IN ]
     centroids = np.loadtxt(centroids_file)
 
     # If you have your names in names_308_style you need to strip the
