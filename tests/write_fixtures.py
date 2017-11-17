@@ -14,11 +14,12 @@
 # and network_analysis data via the functions 
 # corrmat_from_regionalmeasures and network_analysis_from_corrmat.
 #----------------------------------------------------------------------
+import os
+import sys
                        
 def recreate_correlation_matrix_fixture(folder):
     ##### generate a correlation matrix in the given folder using #####
     ##### the data in example_data                                ##### 
-    import os
     corrmat_path = os.getcwd()+folder+'/corrmat_file.txt'
     from corrmat_from_regionalmeasures import corrmat_from_regionalmeasures
     corrmat_from_regionalmeasures(
@@ -31,7 +32,6 @@ def recreate_network_analysis_fixture(folder, corrmat_path):
     ##### generate network analysis in the given folder using the #####
     ##### data in example_data and the correlation matrix given   #####
     ##### by corrmat_path                                         #####  
-    import os
     # It is necessary to specify a random seed because 
     # network_analysis_from_corrmat generates random graphs to 
     # calculate global measures
@@ -48,23 +48,11 @@ def recreate_network_analysis_fixture(folder, corrmat_path):
                               # graphs to save time
                               names_308_style=True)
     
-def write_fixtures(folder='/tmp'): 
+def write_fixtures(folder='/temporary_test_fixtures'): 
     ## Run functions corrmat_from_regionalmeasures and               ##
     ## network_analysis_from_corrmat to save corrmat in given folder ##
     ##---------------------------------------------------------------##
-    #
-    # We want to prevent accidentally overwriting fixtures, so if the 
-    # function is saving in the test_fixtures folder it prompts for 
-    # approval.
-    if folder == '/test_fixtures':
-        if input('Are you sure you want to overwrite existing fixtures? y/n')!='y':
-            if input('Would you like to save new fixtures in a different folder?')!='y':
-                return
-            else:
-                folder = input('what would you like to name this folder')
     # add wrappers, example_data and scripts folders to the syspath
-    import os
-    import sys
     sys.path.append(os.path.abspath(os.path.join('wrappers')))
     sys.path.append(os.path.abspath(os.path.join('example_data')))
     sys.path.append(os.path.abspath(os.path.join('scripts')))
@@ -76,8 +64,57 @@ def write_fixtures(folder='/tmp'):
     recreate_correlation_matrix_fixture(folder)
     # generate and save the network analysis
     print("generating new network analysis") 
-    corrmat_path = 'tests/test_fixtures/corrmat_file.txt'
+    corrmat_path = 'temporary_test_fixtures/corrmat_file.txt'
     recreate_network_analysis_fixture(folder, corrmat_path)
+    
+def delete_fixtures(folder):
+        import shutil
+        print('\ndeleting temporary files')
+        shutil.rmtree(os.getcwd()+folder)
+    
+def hash_folder(folder='temporary_test_fixtures'):
+    hashes = {}
+    for path, directories, files in os.walk(folder):
+        for file in sorted(files):
+            hashes[os.path.join(path, file)] = hash_file(os.path.join(path, file))
+        for dir in sorted(directories):
+            hashes.update(hash_folder(os.path.join(path, dir)))
+        break 
+    return hashes
+    
+
+def hash_file(filename):
+    import hashlib
+    m = hashlib.sha256()
+    with open(filename, 'rb') as f:
+        while True:
+            b = f.read(2**10) 
+            if not b: break
+            m.update(b)
+    return m.hexdigest()
+
+def generate_fixture_hashes(folder='temporary_test_fixtures'):
+    # generate the fixtures
+    write_fixtures("/"+folder)
+    # calculate the hash
+    hash_dict = hash_folder(folder)
+    # delete the new files
+    delete_fixtures("/"+folder)
+    # return hash
+    return hash_dict
+    
+def pickle_hash(hash_dict):
+    import pickle
+    pickle_file = open('tests/.fixture_hash','wb')
+    pickle.dump(hash_dict, pickle_file)
+    pickle_file.close()
+    
+def unpickle_hash():
+    import pickle
+    return pickle.load( open( "tests/.fixture_hash", "rb" ) )
 
 if __name__ == '__main__':
-    write_fixtures()
+    if input("Are you sure you want to overwrite Brain Networks In Python's test fixtures? (y/n)") == 'y':
+        hash_dict = generate_fixture_hashes()
+        pickle_hash(hash_dict)
+        
