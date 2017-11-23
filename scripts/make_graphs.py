@@ -380,8 +380,10 @@ def calculate_nodal_measures(G, centroids, aparc_names, nodal_partition=None, na
     nodal_dict = {}
 
     #---- Degree ----------------------
-
-    deg = dict(G.degree()).values()
+    #import pdb; pdb.set_trace()
+    print(type(G.degree()))
+    print(G.degree())
+    deg = G.degree().values()
     nodal_dict['degree'] = list(deg)
 
     #---- Closeness -------------------
