@@ -674,7 +674,7 @@ def shortest_path(G):
     import numpy as np
     
 
-    shortestpl_dict_dict = dict(nx.shortest_path_length(G))
+    shortestpl_dict_dict = nx.shortest_path_length(G)
 
     shortestpl_dict = {}
 
