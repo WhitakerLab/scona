@@ -380,8 +380,7 @@ def calculate_nodal_measures(G, centroids, aparc_names, nodal_partition=None, na
     nodal_dict = {}
 
     #---- Degree ----------------------
-
-    deg = dict(G.degree()).values()
+    deg = G.degree().values()
     nodal_dict['degree'] = list(deg)
 
     #---- Closeness -------------------
@@ -674,7 +673,7 @@ def shortest_path(G):
     import numpy as np
     
 
-    shortestpl_dict_dict = dict(nx.shortest_path_length(G))
+    shortestpl_dict_dict = nx.shortest_path_length(G)
 
     shortestpl_dict = {}
 
