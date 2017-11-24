@@ -12,3 +12,6 @@ install:
 script:
 # This runs test discovery on all modules with names ending '_tests'
   - python3 -m unittest discover -p '*_tests.py'
+# command to silence email notifications
+notifications:
+  email: false
