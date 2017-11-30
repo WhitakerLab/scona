@@ -1,7 +1,6 @@
 import unittest
 import filecmp
 import os
-import sys
 
 class FixturesTest(unittest.TestCase):
 
