@@ -105,16 +105,17 @@ def generate_fixture_hashes(folder='temporary_test_fixtures'):
     
 def pickle_hash(hash_dict):
     import pickle
-    pickle_file = open('tests/.fixture_hash','wb')
-    pickle.dump(hash_dict, pickle_file)
-    pickle_file.close()
+    with open('tests/.fixture_hash'+str(sys.version_info[:2]), 'wb') as f:
+        pickle.dump(hash_dict, f)
     
 def unpickle_hash():
     import pickle
-    return pickle.load( open( "tests/.fixture_hash", "rb" ) )
+    with open( "tests/.fixture_hash"+str(sys.version_info[:2]), "rb" ) as f:
+        pickle_file = pickle.load( f )
+    return pickle_file
 
 if __name__ == '__main__':
-    if input("Are you sure you want to overwrite Brain Networks In Python's test fixtures? (y/n)") == 'y':
+    if input("Are you sure you want to update Brain Networks In Python's test fixtures? (y/n)") == 'y':
         hash_dict = generate_fixture_hashes()
         pickle_hash(hash_dict)
         
