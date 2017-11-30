@@ -29,15 +29,15 @@ class FixturesTest(unittest.TestCase):
         self.assertEqual(self.hash_dict_new[self.corrmat],
                         self.hash_dict_original[self.corrmat])
 
-    def test_gm_against_fixture(self):
-        # test new global measures against fixture
-        print('\ntesting new global measures against fixture')
+    def test_lm_against_fixture(self):
+        # test new local measures against fixture
+        print('\ntesting new nodal measures against fixture')
         self.assertEqual(self.hash_dict_new[self.lm],
                         self.hash_dict_original[self.lm])
     
-    def test_lm_against_fixture(self):
-        # test new local measures against fixture
-        print('\ntesting new local measures against fixture')
+    def test_gm_against_fixture(self):
+        # test new global measures against fixture
+        print('\ntesting new global measures against fixture')
         self.assertEqual(self.hash_dict_new[self.gm],
                         self.hash_dict_original[self.gm])
     
