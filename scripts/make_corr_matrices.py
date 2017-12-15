@@ -7,7 +7,7 @@ from __future__ import print_function
 import os
 import numpy as np
 import pandas as pd
-import stats_functions.residuals
+import stats_functions
 
 def create_residuals_df(df, names, covars_list):
     '''
