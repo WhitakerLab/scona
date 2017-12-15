@@ -2,19 +2,18 @@
 
 def residuals(x, y):
     '''
-    A useful little function that correlates
-    x and y together to give their residual
-    values. These can then be used to calculate
-    partial correlation values.
+    Return residuals of least squares solution to y = AB where A =[[x 1]].
+    Uses numpy.linalg.lstsq to find B
     '''
     import numpy as np
     
     if len(x.shape) == 1:
         x = x[np.newaxis, :]
     A = np.vstack([x, np.ones(x.shape[-1])]).T
+    # get the least squares solution to AB = y
     B = np.linalg.lstsq(A, y)[0]
-    m = B[:-1]
-    c = B[-1]
+    # calculate and return the residuals
+    m, c = B[:-1], B[-1]
     pre = np.sum(m * x.T, axis=1) + c
     res = y - pre
     return res
