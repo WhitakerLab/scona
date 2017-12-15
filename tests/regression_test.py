@@ -1,5 +1,4 @@
 import unittest
-import filecmp
 import os
 
 class FixturesTest(unittest.TestCase):
