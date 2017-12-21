@@ -89,7 +89,8 @@ def corrmat_from_regionalmeasures(regional_measures_file,
                                   names_file,
                                   output_name,
                                   covars_file=None,
-                                  names_308_style=False):
+                                  names_308_style=False,
+                                  method='pearson'):
     '''
     This is the big function!
     It reads in the CSV file that contains the regional measures for each
@@ -102,11 +103,14 @@ def corrmat_from_regionalmeasures(regional_measures_file,
                                                 names_file,
                                                 covars_file=covars_file,
                                                 names_308_style=names_308_style)
+    
+    # Correct for your covariates
+    df_res = mcm.create_residuals_df(df, names, covars_list)
 
-    # Make your correlation matrix correcting for all the covariates
-    M = mcm.create_corrmat(df, names, covars_list)
+    # Make your correlation matrix
+    M = mcm.create_corrmat(df_res, names, method=method).values
 
-    # Save the corrmat
+    # Save the matrix
     mcm.save_mat(M, output_name)
 
 

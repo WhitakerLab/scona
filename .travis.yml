@@ -10,8 +10,8 @@ install:
   - pip install -r requirements.txt
 # command to run tests
 script:
-# This runs test discovery on all modules with names ending '_tests'
-  - python3 -m unittest discover -p '*_tests.py'
+# This runs test discovery on all modules with names ending '_test'
+  - python3 -m pytest -v
 # command to silence email notifications
 notifications:
   email: false
