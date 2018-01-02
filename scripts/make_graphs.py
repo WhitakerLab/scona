@@ -2,186 +2,15 @@
 
 # A Global import to make code python 2 and 3 compatible
 from __future__ import print_function
+import numpy as np
+import networkx as nx
 
-def make_graphs(graph_dir, mat_dict, centroids, aparc_names, n_rand=1000): #mat_dict comes from make_corr_matrices.py
+def weighted_graph_from_matrix(M):
     '''
-    A function that makes all the required graphs from the correlation
-    matrices in mat_dict. These include the full graph with all
-    connections including weights, and binarized graphs at 30 different
-    costs betwen 1% to 30%. These graphs are fully connected because the
-    minimum spanning tree is used before the strongest edges are added
-    up to the required density.
+    Return a networkx weighted graph with edge weights equivalent to matrix entries
 
-    If the graphs do not already exist they are saved as gpickle files in
-    graph_dir. If they do exist then they're read in from those files.
-
-    In addition, files with values for the nodal topological measures and
-    global topological measures are created and saved or loaded as
-    appropriate.
-
-    The function requires the centroids and aparc_names values in order
-    to calculate the nodal measures. The value n_rand is the number of
-    random graphs to calculate for the global and nodal measure
-    calculations.
-
-    The function returns a dictionary of graphs, nodal measures and
-    global measures
+    M should be an adjaceny matrix as a numpy array
     '''
-    #==========================================================================
-    # IMPORTS
-    #==========================================================================
-    import os
-    import networkx as nx
-    import numpy as np
-    import pickle
-
-    #==========================================================================
-    # Print to screen what you're up to
-    #==========================================================================
-    print ("--------------------------------------------------")
-    print ("Making or loading graphs")
-
-    #==========================================================================
-    # Create an empty dictionary
-    #==========================================================================
-    graph_dict = {}
-
-    #==========================================================================
-    # Loop through all the matrices in mat_dict
-    #==========================================================================
-    for k in mat_dict.keys():
-
-        print ('    {}'.format(k))
-
-        # Read in the matrix
-        M = mat_dict[k]
-
-        # Get the covars name
-        mat_name, covars_name = k.split('_COVARS_')
-
-        #-------------------------------------------------------------------------
-        # Make the full graph first
-        #-------------------------------------------------------------------------
-        # Define the graph's file name and its dictionary key
-        g_filename = os.path.join(graph_dir,
-                                    'COVARS_{}'.format(covars_name),
-                                    'Graph_{}_COST_100.gpickle'.format(mat_name))
-
-        g_key = '{}_COST_100'.format(k)
-        print ('      Loading COST: 100',)
-
-        # If it already exists just read it in from the pickled file
-        if os.path.isfile(g_filename):
-            graph_dict[g_key] = nx.read_gpickle(g_filename)
-
-        # Otherwise you'll have to create it using the graph_at_cost function above
-        else:
-            graph_dict[g_key] = full_graph(M)
-
-            # Save it as a gpickle file so you don't have to do this next time!
-            dirname = os.path.dirname(g_filename)
-            if not os.path.isdir(dirname):
-                os.makedirs(dirname)
-            nx.write_gpickle(graph_dict[g_key], g_filename)
-
-        #-------------------------------------------------------------------------
-        # Then for all the different costs between 1% and 30%
-        #-------------------------------------------------------------------------
-        for cost in [2] + range(5,21,5):
-
-            #-------------------------------------------------------------------------
-            # Define the graph's file name along with those of the the associated
-            # global and nodal dictionaries
-            #-------------------------------------------------------------------------
-            g_filename = os.path.join(graph_dir,
-                                            'COVARS_{}'.format(covars_name),
-                                            'Graph_{}_COST_{:02.0f}.gpickle'.format(mat_name, cost))
-            global_dict_filename = os.path.join(graph_dir,
-                                            'COVARS_{}'.format(covars_name),
-                                            'GlobalDict_{}_COST_{:02.0f}.p'.format(mat_name, cost))
-            nodal_dict_filename = os.path.join(graph_dir,
-                                            'COVARS_{}'.format(covars_name),
-                                            'NodalDict_{}_COST_{:02.0f}.p'.format(mat_name, cost))
-            rich_club_filename = os.path.join(graph_dir,
-                                            'COVARS_{}'.format(covars_name),
-                                            'RichClub_{}_COST_{:02.0f}.p'.format(mat_name, cost))
-
-            g_key = '{}_COST_{:02.0f}'.format(k, cost)
-
-            #-------------------------------------------------------------------------
-            # Make or load the graph
-            #-------------------------------------------------------------------------
-            # If the graph already exists just read it in from the pickled file
-            if os.path.isfile(g_filename):
-                graph_dict[g_key] = nx.read_gpickle(g_filename)
-
-            # Otherwise you'll have to create it using the graph_at_cost function
-            else:
-                graph_dict[g_key] = graph_at_cost(M, cost)
-
-                # Save it as a gpickle file so you don't have to do this next time!
-                nx.write_gpickle(graph_dict[g_key], g_filename)
-
-            #-------------------------------------------------------------------------
-            # Make or load the global and nodal measures dictionaries
-            #-------------------------------------------------------------------------
-            # If the rich_club measures files already exists just read it
-            # and the nodal and global measures files in
-            if os.path.isfile(rich_club_filename):
-
-                # Print to screen so you know where you're up to
-                if cost == 20:
-                    print ('- {:02.0f}'.format(cost))
-                else:
-                    print ('- {:02.0f}'.format(cost),)
-
-                graph_dict['{}_GlobalMeasures'.format(g_key)] = pickle.load(open(global_dict_filename))
-                graph_dict['{}_NodalMeasures'.format(g_key)] = pickle.load(open(nodal_dict_filename))
-                graph_dict['{}_RichClub'.format(g_key)] = pickle.load(open(rich_club_filename))
-
-            # Otherwise you'll have to create them using the calculate_global_measures
-            # and calculate_nodal_measures functions
-            else:
-                G = graph_dict[g_key]
-
-                print ('\n      Calculating COST: {:02.0f}'.format(cost))
-
-                # You need to calculate the same nodal partition for the global
-                # and nodal measures
-                nodal_partition = calc_nodal_partition(G)
-
-                # And you'll also want the same list of random graphs
-                R_list, R_nodal_partition_list = make_random_list(G, n_rand=n_rand)
-
-                graph_dict['{}_GlobalMeasures'.format(g_key)] = calculate_global_measures(G,
-                                                                                           R_list=R_list,
-                                                                                           nodal_partition=nodal_partition,
-                                                                                           R_nodal_partition_list=R_nodal_partition_list)
-                (graph_dict[g_key],
-                    graph_dict['{}_NodalMeasures'.format(g_key)]) = calculate_nodal_measures(G,
-                                                                                              centroids,
-                                                                                              aparc_names,
-                                                                                              nodal_partition=nodal_partition)
-                graph_dict['{}_RichClub'.format(g_key)] = rich_club(G, R_list=R_list)
-
-                # Save them as pickle files so you don't have to do this next time!
-                pickle.dump(graph_dict['{}_GlobalMeasures'.format(g_key)], open(global_dict_filename, "wb"))
-                pickle.dump(graph_dict['{}_NodalMeasures'.format(g_key)], open(nodal_dict_filename, "wb"))
-                pickle.dump(graph_dict['{}_RichClub'.format(g_key)], open(rich_club_filename, "wb"))
-                nx.write_gpickle(graph_dict[g_key], g_filename)
-
-    # Return the full graph dictionary
-    return graph_dict
-
-
-def full_graph(M):
-    '''
-    Very easy, set the diagonals to 0
-    and then save the graph
-    '''
-    import numpy as np
-    import networkx as nx
-
     # Make a copy of the matrix
     thr_M = np.copy(M)
 
@@ -193,55 +22,62 @@ def full_graph(M):
 
     return G
 
+def weighted_graph_from_df(df):
+    '''
+    Return a networkx weighted graph with edge weights equivalent to dataframe entries
+    
+    M should be an adjacency matrix as a dataframe
+    '''
+    return weighted_graph_from_matrix(df.values)
 
 def graph_at_cost(M, cost):
     '''
-    A function that first creates the minimum spanning tree
-    for the graph, and then adds in edges according to their
-    connection strength up to a particular cost
+    Returns a connected binary graph.
+    
+    First creates the minimum spanning tree for the graph, and then adds
+    in edges according to their connection strength up to a particular cost.
+    
+    M should be an adjacency matrix as numpy array or dataframe.
+    cost should be a number between 0 and 100
     '''
-    import numpy as np
-    import networkx as nx
-
-    # Make a copy of the matrix
-    thr_M = np.copy(M)
-
-    # Set all diagonal values to 0
-    thr_M[np.diag_indices_from(thr_M)] = 0
-
-    # Multiply all values by -1 because the minimum spanning tree
-    # looks for the smallest distance - not the largest correlation!
-    thr_M = thr_M*-1
-
-    # Read this full matrix into a graph G
-    G = nx.from_numpy_matrix(thr_M)
+    # If dataframe, convert to array
+    if isinstance(M, pd.DataFrame):
+        array = M.values
+    elif isinstance(M, np.array)
+        array = M
+    else:
+        raise TypeError("expecting numpy array or pandas dataframe as input")
+        
+    # Read this array into a graph G
+    # Weights scaled by -1 as minimum_spanning_tree minimises weight
+    G = weighted_graph_from_matrix(array*-1)
 
     # Make a list of all the sorted edges in the full matrix
     G_edges_sorted = [ edge for edge in sorted(G.edges(data = True), key = lambda edge_info: edge_info[2]['weight']) ]
 
-    # Calculate minimum spanning tree and make a list of the mst_edges
+    # Calculate minimum spanning tree and make a list of its edges
     mst = nx.minimum_spanning_tree(G)
     mst_edges = mst.edges(data = True)
 
-    # Create a list of edges that are *not* in the mst
+    # Create a list of edges that are *not* in the minimum spanning tree
     # (because you don't want to add them in twice!)
     G_edges_sorted_notmst = [ edge for edge in G_edges_sorted if not edge in mst_edges ]
 
-    # Figure out the number of edges you want to keep for this
-    # particular cost. You have to round this number because it
-    # won't necessarily be an integer, and you have to subtract
-    # the number of edges in the minimum spanning tree because we're
-    # going to ADD this number of edges to it
-    n_edges = (cost/100.0) * len(G_edges_sorted)
+    # Calculate how many edges need to be added to reach the specified cost 
+    # and round to the nearest integer.
+    n_edges = (cost/100.0) * len(G)*(len(G)-1)*0.5
     n_edges = np.int(np.around(n_edges))
     n_edges = n_edges - len(mst.edges())
 
     # If your cost is so small that your minimum spanning tree already covers it
     # then you can't do any better than the MST and you'll just have to return
     # it with an accompanying error message
+    # A tree has n-1 edges and a complete graph has n(n − 1)/2 edges, so we need
+    # cost/100 > 2/n, where n is the number of vertices
     if n_edges < 0:
-        print ('Unable to calculate matrix at this cost - minimum spanning tree is too large')
-
+        print('Unable to calculate matrix at this cost - minimum spanning tree is too large')
+        print('cost must be >= {}'.format(2/len(G)))
+              
     # Otherwise, add in the appropriate number of edges (n_edges)
     # from your sorted list (G_edges_sorted_notmst)
     else:
@@ -755,3 +591,174 @@ def rich_club(G, R_list=None, n=10):
         rc_rand[:, i] = list(rc_rand_dict.values())
 
     return deg, rc, rc_rand
+
+
+def make_graphs(graph_dir, mat_dict, centroids, aparc_names, n_rand=1000): #mat_dict comes from make_corr_matrices.py
+    '''
+    A function that makes all the required graphs from the correlation
+    matrices in mat_dict. These include the full graph with all
+    connections including weights, and binarized graphs at 30 different
+    costs betwen 1% to 30%. These graphs are fully connected because the
+    minimum spanning tree is used before the strongest edges are added
+    up to the required density.
+
+    If the graphs do not already exist they are saved as gpickle files in
+    graph_dir. If they do exist then they're read in from those files.
+
+    In addition, files with values for the nodal topological measures and
+    global topological measures are created and saved or loaded as
+    appropriate.
+
+    The function requires the centroids and aparc_names values in order
+    to calculate the nodal measures. The value n_rand is the number of
+    random graphs to calculate for the global and nodal measure
+    calculations.
+
+    The function returns a dictionary of graphs, nodal measures and
+    global measures
+    '''
+    #==========================================================================
+    # IMPORTS
+    #==========================================================================
+    import os
+    import networkx as nx
+    import numpy as np
+    import pickle
+
+    #==========================================================================
+    # Print to screen what you're up to
+    #==========================================================================
+    print ("--------------------------------------------------")
+    print ("Making or loading graphs")
+
+    #==========================================================================
+    # Create an empty dictionary
+    #==========================================================================
+    graph_dict = {}
+
+    #==========================================================================
+    # Loop through all the matrices in mat_dict
+    #==========================================================================
+    for k in mat_dict.keys():
+
+        print ('    {}'.format(k))
+
+        # Read in the matrix
+        M = mat_dict[k]
+
+        # Get the covars name
+        mat_name, covars_name = k.split('_COVARS_')
+
+        #-------------------------------------------------------------------------
+        # Make the full graph first
+        #-------------------------------------------------------------------------
+        # Define the graph's file name and its dictionary key
+        g_filename = os.path.join(graph_dir,
+                                    'COVARS_{}'.format(covars_name),
+                                    'Graph_{}_COST_100.gpickle'.format(mat_name))
+
+        g_key = '{}_COST_100'.format(k)
+        print ('      Loading COST: 100',)
+
+        # If it already exists just read it in from the pickled file
+        if os.path.isfile(g_filename):
+            graph_dict[g_key] = nx.read_gpickle(g_filename)
+
+        # Otherwise you'll have to create it using the graph_at_cost function above
+        else:
+            graph_dict[g_key] = weighted_graph_from_matrix(M)
+
+            # Save it as a gpickle file so you don't have to do this next time!
+            dirname = os.path.dirname(g_filename)
+            if not os.path.isdir(dirname):
+                os.makedirs(dirname)
+            nx.write_gpickle(graph_dict[g_key], g_filename)
+
+        #-------------------------------------------------------------------------
+        # Then for all the different costs between 1% and 30%
+        #-------------------------------------------------------------------------
+        for cost in [2] + range(5,21,5):
+
+            #-------------------------------------------------------------------------
+            # Define the graph's file name along with those of the the associated
+            # global and nodal dictionaries
+            #-------------------------------------------------------------------------
+            g_filename = os.path.join(graph_dir,
+                                            'COVARS_{}'.format(covars_name),
+                                            'Graph_{}_COST_{:02.0f}.gpickle'.format(mat_name, cost))
+            global_dict_filename = os.path.join(graph_dir,
+                                            'COVARS_{}'.format(covars_name),
+                                            'GlobalDict_{}_COST_{:02.0f}.p'.format(mat_name, cost))
+            nodal_dict_filename = os.path.join(graph_dir,
+                                            'COVARS_{}'.format(covars_name),
+                                            'NodalDict_{}_COST_{:02.0f}.p'.format(mat_name, cost))
+            rich_club_filename = os.path.join(graph_dir,
+                                            'COVARS_{}'.format(covars_name),
+                                            'RichClub_{}_COST_{:02.0f}.p'.format(mat_name, cost))
+
+            g_key = '{}_COST_{:02.0f}'.format(k, cost)
+
+            #-------------------------------------------------------------------------
+            # Make or load the graph
+            #-------------------------------------------------------------------------
+            # If the graph already exists just read it in from the pickled file
+            if os.path.isfile(g_filename):
+                graph_dict[g_key] = nx.read_gpickle(g_filename)
+
+            # Otherwise you'll have to create it using the graph_at_cost function
+            else:
+                graph_dict[g_key] = graph_at_cost(M, cost)
+
+                # Save it as a gpickle file so you don't have to do this next time!
+                nx.write_gpickle(graph_dict[g_key], g_filename)
+
+            #-------------------------------------------------------------------------
+            # Make or load the global and nodal measures dictionaries
+            #-------------------------------------------------------------------------
+            # If the rich_club measures files already exists just read it
+            # and the nodal and global measures files in
+            if os.path.isfile(rich_club_filename):
+
+                # Print to screen so you know where you're up to
+                if cost == 20:
+                    print ('- {:02.0f}'.format(cost))
+                else:
+                    print ('- {:02.0f}'.format(cost),)
+
+                graph_dict['{}_GlobalMeasures'.format(g_key)] = pickle.load(open(global_dict_filename))
+                graph_dict['{}_NodalMeasures'.format(g_key)] = pickle.load(open(nodal_dict_filename))
+                graph_dict['{}_RichClub'.format(g_key)] = pickle.load(open(rich_club_filename))
+
+            # Otherwise you'll have to create them using the calculate_global_measures
+            # and calculate_nodal_measures functions
+            else:
+                G = graph_dict[g_key]
+
+                print ('\n      Calculating COST: {:02.0f}'.format(cost))
+
+                # You need to calculate the same nodal partition for the global
+                # and nodal measures
+                nodal_partition = calc_nodal_partition(G)
+
+                # And you'll also want the same list of random graphs
+                R_list, R_nodal_partition_list = make_random_list(G, n_rand=n_rand)
+
+                graph_dict['{}_GlobalMeasures'.format(g_key)] = calculate_global_measures(G,
+                                                                                           R_list=R_list,
+                                                                                           nodal_partition=nodal_partition,
+                                                                                           R_nodal_partition_list=R_nodal_partition_list)
+                (graph_dict[g_key],
+                    graph_dict['{}_NodalMeasures'.format(g_key)]) = calculate_nodal_measures(G,
+                                                                                              centroids,
+                                                                                              aparc_names,
+                                                                                              nodal_partition=nodal_partition)
+                graph_dict['{}_RichClub'.format(g_key)] = rich_club(G, R_list=R_list)
+
+                # Save them as pickle files so you don't have to do this next time!
+                pickle.dump(graph_dict['{}_GlobalMeasures'.format(g_key)], open(global_dict_filename, "wb"))
+                pickle.dump(graph_dict['{}_NodalMeasures'.format(g_key)], open(nodal_dict_filename, "wb"))
+                pickle.dump(graph_dict['{}_RichClub'.format(g_key)], open(rich_club_filename, "wb"))
+                nx.write_gpickle(graph_dict[g_key], g_filename)
+
+    # Return the full graph dictionary
+    return graph_dict
