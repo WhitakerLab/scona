@@ -2,7 +2,7 @@ language: python
 python:
     #  - "3.2" # scipy requires python >= 3.4
     #  - "3.3"
-  - "3.4"
+    #  - "3.4" # networkx2.0 requires python >= 3.6
   - "3.5"
   - "3.6"
 # command to install dependencies

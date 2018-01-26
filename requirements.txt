@@ -1,6 +1,7 @@
+python>=3.5
+networkx==2.0
 pytest
 pandas
-networkx==2.0
-python-louvain
+#python-louvain
 numpy
 scipy

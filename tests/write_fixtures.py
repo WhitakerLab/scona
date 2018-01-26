@@ -16,6 +16,7 @@
 #----------------------------------------------------------------------
 import os
 import sys
+import networkx as nx
                        
 def recreate_correlation_matrix_fixture(folder):
     ##### generate a correlation matrix in the given folder using #####
@@ -102,15 +103,22 @@ def generate_fixture_hashes(folder='temporary_test_fixtures'):
     delete_fixtures("/"+folder)
     # return hash
     return hash_dict
+
+def current_fixture_name():
+    # returns the fixture name appropriate the current versions 
+    # of python and networkx
+    return "tests/.fixture_hash"+str(sys.version_info[:2])+'networkx_version'+str(nx.__version__)
     
 def pickle_hash(hash_dict):
     import pickle
-    with open('tests/.fixture_hash'+str(sys.version_info[:2]), 'wb') as f:
+    # when we save we record the python and networkx versions
+    with open(current_fixture_name(), 'wb') as f:
         pickle.dump(hash_dict, f)
     
 def unpickle_hash():
     import pickle
-    with open( "tests/.fixture_hash"+str(sys.version_info[:2]), "rb" ) as f:
+    # import fixture relevant to the current python, networkx versions
+    with open(current_fixture_name(), "rb" ) as f:
         pickle_file = pickle.load( f )
     return pickle_file
 
