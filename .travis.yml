@@ -5,9 +5,13 @@ python:
     #  - "3.4" # networkx2.0 requires python >= 3.6
   - "3.5"
   - "3.6"
+env:
+  - NETWORKX_VERSION=1.9
+  - NETWORKX_VERSION=2.0
 # command to install dependencies
 install:
-  - pip install -r requirements.txt
+  - pip install -q networkx==$NETWORKX_VERSION
+  - pip install -q -r requirements.txt
 # command to run tests
 script:
 # This runs test discovery on all modules with names ending '_test'
