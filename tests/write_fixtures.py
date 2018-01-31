@@ -118,6 +118,7 @@ def pickle_hash(hash_dict):
 def unpickle_hash():
     import pickle
     # import fixture relevant to the current python, networkx versions
+    print('loading fixtures for python version {}, networkx version {}'.format(sys.version_info[:2], nx.__version__)
     with open(current_fixture_name(), "rb" ) as f:
         pickle_file = pickle.load( f )
     return pickle_file
