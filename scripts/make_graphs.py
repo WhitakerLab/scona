@@ -380,7 +380,7 @@ def calculate_nodal_measures(G, centroids, aparc_names, nodal_partition=None, na
     nodal_dict = {}
 
     #---- Degree ----------------------
-    deg = G.degree().values()
+    deg = dict(G.degree()).values()
     nodal_dict['degree'] = list(deg)
 
     #---- Closeness -------------------
@@ -639,7 +639,7 @@ def assign_nodal_distance(G, centroids):
             dist = distance.euclidean(cent1, cent2)
 
             # And assign this value to the edge
-            G.edge[node1][node2]['euclidean'] = dist
+            G.adj[node1][node2]['euclidean'] = dist
 
             # Also figure out whether this edge is interhemispheric
             # by multiplying the x values. If x1 * x2 is negative
@@ -648,14 +648,14 @@ def assign_nodal_distance(G, centroids):
             x2 = G.node[node2]['x']
 
             if x1*x2 > 0:
-                G.edge[node1][node2]['interhem'] = 0
+                G.adj[node1][node2]['interhem'] = 0
             else:
-                G.edge[node1][node2]['interhem'] = 1
+                G.adj[node1][node2]['interhem'] = 1
 
         # Create two nodal attributes (average distance and
         # total distance) by summarizing the euclidean distance
         # for all edges which connect to the node
-        euc_list = [ G.edge[m][n]['euclidean'] for m, n in G.edges(nbunch=node) ]
+        euc_list = [ G.adj[m][n]['euclidean'] for m, n in G.edges(nbunch=node) ]
 
         G.node[node]['average_dist'] = np.mean(euc_list)
         G.node[node]['total_dist'] = np.sum(euc_list)
@@ -663,7 +663,7 @@ def assign_nodal_distance(G, centroids):
         # Create an interhem nodal attribute by getting the average
         # of the interhem values for all edges which connect to the node
 
-        interhem_list = [ G.edge[m][n]['interhem'] for m, n in G.edges(nbunch=node) ]
+        interhem_list = [ G.adj[m][n]['interhem'] for m, n in G.edges(nbunch=node) ]
 
         G.node[node]['interhem_proportion'] = np.mean(interhem_list)
     return G
@@ -673,7 +673,7 @@ def shortest_path(G):
     import numpy as np
     
 
-    shortestpl_dict_dict = nx.shortest_path_length(G)
+    shortestpl_dict_dict = dict(nx.shortest_path_length(G))
 
     shortestpl_dict = {}
 
