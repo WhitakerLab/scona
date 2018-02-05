@@ -101,7 +101,7 @@ def plot_degree_dist(G, ER=True, ax=None, figure_name=None, x_max=200, y_max=0.1
     import seaborn as sns
     
     # Calculate the degrees from the graph
-    degrees = np.array(list(G.degree().values()))
+    degrees = np.array(list(dict(G.degree()).values()))
     degrees = degrees.astype('float')
     
     # Calculate the Erdos Renyi graph from the main graph
@@ -446,7 +446,7 @@ def degree_r_values(graph_dict, y, covars_list=['ones'], measure='CT', group='al
         
         G = graph_dict[key]
         
-        degrees = np.array(G.degree().values())
+        degrees = np.array(dict(G.degree()).values())
         (r_array[i], p_array[i]) = pearsonr(degrees, y)
     
     return r_array, p_array
@@ -834,7 +834,7 @@ def old_figure_1(graph_dict,
                                                     color=sns.color_palette()[0])
         
         #============= CORR DEGREE W/slope CT age =======================
-        ax_list[4, i] = pretty_scatter(G.degree().values(), measure_dict['CT_all_slope_age'], 
+        ax_list[4, i] = pretty_scatter(dict(G.degree()).values(), measure_dict['CT_all_slope_age'], 
                                                 x_label='Degree', y_label='Slope CT with age', 
                                                 x_max=100, x_min=0, 
                                                 y_max=0.05, y_min=-0.1, 
@@ -843,7 +843,7 @@ def old_figure_1(graph_dict,
                                                 figure=big_fig)
                                                 
         #============= CORR DEGREE W/slope MT age =======================
-        ax_list[5, i] = pretty_scatter(G.degree().values(), measure_dict['MT_projfrac+030_all_slope_age'], 
+        ax_list[5, i] = pretty_scatter(dict(G.degree()).values(), measure_dict['MT_projfrac+030_all_slope_age'], 
                                                 x_label='Degree', y_label='Slope MT(70%) with age', 
                                                 x_max=100, x_min=0, 
                                                 y_max=0.020, y_min=-0.010, 
@@ -1068,7 +1068,7 @@ def old_figure_3(graph_dict, measure_dict, figures_dir, covars_list=['ones'], gr
     G = graph_dict[key]
     pc_dict = participation_coefficient(G)    
     pc = np.array(pc_dict.values())
-    degrees = np.array(G.degree().values())
+    degrees = np.array(dict(G.degree()).values())
     
     #==== CORRELATE DEGREES WITH CHANGE IN CT WITH AGE =============================
     figure_name = os.path.join(figures_dir, 
@@ -2958,7 +2958,7 @@ def set_conn_types(G, G_edge=None, thresh=75):
         G_edge = G
         
     # Figure out the degrees from the main graph (G)
-    deg = G.degree().values()
+    deg = dict(G.degree()).values()
 
     # Now calculate the threshold that you're going
     # to use to designate a node as a hub or not
@@ -2980,7 +2980,7 @@ def set_conn_types(G, G_edge=None, thresh=75):
     
 def rich_edges_nodes(G, thresh=75):
     # Figure out the degrees from the main graph (G)
-    deg = G.degree().values()
+    deg = dict(G.degree()).values()
 
     # Now calculate the threshold that you're going
     # to use to designate a node as a hub or not
