@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-
+"""
+Tools to create a correlation matrix from regional measures
+"""
 # A Global import to make code python 2 and 3 compatible
 from __future__ import print_function
 
