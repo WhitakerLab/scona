@@ -33,7 +33,7 @@ def create_residuals_df(df, names, covars_list):
 
     # Calculate the residuals
     for name in names:
-        df_res.loc[:, name] = stats_functions.residuals(x.T, df.loc[:, name])
+        df_res.loc[:, name] = stats_functions.residuals(x.T, df.loc[:, name].astype(float))
 
     # Return the residuals data frame
     return df_res
@@ -46,7 +46,7 @@ def create_corrmat(df_residuals, names, method='pearson'):
     * names is a list of the brain regions you wish to correlate.
     * method is the method of correlation fed to pandas.DataFram.corr
     '''
-    return df_residuals.loc[:, names].corr(method=method)
+    return df_residuals.loc[:, names].astype(float).corr(method=method)
 
 def save_mat(M, M_text_name):
     '''
