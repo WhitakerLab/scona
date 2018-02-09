@@ -27,7 +27,7 @@ def create_residuals_df(df, names, covars_list):
     # Raise TypeError if any of the relevant columns are nonnumeric
     non_numeric_cols = get_non_numeric_cols(df[names+covars_list])
     if non_numeric_cols:
-        raise TypeError('DataFrame columns {} are non numeric'.format(', '.join(non_numeric_cols))
+        raise TypeError('DataFrame columns {} are non numeric'.format(', '.join(non_numeric_cols)))
 
     # Make a new data frame that will contain
     # the residuals for each column after correcting for
