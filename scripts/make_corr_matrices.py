@@ -11,7 +11,7 @@ import stats_functions
 
 def get_non_numeric_cols(df):
     numeric = np.fromiter((np.issubdtype(y, np.number) for y in df.dtypes),bool)
-    non_numeric_cols = np.array(df.columns)[~non_numeric]
+    non_numeric_cols = np.array(df.columns)[~numeric]
     return non_numeric_cols
 
 
