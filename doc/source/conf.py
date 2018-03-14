@@ -19,7 +19,7 @@
 #
 import os
 import sys
-sys.path.insert(0, '/home/isla/BrainNetworksInPython/BrainNetworksInPython')
+sys.path.insert(0, '../')
 
 # -- General configuration ------------------------------------------------
 

@@ -1,0 +1,166 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>BrainNetworksInPython.scripts.read_fsaverage_info &#8212; BrainNetworksInPython 0.1dev documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for BrainNetworksInPython.scripts.read_fsaverage_info</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+
+<div class="viewcode-block" id="read_fsaverage_info"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.read_fsaverage_info.read_fsaverage_info">[docs]</a><span class="k">def</span> <span class="nf">read_fsaverage_info</span><span class="p">(</span><span class="n">fsaverage_dir</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Get all the info you need from the study fsaverage directory</span>
+<span class="sd">    which contains the names of the 308 regions, the location of each</span>
+<span class="sd">    region&#39;s center of mass, the assignment of each region to the </span>
+<span class="sd">    appropriate von economo cortical type and and the assignment of</span>
+<span class="sd">    each region to a lobe label.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+
+    <span class="c1">#=============================================================================</span>
+    <span class="c1"># Create an empty dictionary for these values</span>
+    <span class="c1">#=============================================================================</span>
+    <span class="n">fsaverage_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    
+    <span class="c1">#=============================================================================</span>
+    <span class="c1"># Get the names of the files you need</span>
+    <span class="c1">#=============================================================================</span>
+    <span class="n">aparc_names_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fsaverage_dir</span><span class="p">,</span> <span class="s1">&#39;parcellation&#39;</span><span class="p">,</span> <span class="s1">&#39;500.names.txt&#39;</span> <span class="p">)</span>
+    <span class="n">centroids_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fsaverage_dir</span><span class="p">,</span> <span class="s1">&#39;parcellation&#39;</span><span class="p">,</span> <span class="s1">&#39;500.centroids.txt&#39;</span> <span class="p">)</span>
+    <span class="n">von_economo_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fsaverage_dir</span><span class="p">,</span> <span class="s1">&#39;parcellation&#39;</span><span class="p">,</span> <span class="s1">&#39;500.vonEconomoRegions.txt&#39;</span> <span class="p">)</span>
+    <span class="n">lobes_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fsaverage_dir</span><span class="p">,</span> <span class="s1">&#39;parcellation&#39;</span><span class="p">,</span> <span class="s1">&#39;500.lobes.txt&#39;</span> <span class="p">)</span>
+
+    <span class="c1">#=============================================================================</span>
+    <span class="c1"># Create some useful data lists</span>
+    <span class="c1">#=============================================================================</span>
+    <span class="n">fsaverage_dict</span><span class="p">[</span><span class="s1">&#39;aparc_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_labels</span><span class="p">(</span><span class="n">aparc_names_file</span><span class="p">)</span>
+    
+    <span class="n">fsaverage_dict</span><span class="p">[</span><span class="s1">&#39;von_economo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_labels</span><span class="p">(</span><span class="n">von_economo_file</span><span class="p">,</span> <span class="n">convert_to_float</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">fsaverage_dict</span><span class="p">[</span><span class="s1">&#39;lobes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_labels</span><span class="p">(</span><span class="n">lobes_file</span><span class="p">)</span>
+    
+    <span class="p">(</span><span class="n">fsaverage_dict</span><span class="p">[</span><span class="s1">&#39;centroids&#39;</span><span class="p">],</span> 
+        <span class="n">fsaverage_dict</span><span class="p">[</span><span class="s1">&#39;axial_pos&#39;</span><span class="p">],</span> 
+        <span class="n">fsaverage_dict</span><span class="p">[</span><span class="s1">&#39;sagittal_pos&#39;</span><span class="p">],</span> 
+        <span class="n">fsaverage_dict</span><span class="p">[</span><span class="s1">&#39;coronal_pos&#39;</span><span class="p">]</span> <span class="p">)</span> <span class="o">=</span> <span class="n">get_centroids</span><span class="p">(</span><span class="n">centroids_file</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fsaverage_dict</span></div>
+    
+
+<div class="viewcode-block" id="get_labels"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.read_fsaverage_info.get_labels">[docs]</a><span class="k">def</span> <span class="nf">get_labels</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">convert_to_float</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Load each line in the filename, where each line represents one of</span>
+<span class="sd">    the cortical and subcortical regions in the 308 parcellation, remove </span>
+<span class="sd">    the first 41 entries which correspond to the subcortical regions </span>
+<span class="sd">    and return the names as a list.</span>
+<span class="sd">    </span>
+<span class="sd">    If convert_to_float=True then convert the values in the list to floats</span>
+<span class="sd">    otherwise leave as strings.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="p">]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="mi">41</span><span class="p">::]</span>
+    
+    <span class="k">if</span> <span class="n">convert_to_float</span><span class="p">:</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span> <span class="nb">float</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span> <span class="p">]</span>
+        
+    <span class="k">return</span> <span class="n">labels</span></div>
+
+<div class="viewcode-block" id="get_centroids"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.read_fsaverage_info.get_centroids">[docs]</a><span class="k">def</span> <span class="nf">get_centroids</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Load the x, y, z coordinates of the cortical and subcortical parcellation</span>
+<span class="sd">    regions, remove the first 41 entries which correspond to the subcortical</span>
+<span class="sd">    regions, and return the values as a numpy array, and the axial, sagittal,</span>
+<span class="sd">    and coronal positions as dictionaries</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    
+    <span class="n">centroids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+    <span class="n">centroids</span> <span class="o">=</span> <span class="n">centroids</span><span class="p">[</span><span class="mi">41</span><span class="p">:,:]</span>
+    
+    <span class="c1"># Use the centroids to create a dictionary for each of the</span>
+    <span class="c1"># three orthogonal directions</span>
+    <span class="n">axial_pos</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">centroids</span><span class="p">)),</span><span class="n">centroids</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">])}</span>
+    <span class="n">sagittal_pos</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">centroids</span><span class="p">)),</span><span class="n">centroids</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:])}</span>
+    <span class="n">coronal_pos</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">centroids</span><span class="p">)),</span><span class="n">centroids</span><span class="p">[:,</span><span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">])}</span>
+    
+    <span class="k">return</span> <span class="n">centroids</span><span class="p">,</span> <span class="n">axial_pos</span><span class="p">,</span> <span class="n">sagittal_pos</span><span class="p">,</span> <span class="n">coronal_pos</span></div>
+
+    
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Dr Kirstie Whitaker, Isla Staden.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

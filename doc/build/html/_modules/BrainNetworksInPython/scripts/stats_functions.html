@@ -1,0 +1,154 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>BrainNetworksInPython.scripts.stats_functions &#8212; BrainNetworksInPython 0.1dev documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for BrainNetworksInPython.scripts.stats_functions</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+
+<div class="viewcode-block" id="residuals"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.stats_functions.residuals">[docs]</a><span class="k">def</span> <span class="nf">residuals</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return residuals of least squares solution to y = AB where A =[[x 1]].</span>
+<span class="sd">    Uses numpy.linalg.lstsq to find B</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])])</span><span class="o">.</span><span class="n">T</span>
+    <span class="c1"># get the least squares solution to AB = y</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># calculate and return the residuals</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">B</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">B</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">pre</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">pre</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+    
+<div class="viewcode-block" id="partial_r"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.stats_functions.partial_r">[docs]</a><span class="k">def</span> <span class="nf">partial_r</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">covars</span><span class="p">):</span>
+
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">pearsonr</span>
+    
+    <span class="n">res_i</span> <span class="o">=</span> <span class="n">residuals</span><span class="p">(</span><span class="n">covars</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">res_j</span> <span class="o">=</span> <span class="n">residuals</span><span class="p">(</span><span class="n">covars</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">part_r</span> <span class="o">=</span> <span class="n">pearsonr</span><span class="p">(</span><span class="n">res_i</span><span class="p">,</span> <span class="n">res_j</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">part_r</span></div>
+    
+<div class="viewcode-block" id="variance_partition"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.stats_functions.variance_partition">[docs]</a><span class="k">def</span> <span class="nf">variance_partition</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Describe the independent and shared explanatory</span>
+<span class="sd">    variance of two (possibly correlated) variables on </span>
+<span class="sd">    the dependent variable (y)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="kn">from</span> <span class="nn">statsmodels.formula.api</span> <span class="k">import</span> <span class="n">ols</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">pearsonr</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+    
+    <span class="c1"># Set up the data frame</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span> <span class="p">{</span> <span class="s1">&#39;Y&#39;</span> <span class="p">:</span> <span class="n">y</span> <span class="p">,</span>
+                         <span class="s1">&#39;X1&#39;</span> <span class="p">:</span> <span class="n">x1</span><span class="p">,</span>
+                         <span class="s1">&#39;X2&#39;</span> <span class="p">:</span> <span class="n">x2</span> <span class="p">}</span> <span class="p">)</span>
+                         
+    <span class="c1"># Get the overall r squared value for the </span>
+    <span class="c1"># multiple regression</span>
+    <span class="n">Rsq</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="s1">&#39;Y ~ X1 + X2&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">rsquared</span>
+    
+    <span class="c1"># Next calculate the residuals of X1 after correlating</span>
+    <span class="c1"># with X2 (so units will be in those of X1) and vice versa</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;res_X1givenX2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">residuals</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;X2&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;X1&#39;</span><span class="p">])</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;res_X2givenX1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">residuals</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;X1&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;X2&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Now calculate the pearson regressions for</span>
+    <span class="c1"># the residuals against the dependent variable to give</span>
+    <span class="c1"># the fraction of variance that each explains independently</span>
+    <span class="c1"># (a and c), along with the fraction of variance </span>
+    <span class="c1"># that is shared across both explanatory variables (b).</span>
+    <span class="c1"># d is the fraction of variance that is not explained</span>
+    <span class="c1"># by the model.</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">pearsonr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;res_X1givenX2&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">pearsonr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;res_X2givenX1&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>    
+    <span class="n">b</span> <span class="o">=</span> <span class="n">Rsq</span> <span class="o">-</span> <span class="n">a</span> <span class="o">-</span> <span class="n">c</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">Rsq</span>
+    
+    <span class="c1"># Return these four fractions</span>
+    <span class="k">return</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span></div>
+    
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Dr Kirstie Whitaker, Isla Staden.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
