@@ -6,5 +6,4 @@ scipy
 networkx
 seaborn
 nibabel
-surfer
 forceatlas2
