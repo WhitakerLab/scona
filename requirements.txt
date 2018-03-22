@@ -7,3 +7,4 @@ networkx
 seaborn
 nibabel
 forceatlas2
+pillow
