@@ -43,7 +43,7 @@ def graph_at_cost(M, cost):
     # If dataframe, convert to array
     if isinstance(M, pd.DataFrame):
         array = M.values
-    elif isinstance(M, np.array)
+    elif isinstance(M, np.array):
         array = M
     else:
         raise TypeError("expecting numpy array or pandas dataframe as input")
