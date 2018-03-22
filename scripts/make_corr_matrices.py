@@ -9,6 +9,12 @@ import numpy as np
 import pandas as pd
 import stats_functions
 
+def get_non_numeric_cols(df):
+    numeric = np.fromiter((np.issubdtype(y, np.number) for y in df.dtypes),bool)
+    non_numeric_cols = np.array(df.columns)[~numeric]
+    return non_numeric_cols
+
+
 def create_residuals_df(df, names, covars_list):
     '''
     Return residuals of names columns correcting for the columns in covars_list
@@ -16,12 +22,17 @@ def create_residuals_df(df, names, covars_list):
     * names is a list of the brain regions you wish to correlate.
     * covars_list is a list of covariates (as df column headings) that 
       you choose to correct for before correlating the regions.
+    df should be numeric for the columns in names and covars_list
     '''
+    # Raise TypeError if any of the relevant columns are nonnumeric
+    non_numeric_cols = get_non_numeric_cols(df[names+covars_list])
+    if non_numeric_cols:
+        raise TypeError('DataFrame columns {} are non numeric'.format(', '.join(non_numeric_cols)))
 
     # Make a new data frame that will contain
     # the residuals for each column after correcting for
     # the covariates in covars
-    df_res = df.copy()
+    df_res = df[names+covars_list].copy()
 
     # Create your covariates array
     if len(covars_list) > 1:
@@ -46,7 +57,12 @@ def create_corrmat(df_residuals, names, method='pearson'):
     * names is a list of the brain regions you wish to correlate.
     * method is the method of correlation fed to pandas.DataFram.corr
     '''
-    return df_residuals.loc[:, names].corr(method=method)
+    # Raise TypeError if any of the relevant columns are nonnumeric
+    non_numeric_cols = get_non_numeric_cols(df_residuals)
+    if non_numeric_cols:
+        raise TypeError('DataFrame columns {} are non numeric'.format(', '.join(non_numeric_cols)))
+
+    return df_residuals.loc[:, names].astype(float).corr(method=method)
 
 def save_mat(M, M_text_name):
     '''
