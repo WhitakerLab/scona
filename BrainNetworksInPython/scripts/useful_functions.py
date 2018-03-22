@@ -116,23 +116,3 @@ def read_in_data(regional_measures_file, names_file, covars_file=None, names_308
         df.columns = [ col.rsplit('_thickness', 1)[0] for col in df.columns ]
 
     return df, names, covars_list
-
-
-def residuals(x, y):
-    '''
-    A useful little function that correlates
-    x and y together to give their residual
-    values. These can then be used to calculate
-    partial correlation values
-    '''
-    import numpy as np
-
-    if len(x.shape) == 1:
-        x = x[np.newaxis, :]
-    A = np.vstack([x, np.ones(x.shape[-1])]).T
-    B = np.linalg.lstsq(A, y)[0]
-    m = B[:-1]
-    c = B[-1]
-    pre = np.sum(m * x.T, axis=1) + c
-    res = y - pre
-    return res
