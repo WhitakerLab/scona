@@ -3,3 +3,9 @@ pandas
 python-louvain
 numpy
 scipy
+networkx
+seaborn
+PIL
+nibabel
+surfer
+forceatlas2
