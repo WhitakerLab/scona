@@ -4,6 +4,7 @@
 from __future__ import print_function
 import numpy as np
 import networkx as nx
+import pandas as pd
 
 def weighted_graph_from_matrix(M):
     '''
@@ -43,7 +44,7 @@ def graph_at_cost(M, cost):
     # If dataframe, convert to array
     if isinstance(M, pd.DataFrame):
         array = M.values
-    elif isinstance(M, np.array):
+    elif isinstance(M, np.ndarray):
         array = M
     else:
         raise TypeError("expecting numpy array or pandas dataframe as input")
