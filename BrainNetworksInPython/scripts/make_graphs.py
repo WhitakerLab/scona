@@ -126,7 +126,7 @@ def calculate_global_measures(G, R_list=None, n_rand=10, nodal_partition=None, R
     # graphs as it is expecting then calculate a random
     # graph here
     if R_list is None:
-        R_list, R_nodal_partition_list = make_random_list(n_rand)
+        R_list, R_nodal_partition_list = make_random_list(G, n_rand)
     else:
         n = len(R_list)
 
@@ -201,7 +201,7 @@ def calculate_nodal_measures(G, centroids, aparc_names, nodal_partition=None, na
         * 34_name (Desikan Killiany atlas region)
         * 68_name (Desikan Killiany atlas region with hemisphere)
     '''
-    
+
     import numpy as np
     import networkx as nx
 
@@ -507,7 +507,7 @@ def assign_nodal_distance(G, centroids):
 def shortest_path(G):
     import networkx as nx
     import numpy as np
-    
+
 
     shortestpl_dict_dict = dict(nx.shortest_path_length(G))
 
