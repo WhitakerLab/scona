@@ -22,7 +22,7 @@ def recreate_correlation_matrix_fixture(folder):
     ##### generate a correlation matrix in the given folder using #####
     ##### the data in example_data                                ##### 
     corrmat_path = os.getcwd()+folder+'/corrmat_file.txt'
-    from corrmat_from_regionalmeasures import corrmat_from_regionalmeasures
+    from BrainNetworksInPython.corrmat_from_regionalmeasures import corrmat_from_regionalmeasures
     corrmat_from_regionalmeasures(
         "example_data/PARC_500aparc_thickness_behavmerge.csv",
         "example_data/500.names.txt", 
@@ -38,7 +38,7 @@ def recreate_network_analysis_fixture(folder, corrmat_path):
     # calculate global measures
     import random
     random.seed(2984)
-    from network_analysis_from_corrmat import network_analysis_from_corrmat
+    from BrainNetworksInPython.network_analysis_from_corrmat import network_analysis_from_corrmat
     network_analysis_from_corrmat(corrmat_path,
                               "example_data/500.names.txt",
                               "example_data/500.centroids.txt",

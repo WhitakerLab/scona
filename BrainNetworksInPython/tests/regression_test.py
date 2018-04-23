@@ -8,7 +8,7 @@ class FixturesTest(unittest.TestCase):
     def setUpClass(cls):
         print('\nin set up - this takes about 80 secs')
 
-        from tests.write_fixtures import generate_fixture_hashes, unpickle_hash
+        from BrainNetworksInPython.tests.write_fixtures import generate_fixture_hashes, unpickle_hash
         cls.hash_dict_new = generate_fixture_hashes()
         cls.hash_dict_original = unpickle_hash()
         # define dictionary keys for individual files for checking

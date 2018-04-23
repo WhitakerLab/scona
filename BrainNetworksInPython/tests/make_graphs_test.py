@@ -8,5 +8,5 @@ import pytest
 import pandas as pd
 import numpy as np
 
-import make_graphs as mkg
+import BrainNetworksInPython.make_graphs as mkg
 

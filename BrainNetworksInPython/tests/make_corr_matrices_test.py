@@ -4,8 +4,8 @@ sys.path.append(os.path.abspath(os.path.join('wrappers')))
 sys.path.append(os.path.abspath(os.path.join('example_data')))
 sys.path.append(os.path.abspath(os.path.join('scripts')))
 
-import make_corr_matrices as mcm
-import stats_functions as sf
+import BrainNetworksInPython.make_corr_matrices as mcm
+import BrainNetworksInPython.stats_functions as sf
 import pytest
 import pandas as pd
 import numpy as np
