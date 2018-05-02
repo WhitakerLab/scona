@@ -1,5 +1,6 @@
 import unittest
 import os
+import sys
 
 class FixturesTest(unittest.TestCase):
 
@@ -8,7 +9,7 @@ class FixturesTest(unittest.TestCase):
     def setUpClass(cls):
         print('\nin set up - this takes about 80 secs')
 
-        from BrainNetworksInPython.tests.write_fixtures import generate_fixture_hashes, unpickle_hash
+        from tests.write_fixtures import generate_fixture_hashes, unpickle_hash
         cls.hash_dict_new = generate_fixture_hashes()
         cls.hash_dict_original = unpickle_hash()
         # define dictionary keys for individual files for checking
@@ -17,7 +18,6 @@ class FixturesTest(unittest.TestCase):
         cls.gm = folder + '/network-analysis/GlobalMeasures_corrmat_file_COST010.csv'
         cls.lm = folder + '/network-analysis/NodalMeasures_corrmat_file_COST010.csv'
         cls.rich = folder + '/network-analysis/RICH_CLUB_corrmat_file_COST010.csv'
-        import 
         
     #--------------------------- Tests --------------------------------
     # Each of these tests checks that ourly newly generated version of

@@ -1,11 +1,7 @@
 import os
 import sys
-sys.path.append(os.path.abspath(os.path.join('wrappers')))
-sys.path.append(os.path.abspath(os.path.join('example_data')))
-sys.path.append(os.path.abspath(os.path.join('scripts')))
-
-import BrainNetworksInPython.make_corr_matrices as mcm
-import BrainNetworksInPython.stats_functions as sf
+from BrainNetworksInPython.scripts import stats_functions as sf
+from BrainNetworksInPython.scripts import make_corr_matrices as mcm
 import pytest
 import pandas as pd
 import numpy as np

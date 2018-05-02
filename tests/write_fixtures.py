@@ -1,11 +1,9 @@
 #--------------------------- Write fixtures ---------------------------
 # To regression test our wrappers we need examples. This script 
-# generates files. We save these files once, and regression-tests.py
+# generates files. We save these files once, and regression_test.py
 # re-generates these files to tests them for identicality with the
 # presaved examples (fixtures). If they are found not to be identical 
 # it throws up an error. 
-#
-# (*someday* I would like to replace saving files with saving hashes)
 #
 # The point of this is to check that throughout the changes we make to 
 # BrainNetworksInPython the functionality of this script stays the same
@@ -23,7 +21,7 @@ def recreate_correlation_matrix_fixture(folder):
     ##### the Whitaker_Vertes dataset                             ##### 
     import BrainNetworksInPython.datasets.NSPN_WhitakerVertes_PNAS2016.data as data
     centroids, regionalmeasures, names, covars, names_308_style = data._get_data()
-    from BrainNetworksInPython.corrmat_from_regionalmeasures import corrmat_from_regionalmeasures
+    from BrainNetworksInPython.wrappers.corrmat_from_regionalmeasures import corrmat_from_regionalmeasures
     corrmat_path = os.getcwd()+folder+'/corrmat_file.txt'
     corrmat_from_regionalmeasures(
         regionalmeasures,
@@ -42,7 +40,7 @@ def recreate_network_analysis_fixture(folder, corrmat_path):
     # calculate global measures
     import random
     random.seed(2984)
-    from BrainNetworksInPython.network_analysis_from_corrmat import network_analysis_from_corrmat
+    from BrainNetworksInPython.wrappers.network_analysis_from_corrmat import network_analysis_from_corrmat
     network_analysis_from_corrmat(corrmat_path,
                               names,
                               centroids,

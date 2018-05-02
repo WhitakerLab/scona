@@ -2,14 +2,10 @@
 """
 Tools to create a correlation matrix from regional measures
 """
-# A Global import to make code python 2 and 3 compatible
-from __future__ import print_function
-
-# Other essential package imports
+# Essential package imports
 import os
 import numpy as np
 import pandas as pd
-import stats_functions
 
 def get_non_numeric_cols(df):
     numeric = np.fromiter((np.issubdtype(y, np.number) for y in df.dtypes),bool)
@@ -26,6 +22,8 @@ def create_residuals_df(df, names, covars_list):
       you choose to correct for before correlating the regions.
     df should be numeric for the columns in names and covars_list
     '''
+    import BrainNetworksInPython.scripts.stats_functions as sf
+    
     # Raise TypeError if any of the relevant columns are nonnumeric
     non_numeric_cols = get_non_numeric_cols(df[names+covars_list])
     if non_numeric_cols:
@@ -46,7 +44,7 @@ def create_residuals_df(df, names, covars_list):
 
     # Calculate the residuals
     for name in names:
-        df_res.loc[:, name] = stats_functions.residuals(x.T, df.loc[:, name])
+        df_res.loc[:, name] = sf.residuals(x.T, df.loc[:, name])
 
     # Return the residuals data frame
     return df_res
