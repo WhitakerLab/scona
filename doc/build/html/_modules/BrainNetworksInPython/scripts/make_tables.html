@@ -1,0 +1,554 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>BrainNetworksInPython.scripts.make_tables &#8212; BrainNetworksInPython 0.1dev documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for BrainNetworksInPython.scripts.make_tables</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;    </span>
+<span class="sd">#==================</span>
+<span class="sd">Code to make tables for the NSPN Cortical Myelination paper</span>
+
+<span class="sd">Created July 2015 by Kirstie Whitaker</span>
+<span class="sd">Contact: kw401@cam.ac.uk or www.github.com/KirstieJane</span>
+<span class="sd">#==================</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">itertools</span> <span class="k">as</span> <span class="nn">it</span>
+
+<span class="c1">#==============================================================================</span>
+<span class="c1"># FUNCTIONS</span>
+<span class="c1">#==============================================================================</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Define your formatter functions</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="s"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.make_tables.s">[docs]</a><span class="k">def</span> <span class="nf">s</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Simply return as a string</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="i"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.make_tables.i">[docs]</a><span class="k">def</span> <span class="nf">i</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return as string no decimal places</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">x</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="f_dp2_exp_0"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.make_tables.f_dp2_exp_0">[docs]</a><span class="k">def</span> <span class="nf">f_dp2_exp_0</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return as string wiht 2 decimal places</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="f_dp1_exp_0"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.make_tables.f_dp1_exp_0">[docs]</a><span class="k">def</span> <span class="nf">f_dp1_exp_0</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return as string wiht 1 decimal place</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{:.1f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="f_p"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.make_tables.f_p">[docs]</a><span class="k">def</span> <span class="nf">f_p</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return as string with 3 decimal places</span>
+<span class="sd">    and no leading 0 unless smaller than</span>
+<span class="sd">    0.001 then return &lt;.001</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mf">0.001</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">textless.001&#39;</span>
+    <span class="k">return</span> <span class="n">p</span></div>
+    
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Define your latex header and footer functions</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="create_header_footer"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.make_tables.create_header_footer">[docs]</a><span class="k">def</span> <span class="nf">create_header_footer</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return text that needs to go at the beginning and end of the latex file</span>
+<span class="sd">    (the table string will go in between)</span>
+<span class="sd">    This header and footer should be the same for every table</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">latex_header</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">documentclass</span><span class="si">{article}</span><span class="s1">&#39;</span><span class="p">,</span> 
+                            <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">usepackage</span><span class="si">{booktabs}</span><span class="s1">&#39;</span><span class="p">,</span> 
+                            <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">usepackage[a4paper, left=</span><span class="si">{1cm}</span><span class="s1">, right=</span><span class="si">{1cm}</span><span class="s1">, top=</span><span class="si">{1.5cm}</span><span class="s1">, bottom=</span><span class="si">{1cm}</span><span class="s1">, landscape]</span><span class="si">{geometry}</span><span class="s1">&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">usepackage</span><span class="si">{longtable}</span><span class="s1">&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">usepackage</span><span class="si">{array}</span><span class="s1">&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">begin</span><span class="si">{document}</span><span class="s1">&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">newcolumntype</span><span class="si">{C}</span><span class="s1">[1]{&gt;{</span><span class="se">\\</span><span class="s1">centering\let</span><span class="se">\\</span><span class="s1">newline</span><span class="se">\\\\\\</span><span class="s1">arraybackslash\hspace</span><span class="si">{0pt}</span><span class="s1">}b{#1}}&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">newcolumntype</span><span class="si">{R}</span><span class="s1">[1]{&gt;{</span><span class="se">\\</span><span class="s1">raggedleft</span><span class="se">\\</span><span class="s1">arraybackslash\let</span><span class="se">\\</span><span class="s1">newline</span><span class="se">\\\\\\</span><span class="s1">arraybackslash\hspace</span><span class="si">{0pt}</span><span class="s1">}b{#1}}&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">newcolumntype</span><span class="si">{L}</span><span class="s1">[1]{&gt;{</span><span class="se">\\</span><span class="s1">raggedright</span><span class="se">\\</span><span class="s1">arraybackslash\let</span><span class="se">\\</span><span class="s1">newline</span><span class="se">\\\\\\</span><span class="s1">arraybackslash\hspace</span><span class="si">{0pt}</span><span class="s1">}b{#1}}&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;&#39;</span> <span class="p">])</span>
+
+    <span class="n">latex_footer</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n\\</span><span class="s1">end</span><span class="si">{document}</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+    <span class="k">return</span> <span class="n">latex_header</span><span class="p">,</span> <span class="n">latex_footer</span></div>
+    
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Set all the parameters for each measure</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="get_dicts"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.make_tables.get_dicts">[docs]</a><span class="k">def</span> <span class="nf">get_dicts</span><span class="p">(</span><span class="n">measure_dict</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">308</span><span class="p">,</span> <span class="n">covars_name</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="s1">&#39;CT_ALL_COVARS_ONES_COST_10&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Create a dict of dicts that contains all the parameters you want to set</span>
+<span class="sd">    by hand. N represents the number of regions you want to access. It can be</span>
+<span class="sd">    either 308 (all), 68 (collapsing within region), or 34 (collapsing within</span>
+<span class="sd">    region and across hemisphere).</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="c1"># Define the covars dict and the graph_dict</span>
+    <span class="n">covars_dict</span> <span class="o">=</span> <span class="n">measure_dict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)][</span><span class="s1">&#39;COVARS_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">covars_name</span><span class="p">)]</span>
+    <span class="n">graph_dict</span> <span class="o">=</span> <span class="n">measure_dict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)][</span><span class="s1">&#39;Graph_measures&#39;</span><span class="p">]</span>
+    
+    <span class="c1"># Set up empty dictionaries that we&#39;re going to fill</span>
+    <span class="n">table_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">format_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">align_title_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">align_col_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">top_title_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">bottom_title_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">multi_column_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># LOBE NAME</span>
+    <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;Lobe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">measure_dict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)][</span><span class="s1">&#39;lobes&#39;</span><span class="p">]</span>
+    <span class="n">format_dict</span><span class="p">[</span><span class="s1">&#39;Lobe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span>
+    <span class="n">align_title_dict</span><span class="p">[</span><span class="s1">&#39;Lobe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span>
+    <span class="n">align_col_dict</span><span class="p">[</span><span class="s1">&#39;Lobe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;l&#39;</span>
+    <span class="n">top_title_dict</span><span class="p">[</span><span class="s1">&#39;Lobe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Lobe&#39;</span>
+    <span class="n">bottom_title_dict</span><span class="p">[</span><span class="s1">&#39;Lobe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">multi_column_dict</span><span class="p">[</span><span class="s1">&#39;Lobe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># REGION NAME</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">34</span><span class="p">:</span>
+        <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;Region&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">measure_dict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)][</span><span class="s1">&#39;aparc_names&#39;</span><span class="p">]</span> <span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;Region&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">measure_dict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)][</span><span class="s1">&#39;aparc_names&#39;</span><span class="p">]</span>
+    <span class="n">format_dict</span><span class="p">[</span><span class="s1">&#39;Region&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span>
+    <span class="n">align_title_dict</span><span class="p">[</span><span class="s1">&#39;Region&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span>
+    <span class="n">align_col_dict</span><span class="p">[</span><span class="s1">&#39;Region&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;l&#39;</span>
+    <span class="n">top_title_dict</span><span class="p">[</span><span class="s1">&#39;Region&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Region&#39;</span>
+    <span class="n">bottom_title_dict</span><span class="p">[</span><span class="s1">&#39;Region&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">multi_column_dict</span><span class="p">[</span><span class="s1">&#39;Region&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># HEMISPHERE</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">34</span><span class="p">:</span>
+        <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;Hemi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">measure_dict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)][</span><span class="s1">&#39;hemi&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;Hemi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;na&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+    <span class="n">format_dict</span><span class="p">[</span><span class="s1">&#39;Hemi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span>
+    <span class="n">align_title_dict</span><span class="p">[</span><span class="s1">&#39;Hemi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span>
+    <span class="n">align_col_dict</span><span class="p">[</span><span class="s1">&#39;Hemi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span>
+    <span class="n">top_title_dict</span><span class="p">[</span><span class="s1">&#39;Hemi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Hemi&#39;</span>
+    <span class="n">bottom_title_dict</span><span class="p">[</span><span class="s1">&#39;Hemi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">multi_column_dict</span><span class="p">[</span><span class="s1">&#39;Hemi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># SubRegion name</span>
+    <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;SubRegion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;part&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">measure_dict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)][</span><span class="s1">&#39;aparc_names&#39;</span><span class="p">]</span> <span class="p">]</span>
+    <span class="n">format_dict</span><span class="p">[</span><span class="s1">&#39;SubRegion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="n">align_title_dict</span><span class="p">[</span><span class="s1">&#39;SubRegion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;C</span><span class="si">{1.3cm}</span><span class="s1">&#39;</span>
+    <span class="n">align_col_dict</span><span class="p">[</span><span class="s1">&#39;SubRegion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;R</span><span class="si">{1.3cm}</span><span class="s1">&#39;</span>
+    <span class="n">top_title_dict</span><span class="p">[</span><span class="s1">&#39;SubRegion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Sub Region&#39;</span>
+    <span class="n">bottom_title_dict</span><span class="p">[</span><span class="s1">&#39;SubRegion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">multi_column_dict</span><span class="p">[</span><span class="s1">&#39;SubRegion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># Number of sub regions</span>
+    <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;N_SubRegions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">measure_dict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)][</span><span class="s1">&#39;N_SubRegions&#39;</span><span class="p">]</span>
+    <span class="n">format_dict</span><span class="p">[</span><span class="s1">&#39;N_SubRegions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="n">align_title_dict</span><span class="p">[</span><span class="s1">&#39;N_SubRegions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;C</span><span class="si">{1.5cm}</span><span class="s1">&#39;</span>
+    <span class="n">align_col_dict</span><span class="p">[</span><span class="s1">&#39;N_SubRegions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;R</span><span class="si">{1.5cm}</span><span class="s1">&#39;</span>
+    <span class="n">top_title_dict</span><span class="p">[</span><span class="s1">&#39;N_SubRegions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;N Sub Regions&#39;</span>
+    <span class="n">bottom_title_dict</span><span class="p">[</span><span class="s1">&#39;N_SubRegions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">multi_column_dict</span><span class="p">[</span><span class="s1">&#39;N_SubRegions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># CT at 14</span>
+    <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age_at14&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">covars_dict</span><span class="p">[</span><span class="s1">&#39;CT_regional_corr_age_c14&#39;</span><span class="p">]</span>
+    <span class="n">format_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age_at14&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_dp2_exp_0</span>
+    <span class="n">align_title_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age_at14&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;C</span><span class="si">{1cm}</span><span class="s1">&#39;</span>
+    <span class="n">align_col_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age_at14&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;R</span><span class="si">{1cm}</span><span class="s1">&#39;</span>
+    <span class="n">top_title_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age_at14&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;CT at 14&#39;</span>
+    <span class="n">bottom_title_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age_at14&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;(mm)&#39;</span>
+    <span class="n">multi_column_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age_at14&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># dCT (beta)</span>
+    <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">covars_dict</span><span class="p">[</span><span class="s1">&#39;CT_regional_corr_age_m&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="n">format_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_dp2_exp_0</span>
+    <span class="n">align_title_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;C</span><span class="si">{1.3cm}</span><span class="s1">&#39;</span>
+    <span class="n">align_col_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;R</span><span class="si">{1.3cm}</span><span class="s1">&#39;</span>
+    <span class="n">top_title_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">Delta$CT with age&#39;</span>
+    <span class="n">bottom_title_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;(mm/year) $</span><span class="se">\\</span><span class="s1">times10^{-3}$&#39;</span>
+    <span class="n">multi_column_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="c1"># dCT (p)</span>
+    <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age_p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">covars_dict</span><span class="p">[</span><span class="s1">&#39;CT_regional_corr_age_p&#39;</span><span class="p">]</span>
+    <span class="n">format_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age_p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_p</span>
+    <span class="n">align_title_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age_p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;C</span><span class="si">{1cm}</span><span class="s1">&#39;</span>
+    <span class="n">align_col_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age_p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;R</span><span class="si">{1cm}</span><span class="s1">&#39;</span>
+    <span class="n">top_title_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age_p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">bottom_title_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age_p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;P&#39;</span>
+    <span class="n">multi_column_dict</span><span class="p">[</span><span class="s1">&#39;CT_all_slope_age_p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># MT at 14</span>
+    <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age_at14&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">covars_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_regional_corr_age_c14&#39;</span><span class="p">]</span>
+    <span class="n">format_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age_at14&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_dp2_exp_0</span>
+    <span class="n">align_title_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age_at14&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;C</span><span class="si">{1cm}</span><span class="s1">&#39;</span>
+    <span class="n">align_col_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age_at14&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;R</span><span class="si">{1cm}</span><span class="s1">&#39;</span>
+    <span class="n">top_title_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age_at14&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;MT at 14&#39;</span>
+    <span class="n">bottom_title_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age_at14&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;(PU)&#39;</span>
+    <span class="n">multi_column_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age_at14&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># dMT (beta)</span>
+    <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">covars_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_regional_corr_age_m&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="n">format_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_dp2_exp_0</span>
+    <span class="n">align_title_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;C</span><span class="si">{1.3cm}</span><span class="s1">&#39;</span>
+    <span class="n">align_col_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;R</span><span class="si">{1.3cm}</span><span class="s1">&#39;</span>
+    <span class="n">top_title_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">Delta$MT with age&#39;</span>
+    <span class="n">bottom_title_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;(PU/year) $</span><span class="se">\\</span><span class="s1">times10^{-3}$&#39;</span>
+    <span class="n">multi_column_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="c1"># dMT (p)</span>
+    <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age_p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">covars_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_regional_corr_age_p&#39;</span><span class="p">]</span>
+    <span class="n">format_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age_p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_p</span>
+    <span class="n">align_title_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age_p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;C</span><span class="si">{1cm}</span><span class="s1">&#39;</span>
+    <span class="n">align_col_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age_p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;R</span><span class="si">{1cm}</span><span class="s1">&#39;</span>
+    <span class="n">top_title_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age_p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">bottom_title_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age_p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;P&#39;</span>
+    <span class="n">multi_column_dict</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age_p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">308</span><span class="p">:</span>
+        <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;PLS2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">covars_dict</span><span class="p">[</span><span class="s1">&#39;PLS2_with99s&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;PLS2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">covars_dict</span><span class="p">[</span><span class="s1">&#39;PLS2&#39;</span><span class="p">]</span>
+    <span class="n">format_dict</span><span class="p">[</span><span class="s1">&#39;PLS2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_dp2_exp_0</span>
+    <span class="n">align_title_dict</span><span class="p">[</span><span class="s1">&#39;PLS2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;C</span><span class="si">{1.8cm}</span><span class="s1">&#39;</span>
+    <span class="n">align_col_dict</span><span class="p">[</span><span class="s1">&#39;PLS2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;R</span><span class="si">{1.8cm}</span><span class="s1">&#39;</span>
+    <span class="n">top_title_dict</span><span class="p">[</span><span class="s1">&#39;PLS2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;PLS2&#39;</span>
+    <span class="n">bottom_title_dict</span><span class="p">[</span><span class="s1">&#39;PLS2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">multi_column_dict</span><span class="p">[</span><span class="s1">&#39;PLS2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># Degree</span>
+    <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;Degree&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph_dict</span><span class="p">[</span><span class="s1">&#39;Degree_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">graph</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">308</span><span class="p">:</span>
+        <span class="n">format_dict</span><span class="p">[</span><span class="s1">&#39;Degree&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">format_dict</span><span class="p">[</span><span class="s1">&#39;Degree&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_dp1_exp_0</span>
+    <span class="n">align_title_dict</span><span class="p">[</span><span class="s1">&#39;Degree&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;C</span><span class="si">{1.3cm}</span><span class="s1">&#39;</span>
+    <span class="n">align_col_dict</span><span class="p">[</span><span class="s1">&#39;Degree&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;R</span><span class="si">{1.3cm}</span><span class="s1">&#39;</span>
+    <span class="n">top_title_dict</span><span class="p">[</span><span class="s1">&#39;Degree&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Degree&#39;</span>
+    <span class="n">bottom_title_dict</span><span class="p">[</span><span class="s1">&#39;Degree&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">multi_column_dict</span><span class="p">[</span><span class="s1">&#39;Degree&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    
+    <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;Closeness&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph_dict</span><span class="p">[</span><span class="s1">&#39;Closeness_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">graph</span><span class="p">)]</span>
+    <span class="n">format_dict</span><span class="p">[</span><span class="s1">&#39;Closeness&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_dp2_exp_0</span>
+    <span class="n">align_title_dict</span><span class="p">[</span><span class="s1">&#39;Closeness&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;C</span><span class="si">{1.8cm}</span><span class="s1">&#39;</span>
+    <span class="n">align_col_dict</span><span class="p">[</span><span class="s1">&#39;Closeness&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;R</span><span class="si">{1.8cm}</span><span class="s1">&#39;</span>
+    <span class="n">top_title_dict</span><span class="p">[</span><span class="s1">&#39;Closeness&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Closeness&#39;</span>
+    <span class="n">bottom_title_dict</span><span class="p">[</span><span class="s1">&#39;Closeness&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">multi_column_dict</span><span class="p">[</span><span class="s1">&#39;Closeness&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    
+    <span class="n">table_dict</span><span class="p">[</span><span class="s1">&#39;AverageDist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph_dict</span><span class="p">[</span><span class="s1">&#39;AverageDist_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">graph</span><span class="p">)]</span>
+    <span class="n">format_dict</span><span class="p">[</span><span class="s1">&#39;AverageDist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_dp2_exp_0</span>
+    <span class="n">align_title_dict</span><span class="p">[</span><span class="s1">&#39;AverageDist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;C</span><span class="si">{1.8cm}</span><span class="s1">&#39;</span>
+    <span class="n">align_col_dict</span><span class="p">[</span><span class="s1">&#39;AverageDist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;R</span><span class="si">{1.8cm}</span><span class="s1">&#39;</span>
+    <span class="n">top_title_dict</span><span class="p">[</span><span class="s1">&#39;AverageDist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Average Distance&#39;</span>    
+    <span class="n">bottom_title_dict</span><span class="p">[</span><span class="s1">&#39;AverageDist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;(mm)&#39;</span>
+    <span class="n">multi_column_dict</span><span class="p">[</span><span class="s1">&#39;AverageDist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    
+    <span class="n">col_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Lobe&#39;</span><span class="p">,</span> <span class="s1">&#39;Region&#39;</span><span class="p">,</span> 
+                <span class="s1">&#39;Hemi&#39;</span><span class="p">,</span> <span class="s1">&#39;SubRegion&#39;</span><span class="p">,</span> 
+                <span class="s1">&#39;CT_all_slope_age_at14&#39;</span><span class="p">,</span> <span class="s1">&#39;CT_all_slope_age&#39;</span><span class="p">,</span> <span class="s1">&#39;CT_all_slope_age_p&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;MT_projfrac+030_all_slope_age_at14&#39;</span><span class="p">,</span> <span class="s1">&#39;MT_projfrac+030_all_slope_age&#39;</span><span class="p">,</span> <span class="s1">&#39;MT_projfrac+030_all_slope_age_p&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;PLS2&#39;</span><span class="p">,</span> <span class="s1">&#39;Degree&#39;</span><span class="p">,</span> <span class="s1">&#39;Closeness&#39;</span> <span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">n</span><span class="o">==</span><span class="mi">34</span><span class="p">:</span>
+        <span class="n">col_list</span> <span class="o">=</span> <span class="n">col_list</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;N_SubRegions&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">col_list</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+    <span class="k">elif</span> <span class="n">n</span><span class="o">==</span><span class="mi">68</span><span class="p">:</span>
+        <span class="n">col_list</span> <span class="o">=</span> <span class="n">col_list</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;N_SubRegions&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">col_list</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+        
+    <span class="c1"># Put all these dicts into a dict of dicts</span>
+    <span class="n">table_dict_dict</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;table_dict&#39;</span> <span class="p">:</span> <span class="n">table_dict</span><span class="p">,</span>
+                        <span class="s1">&#39;format_dict&#39;</span> <span class="p">:</span> <span class="n">format_dict</span><span class="p">,</span>
+                        <span class="s1">&#39;align_title_dict&#39;</span> <span class="p">:</span> <span class="n">align_title_dict</span><span class="p">,</span>
+                        <span class="s1">&#39;align_col_dict&#39;</span> <span class="p">:</span> <span class="n">align_col_dict</span><span class="p">,</span>
+                        <span class="s1">&#39;top_title_dict&#39;</span> <span class="p">:</span> <span class="n">top_title_dict</span><span class="p">,</span>
+                        <span class="s1">&#39;bottom_title_dict&#39;</span> <span class="p">:</span> <span class="n">bottom_title_dict</span><span class="p">,</span>
+                        <span class="s1">&#39;multi_column_dict&#39;</span> <span class="p">:</span> <span class="n">multi_column_dict</span><span class="p">,</span>
+                        <span class="s1">&#39;col_list&#39;</span> <span class="p">:</span> <span class="n">col_list</span> <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">table_dict_dict</span></div>
+    
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Put the table dictionary into a pandas data frame</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="dict_to_df"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.make_tables.dict_to_df">[docs]</a><span class="k">def</span> <span class="nf">dict_to_df</span><span class="p">(</span><span class="n">table_dict</span><span class="p">,</span> <span class="n">sort_col</span><span class="o">=</span><span class="s1">&#39;MT_projfrac+030_all_slope_age&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Put the table_dict into a data frame and sort by col</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">table_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">table_dict</span><span class="p">)</span>
+
+    <span class="n">table_df</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">sort_col</span><span class="p">,</span> 
+                    <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">ascending</span><span class="o">=</span><span class="n">ascending</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">table_df</span></div>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># We&#39;re going to summarize this in two different ways</span>
+<span class="c1"># Collapsing by region (308 --&gt; 68)</span>
+<span class="c1"># Collapsing by region and hemisphere (308 --&gt;34)</span>
+<span class="c1">#============ PROBABLY NEEDS TO BE DELETED!! ===========</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="get_df_34"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.make_tables.get_df_34">[docs]</a><span class="k">def</span> <span class="nf">get_df_34</span><span class="p">(</span><span class="n">table_df</span><span class="p">):</span>
+    <span class="n">table_df_34</span> <span class="o">=</span> <span class="n">table_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Region&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">table_df_34</span><span class="p">[</span><span class="s1">&#39;N_SubRegions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Region&#39;</span><span class="p">)[</span><span class="s1">&#39;SubRegion&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">table_df_34</span><span class="p">[</span><span class="s1">&#39;Lobe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Region&#39;</span><span class="p">)[</span><span class="s1">&#39;Lobe&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="n">table_df_34</span><span class="p">[</span><span class="s1">&#39;Region&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Region&#39;</span><span class="p">)[</span><span class="s1">&#39;Region&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="n">table_df_34</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age&#39;</span><span class="p">],</span> 
+                    <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">table_df_34</span></div>
+    
+<div class="viewcode-block" id="get_df_68"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.make_tables.get_df_68">[docs]</a><span class="k">def</span> <span class="nf">get_df_68</span><span class="p">(</span><span class="n">table_df</span><span class="p">):</span>
+    <span class="n">table_df_68</span> <span class="o">=</span> <span class="n">table_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Region&#39;</span><span class="p">,</span> <span class="s1">&#39;Hemi&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">table_df_68</span><span class="p">[</span><span class="s1">&#39;N_SubRegions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Region&#39;</span><span class="p">,</span> <span class="s1">&#39;Hemi&#39;</span><span class="p">])[</span><span class="s1">&#39;SubRegion&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">table_df_68</span><span class="p">[</span><span class="s1">&#39;Lobe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Region&#39;</span><span class="p">,</span> <span class="s1">&#39;Hemi&#39;</span><span class="p">])[</span><span class="s1">&#39;Lobe&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="n">table_df_68</span><span class="p">[</span><span class="s1">&#39;Region&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Region&#39;</span><span class="p">,</span> <span class="s1">&#39;Hemi&#39;</span><span class="p">])[</span><span class="s1">&#39;Region&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="n">table_df_68</span><span class="p">[</span><span class="s1">&#39;Hemi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Region&#39;</span><span class="p">,</span> <span class="s1">&#39;Hemi&#39;</span><span class="p">])[</span><span class="s1">&#39;Hemi&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="n">table_df_68</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;MT_projfrac+030_all_slope_age&#39;</span><span class="p">],</span> 
+                    <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">table_df_68</span></div>
+    
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Define your latex adjust column spacings function</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="adjust_spacings"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.make_tables.adjust_spacings">[docs]</a><span class="k">def</span> <span class="nf">adjust_spacings</span><span class="p">(</span><span class="n">latex_table</span><span class="p">,</span> <span class="n">col_list</span><span class="p">,</span> <span class="n">align_col_dict</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Replace the spacings for the main columns that are output</span>
+<span class="sd">    on the top line of the latex table string with those in the align_col_dict</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">spacings_list</span> <span class="o">=</span> <span class="p">[</span> <span class="n">align_col_dict</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">col_list</span> <span class="p">]</span>
+    <span class="n">spacings_list</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">begin</span><span class="si">{longtable}</span><span class="s1">{&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">spacings_list</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;}&#39;</span><span class="p">])</span>
+    <span class="n">latex_table_list</span> <span class="o">=</span> <span class="n">latex_table</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">latex_table_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">spacings_list</span>          
+    <span class="n">latex_table</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">latex_table_list</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">latex_table</span></div>
+    
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Define your latex add in caption function</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="add_caption"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.make_tables.add_caption">[docs]</a><span class="k">def</span> <span class="nf">add_caption</span><span class="p">(</span><span class="n">latex_table</span><span class="p">,</span> <span class="n">caption</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Just add in a row on the second line down to include the caption (title)</span>
+<span class="sd">    for this table</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">latex_table_list</span> <span class="o">=</span> <span class="n">latex_table</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">latex_table_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">latex_table_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n\\</span><span class="s1">caption*{{</span><span class="si">{}</span><span class="s1">}} </span><span class="se">\\\\</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">caption</span><span class="p">)</span>         
+    <span class="n">latex_table</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">latex_table_list</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">latex_table</span></div>
+    
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Define your latex adjust header function</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="adjust_header"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.make_tables.adjust_header">[docs]</a><span class="k">def</span> <span class="nf">adjust_header</span><span class="p">(</span><span class="n">latex_table</span><span class="p">,</span> <span class="n">align_title_dict</span><span class="p">,</span> <span class="n">multi_column_dict</span><span class="p">,</span> <span class="n">top_title_dict</span><span class="p">,</span> <span class="n">bottom_title_dict</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Replace the standard header spacings to give two rows - the first being bold</span>
+<span class="sd">    and containing some multicolumns and the second being in regular text</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">latex_table_list</span> <span class="o">=</span> <span class="n">latex_table</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">titles_list</span><span class="p">,</span> <span class="n">lineend</span> <span class="o">=</span> <span class="p">[</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;&amp;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">latex_table_list</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="p">]</span>
+    <span class="n">top_titles_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">bottom_titles_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">title</span> <span class="ow">in</span> <span class="n">titles_list</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">multi_column_dict</span><span class="p">[</span><span class="n">title</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Add 1 cm to the width for each additional column:</span>
+            <span class="n">align_title_parts</span> <span class="o">=</span> <span class="n">align_title_dict</span><span class="p">[</span><span class="n">title</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;{&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">align_title_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">multi_column_dict</span><span class="p">[</span><span class="n">title</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">width</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">align_title_parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;cm}&#39;</span><span class="p">)</span> <span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">multi_column_dict</span><span class="p">[</span><span class="n">title</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">width_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">align_title_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;{&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">str</span><span class="p">(</span><span class="n">width</span><span class="p">),</span> <span class="s1">&#39;cm}&#39;</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">width_str</span> <span class="o">=</span> <span class="n">align_title_dict</span><span class="p">[</span><span class="n">title</span><span class="p">]</span>
+            <span class="n">top_titles_list</span> <span class="o">+=</span> <span class="p">[</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">multicolumn{{</span><span class="si">{}</span><span class="s1">}}{{</span><span class="si">{}</span><span class="s1">}}{{</span><span class="se">\\</span><span class="s1">textbf{{</span><span class="si">{}</span><span class="s1">}}}}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">multi_column_dict</span><span class="p">[</span><span class="n">title</span><span class="p">],</span> 
+                                                                                        <span class="n">width_str</span><span class="p">,</span> 
+                                                                                        <span class="n">top_title_dict</span><span class="p">[</span><span class="n">title</span><span class="p">]</span> <span class="p">)</span> <span class="p">]</span>
+                                                                                        
+        <span class="n">bottom_titles_list</span> <span class="o">+=</span> <span class="p">[</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">multicolumn{{1}}{{</span><span class="si">{}</span><span class="s1">}}{{</span><span class="si">{}</span><span class="s1">}}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">align_title_dict</span><span class="p">[</span><span class="n">title</span><span class="p">],</span> 
+                                                                            <span class="n">bottom_title_dict</span><span class="p">[</span><span class="n">title</span><span class="p">]</span> <span class="p">)</span> <span class="p">]</span>
+
+    <span class="n">top_titles_str</span> <span class="o">=</span> <span class="s1">&#39; &amp; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">top_titles_list</span><span class="p">)</span>
+    <span class="n">bottom_titles_str</span> <span class="o">=</span> <span class="s1">&#39; &amp; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bottom_titles_list</span><span class="p">)</span>
+    <span class="n">latex_table_list</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">top_titles_str</span><span class="p">,</span> <span class="n">lineend</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">bottom_titles_str</span><span class="p">,</span> <span class="n">lineend</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+
+    <span class="n">latex_table</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">latex_table_list</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">latex_table</span></div>
+    
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Save the data frame as a latex string</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="save_df_to_latex"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.make_tables.save_df_to_latex">[docs]</a><span class="k">def</span> <span class="nf">save_df_to_latex</span><span class="p">(</span><span class="n">latex_header</span><span class="p">,</span> <span class="n">latex_footer</span><span class="p">,</span> <span class="n">latex_table</span><span class="p">,</span> <span class="n">output_filename</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    As it says on the tin, save the data frame to the filename</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># Write the file to the table_filename</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">latex_header</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">latex_table</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">latex_footer</span><span class="p">)</span></div>
+    
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Write the overall wrapper function</span>
+<span class="c1">#------------------------------------------------------------------------------    </span>
+<div class="viewcode-block" id="create_latex_tables"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.make_tables.create_latex_tables">[docs]</a><span class="k">def</span> <span class="nf">create_latex_tables</span><span class="p">(</span><span class="n">measure_dict</span><span class="p">,</span> <span class="n">output_filename</span><span class="p">,</span> <span class="n">covars_name</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">308</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sort_col</span><span class="o">=</span><span class="s1">&#39;MT_projfrac+030_all_slope_age_m&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    The overall wrapper function</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># Get the measures</span>
+    <span class="n">table_dict_dict</span> <span class="o">=</span> <span class="n">get_dicts</span><span class="p">(</span><span class="n">measure_dict</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">covars_name</span><span class="o">=</span><span class="n">covars_name</span><span class="p">)</span>
+    
+    <span class="c1"># Create a data frame</span>
+    <span class="n">table_df</span> <span class="o">=</span> <span class="n">dict_to_df</span><span class="p">(</span><span class="n">table_dict_dict</span><span class="p">[</span><span class="s1">&#39;table_dict&#39;</span><span class="p">],</span> <span class="n">sort_col</span><span class="o">=</span><span class="n">sort_col</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="n">ascending</span><span class="p">)</span>
+        
+    <span class="c1"># Get the appropriate formatting functions</span>
+    <span class="n">formatters</span> <span class="o">=</span> <span class="p">[</span> <span class="n">table_dict_dict</span><span class="p">[</span><span class="s1">&#39;format_dict&#39;</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">table_dict_dict</span><span class="p">[</span><span class="s1">&#39;col_list&#39;</span><span class="p">]</span> <span class="p">]</span>
+
+    <span class="c1"># Create the latex_table text string</span>
+    <span class="n">latex_table</span> <span class="o">=</span> <span class="n">table_df</span><span class="o">.</span><span class="n">to_latex</span><span class="p">(</span><span class="n">longtable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                                        <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                                        <span class="n">columns</span><span class="o">=</span><span class="n">table_dict_dict</span><span class="p">[</span><span class="s1">&#39;col_list&#39;</span><span class="p">],</span>
+                                        <span class="n">formatters</span><span class="o">=</span><span class="n">formatters</span><span class="p">,</span>
+                                        <span class="n">escape</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Adjust the spacings</span>
+    <span class="n">latex_table</span> <span class="o">=</span> <span class="n">adjust_spacings</span><span class="p">(</span><span class="n">latex_table</span><span class="p">,</span> 
+                                    <span class="n">table_dict_dict</span><span class="p">[</span><span class="s1">&#39;col_list&#39;</span><span class="p">],</span> 
+                                    <span class="n">table_dict_dict</span><span class="p">[</span><span class="s1">&#39;align_col_dict&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Adjust the header alignments and make the text bold</span>
+    <span class="n">latex_table</span> <span class="o">=</span> <span class="n">adjust_header</span><span class="p">(</span><span class="n">latex_table</span><span class="p">,</span> 
+                                <span class="n">table_dict_dict</span><span class="p">[</span><span class="s1">&#39;align_title_dict&#39;</span><span class="p">],</span> 
+                                <span class="n">table_dict_dict</span><span class="p">[</span><span class="s1">&#39;multi_column_dict&#39;</span><span class="p">],</span> 
+                                <span class="n">table_dict_dict</span><span class="p">[</span><span class="s1">&#39;top_title_dict&#39;</span><span class="p">],</span> 
+                                <span class="n">table_dict_dict</span><span class="p">[</span><span class="s1">&#39;bottom_title_dict&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Add in caption</span>
+    <span class="k">if</span> <span class="n">caption</span><span class="p">:</span>
+        <span class="n">latex_table</span> <span class="o">=</span> <span class="n">add_caption</span><span class="p">(</span><span class="n">latex_table</span><span class="p">,</span> <span class="n">caption</span><span class="p">)</span>
+    
+    <span class="c1"># Get your latex document header and footer</span>
+    <span class="n">latex_header</span><span class="p">,</span> <span class="n">latex_footer</span> <span class="o">=</span> <span class="n">create_header_footer</span><span class="p">()</span>
+    
+    <span class="c1"># Save to output_file</span>
+    <span class="n">save_df_to_latex</span><span class="p">(</span><span class="n">latex_header</span><span class="p">,</span> <span class="n">latex_footer</span><span class="p">,</span> <span class="n">latex_table</span><span class="p">,</span> <span class="n">output_filename</span><span class="p">)</span>
+    
+    <span class="c1"># Save to output_file without the header and footer</span>
+    <span class="n">save_df_to_latex</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">latex_table</span><span class="p">,</span> <span class="n">output_filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.tex&#39;</span><span class="p">,</span> <span class="s1">&#39;.txt&#39;</span><span class="p">))</span>    </div>
+
+    
+<div class="viewcode-block" id="make_tables"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.make_tables.make_tables">[docs]</a><span class="k">def</span> <span class="nf">make_tables</span><span class="p">(</span><span class="n">measure_dict</span><span class="p">,</span> <span class="n">tables_dir</span><span class="p">,</span> <span class="n">cohort_name</span><span class="o">=</span><span class="s1">&#39;Discovery&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Make all the tables you could desire!</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="kn">import</span> <span class="nn">itertools</span> <span class="k">as</span> <span class="nn">it</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    
+    <span class="c1">#----------------------------------------------------------------</span>
+    <span class="c1"># Define the covars dictionary</span>
+    <span class="n">covars_dict</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;gender&#39;</span>      <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;male&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;site&#39;</span>        <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;wbic&#39;</span><span class="p">,</span> <span class="s1">&#39;ucl&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;gender_site&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;male&#39;</span><span class="p">,</span> <span class="s1">&#39;wbic&#39;</span><span class="p">,</span> <span class="s1">&#39;ucl&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;none&#39;</span>        <span class="p">:</span> <span class="p">[]</span> <span class="p">}</span>
+                    
+    <span class="c1">#----------------------------------------------------------------</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">covars_name</span> <span class="ow">in</span> <span class="n">it</span><span class="o">.</span><span class="n">product</span><span class="p">([</span><span class="mi">308</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="mi">34</span><span class="p">],</span> <span class="n">covars_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="n">table_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tables_dir</span><span class="p">,</span> <span class="s1">&#39;RegionalMeasures_</span><span class="si">{}</span><span class="s1">.tex&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+        <span class="n">caption</span> <span class="o">=</span> <span class="s1">&#39;All Regional Measures (N=</span><span class="si">{}</span><span class="s1">) - </span><span class="si">{}</span><span class="s1"> cohort&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">cohort_name</span><span class="p">)</span>
+        <span class="n">create_latex_tables</span><span class="p">(</span><span class="n">measure_dict</span><span class="p">,</span> 
+                                <span class="n">table_filename</span><span class="p">,</span> 
+                                <span class="n">covars_name</span><span class="o">=</span><span class="n">covars_name</span><span class="p">,</span>
+                                <span class="n">sort_col</span><span class="o">=</span><span class="s1">&#39;MT_projfrac+030_all_slope_age&#39;</span><span class="p">,</span> 
+                                <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> 
+                                <span class="n">caption</span><span class="o">=</span><span class="n">caption</span><span class="p">)</span></div>
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Dr Kirstie Whitaker, Isla Staden.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

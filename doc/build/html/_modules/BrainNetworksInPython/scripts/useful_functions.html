@@ -1,0 +1,222 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>BrainNetworksInPython.scripts.useful_functions &#8212; BrainNetworksInPython 0.1dev documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for BrainNetworksInPython.scripts.useful_functions</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+
+
+<div class="viewcode-block" id="read_in_df"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.useful_functions.read_in_df">[docs]</a><span class="k">def</span> <span class="nf">read_in_df</span><span class="p">(</span><span class="n">data_file</span><span class="p">,</span> <span class="n">aparc_names</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A very useful command for NSPN behavmerge data frames</span>
+<span class="sd">    Beware though - this is quite specific and there are</span>
+<span class="sd">    a few versions floating around! Be careful</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+
+    <span class="c1"># Read in the data file</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">data_file</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Only keep the first scan!</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">occ</span><span class="o">==</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="c1"># Strip &quot;thickness&quot; or &quot;thicknessstd&quot; from the column</span>
+    <span class="c1"># names so they match with the aparc_names names</span>
+    <span class="n">data_cols</span> <span class="o">=</span> <span class="p">[</span> <span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;thicknessstd&#39;</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="p">]</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">data_cols</span>
+    <span class="n">data_cols</span> <span class="o">=</span> <span class="p">[</span> <span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;thickness&#39;</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="p">]</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">data_cols</span>
+
+    <span class="c1"># Define a few variables you&#39;ll want in the data frame</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ones&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;age_scan&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">0</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;age_scan&#39;</span><span class="p">]</span>
+
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Global&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">aparc_names</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Global_std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">aparc_names</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># If there is a corresponding standard deviation</span>
+    <span class="c1"># file then read in the standard deviation</span>
+    <span class="k">if</span> <span class="s1">&#39;mean&#39;</span> <span class="ow">in</span> <span class="n">data_file</span><span class="p">:</span>
+        <span class="n">std_data_file</span> <span class="o">=</span> <span class="n">data_file</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">std_data_file</span> <span class="o">=</span> <span class="n">data_file</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;thickness&#39;</span><span class="p">,</span> <span class="s1">&#39;thicknessstd&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">std_data_file</span><span class="p">):</span>
+
+        <span class="c1"># Repeating the steps really</span>
+        <span class="c1"># Read in the file</span>
+        <span class="n">df_std</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">std_data_file</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+        <span class="c1"># Only keep the first occ</span>
+        <span class="n">df_std</span> <span class="o">=</span> <span class="n">df_std</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_std</span><span class="o">.</span><span class="n">occ</span><span class="o">==</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="c1"># Change the names so they match up</span>
+        <span class="n">data_cols</span> <span class="o">=</span> <span class="p">[</span> <span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;thicknessstd&#39;</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df_std</span><span class="o">.</span><span class="n">columns</span> <span class="p">]</span>
+        <span class="n">df_std</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">data_cols</span>
+        <span class="n">data_cols</span> <span class="o">=</span> <span class="p">[</span> <span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;thickness&#39;</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df_std</span><span class="o">.</span><span class="n">columns</span> <span class="p">]</span>
+        <span class="n">df_std</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">data_cols</span>
+
+        <span class="c1"># Now write the std across all aparc names into the original data frame</span>
+        <span class="c1"># by averaging the variances</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Global_std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">df_std</span><span class="p">[</span><span class="n">aparc_names</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># Convert the values to floats</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">aparc_names</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">aparc_names</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
+
+    <span class="c1"># If this is an MT, R2s, synthetic, MD, L1 or L23 file</span>
+    <span class="c1"># then you have to divide the values by 1000</span>
+    <span class="c1"># However there have been problems here in the past with</span>
+    <span class="c1"># mixing multiplied with non-multiplied values</span>
+    <span class="c1"># so we&#39;ll actually just check for values greater than a</span>
+    <span class="c1"># reasonable maximum and divide those ones.</span>
+    <span class="n">cols_list</span> <span class="o">=</span> <span class="n">aparc_names</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;Global&#39;</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;Global_std&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s1">&#39;MT&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">data_file</span><span class="p">):</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Global&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">50</span><span class="p">,</span> <span class="n">cols_list</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Global&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">50</span><span class="p">,</span> <span class="n">cols_list</span><span class="p">]</span><span class="o">/</span><span class="mf">1000.0</span>
+    <span class="k">if</span> <span class="s1">&#39;synthetic&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">data_file</span><span class="p">):</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Global&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">50</span><span class="p">,</span> <span class="n">cols_list</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Global&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">50</span><span class="p">,</span> <span class="n">cols_list</span><span class="p">]</span><span class="o">/</span><span class="mf">1000.0</span>
+    <span class="k">if</span> <span class="s1">&#39;R2s&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">data_file</span><span class="p">):</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Global&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="n">cols_list</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Global&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="n">cols_list</span><span class="p">]</span><span class="o">/</span><span class="mf">1000.0</span>
+    <span class="k">if</span> <span class="s1">&#39;L1&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">data_file</span><span class="p">):</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Global&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">cols_list</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Global&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">cols_list</span><span class="p">]</span><span class="o">/</span><span class="mf">1000.0</span>
+    <span class="k">if</span> <span class="s1">&#39;L23&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">data_file</span><span class="p">):</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Global&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">cols_list</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Global&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">cols_list</span><span class="p">]</span><span class="o">/</span><span class="mf">1000.0</span>
+    <span class="k">if</span> <span class="s1">&#39;MD&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">data_file</span><span class="p">):</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Global&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">cols_list</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Global&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">cols_list</span><span class="p">]</span><span class="o">/</span><span class="mf">1000.0</span>
+
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+
+<div class="viewcode-block" id="read_in_data"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.useful_functions.read_in_data">[docs]</a><span class="k">def</span> <span class="nf">read_in_data</span><span class="p">(</span><span class="n">regional_measures_file</span><span class="p">,</span> <span class="n">names_file</span><span class="p">,</span> <span class="n">covars_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names_308_style</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Read in the data from the three input files:</span>
+<span class="sd">        * regional_measures_file</span>
+<span class="sd">        * names_file</span>
+<span class="sd">        * covars_file</span>
+
+<span class="sd">    If the names are in 308 style then drop the first 41 entries from the names</span>
+<span class="sd">    and covars files.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+    
+    <span class="c1"># Load the input files</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">regional_measures_file</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">names_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span> <span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">covars_file</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">covars_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">covars_list</span> <span class="o">=</span> <span class="p">[</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span> <span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">covars_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># If you have your names in names_308_style you need to strip the</span>
+    <span class="c1"># first 41 items</span>
+    <span class="k">if</span> <span class="n">names_308_style</span><span class="p">:</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="n">names</span><span class="p">[</span><span class="mi">41</span><span class="p">:]</span>
+
+    <span class="c1"># You may also have to strip the words &quot;thickness&quot; from the</span>
+    <span class="c1"># end of the names in the data frame</span>
+    <span class="k">if</span> <span class="n">names_308_style</span><span class="p">:</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span> <span class="n">col</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;_thickness&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">df</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">covars_list</span></div>
+
+
+<div class="viewcode-block" id="residuals"><a class="viewcode-back" href="../../../BrainNetworksInPython.scripts.html#BrainNetworksInPython.scripts.useful_functions.residuals">[docs]</a><span class="k">def</span> <span class="nf">residuals</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A useful little function that correlates</span>
+<span class="sd">    x and y together to give their residual</span>
+<span class="sd">    values. These can then be used to calculate</span>
+<span class="sd">    partial correlation values</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])])</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">B</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">pre</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">pre</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Dr Kirstie Whitaker, Isla Staden.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

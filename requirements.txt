@@ -3,3 +3,8 @@ pandas
 python-louvain
 numpy
 scipy
+networkx
+seaborn
+nibabel
+forceatlas2
+pillow

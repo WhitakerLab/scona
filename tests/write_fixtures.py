@@ -1,11 +1,9 @@
 #--------------------------- Write fixtures ---------------------------
 # To regression test our wrappers we need examples. This script 
-# generates files. We save these files once, and regression-tests.py
+# generates files. We save these files once, and regression_test.py
 # re-generates these files to tests them for identicality with the
 # presaved examples (fixtures). If they are found not to be identical 
 # it throws up an error. 
-#
-# (*someday* I would like to replace saving files with saving hashes)
 #
 # The point of this is to check that throughout the changes we make to 
 # BrainNetworksInPython the functionality of this script stays the same
@@ -17,46 +15,46 @@
 import os
 import sys
 import networkx as nx
-                       
+             
 def recreate_correlation_matrix_fixture(folder):
     ##### generate a correlation matrix in the given folder using #####
-    ##### the data in example_data                                ##### 
+    ##### the Whitaker_Vertes dataset                             ##### 
+    import BrainNetworksInPython.datasets.NSPN_WhitakerVertes_PNAS2016.data as data
+    centroids, regionalmeasures, names, covars, names_308_style = data._get_data()
+    from BrainNetworksInPython.wrappers.corrmat_from_regionalmeasures import corrmat_from_regionalmeasures
     corrmat_path = os.getcwd()+folder+'/corrmat_file.txt'
-    from corrmat_from_regionalmeasures import corrmat_from_regionalmeasures
     corrmat_from_regionalmeasures(
-        "example_data/PARC_500aparc_thickness_behavmerge.csv",
-        "example_data/500.names.txt", 
+        regionalmeasures,
+        names, 
         corrmat_path,
-        names_308_style=True)
+        names_308_style=names_308_style)
      
 def recreate_network_analysis_fixture(folder, corrmat_path):
     ##### generate network analysis in the given folder using the #####
     ##### data in example_data and the correlation matrix given   #####
     ##### by corrmat_path                                         #####  
+    import BrainNetworksInPython.datasets.NSPN_WhitakerVertes_PNAS2016.data as data
+    centroids, regionalmeasures, names, covars, names_308_style = data._get_data()
     # It is necessary to specify a random seed because 
     # network_analysis_from_corrmat generates random graphs to 
     # calculate global measures
     import random
     random.seed(2984)
-    from network_analysis_from_corrmat import network_analysis_from_corrmat
+    from BrainNetworksInPython.wrappers.network_analysis_from_corrmat import network_analysis_from_corrmat
     network_analysis_from_corrmat(corrmat_path,
-                              "example_data/500.names.txt",
-                              "example_data/500.centroids.txt",
+                              names,
+                              centroids,
                               os.getcwd()+folder+'/network-analysis',
                               cost=10,
                               n_rand=10, # this is not a reasonable 
                               # value for n, we generate only 10 random
                               # graphs to save time
-                              names_308_style=True)
+                              names_308_style=names_308_style)
     
 def write_fixtures(folder='/temporary_test_fixtures'): 
     ## Run functions corrmat_from_regionalmeasures and               ##
     ## network_analysis_from_corrmat to save corrmat in given folder ##
     ##---------------------------------------------------------------##
-    # add wrappers, example_data and scripts folders to the syspath
-    sys.path.append(os.path.abspath(os.path.join('wrappers')))
-    sys.path.append(os.path.abspath(os.path.join('example_data')))
-    sys.path.append(os.path.abspath(os.path.join('scripts')))
     # if the folder does not exist, create it
     if not os.path.isdir(os.getcwd()+folder):
         os.makedirs(os.getcwd()+folder)

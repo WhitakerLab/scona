@@ -1,5 +1,6 @@
 import unittest
 import os
+import sys
 
 class FixturesTest(unittest.TestCase):
 
