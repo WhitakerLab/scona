@@ -6,6 +6,6 @@ if __name__ == '__main__':
     name='BrainNetworksInPython',
     version='0.1dev',
     packages=PACKAGES,
-    package_data={'': ['.txt','.csv']}
+    package_data={'': ['.txt','.csv']},
     license='MIT license',
 )
