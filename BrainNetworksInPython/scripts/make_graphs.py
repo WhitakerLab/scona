@@ -9,8 +9,8 @@ import pandas as pd
 def weighted_graph_from_matrix(M):
     '''
     Return a networkx weighted graph with edge weights equivalent to matrix entries
-
-    M should be an adjaceny matrix as a numpy array
+    
+    M is an adjaceny matrix as a numpy array
     '''
     # Make a copy of the matrix
     thr_M = np.copy(M)
@@ -27,16 +27,18 @@ def weighted_graph_from_df(df):
     '''
     Return a networkx weighted graph with edge weights equivalent to dataframe entries
     
-    M should be an adjacency matrix as a dataframe
+    M is an adjacency matrix as a dataframe
     '''
     return weighted_graph_from_matrix(df.values)
 
-def graph_at_cost(M, cost):
+def graph_at_cost(M, cost, mst=True):
     '''
-    Returns a connected binary graph.
+    Return a connected binary graph.
     
-    First creates the minimum spanning tree for the graph, and then adds
-    in edges according to their connection strength up to a particular cost.
+    This function creates the minimum spanning tree for the graph, and then adds
+    in edges in order of connection strength (high to low) up to a particular cost.
+    To skip the minimum spanning tree step and return a possibly disconnected 
+    graph, use mst=False.
     
     M should be an adjacency matrix as numpy array or dataframe.
     cost should be a number between 0 and 100
@@ -49,26 +51,33 @@ def graph_at_cost(M, cost):
     else:
         raise TypeError("expecting numpy array or pandas dataframe as input")
         
-    # Read this array into a graph G
-    # Weights scaled by -1 as minimum_spanning_tree minimises weight
+    # Read the array into a graph G
+    # Weights scaled by -1 as minimum_spanning_tree algorithm minimises weight
     G = weighted_graph_from_matrix(array*-1)
 
     # Make a list of all the sorted edges in the full matrix
     G_edges_sorted = [ edge for edge in sorted(G.edges(data = True), key = lambda edge_info: edge_info[2]['weight']) ]
 
-    # Calculate minimum spanning tree and make a list of its edges
-    mst = nx.minimum_spanning_tree(G)
-    mst_edges = mst.edges(data = True)
-
-    # Create a list of edges that are *not* in the minimum spanning tree
+    if mst == True:
+        # Calculate minimum spanning tree
+        germ = nx.minimum_spanning_tree(G)
+    else:
+        # Create an empty graph
+        germ = nx.Graph()
+        germ.add_nodes_from(G)
+        
+    # Make a list of the germ graph's edges
+    germ_edges = germ.edges(data = True)
+    
+    # Create a list of sorted edges that are *not* in the germ
     # (because you don't want to add them in twice!)
-    G_edges_sorted_notmst = [ edge for edge in G_edges_sorted if not edge in mst_edges ]
+    G_edges_sorted_not_germ = [ edge for edge in G_edges_sorted if not edge in germ_edges ]
 
     # Calculate how many edges need to be added to reach the specified cost 
     # and round to the nearest integer.
     n_edges = (cost/100.0) * len(G)*(len(G)-1)*0.5
     n_edges = np.int(np.around(n_edges))
-    n_edges = n_edges - len(mst.edges())
+    n_edges = n_edges - len(germ_edges)
 
     # If your cost is so small that your minimum spanning tree already covers it
     # then you can't do any better than the MST and you'll just have to return
@@ -80,22 +89,66 @@ def graph_at_cost(M, cost):
         print('cost must be >= {}'.format(2/len(G)))
               
     # Otherwise, add in the appropriate number of edges (n_edges)
-    # from your sorted list (G_edges_sorted_notmst)
+    # from your sorted list (G_edges_sorted_not_germ)
     else:
-        mst.add_edges_from(G_edges_sorted_notmst[:n_edges])
+        germ.add_edges_from(G_edges_sorted_not_germ[:n_edges])
 
-    # And return the *updated* minimum spanning tree
-    # as your graph
-    return mst
+    # And return the updated germ as your graph
+    return germ
+
+def random_graph(G, Q=10):
+    '''
+    Return a connected random graph that preserves degree distribution
+    by swapping pairs of edges (double edge swap).
+
+    Inputs:
+        G: networkx graph
+        Q: constant that determines how many swaps to conduct
+           for every edge in the graph
+           Default Q =10
+
+    Returns:
+        R: networkx graph
+
+    CAVEAT: If it is not possible in 15 attempts to create a
+    connected random graph then this code will raise an error
+    '''
+
+    import networkx as nx
+
+    # Copy the graph
+    R = G.copy()
+
+    # Calculate the number of edges and set a constant
+    # as suggested in the nx documentation
+    E = R.number_of_edges()
+
+    # Start the counter for randomisation attempts and set connected to False
+    attempt = 0
+    connected = False
+
+    # Keep making random graphs until they are connected
+    while not connected and attempt < 15:
+        # Now swap some edges in order to preserve the degree distribution
+        nx.double_edge_swap(R,Q*E,max_tries=Q*E*10)
+
+        # Check that this graph is connected! If not, start again
+        connected = nx.is_connected(R)
+        if not connected:
+            attempt +=1
+
+    if attempt == 15:
+        raise StandardError("** Failed to randomise graph in first 15 tries - Attempt aborted. Network is likely too sparse **")
+
+    return R
 
 
 def make_random_list(G, n_rand=10):
     '''
-    A little (but useful) function to wrap
-    around random_graph and return a list of
-    random graphs (matched for degree distribution)
-    that can be passed to multiple calculations so
-    you don't have to do it multiple times
+    Return a tuple (a,b) where a is a list of edgeswap 
+    randomisations of G, with length equal to n_rand, 
+    and b is a list of the corresponding nodal partitions.
+    G should be a graph and n_rand an integer.
     '''
     R_list = []
     R_nodal_partition_list = []
@@ -266,67 +319,6 @@ def calculate_nodal_measures(G, centroids, aparc_names, nodal_partition=None, na
         nodal_dict['hemi'] = list(hemi)
 
     return G, nodal_dict
-
-
-def random_graph(G, Q=10):
-    '''
-    Create a random graph that preserves degree distribution
-    by swapping pairs of edges (double edge swap).
-
-    Inputs:
-        G: networkx graph
-        Q: constant that determines how many swaps to conduct
-           for every edge in the graph
-           Default Q =10
-
-    Returns:
-        R: networkx graph
-
-    CAVEAT: If it is not possible in 15 attempts to create a
-    connected random graph then this code will just return the
-    original graph (G). This means that if you come to look at
-    the values that are an output of calculate_global_measures
-    and see that the values are the same for the random graph
-    as for the main graph it is not necessarily the case that
-    the graph is random, it may be that the graph was so low cost
-    (density) that this code couldn't create an appropriate random
-    graph!
-
-    This should only happen for ridiculously low cost graphs that
-    wouldn't make all that much sense to investigate anyway...
-    so if you think carefully it shouldn't be a problem.... I hope!
-    '''
-
-    import networkx as nx
-
-    # Copy the graph
-    R = G.copy()
-
-    # Calculate the number of edges and set a constant
-    # as suggested in the nx documentation
-    E = R.number_of_edges()
-
-    # Start with assuming that the random graph is not connected
-    # (because it might not be after the first permuatation!)
-    connected=False
-    attempt=0
-
-    # Keep making random graphs until they are connected!
-    while not connected and attempt < 15:
-        # Now swap some edges in order to preserve the degree distribution
-        nx.double_edge_swap(R,Q*E,max_tries=Q*E*10)
-
-        # Check that this graph is connected! If not, start again
-        connected = nx.is_connected(R)
-        if not connected:
-            attempt +=1
-
-    if attempt == 15:
-        print ('          ** Attempt aborted - can not randomise graph **')
-        R = G.copy()
-
-    return R
-
 
 def calc_modularity(G, nodal_partition):
     '''
