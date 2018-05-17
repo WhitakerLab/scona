@@ -1,5 +1,5 @@
 pytest
-pandas
+pandas<=0.22.0
 python-louvain
 numpy
 scipy
