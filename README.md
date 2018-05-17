@@ -1,6 +1,7 @@
 # BrainNetworksInPython &nbsp;
 [![Join the chat at https://gitter.im/WhitakerLab/BrainNetworksInPython](https://badges.gitter.im/WhitakerLab/BrainNetworksInPython.svg)](https://gitter.im/WhitakerLab/BrainNetworksInPython?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/WhitakerLab/BrainNetworksInPython.svg?branch=master)](https://travis-ci.org/WhitakerLab/BrainNetworksInPython)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/WhitakerLab/BrainNetworksInPython/blob/master/LICENSE)
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/WhitakerLab/BrainNetworksInPython/master)
 
 Welcome to the BrainNetworksInPython GitHub repository!:sparkles: <img align="right" src="https://media.giphy.com/media/3ohhwwL4kj5z1Id6uI/giphy.gif">
 
