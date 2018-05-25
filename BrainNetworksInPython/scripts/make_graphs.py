@@ -45,7 +45,7 @@ def scale_weights(G, scalar=-1, name='weight'):
     '''
     edges = nx.get_edge_attributes(G, name=name)
     new_edges = {key: value*scalar for key, value in edges.items()}
-    nx.set_edge_attributes(G, new_edges, name=name)
+    nx.set_edge_attributes(G, name=name, values=new_edges)
     return G
 
 
