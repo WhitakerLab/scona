@@ -6,6 +6,7 @@ import numpy as np
 import networkx as nx
 import pandas as pd
 
+
 def weighted_graph_from_matrix(M):
     '''
     Return a networkx weighted graph with edge weights equivalent to matrix entries
@@ -23,50 +24,53 @@ def weighted_graph_from_matrix(M):
 
     return G
 
+
 def weighted_graph_from_df(df):
     '''
     Return a networkx weighted graph with edge weights equivalent to dataframe entries
-    
+
     M should be an adjacency matrix as a dataframe
     '''
     return weighted_graph_from_matrix(df.values)
 
-def graph_at_cost(M, cost):
+
+def scale_weights(G, scalar=-1, name='weight'):
+    '''
+    Returns the graph G with the edge weights multiplied by scalar
+
+    G is a networkx graph
+    name is the string indexing the edge data
+    '''
+    edges = nx.get_edge_attributes(G, name=name)
+    new_edges = {key: value*scalar for key, value in edges.items()}
+    nx.set_edge_attributes(G, new_edges, name=name)
+    return G
+
+
+def threshold_graph(G, cost):
     '''
     Returns a connected binary graph.
-    
+
     First creates the minimum spanning tree for the graph, and then adds
     in edges according to their connection strength up to a particular cost.
-    
-    M should be an adjacency matrix as numpy array or dataframe.
+
+    G should be a networkx Graph object with edge weights
     cost should be a number between 0 and 100
     '''
-    # If dataframe, convert to array
-    if isinstance(M, pd.DataFrame):
-        array = M.values
-    elif isinstance(M, np.ndarray):
-        array = M
-    else:
-        raise TypeError("expecting numpy array or pandas dataframe as input")
-        
-    # Read this array into a graph G
-    # Weights scaled by -1 as minimum_spanning_tree minimises weight
-    G = weighted_graph_from_matrix(array*-1)
-
+    H = scale_weights(G.copy())
     # Make a list of all the sorted edges in the full matrix
-    G_edges_sorted = [ edge for edge in sorted(G.edges(data = True), key = lambda edge_info: edge_info[2]['weight']) ]
-
+    H_edges_sorted = [edge for edge in sorted(H.edges(data=True), key=lambda edge_info: edge_info[2]['weight'])]
     # Calculate minimum spanning tree and make a list of its edges
-    mst = nx.minimum_spanning_tree(G)
-    mst_edges = mst.edges(data = True)
+    mst = nx.minimum_spanning_tree(H)
+    mst_edges = mst.edges(data=True)
 
     # Create a list of edges that are *not* in the minimum spanning tree
     # (because you don't want to add them in twice!)
-    G_edges_sorted_notmst = [ edge for edge in G_edges_sorted if not edge in mst_edges ]
+    H_edges_sorted_notmst = [edge for edge in H_edges_sorted if not edge in mst_edges ]
 
-    # Calculate how many edges need to be added to reach the specified cost 
+    # Calculate how many edges need to be added to reach the specified cost
     # and round to the nearest integer.
-    n_edges = (cost/100.0) * len(G)*(len(G)-1)*0.5
+    n_edges = (cost/100.0) * len(H)*(len(H)-1)*0.5
     n_edges = np.int(np.around(n_edges))
     n_edges = n_edges - len(mst.edges())
 
@@ -77,16 +81,42 @@ def graph_at_cost(M, cost):
     # cost/100 > 2/n, where n is the number of vertices
     if n_edges < 0:
         print('Unable to calculate matrix at this cost - minimum spanning tree is too large')
-        print('cost must be >= {}'.format(2/len(G)))
-              
+        print('cost must be >= {}'.format(2/len(H)))
+
     # Otherwise, add in the appropriate number of edges (n_edges)
     # from your sorted list (G_edges_sorted_notmst)
     else:
-        mst.add_edges_from(G_edges_sorted_notmst[:n_edges])
+        mst.add_edges_from(H_edges_sorted_notmst[:n_edges])
 
     # And return the *updated* minimum spanning tree
     # as your graph
     return mst
+
+
+
+def graph_at_cost(M, cost):
+    '''
+    Returns a connected binary graph.
+
+    First creates the minimum spanning tree for the graph, and then adds
+    in edges according to their connection strength up to a particular cost.
+
+    M should be an adjacency matrix as numpy array or dataframe.
+    cost should be a number between 0 and 100
+    '''
+    # If dataframe, convert to array
+    if isinstance(M, pd.DataFrame):
+        array = M.values
+    elif isinstance(M, np.ndarray):
+        array = M
+    else:
+        raise TypeError("expecting numpy array or pandas dataframe as input")
+
+    # Read this array into a graph G
+    # Weights scaled by -1 as minimum_spanning_tree minimises weight
+    G = weighted_graph_from_matrix(array)
+
+    return threshold_graph(G)
 
 
 def make_random_list(G, n_rand=10):
@@ -167,14 +197,14 @@ def calculate_global_measures(G, R_list=None, n_rand=10, nodal_partition=None, R
         rand_array[i] = calc_modularity(R_list[i], R_nodal_partition_list[i])
     global_measures_dict['M_rand'] = rand_array
 
-    #---- Efficiency ------------------
+    # ---- Efficiency ------------------
     global_measures_dict['E'] = calc_efficiency(G)
     rand_array = np.ones(n)
     for i in range(n):
         rand_array[i] = calc_efficiency(R_list[i])
     global_measures_dict['E_rand'] = rand_array
 
-    #---- Small world -----------------
+    # ---- Small world -----------------
     sigma_array = np.ones(n)
     for i in range(n):
         sigma_array[i] = ( ( global_measures_dict['C'] / global_measures_dict['C_rand'][i] )
@@ -206,44 +236,44 @@ def calculate_nodal_measures(G, centroids, aparc_names, nodal_partition=None, na
     import numpy as np
     import networkx as nx
 
-    #==== SET UP ======================
+    # ==== SET UP ======================
     # If you haven't passed the nodal partition
     # then calculate it here
     if not nodal_partition:
         nodal_partition = calc_nodal_partition(G)
 
 
-    #==== MEASURES ====================
+    # ==== MEASURES ====================
     nodal_dict = {}
 
-    #---- Degree ----------------------
+    # ---- Degree ----------------------
     deg = dict(G.degree()).values()
     nodal_dict['degree'] = list(deg)
 
-    #---- Closeness -------------------
+    # ---- Closeness -------------------
     closeness = nx.closeness_centrality(G).values()
     nodal_dict['closeness'] = list(closeness)
 
-    #---- Betweenness -----------------
+    # ---- Betweenness -----------------
     betweenness = nx.betweenness_centrality(G).values()
     nodal_dict['betweenness'] = list(betweenness)
 
-    #---- Shortest path length --------
+    # ---- Shortest path length --------
     L = shortest_path(G).values()
     nodal_dict['shortest_path'] = list(L)
 
-    #---- Clustering ------------------
+    # ---- Clustering ------------------
     clustering = nx.clustering(G).values()
     nodal_dict['clustering'] = list(clustering)
 
-    #---- Participation coefficent ----
-    #---- and module assignment -------
+    # ---- Participation coefficent ----
+    # ---- and module assignment -------
     partition, pc_dict = participation_coefficient(G, nodal_partition)
     nodal_dict['module'] = list(partition.values())
     nodal_dict['pc'] = list(pc_dict.values())
 
-    #---- Euclidean distance and ------
-    #---- interhem proporition --------
+    # ---- Euclidean distance and ------
+    # ---- interhem proporition --------
     G = assign_nodal_distance(G, centroids)
     average_dist = nx.get_node_attributes(G, 'average_dist').values()
     total_dist = nx.get_node_attributes(G, 'total_dist').values()
@@ -253,7 +283,7 @@ def calculate_nodal_measures(G, centroids, aparc_names, nodal_partition=None, na
     nodal_dict['total_dist'] = list(total_dist)
     nodal_dict['interhem_prop'] = list(interhem_prop)
 
-    #---- Names -----------------------
+    # ---- Names -----------------------
     G = assign_node_names(G, aparc_names, names_308_style=names_308_style)
     name = nx.get_node_attributes(G, 'name').values()
     nodal_dict['name'] = list(name)
@@ -400,7 +430,7 @@ def participation_coefficient(G, nodal_partition):
 
     # Print a little note to the screen because it can take a long
     # time to run this code
-    print ('        Calculating participation coefficient - may take a little while')
+    print('        Calculating participation coefficient - may take a little while')
 
     # Loop through modules
     for m in module_partition.keys():
@@ -504,6 +534,7 @@ def assign_nodal_distance(G, centroids):
 
         G.node[node]['interhem_proportion'] = np.mean(interhem_list)
     return G
+
 
 def shortest_path(G):
     import networkx as nx
