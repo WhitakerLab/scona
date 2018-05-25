@@ -23,6 +23,7 @@ def graph_1():
     G.add_path([2, 0], weight=5)
     return G
 
+
 @pytest.fixture
 def em():
     return nx.algorithms.isomorphism.numerical_edge_match('weight', 1)
@@ -47,18 +48,33 @@ def test_scale_weights():
 
 
 def test_threshold_graph():
-    G1 = mkg.threshold_graph(graph_1(), 30)
-    G2 = graph_1().remove_edge([1, 2])
+    with pytest.raises(Exception):
+        mkg.threshold_graph(graph_1(), 30)
+
+
+def test_threshold_graph_mst_false():
+    G1 = mkg.threshold_graph(graph_1(), 30, mst=False)
+    G2 = graph_1()
+    G2.remove_edge(1, 2)
+    G2.remove_edge(1, 0)
     assert nx.is_isomorphic(G1, G2, edge_match=em())
 
 
+def test_threshold_graph_mst_true():
+    G1 = mkg.threshold_graph(graph_1(), 70, mst=True)
+    G2 = graph_1()
+    G2.remove_edge(1, 2)
+    assert nx.is_isomorphic(G1, G2, edge_match=em())
+
+
+
 def test_graph_at_cost_df():
-    G1 = mkg.graph_at_cost(symmetric_df_1(), 30)
-    G2 = mkg.threshold_graph(graph_1(), 30)
+    G1 = mkg.graph_at_cost(symmetric_df_1(), 70)
+    G2 = mkg.threshold_graph(graph_1(), 70)
     assert nx.is_isomorphic(G1, G2, edge_match=em())
 
 
 def test_graph_at_cost_array():
-    G1 = mkg.graph_at_cost(symmetric_matrix_1(), 30)
-    G2 = mkg.threshold_graph(graph_1(), 30)
+    G1 = mkg.graph_at_cost(symmetric_matrix_1(), 70)
+    G2 = mkg.threshold_graph(graph_1(), 70)
     assert nx.is_isomorphic(G1, G2, edge_match=em())

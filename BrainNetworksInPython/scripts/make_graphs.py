@@ -9,9 +9,10 @@ import pandas as pd
 
 def weighted_graph_from_matrix(M):
     '''
-    Return a networkx weighted graph with edge weights equivalent to matrix entries
+    Return a networkx weighted graph with edge weights equivalent to matrix
+    entries
 
-    M should be an adjaceny matrix as a numpy array
+    M should be an adjacency matrix as a numpy array
     '''
     # Make a copy of the matrix
     thr_M = np.copy(M)
@@ -27,7 +28,8 @@ def weighted_graph_from_matrix(M):
 
 def weighted_graph_from_df(df):
     '''
-    Return a networkx weighted graph with edge weights equivalent to dataframe entries
+    Return a networkx weighted graph with edge weights equivalent to dataframe
+    entries
 
     M should be an adjacency matrix as a dataframe
     '''
@@ -47,7 +49,7 @@ def scale_weights(G, scalar=-1, name='weight'):
     return G
 
 
-def threshold_graph(G, cost):
+def threshold_graph(G, cost, mst=True):
     '''
     Returns a connected binary graph.
 
@@ -57,44 +59,50 @@ def threshold_graph(G, cost):
     G should be a networkx Graph object with edge weights
     cost should be a number between 0 and 100
     '''
+    # Weights scaled by -1 as minimum_spanning_tree minimises weight
     H = scale_weights(G.copy())
     # Make a list of all the sorted edges in the full matrix
-    H_edges_sorted = [edge for edge in sorted(H.edges(data=True), key=lambda edge_info: edge_info[2]['weight'])]
-    # Calculate minimum spanning tree and make a list of its edges
-    mst = nx.minimum_spanning_tree(H)
-    mst_edges = mst.edges(data=True)
+    H_edges_sorted = sorted(H.edges(data=True),
+                            key=lambda edge_info: edge_info[2]['weight'])
+    if mst:
+        # Calculate minimum spanning tree
+        germ = nx.minimum_spanning_tree(H)
+    else:
+        # Create an empty graph with the same nodes as H
+        germ = nx.Graph()
+        germ.add_nodes_from(H)
 
-    # Create a list of edges that are *not* in the minimum spanning tree
+    # Make a list of the germ graph's edges
+    germ_edges = germ.edges(data=True)
+
+    # Create a list of sorted edges that are *not* in the germ
     # (because you don't want to add them in twice!)
-    H_edges_sorted_notmst = [edge for edge in H_edges_sorted if not edge in mst_edges ]
-
+    H_edges_sorted_not_germ = [edge for edge in H_edges_sorted
+                               if edge not in germ_edges]
     # Calculate how many edges need to be added to reach the specified cost
     # and round to the nearest integer.
     n_edges = (cost/100.0) * len(H)*(len(H)-1)*0.5
     n_edges = np.int(np.around(n_edges))
-    n_edges = n_edges - len(mst.edges())
+    n_edges = n_edges - len(germ_edges)
 
-    # If your cost is so small that your minimum spanning tree already covers it
-    # then you can't do any better than the MST and you'll just have to return
-    # it with an accompanying error message
-    # A tree has n-1 edges and a complete graph has n(n − 1)/2 edges, so we need
-    # cost/100 > 2/n, where n is the number of vertices
+    # If your cost is so small that your minimum spanning tree already covers
+    # it then you can't do any better than the MST and you'll just have to
+    # return it with an accompanying error message
+    # A tree has n-1 edges and a complete graph has n(n − 1)/2 edges, so we
+    # need cost/100 > 2/n, where n is the number of vertices
     if n_edges < 0:
-        print('Unable to calculate matrix at this cost - minimum spanning tree is too large')
+        raise Exception('Unable to calculate matrix at this cost -\
+                         minimum spanning tree is too large')
         print('cost must be >= {}'.format(2/len(H)))
-
     # Otherwise, add in the appropriate number of edges (n_edges)
-    # from your sorted list (G_edges_sorted_notmst)
+    # from your sorted list (H_edges_sorted_not_germ)
     else:
-        mst.add_edges_from(H_edges_sorted_notmst[:n_edges])
-
-    # And return the *updated* minimum spanning tree
-    # as your graph
-    return mst
+        germ.add_edges_from(H_edges_sorted_not_germ[:n_edges])
+    # And return the updated germ as your graph
+    return scale_weights(germ)
 
 
-
-def graph_at_cost(M, cost):
+def graph_at_cost(M, cost, mst=True):
     '''
     Returns a connected binary graph.
 
@@ -113,10 +121,8 @@ def graph_at_cost(M, cost):
         raise TypeError("expecting numpy array or pandas dataframe as input")
 
     # Read this array into a graph G
-    # Weights scaled by -1 as minimum_spanning_tree minimises weight
     G = weighted_graph_from_matrix(array)
-
-    return threshold_graph(G)
+    return threshold_graph(G, cost, mst=mst)
 
 
 def make_random_list(G, n_rand=10):
@@ -130,18 +136,23 @@ def make_random_list(G, n_rand=10):
     R_list = []
     R_nodal_partition_list = []
 
-    print ('        Creating {} random graphs - may take a little while'.format(n_rand))
+    print('        Creating {} random graphs - may take a little while'
+          .format(n_rand))
 
     for i in range(n_rand):
         if len(R_list) <= i:
-            R_list += [ random_graph(G) ]
+            R_list += [random_graph(G)]
 
-            R_nodal_partition_list += [ calc_nodal_partition(R_list[i]) ]
+            R_nodal_partition_list += [calc_nodal_partition(R_list[i])]
 
     return R_list, R_nodal_partition_list
 
 
-def calculate_global_measures(G, R_list=None, n_rand=10, nodal_partition=None, R_nodal_partition_list=None):
+def calculate_global_measures(G,
+                              R_list=None,
+                              n_rand=10,
+                              nodal_partition=None,
+                              R_nodal_partition_list=None):
     '''
     A wrapper function that calls a bunch of useful functions
     and reports a plethora of network measures for the real graph
@@ -151,7 +162,7 @@ def calculate_global_measures(G, R_list=None, n_rand=10, nodal_partition=None, R
     import networkx as nx
     import numpy as np
 
-    #==== SET UP ======================
+    # ==== SET UP ======================
     # If you haven't already calculated random graphs
     # or you haven't given this function as many random
     # graphs as it is expecting then calculate a random
@@ -166,38 +177,38 @@ def calculate_global_measures(G, R_list=None, n_rand=10, nodal_partition=None, R
     if not nodal_partition:
         nodal_partition = calc_nodal_partition(G)
 
-    #==== MEASURES ====================
+    # ==== MEASURES ====================
     global_measures_dict = {}
 
-    #---- Clustering coefficient ------
+    # ---- Clustering coefficient ------
     global_measures_dict['C'] = nx.average_clustering(G)
     rand_array = np.ones(n)
     for i in range(n):
         rand_array[i] = nx.average_clustering(R_list[i])
     global_measures_dict['C_rand'] = rand_array
 
-    #---- Shortest path length --------
+    # ---- Shortest path length --------
     global_measures_dict['L'] = nx.average_shortest_path_length(G)
     rand_array = np.ones(n)
     for i in range(n):
         rand_array[i] = nx.average_shortest_path_length(R_list[i])
     global_measures_dict['L_rand'] = rand_array
 
-    #---- Assortativity ---------------
+    # ---- Assortativity ---------------
     global_measures_dict['a'] = np.mean(nx.degree_assortativity_coefficient(G))
     rand_array = np.ones(n)
     for i in range(n):
         rand_array[i] = np.mean(nx.degree_assortativity_coefficient(R_list[i]))
     global_measures_dict['a_rand'] = rand_array
 
-    #---- Modularity ------------------
+    # ---- Modularity ------------------
     global_measures_dict['M'] = calc_modularity(G, nodal_partition)
     rand_array = np.ones(n)
     for i in range(n):
         rand_array[i] = calc_modularity(R_list[i], R_nodal_partition_list[i])
     global_measures_dict['M_rand'] = rand_array
 
-    # ---- Efficiency ------------------
+    #  ---- Efficiency ------------------
     global_measures_dict['E'] = calc_efficiency(G)
     rand_array = np.ones(n)
     for i in range(n):
@@ -207,15 +218,21 @@ def calculate_global_measures(G, R_list=None, n_rand=10, nodal_partition=None, R
     # ---- Small world -----------------
     sigma_array = np.ones(n)
     for i in range(n):
-        sigma_array[i] = ( ( global_measures_dict['C'] / global_measures_dict['C_rand'][i] )
-                            / ( global_measures_dict['L'] / global_measures_dict['L_rand'][i] ) )
+        sigma_array[i] = ((global_measures_dict['C']
+                           / global_measures_dict['C_rand'][i])
+                          / (global_measures_dict['L']
+                             / global_measures_dict['L_rand'][i]))
     global_measures_dict['sigma'] = sigma_array
     global_measures_dict['sigma_rand'] = 1.0
 
     return global_measures_dict
 
 
-def calculate_nodal_measures(G, centroids, aparc_names, nodal_partition=None, names_308_style=True):
+def calculate_nodal_measures(G,
+                             centroids,
+                             aparc_names,
+                             nodal_partition=None,
+                             names_308_style=True):
     '''
     A function which returns a dictionary of numpy arrays for a graph's
         * degree
@@ -226,14 +243,13 @@ def calculate_nodal_measures(G, centroids, aparc_names, nodal_partition=None, na
         * closeness
         * interhemispheric proportion
         * name
-    If you have names in 308 style (as described in Whitaker, Vertes et al 2016)
-    then you can also add in
+    If you have names in 308 style (as described in Whitaker, Vertes et al
+    2016) then you can also add in
         * hemisphere
         * 34_name (Desikan Killiany atlas region)
         * 68_name (Desikan Killiany atlas region with hemisphere)
     '''
 
-    import numpy as np
     import networkx as nx
 
     # ==== SET UP ======================
@@ -241,7 +257,6 @@ def calculate_nodal_measures(G, centroids, aparc_names, nodal_partition=None, na
     # then calculate it here
     if not nodal_partition:
         nodal_partition = calc_nodal_partition(G)
-
 
     # ==== MEASURES ====================
     nodal_dict = {}
@@ -338,21 +353,21 @@ def random_graph(G, Q=10):
 
     # Start with assuming that the random graph is not connected
     # (because it might not be after the first permuatation!)
-    connected=False
-    attempt=0
+    connected = False
+    attempt = 0
 
     # Keep making random graphs until they are connected!
     while not connected and attempt < 15:
         # Now swap some edges in order to preserve the degree distribution
-        nx.double_edge_swap(R,Q*E,max_tries=Q*E*10)
+        nx.double_edge_swap(R, Q*E, max_tries=Q*E*10)
 
         # Check that this graph is connected! If not, start again
         connected = nx.is_connected(R)
         if not connected:
-            attempt +=1
+            attempt += 1
 
     if attempt == 15:
-        print ('          ** Attempt aborted - can not randomise graph **')
+        print('          ** Attempt aborted - can not randomise graph **')
         R = G.copy()
 
     return R
@@ -380,8 +395,8 @@ def calc_nodal_partition(G):
     import community
 
     # Make sure the edges are binarized
-    for u,v,d in G.edges(data=True):
-        d['weight']=1
+    for u, v, d in G.edges(data=True):
+        d['weight'] = 1
 
     # Now calculate the best partition
     nodal_partition = community.best_partition(G)
@@ -395,9 +410,9 @@ def calc_efficiency(G):
     '''
     import networkx as nx
 
-    E=0.0
+    E = 0.0
     for node in G:
-        path_length=nx.single_source_shortest_path_length(G, node)
+        path_length = nx.single_source_shortest_path_length(G, node)
         E += 1.0/sum(path_length.values())
 
     return E
@@ -411,13 +426,12 @@ def participation_coefficient(G, nodal_partition):
     '''
     # Import the modules you'll need
     import networkx as nx
-    import numpy as np
 
     # Reverse the dictionary because the output of Louvain is "backwards"
     # meaning it saves the module per node, rather than the nodes in each
     # module
     module_partition = {}
-    for m,n in zip(nodal_partition.values(),nodal_partition.keys()):
+    for m, n in zip(nodal_partition.values(), nodal_partition.keys()):
         try:
             module_partition[m].append(n)
         except KeyError:
@@ -430,7 +444,8 @@ def participation_coefficient(G, nodal_partition):
 
     # Print a little note to the screen because it can take a long
     # time to run this code
-    print('        Calculating participation coefficient - may take a little while')
+    print('        Calculating participation coefficient -\
+           may take a little while')
 
     # Loop through modules
     for m in module_partition.keys():
@@ -522,7 +537,7 @@ def assign_nodal_distance(G, centroids):
         # Create two nodal attributes (average distance and
         # total distance) by summarizing the euclidean distance
         # for all edges which connect to the node
-        euc_list = [ G.adj[m][n]['euclidean'] for m, n in G.edges(nbunch=node) ]
+        euc_list = [G.adj[m][n]['euclidean'] for m, n in G.edges(nbunch=node)]
 
         G.node[node]['average_dist'] = np.mean(euc_list)
         G.node[node]['total_dist'] = np.sum(euc_list)
@@ -530,7 +545,8 @@ def assign_nodal_distance(G, centroids):
         # Create an interhem nodal attribute by getting the average
         # of the interhem values for all edges which connect to the node
 
-        interhem_list = [ G.adj[m][n]['interhem'] for m, n in G.edges(nbunch=node) ]
+        interhem_list = [G.adj[m][n]['interhem']
+                         for m, n in G.edges(nbunch=node)]
 
         G.node[node]['interhem_proportion'] = np.mean(interhem_list)
     return G
@@ -540,14 +556,13 @@ def shortest_path(G):
     import networkx as nx
     import numpy as np
 
-
     shortestpl_dict_dict = dict(nx.shortest_path_length(G))
 
     shortestpl_dict = {}
 
     for node in G.nodes():
-        shortestpl_dict[node] = np.average(list(shortestpl_dict_dict[node].values()))
-
+        shortestpl_dict[node] = np.average(
+                                list(shortestpl_dict_dict[node].values()))
     return shortestpl_dict
 
 
@@ -558,8 +573,8 @@ def assign_node_names(G, aparc_names, names_308_style=True):
         G.node[node]['name'] = aparc_names[i]
         if names_308_style:
             G.node[node]['name_34'] = aparc_names[i].split('_')[1]
-            G.node[node]['name_68'] = aparc_names[i].rsplit('_',1)[0]
-            G.node[node]['hemi'] = aparc_names[i].split('_',1)[0]
+            G.node[node]['name_68'] = aparc_names[i].rsplit('_', 1)[0]
+            G.node[node]['hemi'] = aparc_names[i].split('_', 1)[0]
 
     return G
 
@@ -574,8 +589,8 @@ def rich_club(G, R_list=None, n=10):
         R_list - list of random graphs with matched degree distribution
                    if R_list is None then a random graph is calculated
                    within the code
-                   if len(R_list) is less than n then the remaining random graphs
-                   are calculated within the code
+                   if len(R_list) is less than n then the remaining random
+                   graphs are calculated within the code
                  Default R_list = None
         n ------ number of random graphs for which to calculate rich club
                    coefficients
@@ -625,7 +640,7 @@ def rich_club(G, R_list=None, n=10):
     return deg, rc, rc_rand
 
 
-def make_graphs(graph_dir, mat_dict, centroids, aparc_names, n_rand=1000): #mat_dict comes from make_corr_matrices.py
+def make_graphs(graph_dir, mat_dict, centroids, aparc_names, n_rand=1000):
     '''
     A function that makes all the required graphs from the correlation
     matrices in mat_dict. These include the full graph with all
