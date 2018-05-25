@@ -12,7 +12,7 @@ def weighted_graph_from_matrix(M):
     Return a networkx weighted graph with edge weights equivalent to matrix
     entries
 
-    M should be an adjacency matrix as a numpy array
+    M is an adjacency matrix as a numpy array
     '''
     # Make a copy of the matrix
     thr_M = np.copy(M)
@@ -125,13 +125,59 @@ def graph_at_cost(M, cost, mst=True):
     return threshold_graph(G, cost, mst=mst)
 
 
+def random_graph(G, Q=10):
+    '''
+    Return a connected random graph that preserves degree distribution
+    by swapping pairs of edges (double edge swap).
+
+    Inputs:
+        G: networkx graph
+        Q: constant that determines how many swaps to conduct
+           for every edge in the graph
+           Default Q =10
+
+    Returns:
+        R: networkx graph
+
+    CAVEAT: If it is not possible in 15 attempts to create a
+    connected random graph then this code will raise an error
+    '''
+
+    import networkx as nx
+
+    # Copy the graph
+    R = G.copy()
+
+    # Calculate the number of edges and set a constant
+    # as suggested in the nx documentation
+    E = R.number_of_edges()
+
+    # Start the counter for randomisation attempts and set connected to False
+    attempt = 0
+    connected = False
+
+    # Keep making random graphs until they are connected
+    while not connected and attempt < 15:
+        # Now swap some edges in order to preserve the degree distribution
+        nx.double_edge_swap(R, Q*E, max_tries=Q*E*10)
+
+        # Check that this graph is connected! If not, start again
+        connected = nx.is_connected(R)
+        if not connected:
+            attempt += 1
+
+    if attempt == 15:
+        raise Exception("** Failed to randomise graph in first 15 tries -\
+                             Attempt aborted. Network is likely too sparse **")
+    return R
+
+
 def make_random_list(G, n_rand=10):
     '''
-    A little (but useful) function to wrap
-    around random_graph and return a list of
-    random graphs (matched for degree distribution)
-    that can be passed to multiple calculations so
-    you don't have to do it multiple times
+    Return a tuple (a,b) where a is a list of edgeswap
+    randomisations of G, with length equal to n_rand,
+    and b is a list of the corresponding nodal partitions.
+    G should be a graph and n_rand an integer.
     '''
     R_list = []
     R_nodal_partition_list = []
@@ -311,67 +357,6 @@ def calculate_nodal_measures(G,
         nodal_dict['hemi'] = list(hemi)
 
     return G, nodal_dict
-
-
-def random_graph(G, Q=10):
-    '''
-    Create a random graph that preserves degree distribution
-    by swapping pairs of edges (double edge swap).
-
-    Inputs:
-        G: networkx graph
-        Q: constant that determines how many swaps to conduct
-           for every edge in the graph
-           Default Q =10
-
-    Returns:
-        R: networkx graph
-
-    CAVEAT: If it is not possible in 15 attempts to create a
-    connected random graph then this code will just return the
-    original graph (G). This means that if you come to look at
-    the values that are an output of calculate_global_measures
-    and see that the values are the same for the random graph
-    as for the main graph it is not necessarily the case that
-    the graph is random, it may be that the graph was so low cost
-    (density) that this code couldn't create an appropriate random
-    graph!
-
-    This should only happen for ridiculously low cost graphs that
-    wouldn't make all that much sense to investigate anyway...
-    so if you think carefully it shouldn't be a problem.... I hope!
-    '''
-
-    import networkx as nx
-
-    # Copy the graph
-    R = G.copy()
-
-    # Calculate the number of edges and set a constant
-    # as suggested in the nx documentation
-    E = R.number_of_edges()
-
-    # Start with assuming that the random graph is not connected
-    # (because it might not be after the first permuatation!)
-    connected = False
-    attempt = 0
-
-    # Keep making random graphs until they are connected!
-    while not connected and attempt < 15:
-        # Now swap some edges in order to preserve the degree distribution
-        nx.double_edge_swap(R, Q*E, max_tries=Q*E*10)
-
-        # Check that this graph is connected! If not, start again
-        connected = nx.is_connected(R)
-        if not connected:
-            attempt += 1
-
-    if attempt == 15:
-        print('          ** Attempt aborted - can not randomise graph **')
-        R = G.copy()
-
-    return R
-
 
 def calc_modularity(G, nodal_partition):
     '''
@@ -664,9 +649,9 @@ def make_graphs(graph_dir, mat_dict, centroids, aparc_names, n_rand=1000):
     The function returns a dictionary of graphs, nodal measures and
     global measures
     '''
-    #==========================================================================
+    # ==========================================================================
     # IMPORTS
-    #==========================================================================
+    # ==========================================================================
     import os
     import networkx as nx
     import numpy as np

@@ -67,7 +67,6 @@ def test_threshold_graph_mst_true():
     assert nx.is_isomorphic(G1, G2, edge_match=em())
 
 
-
 def test_graph_at_cost_df():
     G1 = mkg.graph_at_cost(symmetric_df_1(), 70)
     G2 = mkg.threshold_graph(graph_1(), 70)
