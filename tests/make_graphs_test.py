@@ -30,6 +30,9 @@ def em():
     return nx.algorithms.isomorphism.numerical_edge_match('weight', 1)
 
 
+def test_assign_name_to_nodes():
+
+
 def test_weighted_graph_from_matrix_isomorphic():
     G1 = mkg.weighted_graph_from_matrix(symmetric_matrix_1())
     G2 = simple_weighted_graph()
