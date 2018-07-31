@@ -1,6 +1,6 @@
 pytest
 pandas<=0.22.0
-python-louvain
+python-louvain==0.11 
 numpy
 scipy
 networkx
