@@ -7,6 +7,9 @@ import networkx as nx
 import pandas as pd
 
 
+# ==================== Anatomical Functions =================
+
+
 def assign_node_names(G, parcellation, names_308_style=False):
     """
     Returns the network G with node attributes "name" assigned
@@ -29,6 +32,8 @@ def assign_node_names(G, parcellation, names_308_style=False):
             G.node[node]['name_34'] = parcellation[i].split('_')[1]
             G.node[node]['name_68'] = parcellation[i].rsplit('_', 1)[0]
             G.node[node]['hemi'] = parcellation[i].split('_', 1)[0]
+    #
+    G.graph['parcellation'] = True
     return G
 
 
@@ -42,12 +47,42 @@ def assign_node_centroids(G, centroids):
 
     Returns the graph with modified node attributes
     '''
+    # Assign cartesian coordinates to the nodes
     for i, node in enumerate(G.nodes()):
         G.node[node]['x'] = centroids[i, 0]
         G.node[node]['y'] = centroids[i, 1]
         G.node[node]['z'] = centroids[i, 2]
         G.node[node]['centroids'] = centroids[i, :]
+    #
+    G.graph['centroids'] = True
     return G
+
+
+def anatomical_copy(G, additional_keys=[]):
+    '''
+    Returns a new graph with the same nodes and edges as G, preserving node
+    data from the following list of keys:
+    ["name", "name_34", "name_68", "hemi", "centroids", "x", "y", "z"]
+    plus any keys passed to additional_keys.
+    Also preserves G.graph values keyed by "centroids" or "parcellation".
+    '''
+    # Copy the graph with fresh data
+    R = type(G)()
+    R.add_nodes_from(G)
+    R.add_edges_from(G.edges)
+    # Copy anatomical data
+    anatomical_keys = [
+        "name", "name_34", "name_68", "hemi", "centroids", "x", "y", "z"]
+    if additional_keys:
+        anatomical_keys.append(additional_keys)
+    R._node.update({key: {k: value.get(k) for k in anatomical_keys}
+                   for key, value in G._node})
+    R.graph.update({key: value for key, value in G.graph
+                    if key in ['parcellation', 'centroids']})
+    return R
+
+
+# ================= Graph construction =====================
 
 
 def weighted_graph_from_matrix(M):
@@ -186,11 +221,7 @@ def random_graph(G, Q=10):
     CAVEAT: If it is not possible in 15 attempts to create a
     connected random graph then this code will raise an error
     '''
-
-    import networkx as nx
-
-    # Copy the graph
-    R = G.copy()
+    R = anatomical_copy(G)
 
     # Calculate the number of edges and set a constant
     # as suggested in the nx documentation
@@ -214,3 +245,23 @@ def random_graph(G, Q=10):
         raise Exception("** Failed to randomise graph in first 15 tries -\
                              Attempt aborted. Network is likely too sparse **")
     return R
+
+
+def get_random_graphs(G, n=10):
+    '''
+    Creates n random graphs through edgeswapping.
+
+    Returns a list of n edgeswap randomisations of G
+
+    G should be a graph and n an integer.
+    '''
+    graph_list = []
+
+    print('        Creating {} random graphs - may take a little while'
+          .format(n))
+
+    for i in range(n):
+        if len(graph_list) <= i:
+            graph_list += [random_graph(G)]
+
+    return graph_list

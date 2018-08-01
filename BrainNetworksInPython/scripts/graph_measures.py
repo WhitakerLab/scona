@@ -1,6 +1,5 @@
 import numpy as np
 import networkx as nx
-import make_graphs as mkg
 # ==================== Nodal methods =======================
 
 
@@ -78,29 +77,6 @@ def participation_coefficient(G, module_partition):
             pc_dict[source] = pc
 
     return pc_dict
-
-
-def calc_modularity(G, nodal_partition):
-    '''
-    Returns the network modularity of G under the
-    modules defined by nodal_partition.
-
-    G is a graph and nodal_partition is a partition
-    of G indexed by node
-    '''
-    import community
-    return community.modularity(nodal_partition, G)
-
-
-def calc_efficiency(G):
-    '''
-    Returns the global efficiency of G
-    '''
-    E = 0.0
-    for node in G:
-        path_length = nx.single_source_shortest_path_length(G, node)
-        E += 1.0/sum(path_length.values())
-    return E
 
 
 def assign_nodal_distance(G):
@@ -208,84 +184,68 @@ def shortest_path(G):
     return shortestpl_dict
 
 
-def calculate_nodal_measures(G,
-                             centroids,
-                             aparc_names,
-                             nodal_partition=None,
-                             names_308_style=True):
-    '''
-    A function which returns a dictionary of numpy arrays for a graph's
-        * degree
-        * participation coefficient
-        * average distance
-        * total distance
-        * clustering
-        * closeness
-        * interhemispheric proportion
-        * name
-    If you have names in 308 style (as described in Whitaker, Vertes et al
-    2016) then you can also add in
-        * hemisphere
-        * 34_name (Desikan Killiany atlas region)
-        * 68_name (Desikan Killiany atlas region with hemisphere)
-    '''
+# ============= Global measures =============
 
-    # ==== SET UP ======================
-    # If you haven't passed the nodal partition
-    # then calculate it here
-    if not nodal_partition:
-        nodal_partition = calc_nodal_partition(G)
 
+def calc_modularity(G, nodal_partition):
+    '''
+    Returns the network modularity of G under the
+    modules defined by nodal_partition.
+
+    G is a graph and nodal_partition is a partition
+    of G indexed by node
+    '''
+    import community
+    return community.modularity(nodal_partition, G)
+
+
+def calc_efficiency(G):
+    '''
+    Returns the global efficiency of G
+    '''
+    E = 0.0
+    for node in G:
+        path_length = nx.single_source_shortest_path_length(G, node)
+        E += 1.0/sum(path_length.values())
+    return E
+
+
+def rich_club(G):
+    return nx.rich_club_coefficient(G, normalized=False)
+
+
+def calculate_global_measures(G, partition):
     # ==== MEASURES ====================
-    nodal_dict = {}
+    global_measures = {}
 
-    # ---- Degree ----------------------
-    deg = dict(G.degree()).values()
-    nodal_dict['degree'] = list(deg)
-
-    # ---- Closeness -------------------
-    closeness = nx.closeness_centrality(G).values()
-    nodal_dict['closeness'] = list(closeness)
-
-    # ---- Betweenness -----------------
-    betweenness = nx.betweenness_centrality(G).values()
-    nodal_dict['betweenness'] = list(betweenness)
+    # ---- Clustering coefficient ------
+    global_measures['average_clustering'] = (
+        nx.average_clustering(G))
 
     # ---- Shortest path length --------
-    L = shortest_path(G).values()
-    nodal_dict['shortest_path'] = list(L)
+    global_measures['average_shortest_path_length'] = (
+        nx.average_shortest_path_length(G))
 
-    # ---- Clustering ------------------
-    clustering = nx.clustering(G).values()
-    nodal_dict['clustering'] = list(clustering)
+    # ---- Assortativity ---------------
+    global_measures['assortativity'] = (
+        np.mean(nx.degree_assortativity_coefficient(G)))
 
-    # ---- Participation coefficent ----
-    # ---- and module assignment -------
-    partition, pc_dict = participation_coefficient(G, nodal_partition)
-    nodal_dict['module'] = list(partition.values())
-    nodal_dict['pc'] = list(pc_dict.values())
+    # ---- Modularity ------------------
+    global_measures['modularity'] = (
+        calc_modularity(G, partition))
 
-    # ---- Euclidean distance and ------
-    # ---- interhem proporition --------
-    G = assign_nodal_distance(G, centroids)
-    average_dist = nx.get_node_attributes(G, 'average_dist').values()
-    total_dist = nx.get_node_attributes(G, 'total_dist').values()
-    interhem_prop = nx.get_node_attributes(G, 'interhem_proportion').values()
+    #  ---- Efficiency ------------------
+    global_measures['efficiency'] = (
+        calc_efficiency(G))
 
-    nodal_dict['average_dist'] = list(average_dist)
-    nodal_dict['total_dist'] = list(total_dist)
-    nodal_dict['interhem_prop'] = list(interhem_prop)
-
-    # ---- Names -----------------------
-    G = mkg.assign_node_names(G, aparc_names, names_308_style=names_308_style)
-    name = nx.get_node_attributes(G, 'name').values()
-    nodal_dict['name'] = list(name)
-    if names_308_style:
-        name_34 = nx.get_node_attributes(G, 'name_34').values()
-        name_68 = nx.get_node_attributes(G, 'name_68').values()
-        hemi = nx.get_node_attributes(G, 'hemi').values()
-        nodal_dict['name_34'] = list(name_34)
-        nodal_dict['name_68'] = list(name_68)
-        nodal_dict['hemi'] = list(hemi)
-
-    return G, nodal_dict
+    # ---- Small world -----------------
+    # not sure, think this should move on down the line
+    sigma_array = np.ones(n)
+    for i in range(n):
+        sigma_array[i] = ((global_measures['C']
+                           / global_measures['C_rand'][i])
+                          / (global_measures['L']
+                             / global_measures['L_rand'][i]))
+    global_measures['sigma'] = sigma_array
+    global_measures['sigma_rand'] = 1.0
+    return global_measures

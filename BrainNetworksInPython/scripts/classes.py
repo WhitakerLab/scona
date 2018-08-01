@@ -7,21 +7,31 @@ import graph_measures as gm
 
 def cascader(dict1, dict2, name):
     return {key: value.update({name: dict2[key]})
-            for key, value in dict1.items()}
+            for key, value in dict1.items() if key in dict2}
 
 
 class BrainNetwork(nx.classes.graph.Graph):
     def __init__(self,
-                 network,
-                 parcellation,
-                 centroids,
+                 network=None,
+                 parcellation=None,
+                 centroids=None,
                  names_308_style=False):
-        if isinstance(network, nx.classes.graph.Graph):
+        '''
+        Lightweight subclass of networkx.classes.graph.Graph
+        '''
+        # ============== Create graph ================
+        if not network:
+            # Create empty graph
+            nx.classes.graph.Graph.__init__(self)
+
+        elif isinstance(network, nx.classes.graph.Graph):
             # Copy graph
             nx.classes.graph.Graph.__init__(self)
             self.__dict__.update(network.__dict__)
+
         else:
-            # Create weighted graph
+            # Create weighted graph from a dataframe or
+            # numpy array
             if isinstance(network, pd.DataFrame):
                 M = network.values
             elif isinstance(network, np.ndarray):
@@ -29,27 +39,22 @@ class BrainNetwork(nx.classes.graph.Graph):
             M[np.diag_indices_from(M)] = 0
             nx.classes.graph.Graph.__init__(self, M)
 
-        # assign names and centroids to nodes
-        mkg.assign_node_names(self,
-                              parcellation,
-                              names_308_style=names_308_style)
-        mkg.assign_node_centroids(self, centroids)
-
-
-class BinaryBrainNetwork(nx.classes.graph.Graph):
-    def __init__(self, brainnetwork, cost, mst=True):
-
-        nx.classes.graph.Graph.__init__(self)
-        self.__dict__.update(brainnetwork.__dict__)
-
-        self = mkg.threshold_graph(self, self.cost, mst=mst)
-        self.graph['cost'] = cost
-        self.graph['mst'] = mst
+        # ===== Give anatomical labels to nodes ======
+        if parcellation:
+            # assign parcellation names to nodes
+            mkg.assign_node_names(self,
+                                  parcellation,
+                                  names_308_style=names_308_style)
+        if centroids:
+            # assign centroids to nodes
+            mkg.assign_node_centroids(self, centroids)
 
     def partition(self):
-        nodal_partition, module_partition = gm.calc_nodal_partition(self)
-        cascader(self._node, nodal_partition, 'module')
-        self.graph['partition'] = module_partition
+        if 'partition' not in self.graph:
+            nodal_partition, module_partition = gm.calc_nodal_partition(self)
+            cascader(self._node, nodal_partition, 'module')
+            self.graph['partition'] = module_partition
+        return self.graph['partition']
 
     def calculate_nodal_measures(self):
         '''
@@ -59,8 +64,7 @@ class BinaryBrainNetwork(nx.classes.graph.Graph):
         # ==== SET UP ======================
         # If you haven't passed the nodal partition
         # then calculate it here
-        if 'partition' not in self.graph:
-            self.partition()
+        self.partition()
 
         # ==== MEASURES ====================
         # ---- Degree ----------------------
@@ -78,12 +82,33 @@ class BinaryBrainNetwork(nx.classes.graph.Graph):
                  self.graph['partition']), 'pc')
 
         # ---- Euclidean distance and ------
-        # ---- interhem proporition --------
-        gm.assign_nodal_distance(self)
-        gm.assign_interhem(self)
+        # ---- interhem proportion --------
+        if self.graph.get('centroids'):
+            gm.assign_nodal_distance(self)
+            gm.assign_interhem(self)
 
     def export_nodal_measures(self):
         '''
         Returns the node attribute data from G as a pandas dataframe.
         '''
         return pd.DataFrame.from_dict(self._node).transpose()
+
+    def calculate_rich_club(self):
+        self.graph['rich_club'] = nx.rich_club_coefficient(self,
+                                                           normalized=False)
+        return self.graph['rich_club']
+
+    def calculate_global_measures(self):
+        global_measures = gm.calculate_global_measures(self, self.partition())
+        self.graph['global_measures'] = global_measures
+        return global_measures
+
+    def anatomical_copy(self):
+        '''
+        '''
+        mkg.anatomical_copy(self)
+
+    def update_nodal_attributes(self, name, dictionary):
+        '''
+        '''
+        cascader(self._node, dictionary, name)
