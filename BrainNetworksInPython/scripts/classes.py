@@ -93,15 +93,18 @@ class BrainNetwork(nx.classes.graph.Graph):
         '''
         return pd.DataFrame.from_dict(self._node).transpose()
 
-    def calculate_rich_club(self):
-        self.graph['rich_club'] = nx.rich_club_coefficient(self,
-                                                           normalized=False)
+    def calculate_rich_club(self, force=False):
+        if ('rich_club' not in self.graph) or force:
+            self.graph['rich_club'] = nx.rich_club_coefficient(
+                                        self, normalized=False)
         return self.graph['rich_club']
 
-    def calculate_global_measures(self):
-        global_measures = gm.calculate_global_measures(self, self.partition())
-        self.graph['global_measures'] = global_measures
-        return global_measures
+    def calculate_global_measures(self, force=False):
+        if ('global_measures' not in self.graph) or force:
+            global_measures = gm.calculate_global_measures(self,
+                                                           self.partition())
+            self.graph['global_measures'] = global_measures
+        return self.graph['global_measures']
 
     def anatomical_copy(self):
         '''
@@ -112,3 +115,35 @@ class BrainNetwork(nx.classes.graph.Graph):
         '''
         '''
         cascader(self._node, dictionary, name)
+
+
+class GraphBundle(dict):
+    '''
+    '''
+    def __init__(self, name_list, graph_list):
+        '''
+        '''
+        dict.__init__(self)
+        for graph in graph_list:
+            if not isinstance(graph, BrainNetwork):
+                graph = BrainNetwork(graph)
+
+    def apply(self, graph_function):
+        '''
+        '''
+        global_dict = {}
+        for name, graph in self.items():
+            global_dict[name] = graph_function(graph)
+        return global_dict
+
+    def report_global_measures(self):
+        '''
+        '''
+        global_dict = self.apply(lambda x: x.calculate_global_measures())
+        return pd.DataFrame.from_dict(global_dict).transpose()
+
+    def report_rich_club(self):
+        '''
+        '''
+        rc_dict = self.apply(lambda x: x.calculate_rich_club())
+        return pd.DataFrame.from_dict(rc_dict).transpose()
