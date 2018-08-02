@@ -58,27 +58,52 @@ def assign_node_centroids(G, centroids):
     return G
 
 
+def copy_anatomical_nodal_data(R, G, additional_keys=[]):
+    '''
+    Copies node data from G to R for the following list of keys:
+    ["name", "name_34", "name_68", "hemi", "centroids", "x", "y", "z"]
+    plus any keys passed to additional_keys
+
+    R and G are both graphs. They may have non equal vertex sets, but
+    node data will only be copied from G to R for the nodes in the
+    intersection.
+    '''
+    anatomical_keys = [
+        "name", "name_34", "name_68", "hemi", "centroids", "x", "y", "z"]
+    if additional_keys:
+        anatomical_keys.extend(additional_keys)
+    for key in [x for x in R._node.keys() if x in G._node.keys()]:
+        R._node[key].update({k: v
+                            for k, v in G._node[key].items()
+                            if k in anatomical_keys})
+
+
 def anatomical_copy(G, additional_keys=[]):
     '''
     Returns a new graph with the same nodes and edges as G, preserving node
     data from the following list of keys:
     ["name", "name_34", "name_68", "hemi", "centroids", "x", "y", "z"]
     plus any keys passed to additional_keys.
-    Also preserves G.graph values keyed by "centroids" or "parcellation".
+
+    Also preserves edge weights and G.graph values keyed by "centroids" or
+    "parcellation".
+
+    G is a graph and additional_keys is a list of dictionary keys
     '''
-    # Copy the graph with fresh data
+    # Create new empty graph
     R = type(G)()
+    # Copy nodes
     R.add_nodes_from(G)
-    R.add_edges_from(G.edges)
     # Copy anatomical data
-    anatomical_keys = [
-        "name", "name_34", "name_68", "hemi", "centroids", "x", "y", "z"]
-    if additional_keys:
-        anatomical_keys.append(additional_keys)
-    R._node.update({key: {k: value.get(k) for k in anatomical_keys}
-                   for key, value in G._node})
-    R.graph.update({key: value for key, value in G.graph
-                    if key in ['parcellation', 'centroids']})
+    copy_anatomical_nodal_data(R, G)
+    # Preserve edges and edge weights
+    R.add_edges_from(G.edges)
+    nx.set_edge_attributes(R,
+                           name="weight",
+                           values=nx.get_edge_attributes(G, name="weight"))
+    # Preserve parcellation/ centroids keys
+    R.graph.update({key: G.graph.get(key)
+                   for key in ['parcellation', 'centroids']})
     return R
 
 
@@ -138,17 +163,17 @@ def threshold_graph(G, cost, mst=True):
     cost should be a number between 0 and 100
     '''
     # Weights scaled by -1 as minimum_spanning_tree minimises weight
-    H = scale_weights(G.copy())
+    H = scale_weights(anatomical_copy(G))
     # Make a list of all the sorted edges in the full matrix
     H_edges_sorted = sorted(H.edges(data=True),
                             key=lambda edge_info: edge_info[2]['weight'])
+    # Create an empty graph with the same nodes as H
+    germ = anatomical_copy(G)
+    germ.remove_edges_from(G.edges)
+
     if mst:
         # Calculate minimum spanning tree
-        germ = nx.minimum_spanning_tree(H)
-    else:
-        # Create an empty graph with the same nodes as H
-        germ = nx.Graph()
-        germ.add_nodes_from(H)
+        germ.add_edges_from(nx.minimum_spanning_edges(H))
 
     # Make a list of the germ graph's edges
     germ_edges = germ.edges(data=True)
@@ -176,8 +201,10 @@ def threshold_graph(G, cost, mst=True):
     # from your sorted list (H_edges_sorted_not_germ)
     else:
         germ.add_edges_from(H_edges_sorted_not_germ[:n_edges])
+    # binarise edge weights
+    nx.set_edge_attributes(germ, name='weight', values=1)
     # And return the updated germ as your graph
-    return scale_weights(germ)
+    return germ
 
 
 def graph_at_cost(M, cost, mst=True):

@@ -240,12 +240,12 @@ def calculate_global_measures(G, partition):
 
     # ---- Small world -----------------
     # not sure, think this should move on down the line
-    sigma_array = np.ones(n)
-    for i in range(n):
-        sigma_array[i] = ((global_measures['C']
-                           / global_measures['C_rand'][i])
-                          / (global_measures['L']
-                             / global_measures['L_rand'][i]))
-    global_measures['sigma'] = sigma_array
-    global_measures['sigma_rand'] = 1.0
+    # sigma_array = np.ones(n)
+    # for i in range(n):
+    #     sigma_array[i] = ((global_measures['C']
+    #                        / global_measures['C_rand'][i])
+    #                       / (global_measures['L']
+    #                          / global_measures['L_rand'][i]))
+    # global_measures['sigma'] = sigma_array
+    # global_measures['sigma_rand'] = 1.0
     return global_measures
