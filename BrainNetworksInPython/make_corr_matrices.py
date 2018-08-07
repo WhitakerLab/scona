@@ -6,9 +6,12 @@ Tools to create a correlation matrix from regional measures
 import os
 import numpy as np
 import pandas as pd
+from BrainNetworksInPython.stats_functions import residuals
+
 
 def get_non_numeric_cols(df):
-    numeric = np.fromiter((np.issubdtype(y, np.number) for y in df.dtypes),bool)
+    numeric = np.fromiter((np.issubdtype(y, np.number) for y in df.dtypes),
+                          bool)
     non_numeric_cols = np.array(df.columns)[~numeric]
     return non_numeric_cols
 
@@ -18,16 +21,16 @@ def create_residuals_df(df, names, covars_list):
     Return residuals of names columns correcting for the columns in covars_list
     * df is a pandas data frame with participants as rows.
     * names is a list of the brain regions you wish to correlate.
-    * covars_list is a list of covariates (as df column headings) that 
-      you choose to correct for before correlating the regions.
+    * covars_list is a list of covariates (as df column headings)
+      to correct for before correlating the regions.
+
     df should be numeric for the columns in names and covars_list
     '''
-    import BrainNetworksInPython.scripts.stats_functions as sf
-    
     # Raise TypeError if any of the relevant columns are nonnumeric
     non_numeric_cols = get_non_numeric_cols(df[names+covars_list])
     if non_numeric_cols:
-        raise TypeError('DataFrame columns {} are non numeric'.format(', '.join(non_numeric_cols)))
+        raise TypeError('DataFrame columns {} are non numeric'
+                        .format(', '.join(non_numeric_cols)))
 
     # Make a new data frame that will contain
     # the residuals for each column after correcting for
@@ -44,7 +47,7 @@ def create_residuals_df(df, names, covars_list):
 
     # Calculate the residuals
     for name in names:
-        df_res.loc[:, name] = sf.residuals(x.T, df.loc[:, name])
+        df_res.loc[:, name] = residuals(x.T, df.loc[:, name])
 
     # Return the residuals data frame
     return df_res
@@ -60,9 +63,11 @@ def create_corrmat(df_residuals, names, method='pearson'):
     # Raise TypeError if any of the relevant columns are nonnumeric
     non_numeric_cols = get_non_numeric_cols(df_residuals)
     if non_numeric_cols:
-        raise TypeError('DataFrame columns {} are non numeric'.format(', '.join(non_numeric_cols)))
+        raise TypeError('DataFrame columns {} are non numeric'
+                        .format(', '.join(non_numeric_cols)))
 
     return df_residuals.loc[:, names].astype(float).corr(method=method)
+
 
 def save_mat(M, M_text_name):
     '''
@@ -77,7 +82,7 @@ def save_mat(M, M_text_name):
 
     # Save the matrix as a text file
     np.savetxt(M_text_name,
-                   M,
-                   fmt='%.5f',
-                   delimiter='\t',
-                   newline='\n')
+               M,
+               fmt='%.5f',
+               delimiter='\t',
+               newline='\n')
