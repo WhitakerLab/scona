@@ -214,38 +214,68 @@ def rich_club(G):
     return nx.rich_club_coefficient(G, normalized=False)
 
 
-def calculate_global_measures(G, partition):
+def calculate_global_measures(G,
+                              partition=None,
+                              existing_global_measures=None):
+    '''
+    Calculate global measures including FILL for a single graph G
+    If a dictionary mapping nodes to modules is passed to partition
+    will also calculate the modularity of G under this partition.
+
+    If a dictionary, d, is passed to existin_global_measures, will
+    calculate any measures not already keyed in d.
+    '''
     # ==== MEASURES ====================
-    global_measures = {}
+    if existing_global_measures is not None:
+        global_measures = existing_global_measures
+    else:
+        global_measures = {}
 
     # ---- Clustering coefficient ------
-    global_measures['average_clustering'] = (
-        nx.average_clustering(G))
+    if 'average_clustering' not in global_measures:
+        global_measures['average_clustering'] = (
+            nx.average_clustering(G))
 
     # ---- Shortest path length --------
-    global_measures['average_shortest_path_length'] = (
-        nx.average_shortest_path_length(G))
+    if 'average_shortest_path_length' not in global_measures:
+        global_measures['average_shortest_path_length'] = (
+            nx.average_shortest_path_length(G))
 
     # ---- Assortativity ---------------
-    global_measures['assortativity'] = (
-        np.mean(nx.degree_assortativity_coefficient(G)))
+    if 'assortativity' not in global_measures:
+        global_measures['assortativity'] = (
+            np.mean(nx.degree_assortativity_coefficient(G)))
 
     # ---- Modularity ------------------
-    global_measures['modularity'] = (
-        calc_modularity(G, partition))
+    if partition is not None & 'modularity' not in global_measures:
+        global_measures['modularity'] = (
+            calc_modularity(G, partition))
 
     #  ---- Efficiency ------------------
-    global_measures['efficiency'] = (
-        calc_efficiency(G))
+    if 'efficiency' not in global_measures:
+        global_measures['efficiency'] = (
+            calc_efficiency(G))
 
-    # ---- Small world -----------------
-    # not sure, think this should move on down the line
-    # sigma_array = np.ones(n)
-    # for i in range(n):
-    #     sigma_array[i] = ((global_measures['C']
-    #                        / global_measures['C_rand'][i])
-    #                       / (global_measures['L']
-    #                          / global_measures['L_rand'][i]))
-    # global_measures['sigma'] = sigma_array
-    # global_measures['sigma_rand'] = 1.0
     return global_measures
+
+
+def small_world_sigma(tupleG, tupleR):
+    '''
+    Calculate the small coefficient of graph G relative
+    to graph R where tupleG and tupleR are the values
+    (average_clustering, average_shortest_path_length)
+    of G and R respectively.
+    '''
+    Cg, Lg = tupleG
+    Cr, Lr = tupleR
+    return ((Cg/Cr)/(Lg/Lr))
+
+
+def small_coefficient(G, R):
+    '''
+    Calculate the small coefficient of G relative to R.
+    '''
+    return small_world_sigma((nx.average_clustering(G),
+                              nx.average_shortest_path_length(G)),
+                             (nx.average_clustering(R),
+                              nx.average_shortest_path_length(R)))
