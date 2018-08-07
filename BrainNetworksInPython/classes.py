@@ -1,10 +1,10 @@
 import numpy as np
 import networkx as nx
 import pandas as pd
-from BrainNetworksInPython.scripts.make_graphs import assign_node_names, \
+from BrainNetworksInPython.make_graphs import assign_node_names, \
     assign_node_centroids, anatomical_copy, threshold_graph, \
     weighted_graph_from_matrix, get_random_graphs
-from BrainNetworksInPython.scripts.graph_measures import assign_interhem, \
+from BrainNetworksInPython.graph_measures import assign_interhem, \
     shortest_path, participation_coefficient, assign_nodal_distance, \
     calc_nodal_partition, calculate_global_measures
 
