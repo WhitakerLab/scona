@@ -10,6 +10,9 @@ from BrainNetworksInPython.stats_functions import residuals
 
 
 def get_non_numeric_cols(df):
+    '''
+    FILL
+    '''
     numeric = np.fromiter((np.issubdtype(y, np.number) for y in df.dtypes),
                           bool)
     non_numeric_cols = np.array(df.columns)[~numeric]
