@@ -27,8 +27,7 @@ def subject_residuals():
 
 def test_non_numeric_cols():
     df = subject_residuals()
-    cols = []
-    assert get_non_numeric_cols(df) == np.array(cols)
+    assert get_non_numeric_cols(df).size == 0
     df['hats'] = 'stetson'
     assert get_non_numeric_cols(df) == np.array(['hats'])
 
