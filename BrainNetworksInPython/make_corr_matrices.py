@@ -22,10 +22,11 @@ def get_non_numeric_cols(df):
 def create_residuals_df(df, names, covars_list):
     '''
     Return residuals of names columns correcting for the columns in covars_list
-    * df is a pandas data frame with participants as rows.
+    * df is a pandas data frame with subjects as rows and columns including
+        brain regions and covariates
     * names is a list of the brain regions you wish to correlate.
     * covars_list is a list of covariates (as df column headings)
-      to correct for before correlating the regions.
+        to correct for before correlating the regions.
 
     df should be numeric for the columns in names and covars_list
     '''
@@ -61,7 +62,7 @@ def create_corrmat(df_residuals, names, method='pearson'):
     Returns a correlation matrix
     * df_res is a pandas data frame with participants as rows.
     * names is a list of the brain regions you wish to correlate.
-    * method is the method of correlation fed to pandas.DataFram.corr
+    * method is the method of correlation passed to pandas.DataFram.corr
     '''
     # Raise TypeError if any of the relevant columns are nonnumeric
     non_numeric_cols = get_non_numeric_cols(df_residuals)
@@ -70,6 +71,31 @@ def create_corrmat(df_residuals, names, method='pearson'):
                         .format(', '.join(non_numeric_cols)))
 
     return df_residuals.loc[:, names].astype(float).corr(method=method)
+
+
+def corrmat_from_regionalmeasures(
+        regional_measures,
+        names,
+        covars=None,
+        method='pearson'):
+    '''
+    Return residuals of names columns correcting for the columns in covars_list
+    * df is a pandas data frame with subjects as rows and columns including
+        brain regions and covariates
+    * names is a list of the brain regions you wish to correlate.
+    * covars_list is a list of covariates (as df column headings)
+        to correct for before correlating the regions.
+    * method is the method of correlation passed to pandas.DataFram.corr
+
+    df should be numeric for the columns in names and covars_list
+    '''
+    # Correct for your covariates
+    df_res = create_residuals_df(regional_measures, names, covars)
+
+    # Make your correlation matrix
+    M = create_corrmat(df_res, names, method=method).values
+
+    return M
 
 
 def save_mat(M, M_text_name):
