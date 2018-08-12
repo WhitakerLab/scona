@@ -128,9 +128,69 @@ class AnatomicalMeasures(unittest.TestCase):
 # are relabeled networkx measures
 
 
-def test_small_worlds():
-    return
+class SmallWorlds(unittest.TestCase):
+    @classmethod
+    def setUpClass(self):
+        self.watts_strogatz_2 = nx.watts_strogatz_graph(6, 4, 0)
+        self.watts_strogatz_1 = nx.watts_strogatz_graph(6, 2, 0)
+        self.watts_strogatz_random_2 = nx.watts_strogatz_graph(6, 4, 0.5)
+
+    def test_watts_strogatz_1_no_small_world(self):
+        assert (gm.small_coefficient(
+                self.watts_strogatz_1, self.watts_strogatz_2)
+                == 0)
+        assert (gm.small_coefficient(
+                self.watts_strogatz_1, self.watts_strogatz_random_2)
+                == 0)
+
+    def test_randomising_watts_strogatz_increases_small_worldness(self):
+        assert (gm.small_coefficient(
+                self.watts_strogatz_random_2, self.watts_strogatz_2)
+                > 1)
 
 
-def test_calculate_global_measures():
-    return
+class GlobalMeasuresMethod(unittest.TestCase):
+    @classmethod
+    def setUpClass(self):
+        self.karate = nx.karate_club_graph()
+        self.measures_no_part = gm.calculate_global_measures(
+            self.karate)
+        self.totalpart = {x: x for x in list(self.karate.nodes)}
+        self.measures_part = gm.calculate_global_measures(
+            self.karate,
+            partition=self.totalpart)
+        self.extra_measure = {'hat': 'cap'}
+
+    def test_average_clustering(self):
+        assert 'average_clustering' in self.measures_part
+        assert 'average_clustering' in self.measures_no_part
+
+    def test_average_shortest_path_length(self):
+        assert 'average_shortest_path_length' in self.measures_part
+        assert 'average_shortest_path_length' in self.measures_no_part
+
+    def test_assortativity(self):
+        assert 'assortativity' in self.measures_part
+        assert 'assortativity' in self.measures_no_part
+
+    def test_modularity(self):
+        assert 'modularity' in self.measures_part
+        assert 'modularity' not in self.measures_no_part
+
+    def test_efficiency(self):
+        assert 'efficiency' in self.measures_part
+        assert 'efficiency' in self.measures_no_part
+
+    def test_from_existing(self):
+        assert (gm.calculate_global_measures(
+            self.karate,
+            partition=self.totalpart,
+            existing_global_measures=self.measures_no_part)
+                == self.measures_part)
+        measures_with_extra = self.measures_no_part
+        measures_with_extra.update(self.extra_measure)
+        assert (gm.calculate_global_measures(
+            self.karate,
+            partition=self.totalpart,
+            existing_global_measures=measures_with_extra)
+                == self.measures_part.update(self.extra_measure))

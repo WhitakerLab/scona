@@ -15,13 +15,13 @@ def calc_nodal_partition(G):
 
     Note that this is a time intensive process and it is also
     non-deterministic, so for consistency and speed it's best
-    to save a partition.
+    to hold on to your partition.
     '''
     import community
     # Make sure the edges are binarized
     for u, v, d in G.edges(data=True):
-        if d['weight'] != 1:
-            raise ValueError("input should be a binary graph")
+        if d.get('weight', 1) != 1:
+            raise ValueError("G should be a binary graph")
     # Now calculate the best partition
     nodal_partition = community.best_partition(G)
 
@@ -57,26 +57,84 @@ def participation_coefficient(G, module_partition):
     # time to run this code
     print('        Calculating participation coefficient -\
            may take a little while')
+
     # Loop over modules to calculate participation coefficient for each node
     for m in module_partition.keys():
-        mod_list = set(module_partition[m])
-        for source in mod_list:
-            # Calculate the degree for the 'source' node
-            degree = nx.degree(G=G, nbunch=source)
+        # Create module subgraph
+        M = G.subgraph(set(module_partition[m]))
+        for v in M.nodes:
+            # Calculate the degree for v
+            degree = nx.degree(G=G, nbunch=v)
 
             # Calculate the number of intramodule edges
-            wm_edges = 0
-            for target in mod_list:
-                if (source, target) in G.edges():
-                    wm_edges += 1
+            wm_edges = float(nx.degree(G=M, nbunch=v))
 
             # The participation coeficient is 1 - the square of
             # the ratio of the within module degree and the total degree
             pc = 1 - ((float(wm_edges) / float(degree))**2)
 
-            pc_dict[source] = pc
+            pc_dict[v] = pc
 
     return pc_dict
+
+
+def z_score(G, module_partition):
+    '''
+    FILL
+
+    - G is a networkx graph
+    - module_partition is a dictionary mapping community names to lists of
+     nodes in G
+
+    Returns a dictionary mapping the nodes of G to their z-score under
+    module_partition.
+    '''
+    # Initialise dictionary for the z-scores
+    z_score = {}
+
+    # Loop over modules to calculate z-score for each node
+    for m in module_partition.keys():
+        # Create module subgraph
+        M = G.subgraph(set(module_partition[m]))
+        # Calculate relevant module statistics
+        M_degrees = list(dict(M.degree()).values())
+        M_degree = np.mean(M_degrees)
+        M_std = np.std(M_degrees)
+        for v in M.nodes:
+            # Calculate the number of intramodule edges
+            wm_edges = float(nx.degree(G=M, nbunch=v))
+            # Calculate z score as the intramodule degree of v
+            # minus the mean intramodule degree, all divided by
+            # the standard deviation of intramodule degree
+            if M_std != 0:
+                zs = (wm_edges - M_degree)/M_std
+            else:
+                # If M_std is 0, then all M_degrees must be equal.
+                # It follows that the intramodule degree of v must equal
+                # the mean intramodule degree.
+                # It is therefore valid to assign a 0 value to the z-score
+                zs = 0
+            z_score[v] = zs
+
+    return z_score
+
+
+def shortest_path(G):
+    '''
+    Returns a dictionary mapping a node v to the average length of the shortest
+    from v to other nodes in G. Not that in this case "length" means the number
+    of edges in this path, and not the euclidean distance.
+
+    G is a connected graph
+    '''
+    shortestpl_dict = {}
+    for node in G.nodes():
+        shortestpl_dict[node] = np.average(
+            list(nx.shortest_path_length(G, source=node).values()))
+    return shortestpl_dict
+
+
+# =============== anatomical measures ========================
 
 
 def assign_nodal_distance(G):
@@ -162,26 +220,9 @@ def assign_interhem(G):
         # of the interhem values for all edges which connect to the node
         interhem_list = [G.adj[m][n]['interhem']
                          for m, n in G.edges(nbunch=node)]
+        G.node[node]['interhem'] = sum(interhem_list)
         G.node[node]['interhem_proportion'] = np.mean(interhem_list)
     return G
-
-
-def shortest_path(G):
-    '''
-    Returns a dictionary mapping a node v to the average length of the shortest
-    from v to other nodes in G. Not that in this case "length" means the number
-    of edges in this path, and not the euclidean distance.
-
-    G is a connected graph
-    '''
-    shortestpl_dict_dict = dict(nx.shortest_path_length(G))
-
-    shortestpl_dict = {}
-
-    for node in G.nodes():
-        shortestpl_dict[node] = np.average(
-                                list(shortestpl_dict_dict[node].values()))
-    return shortestpl_dict
 
 
 # ============= Global measures =============
@@ -199,19 +240,36 @@ def calc_modularity(G, nodal_partition):
     return community.modularity(nodal_partition, G)
 
 
-def calc_efficiency(G):
-    '''
-    Returns the global efficiency of G
-    '''
-    E = 0.0
-    for node in G:
-        path_length = nx.single_source_shortest_path_length(G, node)
-        E += 1.0/sum(path_length.values())
-    return E
-
-
 def rich_club(G):
     return nx.rich_club_coefficient(G, normalized=False)
+
+
+# ================= Small World methods ============================
+
+
+def small_world_sigma(tupleG, tupleR):
+    '''
+    Calculate the small coefficient of graph G relative
+    to graph R where tupleG and tupleR are the values
+    (average_clustering, average_shortest_path_length)
+    of G and R respectively.
+    '''
+    Cg, Lg = tupleG
+    Cr, Lr = tupleR
+    return ((Cg/Cr)/(Lg/Lr))
+
+
+def small_coefficient(G, R):
+    '''
+    Calculate the small coefficient of G relative to R.
+    '''
+    return small_world_sigma((nx.average_clustering(G),
+                              nx.average_shortest_path_length(G)),
+                             (nx.average_clustering(R),
+                              nx.average_shortest_path_length(R)))
+
+
+# ============ Calculate Global Measures En Masse ================
 
 
 def calculate_global_measures(G,
@@ -247,35 +305,13 @@ def calculate_global_measures(G,
             np.mean(nx.degree_assortativity_coefficient(G)))
 
     # ---- Modularity ------------------
-    if partition is not None & 'modularity' not in global_measures:
+    if partition is not None and 'modularity' not in global_measures:
         global_measures['modularity'] = (
             calc_modularity(G, partition))
 
     #  ---- Efficiency ------------------
     if 'efficiency' not in global_measures:
         global_measures['efficiency'] = (
-            calc_efficiency(G))
+            nx.global_efficiency(G))
 
     return global_measures
-
-
-def small_world_sigma(tupleG, tupleR):
-    '''
-    Calculate the small coefficient of graph G relative
-    to graph R where tupleG and tupleR are the values
-    (average_clustering, average_shortest_path_length)
-    of G and R respectively.
-    '''
-    Cg, Lg = tupleG
-    Cr, Lr = tupleR
-    return ((Cg/Cr)/(Lg/Lr))
-
-
-def small_coefficient(G, R):
-    '''
-    Calculate the small coefficient of G relative to R.
-    '''
-    return small_world_sigma((nx.average_clustering(G),
-                              nx.average_shortest_path_length(G)),
-                             (nx.average_clustering(R),
-                              nx.average_shortest_path_length(R)))
