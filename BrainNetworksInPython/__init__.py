@@ -33,7 +33,6 @@ __bibtex__ = """ FILL
 
 # imports listed in chronological order
 
-from BrainNetworksInPython.stats_functions import *
 from BrainNetworksInPython.make_corr_matrices import *
 from BrainNetworksInPython.make_graphs import *
 from BrainNetworksInPython.graph_measures import *

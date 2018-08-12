@@ -3,7 +3,9 @@ import networkx as nx
 import pandas as pd
 from BrainNetworksInPython.make_graphs import assign_node_names, \
     assign_node_centroids, anatomical_copy, threshold_graph, \
-    weighted_graph_from_matrix, get_random_graphs
+    weighted_graph_from_matrix, anatomical_node_attributes, \
+    anatomical_graph_attributes, get_random_graphs, is_nodal_match, \
+    is_anatomical_match
 from BrainNetworksInPython.graph_measures import assign_interhem, \
     shortest_path, participation_coefficient, assign_nodal_distance, \
     calc_nodal_partition, calculate_global_measures, small_coefficient
@@ -17,6 +19,7 @@ class BrainNetwork(nx.classes.graph.Graph):
                  names_308_style=False):
         '''
         Lightweight subclass of networkx.classes.graph.Graph
+        FILL
         '''
         # ============== Create graph ================
         nx.classes.graph.Graph.__init__(self)
@@ -32,8 +35,7 @@ class BrainNetwork(nx.classes.graph.Graph):
                     M = network.values
                 elif isinstance(network, np.ndarray):
                     M = network
-                network = weighted_graph_from_matrix(M)
-                self.__dict__.update(network.__dict__)
+                network = weighted_graph_from_matrix(M, create_using=self)
 
         # ===== Give anatomical labels to nodes ======
         if parcellation is not None:
@@ -44,10 +46,14 @@ class BrainNetwork(nx.classes.graph.Graph):
         if centroids is not None:
             # assign centroids to nodes
             assign_node_centroids(self, centroids)
+        # Tell BrainNetwork class which attributes to consider "anatomical"
+        # and therefore preserve when copying or creating new graphs
+        self.set_anatomical_node_attributes = anatomical_node_attributes
+        self.set_anatomical_graph_attributes = anatomical_graph_attributes
 
     def threshold(self, cost, mst=True):
         '''
-        FILL
+        Returns a new graph G FILL
         '''
         return threshold_graph(self, cost, mst=True)
 
@@ -57,7 +63,7 @@ class BrainNetwork(nx.classes.graph.Graph):
         '''
         if 'partition' not in self.graph:
             nodal_partition, module_partition = calc_nodal_partition(self)
-            nx.set_node_attributes('module', nodal_partition)
+            nx.set_node_attributes(self, nodal_partition, name='module')
             self.graph['partition'] = module_partition
         return self.graph['partition']
 
@@ -73,19 +79,24 @@ class BrainNetwork(nx.classes.graph.Graph):
 
         # ==== MEASURES ====================
         # ---- Degree ----------------------
-        nx.set_node_attributes('degree', dict(self.degree))
+        nx.set_node_attributes(self, name='degree', values=dict(self.degree))
         # ---- Closeness -------------------
-        nx.set_node_attributes('closeness', nx.closeness_centrality(self))
+        nx.set_node_attributes(self,
+                               name='closeness',
+                               values=nx.closeness_centrality(self))
         # ---- Betweenness -----------------
-        nx.set_node_attributes('betweenness', nx.betweenness_centrality(self))
+        nx.set_node_attributes(self,
+                               name='betweenness',
+                               values=nx.betweenness_centrality(self))
         # ---- Shortest path length --------
-        nx.set_node_attributes('shortest_path_length',
-                               shortest_path(self))
+        nx.set_node_attributes(self,
+                               name='shortest_path_length',
+                               values=shortest_path(self))
         # ---- Clustering ------------------
-        nx.set_node_attributes('clustering', nx.clustering(self))
+        nx.set_node_attributes(self, name='clustering', values=nx.clustering(self))
         # ---- Participation coefficent ----
-        nx.set_node_attributes('participation_coefficient',
-                               participation_coefficient(
+        nx.set_node_attributes(self, name='participation_coefficient',
+                               values=participation_coefficient(
                                 self,
                                 self.graph['partition']), )
 
@@ -95,10 +106,12 @@ class BrainNetwork(nx.classes.graph.Graph):
             assign_nodal_distance(self)
             assign_interhem(self)
 
-    def export_nodal_measures(self, columns=None, index='name'):
+    def export_nodal_measures(self, columns=None, index='name', as_dict=False):
         '''
         Returns the node attribute data from G as a pandas dataframe.
         '''
+        if as_dict:
+            return self._node
         df = pd.DataFrame(self._node, columns=columns).transpose()
         return df.set_index(index)
 
@@ -131,7 +144,25 @@ class BrainNetwork(nx.classes.graph.Graph):
         '''
         FILL
         '''
-        return anatomical_copy(self)
+        return anatomical_copy(self,
+                               nodal_keys=self.anatomical_node_attributes,
+                               graph_keys=self.anatomical_graph_attributes)
+
+    def set_anatomical_node_attributes(self, names):
+        '''
+        Set the list of node attribute keys that are to be considered
+        anatomical. These will be preserved when creating anatomical graph
+        copies.
+        '''
+        self.anatomical_node_attributes = names
+
+    def anatomical_graph_attributes(self, names):
+        '''
+        Set the list of graph attribute keys that are to be considered
+        anatomical. These will be preserved when creating anatomical graph
+        copies.
+        '''
+        self.anatomical_graph_attributes = names
 
 
 class GraphBundle(dict):
@@ -202,3 +233,26 @@ class GraphBundle(dict):
         small_world_dict = self.apply(
             lambda x: small_coefficient(self['graph_name'], x))
         return small_world_dict
+
+    def nodal_matches(self):
+        '''
+        Returns True if all graphs have the same node set
+        '''
+        H = list(self.values())[0]
+        return (False not in [is_nodal_match(H, G) for G in self.values()])
+
+    def anatomical_matches(self,
+                           nodal_keys=anatomical_node_attributes(),
+                           graph_keys=anatomical_graph_attributes()):
+        '''
+        Returns False if graphs are not all pairwise anatomical matches
+        as defined in make_graphs.is_anatomical_match.
+        '''
+        H = list(self.values())[0]
+        return (False not in
+                [is_anatomical_match(
+                    H,
+                    G,
+                    nodal_keys=nodal_keys,
+                    graph_keys=graph_keys)
+                 for G in self.values()])
