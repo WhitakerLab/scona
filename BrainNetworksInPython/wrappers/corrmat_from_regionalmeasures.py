@@ -17,10 +17,6 @@ from BrainNetworksInPython.scripts.useful_functions import read_in_data
 
 
 def setup_argparser():
-    '''
-    Code to read in arguments from the command line
-    Also allows you to change some settings
-    '''
     # Build a basic parser.
     help_text = (('Generate a structural correlation \
     matrix from an input csv file,\n') + ('a list of \
@@ -124,7 +120,7 @@ def corrmat_from_regionalmeasures(regional_measures_file,
         * output_name : file name to save output matrix to.
     '''
     # Read in the data
-    df, names, covars_list = read_in_data(
+    df, names, covars_list, *a = read_in_data(
         regional_measures_file,
         names_file,
         covars_file=covars_file,
