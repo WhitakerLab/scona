@@ -10,6 +10,14 @@ import pandas as pd
 # ==================== Anatomical Functions =================
 
 
+def anatomical_node_attributes():
+    return ["name", "name_34", "name_68", "hemi", "centroids", "x", "y", "z"]
+
+
+def anatomical_graph_attributes():
+    return ['parcellation', 'centroids']
+
+
 def assign_node_names(G, parcellation, names_308_style=False):
     """
     Returns the network G with node attributes "name" assigned
@@ -27,11 +35,11 @@ def assign_node_names(G, parcellation, names_308_style=False):
     """
     # Assign anatomical names to the nodes
     for i, node in enumerate(G.nodes()):
-        G.node[node]['name'] = parcellation[i]
+        G.node[i]['name'] = parcellation[i]
         if names_308_style:
-            G.node[node]['name_34'] = parcellation[i].split('_')[1]
-            G.node[node]['name_68'] = parcellation[i].rsplit('_', 1)[0]
-            G.node[node]['hemi'] = parcellation[i].split('_', 1)[0]
+            G.node[i]['name_34'] = parcellation[i].split('_')[1]
+            G.node[i]['name_68'] = parcellation[i].rsplit('_', 1)[0]
+            G.node[i]['hemi'] = parcellation[i].split('_', 1)[0]
     #
     G.graph['parcellation'] = True
     return G
@@ -49,73 +57,112 @@ def assign_node_centroids(G, centroids):
     '''
     # Assign cartesian coordinates to the nodes
     for i, node in enumerate(G.nodes()):
-        G.node[node]['x'] = centroids[i, 0]
-        G.node[node]['y'] = centroids[i, 1]
-        G.node[node]['z'] = centroids[i, 2]
-        G.node[node]['centroids'] = centroids[i, :]
+        G.node[i]['x'] = centroids[i][0]
+        G.node[i]['y'] = centroids[i][1]
+        G.node[i]['z'] = centroids[i][2]
+        G.node[i]['centroids'] = centroids[i]
     #
     G.graph['centroids'] = True
     return G
 
 
-def copy_anatomical_nodal_data(R, G, additional_keys=[]):
+def copy_anatomical_data(R, G,
+                         nodal_keys=anatomical_node_attributes(),
+                         graph_keys=anatomical_graph_attributes()):
     '''
     Copies node data from G to R for the following list of keys:
     ["name", "name_34", "name_68", "hemi", "centroids", "x", "y", "z"]
-    plus any keys passed to additional_keys
+    or a list of keys passed to anatomical_keys.
 
     R and G are both graphs. They may have non equal vertex sets, but
     node data will only be copied from G to R for the nodes in the
     intersection.
     '''
-    anatomical_keys = [
-        "name", "name_34", "name_68", "hemi", "centroids", "x", "y", "z"]
-    if additional_keys:
-        anatomical_keys.extend(additional_keys)
     for key in [x for x in R._node.keys() if x in G._node.keys()]:
         R._node[key].update({k: v
                             for k, v in G._node[key].items()
-                            if k in anatomical_keys})
+                            if k in nodal_keys})
+
+    R.graph.update({key: G.graph.get(key)
+                   for key in graph_keys})
+    return R
 
 
-def anatomical_copy(G, additional_keys=[]):
+def anatomical_copy(G,
+                    nodal_keys=anatomical_node_attributes(),
+                    graph_keys=anatomical_graph_attributes()):
     '''
     Returns a new graph with the same nodes and edges as G, preserving node
     data from the following list of keys:
     ["name", "name_34", "name_68", "hemi", "centroids", "x", "y", "z"]
-    plus any keys passed to additional_keys.
+    plus any keys passed to anatomical_keys.
 
     Also preserves edge weights and G.graph values keyed by "centroids" or
     "parcellation".
 
-    G is a graph and additional_keys is a list of dictionary keys
+    To specify which node or graph keys to preserve, pass a list of keys
+    to `nodal_keys` or `graph_keys` respectively.
     '''
     # Create new empty graph
     R = type(G)()
     # Copy nodes
-    R.add_nodes_from(G)
+    R.add_nodes_from(G.nodes)
     # Copy anatomical data
-    copy_anatomical_nodal_data(R, G)
+    copy_anatomical_data(R, G, nodal_keys=nodal_keys, graph_keys=graph_keys)
     # Preserve edges and edge weights
     R.add_edges_from(G.edges)
     nx.set_edge_attributes(R,
                            name="weight",
                            values=nx.get_edge_attributes(G, name="weight"))
-    # Preserve parcellation/ centroids keys
-    R.graph.update({key: G.graph.get(key)
-                   for key in ['parcellation', 'centroids']})
     return R
+
+
+def is_nodal_match(G, H, keys=None):
+    '''
+    Return True if the nodes of G an H are the same, including the
+    nodal values of any list of attributes passed to keys.
+    '''
+    if set(G.nodes) != set(H.nodes):
+        return False
+    elif keys is None:
+        return True
+    elif ({node: {k: v for k, v in values.items() if k in keys}
+            for node, values in G._node.items()}
+            != {node: {k: v for k, v in values.items() if k in keys}
+                for node, values in H._node.items()}):
+        return False
+    else:
+        return True
+
+
+def is_anatomical_match(G,
+                        H,
+                        nodal_keys=anatomical_node_attributes(),
+                        graph_keys=anatomical_graph_attributes()):
+    '''
+    Return True if G and H have the same anatomical data
+    '''
+    # check nodes match
+    if not is_nodal_match(G, H, keys=nodal_keys):
+        return False
+    # check graph attributes match
+    elif ({k: v for k, v in G.graph.items() if k in graph_keys}
+            != {k: v for k, v in H.graph.items() if k in graph_keys}):
+        return False
+    else:
+        return True
 
 
 # ================= Graph construction =====================
 
 
-def weighted_graph_from_matrix(M):
+def weighted_graph_from_matrix(M, create_using=None):
     '''
     Return a networkx weighted graph with edge weights equivalent to matrix
     entries
 
     M is an adjacency matrix as a numpy array
+    create_using: Use specified graph for result. The default is Graph().
     '''
     # Make a copy of the matrix
     thr_M = np.copy(M)
@@ -124,7 +171,7 @@ def weighted_graph_from_matrix(M):
     thr_M[np.diag_indices_from(thr_M)] = 0
 
     # Read this full matrix into a graph G
-    G = nx.from_numpy_matrix(thr_M)
+    G = nx.from_numpy_matrix(thr_M, create_using=create_using)
 
     return G
 
