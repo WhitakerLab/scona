@@ -21,7 +21,8 @@ def get_non_numeric_cols(df):
 
 def create_residuals_df(df, names, covars_list):
     '''
-    Return residuals of names columns correcting for the columns in covars_list
+    Calculate residuals of columns specified by names, correcting for the
+    columns in covars_list.
     * df is a pandas data frame with subjects as rows and columns including
         brain regions and covariates
     * names is a list of the brain regions you wish to correlate.
@@ -57,13 +58,15 @@ def create_residuals_df(df, names, covars_list):
     return df_res
 
 
-def create_corrmat(df_residuals, names, method='pearson'):
+def create_corrmat(df_residuals, names=None, method='pearson'):
     '''
     Returns a correlation matrix
     * df_res is a pandas data frame with participants as rows.
     * names is a list of the brain regions you wish to correlate.
     * method is the method of correlation passed to pandas.DataFram.corr
     '''
+    if names is None:
+        names = df_residuals.columns
     # Raise TypeError if any of the relevant columns are nonnumeric
     non_numeric_cols = get_non_numeric_cols(df_residuals)
     if non_numeric_cols:
@@ -93,7 +96,7 @@ def corrmat_from_regionalmeasures(
     df_res = create_residuals_df(regional_measures, names, covars)
 
     # Make your correlation matrix
-    M = create_corrmat(df_res, names, method=method).values
+    M = create_corrmat(df_res, names=names, method=method).values
 
     return M
 
