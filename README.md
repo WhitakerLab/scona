@@ -5,6 +5,14 @@
 
 Welcome to the BrainNetworksInPython GitHub repository!:sparkles: <img align="right" src="https://media.giphy.com/media/3ohhwwL4kj5z1Id6uI/giphy.gif">
 
+## Get Started
+
+To install BrainNetworksInPython as a python package with pip
+```
+pip install git+https://github.com/WhitakerLab/BrainNetworksInPython.git@dev
+```
+
+Check out our [tutorial](tutorials/tutorial.ipynb) for examples of basic functionality.
 
 
 
@@ -16,7 +24,6 @@ BrainNetworksInPython takes regional cortical thickness data obtained from struc
 
 The BrainNetworksInPython codebase was first developed by Dr Kirstie Whitaker for the Neuroscience in Psychiatry Network publication "Adolescence is associated with genomically patterned consolidation of the hubs of the human brain connectome" published in PNAS in 2016 [(Whitaker*, Vertes* et al, 2016](http://dx.doi.org/10.1073/pnas.1601745113)). This project is to take the existing codebase (accessible at https://github.com/KirstieJane/NSPN_WhitakerVertes_PNAS2016) and turn it into a documented, tested python package that is easy to use and re-use.
 
-Check out our [tutorial](jupyter_demo.ipynb) to get started.
 
 ## Want to get involved?
 BrainNetworksInPython is openly developed and welcomes contributers.
