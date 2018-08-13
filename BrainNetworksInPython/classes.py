@@ -15,8 +15,7 @@ class BrainNetwork(nx.classes.graph.Graph):
     def __init__(self,
                  network=None,
                  parcellation=None,
-                 centroids=None,
-                 names_308_style=False):
+                 centroids=None,):
         '''
         Lightweight subclass of networkx.classes.graph.Graph
         FILL
@@ -41,8 +40,7 @@ class BrainNetwork(nx.classes.graph.Graph):
         if parcellation is not None:
             # assign parcellation names to nodes
             assign_node_names(self,
-                              parcellation,
-                              names_308_style=names_308_style)
+                              parcellation,)
         if centroids is not None:
             # assign centroids to nodes
             assign_node_centroids(self, centroids)
@@ -67,53 +65,95 @@ class BrainNetwork(nx.classes.graph.Graph):
             self.graph['partition'] = module_partition
         return self.graph['partition']
 
-    def calculate_nodal_measures(self):
+    def calculate_nodal_measures(
+            self,
+            force=False,
+            measure_list=None,
+            additional_measures=None):
         '''
-        Calculates
+        Calculate nodal measures of BrainNetwork en masse.
+        Returns nothing, but stores nodal measures as nodal attributes
+        which can be accessed using brainnetwork.export_nodal_measures()
+
+        By default calculates:
+        * nodal_partition
+        * degree
+        * closeness
+        * betweenness
+        * shortest_path_length
+        * clustering
+        * participation_coefficient
+        * interhem
+        * interhem_proportion
+        * total_dist *(euclidean length of adjacent eges)*
+        * average_dist *(euclidean length of adjacent eges)*
+
+        You can pass a list of these keys to measure_list to specify which
+        of the default measures you want to calculate.
+        You can also pass a dictionary of `measure name: measure method` pairs
+        to measure_dict, where `measure method` is a function that take a graph
+        as input and returns a dictionary keyed by the nodes of G. These
+        measures will be calculated by applying `measure_method` to
+        brainnetwork and added to the nodal attributes.
+
+        Setting `force=True` will cause recalculate any measures that already
+        exist in the nodal attributes. Default behaviour is not to recalculate.
         '''
 
-        # ==== SET UP ======================
-        # If you haven't passed the nodal partition
+        # ==== SET UP ================================
+        # If you haven't created the nodal partition
         # then calculate it here
         self.partition()
+        # ==== DESCRIBE MEASURES =====================
+        nodal_measure_dict = {
+            "degree": nx.degree,
+            "closeness": nx.closeness_centrality,
+            "betweenness": nx.betweenness_centrality,
+            "shortest_path_length": nx.betweenness_centrality,
+            "clustering": nx.clustering,
+            "participation_coefficient": (lambda x: participation_coefficient(
+                                            x,
+                                            x.graph['partition']))
+            }
 
-        # ==== MEASURES ====================
-        # ---- Degree ----------------------
-        nx.set_node_attributes(self, name='degree', values=dict(self.degree))
-        # ---- Closeness -------------------
-        nx.set_node_attributes(self,
-                               name='closeness',
-                               values=nx.closeness_centrality(self))
-        # ---- Betweenness -----------------
-        nx.set_node_attributes(self,
-                               name='betweenness',
-                               values=nx.betweenness_centrality(self))
-        # ---- Shortest path length --------
-        nx.set_node_attributes(self,
-                               name='shortest_path_length',
-                               values=shortest_path(self))
-        # ---- Clustering ------------------
-        nx.set_node_attributes(self, name='clustering', values=nx.clustering(self))
-        # ---- Participation coefficent ----
-        nx.set_node_attributes(self, name='participation_coefficient',
-                               values=participation_coefficient(
-                                self,
-                                self.graph['partition']), )
+        if measure_list is not None:
+            nodal_measure_dict = {key: value
+                                  for key, value in nodal_measure_dict.items()
+                                  if key in measure_list}
+        if additional_measures is not None:
+            nodal_measure_dict.update(additional_measures)
+
+        # ==== CALCULATE MEASURES ====================
+
+        def calc_nodal_measure(self, measure, method, force=False):
+            if (not nx.get_node_attributes(self, name=measure)) or force:
+                nx.set_node_attributes(self,
+                                       name=measure,
+                                       values=method(self))
+
+        for measure, method in nodal_measure_dict.items():
+            calc_nodal_measure(self, measure, method, force=force)
 
         # ---- Euclidean distance and ------
         # ---- interhem proportion --------
         if self.graph.get('centroids'):
-            assign_nodal_distance(self)
-            assign_interhem(self)
+            if ('nodal_distance' in measure_list) or (measure_list is None):
+                assign_nodal_distance(self)
+            if ('interhem' in measure_list) or (measure_list is None):
+                assign_interhem(self)
 
-    def export_nodal_measures(self, columns=None, index='name', as_dict=False):
+    def export_nodal_measures(self, columns=None, as_dict=False):
         '''
         Returns the node attribute data from G as a pandas dataframe.
         '''
+        if columns is not None:
+            nodal_dict = {x: y for x, y in self._node.items() if x in columns}
+        else:
+            nodal_dict = self._node
         if as_dict:
-            return self._node
-        df = pd.DataFrame(self._node, columns=columns).transpose()
-        return df.set_index(index)
+            return nodal_dict
+        df = pd.DataFrame(nodal_dict).transpose()
+        return df
 
     def calculate_rich_club(self, force=False):
         '''
@@ -124,7 +164,7 @@ class BrainNetwork(nx.classes.graph.Graph):
                                         self, normalized=False)
         return self.graph['rich_club']
 
-    def calculate_global_measures(self, force=False):
+    def calculate_global_measures(self, force=False, seed=None):
         '''
         FILL
         '''
