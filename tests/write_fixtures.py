@@ -47,7 +47,8 @@ def recreate_network_analysis_fixture(folder, corrmat_path):
                               cost=10,
                               n_rand=10 # this is not a reasonable
                               # value for n, we generate only 10 random
-                              # graphs to save time)
+                              # graphs to save time
+                              )
 
 def write_fixtures(folder='/temporary_test_fixtures'):
     ## Run functions corrmat_from_regionalmeasures and               ##
