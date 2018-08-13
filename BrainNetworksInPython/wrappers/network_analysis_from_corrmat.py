@@ -86,17 +86,6 @@ measures.')))
 with real network.\n') + ('  Default: 1000')),
         default=1000)
 
-    parser.add_argument(
-        '--names_308_style',
-        action='store_true',
-        help=textwrap.dedent(
-            ('Include this flag if your names are in the NSPN 308\n')
-            + ('parcellation style (which means you have 41 subcortical \
-regions)\n')
-            + ('that are still in the names and centroids files and that\n')
-            + ('the names are in <hemi>_<DK-region>_<part> format.\n')
-            + ('  Default: False')),
-        default=False)
 
     arguments = parser.parse_args()
 
@@ -108,8 +97,7 @@ def network_analysis_from_corrmat(corr_mat_file,
                                   centroids_file,
                                   output_dir,
                                   cost=10,
-                                  n_rand=1000,
-                                  names_308_style=False):
+                                  n_rand=1000):
     '''
     This is the big function!
     It reads in the correlation matrix, thresholds it at the given cost
@@ -122,7 +110,6 @@ def network_analysis_from_corrmat(corr_mat_file,
                                 corr_mat_file,
                                 names_file,
                                 centroids_file=centroids_file,
-                                names_308_style=names_308_style,
                                 data_as_df=False)
 
     corrmat = os.path.basename(corr_mat_file).strip('.txt')
@@ -131,8 +118,7 @@ def network_analysis_from_corrmat(corr_mat_file,
     B = bnip.BrainNetwork(
         network=M,
         parcellation=names,
-        centroids=centroids,
-        names_308_style=names_308_style)
+        centroids=centroids)
     # Threshold graph
     G = B.threshold(cost)
     # Calculate the modules
@@ -181,8 +167,7 @@ if __name__ == "__main__":
                                 arg.centroids_file,
                                 arg.output_dir,
                                 cost=arg.cost,
-                                n_rand=arg.n_rand,
-                                names_308_style=arg.names_308_style)
+                                n_rand=arg.n_rand)
 
 # =============================================================================
 # Wooo! All done :)

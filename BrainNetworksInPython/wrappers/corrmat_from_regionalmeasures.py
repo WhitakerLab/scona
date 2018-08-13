@@ -73,18 +73,6 @@ of the\n') +
         default=None)
 
     parser.add_argument(
-        '--names_308_style',
-        action='store_true',
-        help=textwrap.dedent(
-            ('Include this flag if your names are in the NSPN 308\n') +
-            ('parcellation style (which means you have 41 subcortical \
-regions)\n') +
-            ('that are still in the names files and that\n') +
-            ('the names are in <hemi>_<DK-region>_<part> format.\n') +
-            ('  Default: False')),
-        default=False)
-
-    parser.add_argument(
         '--method',
         type=str,
         metavar='method',
@@ -102,7 +90,6 @@ def corrmat_from_regionalmeasures(regional_measures_file,
                                   names_file,
                                   output_name,
                                   covars_file=None,
-                                  names_308_style=False,
                                   method='pearson'):
     '''
     Read in regional measures, names and covariates files to compute
@@ -123,8 +110,7 @@ def corrmat_from_regionalmeasures(regional_measures_file,
     df, names, covars_list, *a = read_in_data(
         regional_measures_file,
         names_file,
-        covars_file=covars_file,
-        names_308_style=names_308_style)
+        covars_file=covars_file)
 
     M = mcm.corrmat_from_regionalmeasures(
         df, names, covars=covars_list, method=method)
@@ -144,7 +130,6 @@ if __name__ == "__main__":
         arg.names_file,
         arg.output_name,
         covars_file=arg.covars_file,
-        names_308_style=arg.names_308_style,
         method=arg.method)
 
 # ============================================================================

@@ -18,7 +18,7 @@ def anatomical_graph_attributes():
     return ['parcellation', 'centroids']
 
 
-def assign_node_names(G, parcellation, names_308_style=False):
+def assign_node_names(G, parcellation):
     """
     Returns the network G with node attributes "name" assigned
     according to the list parcellation.
@@ -36,10 +36,6 @@ def assign_node_names(G, parcellation, names_308_style=False):
     # Assign anatomical names to the nodes
     for i, node in enumerate(G.nodes()):
         G.node[i]['name'] = parcellation[i]
-        if names_308_style:
-            G.node[i]['name_34'] = parcellation[i].split('_')[1]
-            G.node[i]['name_68'] = parcellation[i].rsplit('_', 1)[0]
-            G.node[i]['hemi'] = parcellation[i].split('_', 1)[0]
     #
     G.graph['parcellation'] = True
     return G

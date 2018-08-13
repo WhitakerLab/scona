@@ -19,15 +19,13 @@ centroids_file = filepath + "/500.centroids.txt"
 names_file = filepath + "/500.names.txt"
 regionalmeasures_file = filepath + "/PARC_500aparc_thickness_behavmerge.csv"
 covars_file = None
-names_308_style = True
 
 
 def _data():
     return (centroids_file,
             regionalmeasures_file,
             names_file,
-            covars_file,
-            names_308_style)
+            covars_file)
 
 
 def _centroids():
@@ -46,15 +44,10 @@ def _covars():
     return covars_file
 
 
-def _is_names_308_style():
-    return names_308_style
-
-
 def import_data():
     return read_in_data(
         regionalmeasures_file,
         names_file,
         covars_file=covars_file,
         centroids_file=centroids_file,
-        names_308_style=names_308_style,
         data_as_df=True)

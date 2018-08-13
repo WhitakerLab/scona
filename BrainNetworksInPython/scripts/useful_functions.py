@@ -10,7 +10,6 @@ def read_in_data(
         names_file,
         covars_file=None,
         centroids_file=None,
-        names_308_style=False,
         data_as_df=True):
     '''
     Read in the data from the three input files:
@@ -23,16 +22,10 @@ def read_in_data(
             brain regions. Should be aligned with names_file such that the ith
             line of centroids_file is the coordinates of the brain region named
             in the ith line of names_file.
-        * names_308_style : If the names are in 308 style then drop the first
-            41 entries from the names file.
     '''
     # Load names
     with open(names_file) as f:
         names = [line.strip() for line in f]
-    # If you have your names in names_308_style you need to strip the
-    # first 41 items
-    if names_308_style:
-        names = names[41:]
 
     # Load covariates
     if covars_file is not None:
@@ -43,24 +36,14 @@ def read_in_data(
 
     if centroids_file is not None:
         centroids = np.loadtxt(centroids_file)
-        # If you have your names in names_308_style you need to strip the
-        # first 41 items
-        if names_308_style:
-            names = names[41:]
-            centroids = centroids[41:, :]
 
     # Load data
     if data_as_df:
         df = pd.read_csv(data)
-        # You may also have to strip the words "thickness" from the
-        # end of the names in the data frame
-        if names_308_style:
-            df.columns = [col.rsplit('_thickness', 1)[0] for col in df.columns]
     else:
         df = np.loadtxt(data)
 
-    return df, names, covars_list, centroids, names_308_style
-
+    return df, names, covars_list, centroids
 
 def write_out_measures(df, output_dir, name, first_columns=[]):
     '''
