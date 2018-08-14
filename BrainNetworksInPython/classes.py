@@ -106,7 +106,7 @@ class BrainNetwork(nx.classes.graph.Graph):
         self.partition()
         # ==== DESCRIBE MEASURES =====================
         nodal_measure_dict = {
-            "degree": nx.degree,
+            "degree": (lambda x: dict(nx.degree(x))),
             "closeness": nx.closeness_centrality,
             "betweenness": nx.betweenness_centrality,
             "shortest_path_length": nx.betweenness_centrality,
@@ -137,9 +137,9 @@ class BrainNetwork(nx.classes.graph.Graph):
         # ---- Euclidean distance and ------
         # ---- interhem proportion --------
         if self.graph.get('centroids'):
-            if ('nodal_distance' in measure_list) or (measure_list is None):
+            if ((measure_list is None) or ('nodal_distance' in measure_list)):
                 assign_nodal_distance(self)
-            if ('interhem' in measure_list) or (measure_list is None):
+            if ((measure_list is None) or ('interhem' in measure_list)):
                 assign_interhem(self)
 
     def export_nodal_measures(self, columns=None, as_dict=False):
@@ -147,7 +147,8 @@ class BrainNetwork(nx.classes.graph.Graph):
         Returns the node attribute data from G as a pandas dataframe.
         '''
         if columns is not None:
-            nodal_dict = {x: y for x, y in self._node.items() if x in columns}
+            nodal_dict = {x: {u: v for u, v in y.items() if u in columns}
+                          for x, y in self._node.items()}
         else:
             nodal_dict = self._node
         if as_dict:
@@ -255,10 +256,17 @@ class GraphBundle(dict):
         else:
             return pd.DataFrame.from_dict(rc_dict).transpose()
 
-    def create_random_graphs(self, key, n, name_list=None):
+    def create_random_graphs(self, key, n, name_list=None, name_scheme="_R"):
         '''
         FILL
         '''
+        if name_list is None:
+            # Choose q to be the smallest integer that is larger than all
+            # integers already naming a random graph in brainnetwork
+            q = len(self)
+            while (key + name_scheme + str(q) not in self) and (q > 0):
+                q -= 1
+            name_list = [key + name_scheme + str(i) for i in range(q+1, q+1+n)]
         self.add_graphs(get_random_graphs(self[key], n=n), name_list=name_list)
 
     def report_small_world(self, graph_name):
