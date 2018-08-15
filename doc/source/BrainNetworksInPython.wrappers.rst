@@ -20,22 +20,6 @@ BrainNetworksInPython.wrappers.network_analysis_from_corrmat module
     :undoc-members:
     :show-inheritance:
 
-BrainNetworksInPython.wrappers.network_analysis_perm_ttest module
------------------------------------------------------------------
-
-.. automodule:: BrainNetworksInPython.wrappers.network_analysis_perm_ttest
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-BrainNetworksInPython.wrappers.visualising_network_measures module
-------------------------------------------------------------------
-
-.. automodule:: BrainNetworksInPython.wrappers.visualising_network_measures
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 
 Module contents
 ---------------

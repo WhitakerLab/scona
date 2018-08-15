@@ -1,0 +1,939 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>BrainNetworksInPython.scripts package &mdash; BrainNetworksInPython 0.1dev documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> BrainNetworksInPython
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">BrainNetworksInPython.scripts package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#brainnetworksinpython-scripts-annotate-images-to-movie-module">BrainNetworksInPython.scripts.annotate_images_to_movie module</a></li>
+<li><a class="reference internal" href="#brainnetworksinpython-scripts-call-pls-module">BrainNetworksInPython.scripts.call_pls module</a></li>
+<li><a class="reference internal" href="#brainnetworksinpython-scripts-fill-measure-dict-module">BrainNetworksInPython.scripts.fill_measure_dict module</a></li>
+<li><a class="reference internal" href="#brainnetworksinpython-scripts-make-corr-matrices-module">BrainNetworksInPython.scripts.make_corr_matrices module</a></li>
+<li><a class="reference internal" href="#module-BrainNetworksInPython.scripts.make_demo_table">BrainNetworksInPython.scripts.make_demo_table module</a></li>
+<li><a class="reference internal" href="#brainnetworksinpython-scripts-make-figures-module">BrainNetworksInPython.scripts.make_figures module</a></li>
+<li><a class="reference internal" href="#brainnetworksinpython-scripts-make-graphs-module">BrainNetworksInPython.scripts.make_graphs module</a></li>
+<li><a class="reference internal" href="#module-BrainNetworksInPython.scripts.make_pysurfer_pictures">BrainNetworksInPython.scripts.make_pysurfer_pictures module</a></li>
+<li><a class="reference internal" href="#brainnetworksinpython-scripts-make-stats-tables-module">BrainNetworksInPython.scripts.make_stats_tables module</a></li>
+<li><a class="reference internal" href="#brainnetworksinpython-scripts-make-supplemental-figures-module">BrainNetworksInPython.scripts.make_supplemental_figures module</a></li>
+<li><a class="reference internal" href="#module-BrainNetworksInPython.scripts.make_tables">BrainNetworksInPython.scripts.make_tables module</a></li>
+<li><a class="reference internal" href="#module-BrainNetworksInPython.scripts.old_make_figures">BrainNetworksInPython.scripts.old_make_figures module</a></li>
+<li><a class="reference internal" href="#brainnetworksinpython-scripts-permutation-testing-module">BrainNetworksInPython.scripts.permutation_testing module</a></li>
+<li><a class="reference internal" href="#brainnetworksinpython-scripts-pysurfer-plot-500parcellation-surface-values-module">BrainNetworksInPython.scripts.pysurfer_plot_500parcellation_surface_values module</a></li>
+<li><a class="reference internal" href="#module-BrainNetworksInPython.scripts.read_fsaverage_info">BrainNetworksInPython.scripts.read_fsaverage_info module</a></li>
+<li><a class="reference internal" href="#brainnetworksinpython-scripts-report-stats-tables-module">BrainNetworksInPython.scripts.report_stats_tables module</a></li>
+<li><a class="reference internal" href="#brainnetworksinpython-scripts-stats-functions-module">BrainNetworksInPython.scripts.stats_functions module</a></li>
+<li><a class="reference internal" href="#module-BrainNetworksInPython.scripts.useful_functions">BrainNetworksInPython.scripts.useful_functions module</a></li>
+<li><a class="reference internal" href="#module-BrainNetworksInPython.scripts.visualisation_commands">BrainNetworksInPython.scripts.visualisation_commands module</a></li>
+<li><a class="reference internal" href="#module-BrainNetworksInPython.scripts">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BrainNetworksInPython</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>BrainNetworksInPython.scripts package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/BrainNetworksInPython.scripts.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="brainnetworksinpython-scripts-package">
+<h1>BrainNetworksInPython.scripts package<a class="headerlink" href="#brainnetworksinpython-scripts-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="brainnetworksinpython-scripts-annotate-images-to-movie-module">
+<h2>BrainNetworksInPython.scripts.annotate_images_to_movie module<a class="headerlink" href="#brainnetworksinpython-scripts-annotate-images-to-movie-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="brainnetworksinpython-scripts-call-pls-module">
+<h2>BrainNetworksInPython.scripts.call_pls module<a class="headerlink" href="#brainnetworksinpython-scripts-call-pls-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="brainnetworksinpython-scripts-fill-measure-dict-module">
+<h2>BrainNetworksInPython.scripts.fill_measure_dict module<a class="headerlink" href="#brainnetworksinpython-scripts-fill-measure-dict-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="brainnetworksinpython-scripts-make-corr-matrices-module">
+<h2>BrainNetworksInPython.scripts.make_corr_matrices module<a class="headerlink" href="#brainnetworksinpython-scripts-make-corr-matrices-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-BrainNetworksInPython.scripts.make_demo_table">
+<span id="brainnetworksinpython-scripts-make-demo-table-module"></span><h2>BrainNetworksInPython.scripts.make_demo_table module<a class="headerlink" href="#module-BrainNetworksInPython.scripts.make_demo_table" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_demo_table.add_caption">
+<code class="descclassname">BrainNetworksInPython.scripts.make_demo_table.</code><code class="descname">add_caption</code><span class="sig-paren">(</span><em>latex_table</em>, <em>caption</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_demo_table.html#add_caption"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_demo_table.add_caption" title="Permalink to this definition">¶</a></dt>
+<dd><p>Just add in a row on the second line down to include the caption (title)
+for this table</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_demo_table.make_demo_table">
+<code class="descclassname">BrainNetworksInPython.scripts.make_demo_table.</code><code class="descname">make_demo_table</code><span class="sig-paren">(</span><em>data_dir</em>, <em>paper_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_demo_table.html#make_demo_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_demo_table.make_demo_table" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="brainnetworksinpython-scripts-make-figures-module">
+<h2>BrainNetworksInPython.scripts.make_figures module<a class="headerlink" href="#brainnetworksinpython-scripts-make-figures-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="brainnetworksinpython-scripts-make-graphs-module">
+<h2>BrainNetworksInPython.scripts.make_graphs module<a class="headerlink" href="#brainnetworksinpython-scripts-make-graphs-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-BrainNetworksInPython.scripts.make_pysurfer_pictures">
+<span id="brainnetworksinpython-scripts-make-pysurfer-pictures-module"></span><h2>BrainNetworksInPython.scripts.make_pysurfer_pictures module<a class="headerlink" href="#module-BrainNetworksInPython.scripts.make_pysurfer_pictures" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_pysurfer_pictures.create_pysurfer_command">
+<code class="descclassname">BrainNetworksInPython.scripts.make_pysurfer_pictures.</code><code class="descname">create_pysurfer_command</code><span class="sig-paren">(</span><em>roi_file</em>, <em>scripts_dir</em>, <em>sub_data_dir</em>, <em>c='jet'</em>, <em>l=None</em>, <em>u=None</em>, <em>t=-99</em>, <em>s='pial'</em>, <em>cst='classic'</em>, <em>center=False</em>, <em>c2=None</em>, <em>t2=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_pysurfer_pictures.html#create_pysurfer_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_pysurfer_pictures.create_pysurfer_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a text string containing the appropriate options for
+the pysurfer command</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_pysurfer_pictures.get_cmap_min_max_dict">
+<code class="descclassname">BrainNetworksInPython.scripts.make_pysurfer_pictures.</code><code class="descname">get_cmap_min_max_dict</code><span class="sig-paren">(</span><em>measure_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_pysurfer_pictures.html#get_cmap_min_max_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_pysurfer_pictures.get_cmap_min_max_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_pysurfer_pictures.make_pysurfer_figures">
+<code class="descclassname">BrainNetworksInPython.scripts.make_pysurfer_pictures.</code><code class="descname">make_pysurfer_figures</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>pysurfer_dir</em>, <em>sub_data_dir</em>, <em>scripts_dir</em>, <em>paper_dir</em>, <em>overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_pysurfer_pictures.html#make_pysurfer_figures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_pysurfer_pictures.make_pysurfer_figures" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_pysurfer_pictures.pysurfer_308_parcellation">
+<code class="descclassname">BrainNetworksInPython.scripts.make_pysurfer_pictures.</code><code class="descname">pysurfer_308_parcellation</code><span class="sig-paren">(</span><em>aparc_names</em>, <em>paper_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_pysurfer_pictures.html#pysurfer_308_parcellation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_pysurfer_pictures.pysurfer_308_parcellation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_pysurfer_pictures.write_to_text">
+<code class="descclassname">BrainNetworksInPython.scripts.make_pysurfer_pictures.</code><code class="descname">write_to_text</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>pysurfer_dir</em>, <em>measure_name</em>, <em>covars_name='none'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_pysurfer_pictures.html#write_to_text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_pysurfer_pictures.write_to_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>mpm is the mpm measure you&#8217;re investigating (eg: MT)</p>
+<dl class="docutils">
+<dt>For example:</dt>
+<dd><dl class="first last docutils">
+<dt>write_to_text(measure_dict, </dt>
+<dd>pysurfer_dir, 
+&#8216;corr_age_coavars_site_c14&#8217;,
+&#8216;SlopeAge_at14_covars_site&#8217;)</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="brainnetworksinpython-scripts-make-stats-tables-module">
+<h2>BrainNetworksInPython.scripts.make_stats_tables module<a class="headerlink" href="#brainnetworksinpython-scripts-make-stats-tables-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="brainnetworksinpython-scripts-make-supplemental-figures-module">
+<h2>BrainNetworksInPython.scripts.make_supplemental_figures module<a class="headerlink" href="#brainnetworksinpython-scripts-make-supplemental-figures-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-BrainNetworksInPython.scripts.make_tables">
+<span id="brainnetworksinpython-scripts-make-tables-module"></span><h2>BrainNetworksInPython.scripts.make_tables module<a class="headerlink" href="#module-BrainNetworksInPython.scripts.make_tables" title="Permalink to this headline">¶</a></h2>
+<p>#==================
+Code to make tables for the NSPN Cortical Myelination paper</p>
+<p>Created July 2015 by Kirstie Whitaker
+Contact: <a class="reference external" href="mailto:kw401&#37;&#52;&#48;cam&#46;ac&#46;uk">kw401<span>&#64;</span>cam<span>&#46;</span>ac<span>&#46;</span>uk</a> or www.github.com/KirstieJane
+#==================</p>
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_tables.add_caption">
+<code class="descclassname">BrainNetworksInPython.scripts.make_tables.</code><code class="descname">add_caption</code><span class="sig-paren">(</span><em>latex_table</em>, <em>caption</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_tables.html#add_caption"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_tables.add_caption" title="Permalink to this definition">¶</a></dt>
+<dd><p>Just add in a row on the second line down to include the caption (title)
+for this table</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_tables.adjust_header">
+<code class="descclassname">BrainNetworksInPython.scripts.make_tables.</code><code class="descname">adjust_header</code><span class="sig-paren">(</span><em>latex_table</em>, <em>align_title_dict</em>, <em>multi_column_dict</em>, <em>top_title_dict</em>, <em>bottom_title_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_tables.html#adjust_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_tables.adjust_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace the standard header spacings to give two rows - the first being bold
+and containing some multicolumns and the second being in regular text</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_tables.adjust_spacings">
+<code class="descclassname">BrainNetworksInPython.scripts.make_tables.</code><code class="descname">adjust_spacings</code><span class="sig-paren">(</span><em>latex_table</em>, <em>col_list</em>, <em>align_col_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_tables.html#adjust_spacings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_tables.adjust_spacings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace the spacings for the main columns that are output
+on the top line of the latex table string with those in the align_col_dict</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_tables.create_header_footer">
+<code class="descclassname">BrainNetworksInPython.scripts.make_tables.</code><code class="descname">create_header_footer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_tables.html#create_header_footer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_tables.create_header_footer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return text that needs to go at the beginning and end of the latex file
+(the table string will go in between)
+This header and footer should be the same for every table</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_tables.create_latex_tables">
+<code class="descclassname">BrainNetworksInPython.scripts.make_tables.</code><code class="descname">create_latex_tables</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>output_filename</em>, <em>covars_name='none'</em>, <em>n=308</em>, <em>caption=False</em>, <em>sort_col='MT_projfrac+030_all_slope_age_m'</em>, <em>ascending=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_tables.html#create_latex_tables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_tables.create_latex_tables" title="Permalink to this definition">¶</a></dt>
+<dd><p>The overall wrapper function</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_tables.dict_to_df">
+<code class="descclassname">BrainNetworksInPython.scripts.make_tables.</code><code class="descname">dict_to_df</code><span class="sig-paren">(</span><em>table_dict</em>, <em>sort_col='MT_projfrac+030_all_slope_age'</em>, <em>ascending=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_tables.html#dict_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_tables.dict_to_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put the table_dict into a data frame and sort by col</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_tables.f_dp1_exp_0">
+<code class="descclassname">BrainNetworksInPython.scripts.make_tables.</code><code class="descname">f_dp1_exp_0</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_tables.html#f_dp1_exp_0"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_tables.f_dp1_exp_0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return as string wiht 1 decimal place</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_tables.f_dp2_exp_0">
+<code class="descclassname">BrainNetworksInPython.scripts.make_tables.</code><code class="descname">f_dp2_exp_0</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_tables.html#f_dp2_exp_0"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_tables.f_dp2_exp_0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return as string wiht 2 decimal places</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_tables.f_p">
+<code class="descclassname">BrainNetworksInPython.scripts.make_tables.</code><code class="descname">f_p</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_tables.html#f_p"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_tables.f_p" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return as string with 3 decimal places
+and no leading 0 unless smaller than
+0.001 then return &lt;.001</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_tables.get_df_34">
+<code class="descclassname">BrainNetworksInPython.scripts.make_tables.</code><code class="descname">get_df_34</code><span class="sig-paren">(</span><em>table_df</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_tables.html#get_df_34"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_tables.get_df_34" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_tables.get_df_68">
+<code class="descclassname">BrainNetworksInPython.scripts.make_tables.</code><code class="descname">get_df_68</code><span class="sig-paren">(</span><em>table_df</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_tables.html#get_df_68"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_tables.get_df_68" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_tables.get_dicts">
+<code class="descclassname">BrainNetworksInPython.scripts.make_tables.</code><code class="descname">get_dicts</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>n=308</em>, <em>covars_name='none'</em>, <em>graph='CT_ALL_COVARS_ONES_COST_10'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_tables.html#get_dicts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_tables.get_dicts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a dict of dicts that contains all the parameters you want to set
+by hand. N represents the number of regions you want to access. It can be
+either 308 (all), 68 (collapsing within region), or 34 (collapsing within
+region and across hemisphere).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_tables.i">
+<code class="descclassname">BrainNetworksInPython.scripts.make_tables.</code><code class="descname">i</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_tables.html#i"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_tables.i" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return as string no decimal places</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_tables.make_tables">
+<code class="descclassname">BrainNetworksInPython.scripts.make_tables.</code><code class="descname">make_tables</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>tables_dir</em>, <em>cohort_name='Discovery'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_tables.html#make_tables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_tables.make_tables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make all the tables you could desire!</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_tables.s">
+<code class="descclassname">BrainNetworksInPython.scripts.make_tables.</code><code class="descname">s</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_tables.html#s"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_tables.s" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simply return as a string</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.make_tables.save_df_to_latex">
+<code class="descclassname">BrainNetworksInPython.scripts.make_tables.</code><code class="descname">save_df_to_latex</code><span class="sig-paren">(</span><em>latex_header</em>, <em>latex_footer</em>, <em>latex_table</em>, <em>output_filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/make_tables.html#save_df_to_latex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.make_tables.save_df_to_latex" title="Permalink to this definition">¶</a></dt>
+<dd><p>As it says on the tin, save the data frame to the filename</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-BrainNetworksInPython.scripts.old_make_figures">
+<span id="brainnetworksinpython-scripts-old-make-figures-module"></span><h2>BrainNetworksInPython.scripts.old_make_figures module<a class="headerlink" href="#module-BrainNetworksInPython.scripts.old_make_figures" title="Permalink to this headline">¶</a></h2>
+<p>This code makes the figures for the manuscript &#8220;</p>
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.add_cells_picture">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">add_cells_picture</code><span class="sig-paren">(</span><em>data_dir</em>, <em>big_fig</em>, <em>grid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#add_cells_picture"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.add_cells_picture" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.add_colorbar">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">add_colorbar</code><span class="sig-paren">(</span><em>grid</em>, <em>big_fig</em>, <em>cmap_name</em>, <em>y_min=0</em>, <em>y_max=1</em>, <em>cbar_min=0</em>, <em>cbar_max=1</em>, <em>vert=False</em>, <em>label=None</em>, <em>show_ticks=True</em>, <em>pad=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#add_colorbar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.add_colorbar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a colorbar to the big_fig in the location defined by grid</p>
+<p>grid       :  grid spec location to add colormap
+big_fig    :  figure to which colorbar will be added
+cmap_name  :  name of the colormap
+x_min      :  the minimum value to plot this colorbar between
+x_max      :  the maximum value to plot this colorbar between
+cbar_min   :  minimum value for the colormap (default 0)
+cbar_max   :  maximum value for the colormap (default 1)
+vert       :  whether the colorbar should be vertical (default False)
+label      :  the label for the colorbar (default: None)
+ticks      :  whether to put the tick values on the colorbar (default: True)
+pad        :  how much to shift the colorbar label by (default: 0)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.add_four_hor_brains">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">add_four_hor_brains</code><span class="sig-paren">(</span><em>grid</em>, <em>f_list</em>, <em>big_fig</em>, <em>hor=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#add_four_hor_brains"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.add_four_hor_brains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take the four pysurfer views (left lateral, left medial,
+right medial and right lateral) and arrange them in a row
+according to the grid positions given by grid</p>
+<p>grid    :  the gridspec list of grid placements
+f_list  :  list of four file pysurfer image files
+big_fig :  the figure to which you&#8217;re adding the images</p>
+<p># THIS WAS UPDATED TO INCLUDE PLOTTING IN A GRID
+# Should probably change the function name!</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.add_wedge">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">add_wedge</code><span class="sig-paren">(</span><em>df</em>, <em>theta_dict</em>, <em>wedge_colors_list</em>, <em>wedge_measure='von_economo'</em>, <em>ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#add_wedge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.add_wedge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.all_mean_mt">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">all_mean_mt</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>figures_dir</em>, <em>mpm='MT'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#all_mean_mt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.all_mean_mt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.calc_min_max">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">calc_min_max</code><span class="sig-paren">(</span><em>x</em>, <em>pad=0.05</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#calc_min_max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.calc_min_max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find min and max values such that
+all the data lies within 90% of
+of the axis range</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.candidate_histogram">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">candidate_histogram</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>covars_name='none'</em>, <em>measure='PLS1_SZ'</em>, <em>figure_name=None</em>, <em>ax=None</em>, <em>figure=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#candidate_histogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.candidate_histogram" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.corr_by_agebin">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">corr_by_agebin</code><span class="sig-paren">(</span><em>measure_dict_dict</em>, <em>paper_dir</em>, <em>x_measure='Degree_CT_covar_ones_all_COST_10'</em>, <em>y_measure='CT_all_slope_age'</em>, <em>ax=None</em>, <em>fig=None</em>, <em>label=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#corr_by_agebin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.corr_by_agebin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.create_violin_data">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">create_violin_data</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>mpm='MT'</em>, <em>measure='all_slope_age'</em>, <em>cmap='RdBu_r'</em>, <em>cmap_min=-7</em>, <em>cmap_max=7</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#create_violin_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.create_violin_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>A little function to create a the data frame list
+for the MT depth violin plots</p>
+<dl class="docutils">
+<dt>INPUTS:</dt>
+<dd><p class="first">measure_dict &#8212; dictionary containing measure values
+measure &#8212;&#8212;&#8211; one of &#8216;mean&#8217;</p>
+<blockquote>
+<div><blockquote>
+<div>&#8216;std&#8217;
+&#8216;all_slope_age&#8217;
+&#8216;all_slope_ct&#8217;</div></blockquote>
+<p>default = &#8216;all_slope_age&#8217;</p>
+</div></blockquote>
+<dl class="last docutils">
+<dt>colormap &#8212;&#8212;- matplotlib colormap</dt>
+<dd>default = &#8216;RdBu_r&#8217;</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.create_violin_labels">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">create_violin_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#create_violin_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.create_violin_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>A little function to create a labels list for the MT depth
+violin plots</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.degree_r_values">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">degree_r_values</code><span class="sig-paren">(</span><em>graph_dict, y, covars_list=['ones'], measure='CT', group='all'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#degree_r_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.degree_r_values" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.figs_for_talk">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">figs_for_talk</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>results_dir</em>, <em>talk_figs_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#figs_for_talk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.figs_for_talk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.figure_1">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">figure_1</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>figures_dir</em>, <em>results_dir</em>, <em>data_dir</em>, <em>mpm='MT'</em>, <em>covars_name='none'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#figure_1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.figure_1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.figure_1_replication">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">figure_1_replication</code><span class="sig-paren">(</span><em>measure_dict_D</em>, <em>measure_dict_V</em>, <em>three_cohorts_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#figure_1_replication"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.figure_1_replication" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.figure_2">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">figure_2</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>figures_dir</em>, <em>results_dir</em>, <em>mpm='MT'</em>, <em>covars_name='none'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#figure_2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.figure_2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.figure_3">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">figure_3</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>figures_dir</em>, <em>results_dir</em>, <em>data_dir</em>, <em>mpm='MT'</em>, <em>covars_name='none'</em>, <em>enrich=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#figure_3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.figure_3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.figure_4">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">figure_4</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>graph_dict</em>, <em>figures_dir</em>, <em>results_dir</em>, <em>mpm='MT'</em>, <em>rich_club=False</em>, <em>covars_name='none'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#figure_4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.figure_4" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.figure_4_replication">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">figure_4_replication</code><span class="sig-paren">(</span><em>measure_dict_D</em>, <em>measure_dict_V</em>, <em>three_cohorts_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#figure_4_replication"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.figure_4_replication" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.format_p">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">format_p</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#format_p"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.format_p" title="Permalink to this definition">¶</a></dt>
+<dd><p>If p is less than 0.001 then return a string of &lt;.001</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.get_anatomical_layouts">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">get_anatomical_layouts</code><span class="sig-paren">(</span><em>G</em>, <em>df</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#get_anatomical_layouts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.get_anatomical_layouts" title="Permalink to this definition">¶</a></dt>
+<dd><p>This code takes in a data frame that has x, y, z coordinates and
+integer node labels (0 to n-1) for n nodes and returns three dictionaries
+containing appropriate pairs of coordinates for sagittal, coronal and 
+axial slices.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.get_axis_label_dict">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">get_axis_label_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#get_axis_label_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.get_axis_label_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.get_circular_layout">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">get_circular_layout</code><span class="sig-paren">(</span><em>G</em>, <em>df</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#get_circular_layout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.get_circular_layout" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.get_min_max_values">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">get_min_max_values</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>gene_indices=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#get_min_max_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.get_min_max_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>These are the appropriate min and max values for the 
+discovery cohort</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.get_von_economo_color_dict">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">get_von_economo_color_dict</code><span class="sig-paren">(</span><em>von_economo</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#get_von_economo_color_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.get_von_economo_color_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a color dictionary for the von economo values you pass
+The color_list is hard coded at the moment... might change one day</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.get_von_economo_shapes_dict">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">get_von_economo_shapes_dict</code><span class="sig-paren">(</span><em>von_economo</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#get_von_economo_shapes_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.get_von_economo_shapes_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a dictionary containing a different marker shape for 
+each of the the von economo values you pass
+The shape_list is hard coded at the moment... might change one day</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.make_combo_figures">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">make_combo_figures</code><span class="sig-paren">(</span><em>measure_dict_dict</em>, <em>paper_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#make_combo_figures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.make_combo_figures" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.make_combo_hists">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">make_combo_hists</code><span class="sig-paren">(</span><em>measure_dict_dict</em>, <em>paper_dir</em>, <em>gene='SZ'</em>, <em>mpm='MT'</em>, <em>covars_name='none'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#make_combo_hists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.make_combo_hists" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.make_combo_matrix">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">make_combo_matrix</code><span class="sig-paren">(</span><em>measure_dict_dict</em>, <em>paper_dir</em>, <em>mpm='MT'</em>, <em>covars_name='none'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#make_combo_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.make_combo_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.make_combo_scatter">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">make_combo_scatter</code><span class="sig-paren">(</span><em>measure_dict_dict</em>, <em>paper_dir</em>, <em>mpm='MT'</em>, <em>covars_name='none'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#make_combo_scatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.make_combo_scatter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.make_figures">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">make_figures</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>figures_dir</em>, <em>pysurfer_dir</em>, <em>data_dir</em>, <em>graph_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#make_figures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.make_figures" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.mediation_figure">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">mediation_figure</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>figures_dir</em>, <em>covars_name='none'</em>, <em>measure_name='MT_projfrac+030'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#mediation_figure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.mediation_figure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.mt_degree_network_fig">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">mt_degree_network_fig</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>graph_dict</em>, <em>figures_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#mt_degree_network_fig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.mt_degree_network_fig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.network_summary_fig">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">network_summary_fig</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>graph_dict</em>, <em>figures_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#network_summary_fig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.network_summary_fig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.nodal_ct_mt">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">nodal_ct_mt</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>figures_dir</em>, <em>mpm='MT'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#nodal_ct_mt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.nodal_ct_mt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.old_figure_1">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">old_figure_1</code><span class="sig-paren">(</span><em>graph_dict, figures_dir, sagittal_pos, axial_pos, measure_dict, n=10, covars_list=['ones'], group='all'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#old_figure_1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.old_figure_1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.old_figure_2">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">old_figure_2</code><span class="sig-paren">(</span><em>df_ct</em>, <em>df_mpm</em>, <em>measure_dict</em>, <em>figures_dir</em>, <em>results_dir</em>, <em>aparc_names</em>, <em>mpm='MT'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#old_figure_2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.old_figure_2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.old_figure_3">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">old_figure_3</code><span class="sig-paren">(</span><em>graph_dict, measure_dict, figures_dir, covars_list=['ones'], group='all', measure='CT'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#old_figure_3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.old_figure_3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.parcellation_4horbrains">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">parcellation_4horbrains</code><span class="sig-paren">(</span><em>paper_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#parcellation_4horbrains"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.parcellation_4horbrains" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.partial_volume_fig">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">partial_volume_fig</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>figures_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#partial_volume_fig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.partial_volume_fig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.plot_anatomical_network">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">plot_anatomical_network</code><span class="sig-paren">(</span><em>G</em>, <em>measure_dict</em>, <em>centroids</em>, <em>measure='module'</em>, <em>cost=10</em>, <em>covar='ONES'</em>, <em>orientation='sagittal'</em>, <em>cmap_name='jet_r'</em>, <em>continuous=False</em>, <em>vmax=None</em>, <em>vmin=None</em>, <em>sns_palette=None</em>, <em>edge_list=None</em>, <em>edge_color='k'</em>, <em>edge_width=0.2</em>, <em>node_list=None</em>, <em>rc_node_list=[]</em>, <em>node_shape='o'</em>, <em>rc_node_shape='s'</em>, <em>node_size=500</em>, <em>node_size_list=None</em>, <em>figure=None</em>, <em>ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#plot_anatomical_network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.plot_anatomical_network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots each node in the graph in one of three orientations
+(sagittal, axial or coronal).
+The nodes are sorted according to the measure given
+(default value: module) and then plotted in that order.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.plot_circular_network">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">plot_circular_network</code><span class="sig-paren">(</span><em>G</em>, <em>measure_dict</em>, <em>sort_measure='module'</em>, <em>wedge_measure='von_economo'</em>, <em>sort_cmap_name='jet_r'</em>, <em>wedge_cmap_name='von_economo'</em>, <em>node_size=500</em>, <em>edge_list=None</em>, <em>edge_color='k'</em>, <em>edge_width=0.2</em>, <em>figure=None</em>, <em>ax=None</em>, <em>show_wedge=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#plot_circular_network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.plot_circular_network" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.plot_degree_dist">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">plot_degree_dist</code><span class="sig-paren">(</span><em>G</em>, <em>ER=True</em>, <em>ax=None</em>, <em>figure_name=None</em>, <em>x_max=200</em>, <em>y_max=0.1</em>, <em>color=(0.2980392156862745</em>, <em>0.4470588235294118</em>, <em>0.6901960784313725)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#plot_degree_dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.plot_degree_dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a pretty plot of the degree distribution
+along with the degree distibution of an Erdos Renyi random
+graph that has the same number of nodes and edges</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.plot_network_measures">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">plot_network_measures</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>ax=None</em>, <em>figure_name=None</em>, <em>y_max=2.5</em>, <em>y_min=-0.5</em>, <em>color=(0.2980392156862745</em>, <em>0.4470588235294118</em>, <em>0.6901960784313725)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#plot_network_measures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.plot_network_measures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a plot of the network measures
+along with their random counterparts</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.plot_rich_club">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">plot_rich_club</code><span class="sig-paren">(</span><em>rc</em>, <em>rc_rand</em>, <em>ax=None</em>, <em>figure_name=None</em>, <em>x_max=200</em>, <em>y_max=1.2</em>, <em>color=(0.2980392156862745</em>, <em>0.4470588235294118</em>, <em>0.6901960784313725)</em>, <em>norm=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#plot_rich_club"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.plot_rich_club" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a pretty plot of the rich club values per degree
+along with the rich club values you&#8217;d expect by chance
+from a random network with preserved degree distribution</p>
+<p>rc and rc_rand are calculated by the rich_club function
+that is saved within the networkx_functions.py file</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.plot_sagittal_network">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">plot_sagittal_network</code><span class="sig-paren">(</span><em>G</em>, <em>G_edge</em>, <em>sagittal_pos</em>, <em>axial_pos</em>, <em>integer_adjust=3</em>, <em>fractional_adjust=2.5</em>, <em>cmap_name='jet'</em>, <em>ax=None</em>, <em>figure_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#plot_sagittal_network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.plot_sagittal_network" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.prepare_violin_movie">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">prepare_violin_movie</code><span class="sig-paren">(</span><em>fig</em>, <em>ax</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#prepare_violin_movie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.prepare_violin_movie" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.pretty_scatter">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">pretty_scatter</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>x_label='x'</em>, <em>y_label='y'</em>, <em>x_max=None</em>, <em>x_min=None</em>, <em>y_max=None</em>, <em>y_min=None</em>, <em>figure_name=None</em>, <em>ax=None</em>, <em>figure=None</em>, <em>color='k'</em>, <em>marker_colors=None</em>, <em>marker_shapes=None</em>, <em>marker_size=100</em>, <em>marker='o'</em>, <em>despine_right=True</em>, <em>y0_line=True</em>, <em>x0_line=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#pretty_scatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.pretty_scatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function creates a scatter plot with a regression line
+for the y variable against the degrees of graph G</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.rescale">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">rescale</code><span class="sig-paren">(</span><em>fname</em>, <em>suff='png'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#rescale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.rescale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Journals generally like to make life easier for reviewers
+by sending them a manuscript that is not going to crash
+their computers with its size, so we&#8217;re going to create
+a smaller version of the input figure (fname) that is
+8 inches wide at 200 dpi. It will be saved out in whatever
+format specified by the suff parameter, and the name
+will be the same as the original but with _LowRes appended</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.results_matrix">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">results_matrix</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>covars_name='none'</em>, <em>graph='CT_ALL_COVARS_ONES_COST_10'</em>, <em>figure_name=None</em>, <em>ax=None</em>, <em>figure=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#results_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.results_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.rich_edges_nodes">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">rich_edges_nodes</code><span class="sig-paren">(</span><em>G</em>, <em>thresh=75</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#rich_edges_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.rich_edges_nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.set_conn_types">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">set_conn_types</code><span class="sig-paren">(</span><em>G</em>, <em>G_edge=None</em>, <em>thresh=75</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#set_conn_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.set_conn_types" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.setup_color_list">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">setup_color_list</code><span class="sig-paren">(</span><em>df</em>, <em>cmap_name='jet'</em>, <em>sns_palette=None</em>, <em>measure='module'</em>, <em>continuous=False</em>, <em>vmax=1</em>, <em>vmin=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#setup_color_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.setup_color_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use a colormap to set colors for each value in the 
+sort_measure and return a list of colors for each node</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.violin_add_laminae">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">violin_add_laminae</code><span class="sig-paren">(</span><em>ax</em>, <em>vert=True</em>, <em>labels=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#violin_add_laminae"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.violin_add_laminae" title="Permalink to this definition">¶</a></dt>
+<dd><p>Great big thank yous to Konrad Wagstyl for journeying
+to the actual library and reading an actual book to pull
+out these values from von Economo&#8217;s original work.
+I took these values from Konrad, averaged across regions to
+get an average thickness per region, added these together 
+to get an average total thickness and divided each value by 
+this total number to get the percentages.</p>
+<p>I then scaled the percentages so they lay ontop of a scale
+from 0 - 10 corresponding to the 11 sample depths for the 
+freesurfer analyses.</p>
+<p>The variance around each value was reasonably small.
+Means:</p>
+<blockquote>
+<div>0.9     1.6     4.6     5.7     7.6     11.0</div></blockquote>
+<dl class="docutils">
+<dt>Standard deviations:</dt>
+<dd>0.17 0.21 0.25 0.12     0.10 0.12</dd>
+<dt>Mean + 1 standard devation:</dt>
+<dd>1.6     2.2     5.0     6.0     7.8     10.9</dd>
+<dt>Mean - 1 standard deviation:</dt>
+<dd>2.0     2.6     5.5     6.3     8.0     11.1</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.violin_mt_depths">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">violin_mt_depths</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>mpm='MT'</em>, <em>measure='all_slope_age'</em>, <em>cmap='PRGn'</em>, <em>cmap_min=-7</em>, <em>cmap_max=7</em>, <em>y_max=None</em>, <em>y_min=None</em>, <em>figure_name=None</em>, <em>ax=None</em>, <em>figure=None</em>, <em>y_label=None</em>, <em>vert=True</em>, <em>lam_labels=True</em>, <em>cbar=False</em>, <em>pad=30</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#violin_mt_depths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.violin_mt_depths" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>INPUTS:</dt>
+<dd>data_dir &#8212;&#8212;&#8212; where the PARC_*_behavmerge.csv files are saved
+measure_dict
+vert &#8212;&#8212;&#8212;&#8212;- create vertical box plots (rather than horizontal)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.von_economo_boxes">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">von_economo_boxes</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>figures_dir</em>, <em>von_economo</em>, <em>measure='CT_all_mean'</em>, <em>group_label='Cortical Laminar Pattern'</em>, <em>y_label=None</em>, <em>y_min=1.5</em>, <em>y_max=4.0</em>, <em>figure_name=None</em>, <em>figure=None</em>, <em>ax=None</em>, <em>von_economo_colors=True</em>, <em>color_dict='muted'</em>, <em>cmap_name=None</em>, <em>max_color=False</em>, <em>min_color=False</em>, <em>alpha=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#von_economo_boxes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.von_economo_boxes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.von_economo_scatter">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">von_economo_scatter</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>figures_dir</em>, <em>von_economo</em>, <em>measure='CT_all_mean'</em>, <em>x_label='x'</em>, <em>y_label='y'</em>, <em>x_min=1.5</em>, <em>x_max=4.0</em>, <em>y_min=0.8</em>, <em>y_max=1.2</em>, <em>figure_name=None</em>, <em>figure=None</em>, <em>ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#von_economo_scatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.von_economo_scatter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.old_make_figures.xyz_vs_measures">
+<code class="descclassname">BrainNetworksInPython.scripts.old_make_figures.</code><code class="descname">xyz_vs_measures</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>figures_dir</em>, <em>mpm='MT'</em>, <em>covars_name='none'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/old_make_figures.html#xyz_vs_measures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.old_make_figures.xyz_vs_measures" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="brainnetworksinpython-scripts-permutation-testing-module">
+<h2>BrainNetworksInPython.scripts.permutation_testing module<a class="headerlink" href="#brainnetworksinpython-scripts-permutation-testing-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="brainnetworksinpython-scripts-pysurfer-plot-500parcellation-surface-values-module">
+<h2>BrainNetworksInPython.scripts.pysurfer_plot_500parcellation_surface_values module<a class="headerlink" href="#brainnetworksinpython-scripts-pysurfer-plot-500parcellation-surface-values-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-BrainNetworksInPython.scripts.read_fsaverage_info">
+<span id="brainnetworksinpython-scripts-read-fsaverage-info-module"></span><h2>BrainNetworksInPython.scripts.read_fsaverage_info module<a class="headerlink" href="#module-BrainNetworksInPython.scripts.read_fsaverage_info" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.read_fsaverage_info.get_centroids">
+<code class="descclassname">BrainNetworksInPython.scripts.read_fsaverage_info.</code><code class="descname">get_centroids</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/read_fsaverage_info.html#get_centroids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.read_fsaverage_info.get_centroids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the x, y, z coordinates of the cortical and subcortical parcellation
+regions, remove the first 41 entries which correspond to the subcortical
+regions, and return the values as a numpy array, and the axial, sagittal,
+and coronal positions as dictionaries</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.read_fsaverage_info.get_labels">
+<code class="descclassname">BrainNetworksInPython.scripts.read_fsaverage_info.</code><code class="descname">get_labels</code><span class="sig-paren">(</span><em>filename</em>, <em>convert_to_float=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/read_fsaverage_info.html#get_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.read_fsaverage_info.get_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load each line in the filename, where each line represents one of
+the cortical and subcortical regions in the 308 parcellation, remove 
+the first 41 entries which correspond to the subcortical regions 
+and return the names as a list.</p>
+<p>If convert_to_float=True then convert the values in the list to floats
+otherwise leave as strings.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.read_fsaverage_info.read_fsaverage_info">
+<code class="descclassname">BrainNetworksInPython.scripts.read_fsaverage_info.</code><code class="descname">read_fsaverage_info</code><span class="sig-paren">(</span><em>fsaverage_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/read_fsaverage_info.html#read_fsaverage_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.read_fsaverage_info.read_fsaverage_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all the info you need from the study fsaverage directory
+which contains the names of the 308 regions, the location of each
+region&#8217;s center of mass, the assignment of each region to the 
+appropriate von economo cortical type and and the assignment of
+each region to a lobe label.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="brainnetworksinpython-scripts-report-stats-tables-module">
+<h2>BrainNetworksInPython.scripts.report_stats_tables module<a class="headerlink" href="#brainnetworksinpython-scripts-report-stats-tables-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="brainnetworksinpython-scripts-stats-functions-module">
+<h2>BrainNetworksInPython.scripts.stats_functions module<a class="headerlink" href="#brainnetworksinpython-scripts-stats-functions-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-BrainNetworksInPython.scripts.useful_functions">
+<span id="brainnetworksinpython-scripts-useful-functions-module"></span><h2>BrainNetworksInPython.scripts.useful_functions module<a class="headerlink" href="#module-BrainNetworksInPython.scripts.useful_functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.useful_functions.read_in_data">
+<code class="descclassname">BrainNetworksInPython.scripts.useful_functions.</code><code class="descname">read_in_data</code><span class="sig-paren">(</span><em>data</em>, <em>names_file</em>, <em>covars_file=None</em>, <em>centroids_file=None</em>, <em>data_as_df=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/useful_functions.html#read_in_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.useful_functions.read_in_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Read in the data from the three input files:</dt>
+<dd><ul class="first last simple">
+<li>data : a csv file</li>
+<li><dl class="first docutils">
+<dt>names_file <span class="classifier-delimiter">:</span> <span class="classifier">a text file containing names of brain regions. One name</span></dt>
+<dd>per line of text.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>covars_file <span class="classifier-delimiter">:</span> <span class="classifier">a text file containing a list of covariates to correct</span></dt>
+<dd>for. One covariate per line of text.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>centroids_file <span class="classifier-delimiter">:</span> <span class="classifier">a text file containing cartesian coordinates of</span></dt>
+<dd>brain regions. Should be aligned with names_file such that the ith
+line of centroids_file is the coordinates of the brain region named
+in the ith line of names_file.</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.useful_functions.write_out_measures">
+<code class="descclassname">BrainNetworksInPython.scripts.useful_functions.</code><code class="descname">write_out_measures</code><span class="sig-paren">(</span><em>df</em>, <em>output_dir</em>, <em>name</em>, <em>first_columns=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/useful_functions.html#write_out_measures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.useful_functions.write_out_measures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write out a DataFrame as a csv
+* df is the DataFrame to write
+* output_dir is the output directory to write to
+* name is the filename to write to
+* first_columns is a list of columns to put at the left hand side of the</p>
+<blockquote>
+<div>csv file. e.g subject names</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-BrainNetworksInPython.scripts.visualisation_commands">
+<span id="brainnetworksinpython-scripts-visualisation-commands-module"></span><h2>BrainNetworksInPython.scripts.visualisation_commands module<a class="headerlink" href="#module-BrainNetworksInPython.scripts.visualisation_commands" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.visualisation_commands.rescale">
+<code class="descclassname">BrainNetworksInPython.scripts.visualisation_commands.</code><code class="descname">rescale</code><span class="sig-paren">(</span><em>fname</em>, <em>suff='png'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/visualisation_commands.html#rescale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.visualisation_commands.rescale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Journals generally like to make life easier for reviewers
+by sending them a manuscript that is not going to crash
+their computers with its size, so we&#8217;re going to create
+a smaller version of the input figure (fname) that is
+8 inches wide at 200 dpi. It will be saved out in whatever
+format specified by the suff parameter, and the name
+will be the same as the original but with _LowRes appended</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="BrainNetworksInPython.scripts.visualisation_commands.view_corr_mat">
+<code class="descclassname">BrainNetworksInPython.scripts.visualisation_commands.</code><code class="descname">view_corr_mat</code><span class="sig-paren">(</span><em>corr_mat_file</em>, <em>output_name</em>, <em>cmap_name='RdBu_r'</em>, <em>cost=None</em>, <em>bin=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/BrainNetworksInPython/scripts/visualisation_commands.html#view_corr_mat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#BrainNetworksInPython.scripts.visualisation_commands.view_corr_mat" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a visualisation tool for correlation matrices</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-BrainNetworksInPython.scripts">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-BrainNetworksInPython.scripts" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Dr Kirstie Whitaker, Isla Staden.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1dev',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

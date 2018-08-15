@@ -20,6 +20,7 @@
 import os
 import sys
 sys.path.insert(0, '../')
+sys.path.insert(0, os.path.abspath('../'))
 
 # -- General configuration ------------------------------------------------
 
@@ -38,6 +39,7 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.imgmath',
+    'sphinx.ext.napoleon',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -128,7 +130,7 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -154,8 +156,8 @@ html_theme = 'alabaster'
 # html_logo = None
 
 # The name of an image file (relative to this directory) to use as a favicon of
-# the docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
-# pixels large.
+# the docs.  This file should be a Windows icon file (.ico) being 16x16 or
+# 32x32 pixels large.
 #
 # html_favicon = None
 
@@ -268,8 +270,11 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'BrainNetworksInPython.tex', 'BrainNetworksInPython Documentation',
-     'Dr Kirstie Whitaker, Isla Staden', 'manual'),
+    (master_doc,
+     'BrainNetworksInPython.tex',
+     'BrainNetworksInPython Documentation',
+     'Dr Kirstie Whitaker, Isla Staden',
+     'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -310,8 +315,11 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'brainnetworksinpython', 'BrainNetworksInPython Documentation',
-     [author], 1)
+    (master_doc,
+     'brainnetworksinpython',
+     'BrainNetworksInPython Documentation',
+     [author],
+     1)
 ]
 
 # If true, show URL addresses after external links.
@@ -325,8 +333,12 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'BrainNetworksInPython', 'BrainNetworksInPython Documentation',
-     author, 'BrainNetworksInPython', 'One line description of project.',
+    (master_doc,
+     'BrainNetworksInPython',
+     'BrainNetworksInPython Documentation',
+     author,
+     'BrainNetworksInPython',
+     'Software to analyse structural covariance brain networks in python. ',
      'Miscellaneous'),
 ]
 
@@ -348,4 +360,9 @@ texinfo_documents = [
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/', None),
+    'numpy': ('https://docs.scipy.org/doc/numpy/', None),
+    'networkx': ('https://networkx.github.io/documentation/', None),
+    'pandas': ('http://pandas.pydata.org/pandas-docs/', None),
+    'python-louvain': ('https://python-louvain.readthedocs.io/', None)}

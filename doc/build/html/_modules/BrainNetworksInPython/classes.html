@@ -1,0 +1,510 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>BrainNetworksInPython.classes &mdash; BrainNetworksInPython 0.1dev documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> BrainNetworksInPython
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">BrainNetworksInPython</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>BrainNetworksInPython.classes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for BrainNetworksInPython.classes</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">BrainNetworksInPython.make_graphs</span> <span class="k">import</span> <span class="n">assign_node_names</span><span class="p">,</span> \
+    <span class="n">assign_node_centroids</span><span class="p">,</span> <span class="n">anatomical_copy</span><span class="p">,</span> <span class="n">threshold_graph</span><span class="p">,</span> \
+    <span class="n">weighted_graph_from_matrix</span><span class="p">,</span> <span class="n">anatomical_node_attributes</span><span class="p">,</span> \
+    <span class="n">anatomical_graph_attributes</span><span class="p">,</span> <span class="n">get_random_graphs</span><span class="p">,</span> <span class="n">is_nodal_match</span><span class="p">,</span> \
+    <span class="n">is_anatomical_match</span>
+<span class="kn">from</span> <span class="nn">BrainNetworksInPython.graph_measures</span> <span class="k">import</span> <span class="n">assign_interhem</span><span class="p">,</span> \
+    <span class="n">shortest_path</span><span class="p">,</span> <span class="n">participation_coefficient</span><span class="p">,</span> <span class="n">assign_nodal_distance</span><span class="p">,</span> \
+    <span class="n">calc_nodal_partition</span><span class="p">,</span> <span class="n">calculate_global_measures</span><span class="p">,</span> <span class="n">small_coefficient</span>
+
+
+<div class="viewcode-block" id="BrainNetwork"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.BrainNetwork">[docs]</a><span class="k">class</span> <span class="nc">BrainNetwork</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">Graph</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">network</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">parcellation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">centroids</span><span class="o">=</span><span class="kc">None</span><span class="p">,):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Lightweight subclass of networkx.classes.graph.Graph</span>
+<span class="sd">        FILL</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># ============== Create graph ================</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">network</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">nx</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">Graph</span><span class="p">):</span>
+                <span class="c1"># Copy graph</span>
+                <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Create weighted graph from a dataframe or</span>
+                <span class="c1"># numpy array</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+                    <span class="n">M</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">values</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                    <span class="n">M</span> <span class="o">=</span> <span class="n">network</span>
+                <span class="n">network</span> <span class="o">=</span> <span class="n">weighted_graph_from_matrix</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">create_using</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># ===== Give anatomical labels to nodes ======</span>
+        <span class="k">if</span> <span class="n">parcellation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># assign parcellation names to nodes</span>
+            <span class="n">assign_node_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                              <span class="n">parcellation</span><span class="p">,)</span>
+        <span class="k">if</span> <span class="n">centroids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># assign centroids to nodes</span>
+            <span class="n">assign_node_centroids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centroids</span><span class="p">)</span>
+        <span class="c1"># Tell BrainNetwork class which attributes to consider &quot;anatomical&quot;</span>
+        <span class="c1"># and therefore preserve when copying or creating new graphs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_anatomical_node_attributes</span> <span class="o">=</span> <span class="n">anatomical_node_attributes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_anatomical_graph_attributes</span> <span class="o">=</span> <span class="n">anatomical_graph_attributes</span>
+
+<div class="viewcode-block" id="BrainNetwork.threshold"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.BrainNetwork.threshold">[docs]</a>    <span class="k">def</span> <span class="nf">threshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">mst</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Returns a new graph G FILL</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">threshold_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">mst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BrainNetwork.partition"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.BrainNetwork.partition">[docs]</a>    <span class="k">def</span> <span class="nf">partition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        FILL</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="s1">&#39;partition&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">:</span>
+            <span class="n">nodal_partition</span><span class="p">,</span> <span class="n">module_partition</span> <span class="o">=</span> <span class="n">calc_nodal_partition</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">nx</span><span class="o">.</span><span class="n">set_node_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodal_partition</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;module&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;partition&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">module_partition</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;partition&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="BrainNetwork.calculate_nodal_measures"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.BrainNetwork.calculate_nodal_measures">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_nodal_measures</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">measure_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">additional_measures</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Calculate nodal measures of BrainNetwork en masse.</span>
+<span class="sd">        Returns nothing, but stores nodal measures as nodal attributes</span>
+<span class="sd">        which can be accessed using brainnetwork.export_nodal_measures()</span>
+
+<span class="sd">        By default calculates:</span>
+<span class="sd">        * nodal_partition</span>
+<span class="sd">        * degree</span>
+<span class="sd">        * closeness</span>
+<span class="sd">        * betweenness</span>
+<span class="sd">        * shortest_path_length</span>
+<span class="sd">        * clustering</span>
+<span class="sd">        * participation_coefficient</span>
+<span class="sd">        * interhem</span>
+<span class="sd">        * interhem_proportion</span>
+<span class="sd">        * total_dist *(euclidean length of adjacent eges)*</span>
+<span class="sd">        * average_dist *(euclidean length of adjacent eges)*</span>
+
+<span class="sd">        You can pass a list of these keys to measure_list to specify which</span>
+<span class="sd">        of the default measures you want to calculate.</span>
+<span class="sd">        You can also pass a dictionary of `measure name: measure method` pairs</span>
+<span class="sd">        to measure_dict, where `measure method` is a function that take a graph</span>
+<span class="sd">        as input and returns a dictionary keyed by the nodes of G. These</span>
+<span class="sd">        measures will be calculated by applying `measure_method` to</span>
+<span class="sd">        brainnetwork and added to the nodal attributes.</span>
+
+<span class="sd">        Setting `force=True` will cause recalculate any measures that already</span>
+<span class="sd">        exist in the nodal attributes. Default behaviour is not to recalculate.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="c1"># ==== SET UP ================================</span>
+        <span class="c1"># If you haven&#39;t created the nodal partition</span>
+        <span class="c1"># then calculate it here</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="p">()</span>
+        <span class="c1"># ==== DESCRIBE MEASURES =====================</span>
+        <span class="n">nodal_measure_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;degree&quot;</span><span class="p">:</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">degree</span><span class="p">(</span><span class="n">x</span><span class="p">))),</span>
+            <span class="s2">&quot;closeness&quot;</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">closeness_centrality</span><span class="p">,</span>
+            <span class="s2">&quot;betweenness&quot;</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">betweenness_centrality</span><span class="p">,</span>
+            <span class="s2">&quot;shortest_path_length&quot;</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">betweenness_centrality</span><span class="p">,</span>
+            <span class="s2">&quot;clustering&quot;</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">clustering</span><span class="p">,</span>
+            <span class="s2">&quot;participation_coefficient&quot;</span><span class="p">:</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">participation_coefficient</span><span class="p">(</span>
+                                            <span class="n">x</span><span class="p">,</span>
+                                            <span class="n">x</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;partition&#39;</span><span class="p">]))</span>
+            <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">measure_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">nodal_measure_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span>
+                                  <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">nodal_measure_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                                  <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">measure_list</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">additional_measures</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">nodal_measure_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">additional_measures</span><span class="p">)</span>
+
+        <span class="c1"># ==== CALCULATE MEASURES ====================</span>
+
+        <span class="k">def</span> <span class="nf">calc_nodal_measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measure</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">nx</span><span class="o">.</span><span class="n">get_node_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">measure</span><span class="p">))</span> <span class="ow">or</span> <span class="n">force</span><span class="p">:</span>
+                <span class="n">nx</span><span class="o">.</span><span class="n">set_node_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                       <span class="n">name</span><span class="o">=</span><span class="n">measure</span><span class="p">,</span>
+                                       <span class="n">values</span><span class="o">=</span><span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">measure</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">nodal_measure_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">calc_nodal_measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measure</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="n">force</span><span class="p">)</span>
+
+        <span class="c1"># ---- Euclidean distance and ------</span>
+        <span class="c1"># ---- interhem proportion --------</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;centroids&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">((</span><span class="n">measure_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s1">&#39;nodal_distance&#39;</span> <span class="ow">in</span> <span class="n">measure_list</span><span class="p">)):</span>
+                <span class="n">assign_nodal_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">((</span><span class="n">measure_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s1">&#39;interhem&#39;</span> <span class="ow">in</span> <span class="n">measure_list</span><span class="p">)):</span>
+                <span class="n">assign_interhem</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BrainNetwork.export_nodal_measures"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.BrainNetwork.export_nodal_measures">[docs]</a>    <span class="k">def</span> <span class="nf">export_nodal_measures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">as_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Returns the node attribute data from G as a pandas dataframe.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">nodal_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="p">{</span><span class="n">u</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">y</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">}</span>
+                          <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_node</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nodal_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_node</span>
+        <span class="k">if</span> <span class="n">as_dict</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">nodal_dict</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">nodal_dict</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="BrainNetwork.calculate_rich_club"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.BrainNetwork.calculate_rich_club">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_rich_club</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        FILL</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;rich_club&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span> <span class="ow">or</span> <span class="n">force</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;rich_club&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">rich_club_coefficient</span><span class="p">(</span>
+                                        <span class="bp">self</span><span class="p">,</span> <span class="n">normalized</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;rich_club&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="BrainNetwork.calculate_global_measures"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.BrainNetwork.calculate_global_measures">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_global_measures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        FILL</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;global_measures&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span> <span class="ow">or</span> <span class="n">force</span><span class="p">:</span>
+            <span class="n">global_measures</span> <span class="o">=</span> <span class="n">calculate_global_measures</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span> <span class="n">partition</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;global_measures&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">global_measures</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">global_measures</span> <span class="o">=</span> <span class="n">calculate_global_measures</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="n">partition</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)),</span>
+                <span class="n">existing_global_measures</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;global_measures&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;global_measures&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">global_measures</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;global_measures&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="BrainNetwork.anatomical_copy"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.BrainNetwork.anatomical_copy">[docs]</a>    <span class="k">def</span> <span class="nf">anatomical_copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        FILL</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">anatomical_copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                               <span class="n">nodal_keys</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">anatomical_node_attributes</span><span class="p">,</span>
+                               <span class="n">graph_keys</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">anatomical_graph_attributes</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BrainNetwork.set_anatomical_node_attributes"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.BrainNetwork.set_anatomical_node_attributes">[docs]</a>    <span class="k">def</span> <span class="nf">set_anatomical_node_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Set the list of node attribute keys that are to be considered</span>
+<span class="sd">        anatomical. These will be preserved when creating anatomical graph</span>
+<span class="sd">        copies.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">anatomical_node_attributes</span> <span class="o">=</span> <span class="n">names</span></div>
+
+<div class="viewcode-block" id="BrainNetwork.anatomical_graph_attributes"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.BrainNetwork.anatomical_graph_attributes">[docs]</a>    <span class="k">def</span> <span class="nf">anatomical_graph_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Set the list of graph attribute keys that are to be considered</span>
+<span class="sd">        anatomical. These will be preserved when creating anatomical graph</span>
+<span class="sd">        copies.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">anatomical_graph_attributes</span> <span class="o">=</span> <span class="n">names</span></div></div>
+
+
+<div class="viewcode-block" id="GraphBundle"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.GraphBundle">[docs]</a><span class="k">class</span> <span class="nc">GraphBundle</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    FILL</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_list</span><span class="p">,</span> <span class="n">name_list</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        FILL</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="nb">dict</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_graphs</span><span class="p">(</span><span class="n">graph_list</span><span class="p">,</span> <span class="n">name_list</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GraphBundle.add_graphs"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.GraphBundle.add_graphs">[docs]</a>    <span class="k">def</span> <span class="nf">add_graphs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_list</span><span class="p">,</span> <span class="n">name_list</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">name_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">graph_list</span><span class="p">))]</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">name_list</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">graph_list</span><span class="p">):</span>
+            <span class="k">raise</span>
+        <span class="k">for</span> <span class="n">graph</span> <span class="ow">in</span> <span class="n">graph_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">BrainNetwork</span><span class="p">):</span>
+                <span class="n">graph</span> <span class="o">=</span> <span class="n">BrainNetwork</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">a</span><span class="p">:</span> <span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">name_list</span><span class="p">,</span> <span class="n">graph_list</span><span class="p">)})</span></div>
+
+<div class="viewcode-block" id="GraphBundle.apply"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.GraphBundle.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_function</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        FILL</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">global_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">graph</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">global_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph_function</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">global_dict</span></div>
+
+<div class="viewcode-block" id="GraphBundle.report_global_measures"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.GraphBundle.report_global_measures">[docs]</a>    <span class="k">def</span> <span class="nf">report_global_measures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">as_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        FILL</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">global_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">calculate_global_measures</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">as_dict</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">global_dict</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">global_dict</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="GraphBundle.report_rich_club"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.GraphBundle.report_rich_club">[docs]</a>    <span class="k">def</span> <span class="nf">report_rich_club</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">as_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        FILL</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">rc_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">calculate_rich_club</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">as_dict</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">rc_dict</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">rc_dict</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="GraphBundle.create_random_graphs"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.GraphBundle.create_random_graphs">[docs]</a>    <span class="k">def</span> <span class="nf">create_random_graphs</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">name_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name_scheme</span><span class="o">=</span><span class="s2">&quot;_R&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        FILL</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">name_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Choose q to be the smallest integer that is larger than all</span>
+            <span class="c1"># integers already naming a random graph in brainnetwork</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="n">name_scheme</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">q</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">q</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="n">name_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="o">+</span> <span class="n">name_scheme</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">q</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">q</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="n">n</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_graphs</span><span class="p">(</span><span class="n">get_random_graphs</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">),</span> <span class="n">name_list</span><span class="o">=</span><span class="n">name_list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GraphBundle.report_small_world"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.GraphBundle.report_small_world">[docs]</a>    <span class="k">def</span> <span class="nf">report_small_world</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_name</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Calculate the small coefficient of graph_name relative to</span>
+<span class="sd">        graph in GraphBundle.</span>
+
+<span class="sd">        Returns a dictionary mapping graph_names to small coefficients.</span>
+
+<span class="sd">        graph_name should be a key for a graph in GraphBundle.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">small_world_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">small_coefficient</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s1">&#39;graph_name&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">small_world_dict</span></div>
+
+<div class="viewcode-block" id="GraphBundle.nodal_matches"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.GraphBundle.nodal_matches">[docs]</a>    <span class="k">def</span> <span class="nf">nodal_matches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Returns True if all graphs have the same node set</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">(</span><span class="kc">False</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">is_nodal_match</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">G</span><span class="p">)</span> <span class="k">for</span> <span class="n">G</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span></div>
+
+<div class="viewcode-block" id="GraphBundle.anatomical_matches"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.classes.GraphBundle.anatomical_matches">[docs]</a>    <span class="k">def</span> <span class="nf">anatomical_matches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                           <span class="n">nodal_keys</span><span class="o">=</span><span class="n">anatomical_node_attributes</span><span class="p">(),</span>
+                           <span class="n">graph_keys</span><span class="o">=</span><span class="n">anatomical_graph_attributes</span><span class="p">()):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Returns False if graphs are not all pairwise anatomical matches</span>
+<span class="sd">        as defined in make_graphs.is_anatomical_match.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">(</span><span class="kc">False</span> <span class="ow">not</span> <span class="ow">in</span>
+                <span class="p">[</span><span class="n">is_anatomical_match</span><span class="p">(</span>
+                    <span class="n">H</span><span class="p">,</span>
+                    <span class="n">G</span><span class="p">,</span>
+                    <span class="n">nodal_keys</span><span class="o">=</span><span class="n">nodal_keys</span><span class="p">,</span>
+                    <span class="n">graph_keys</span><span class="o">=</span><span class="n">graph_keys</span><span class="p">)</span>
+                 <span class="k">for</span> <span class="n">G</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Dr Kirstie Whitaker, Isla Staden.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1dev',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
