@@ -363,6 +363,7 @@ texinfo_documents = [
 intersphinx_mapping = {
     'python': ('https://docs.python.org/', None),
     'numpy': ('https://docs.scipy.org/doc/numpy/', None),
-    'networkx': ('https://networkx.github.io/documentation/', None),
-    'pandas': ('http://pandas.pydata.org/pandas-docs/', None),
-    'python-louvain': ('https://python-louvain.readthedocs.io/', None)}
+    'networkx': ('https://networkx.github.io/documentation/stable/', None),
+    'pandas': ('http://pandas.pydata.org/pandas-docs/stable/', None),
+    'python-louvain': ('https://python-louvain.readthedocs.io/en/latest/',
+                       None)}
