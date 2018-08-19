@@ -7,8 +7,8 @@ Subpackages
 .. toctree::
 
     BrainNetworksInPython.scripts
-    BrainNetworksInPython.tests
     BrainNetworksInPython.wrappers
+    BrainNetworksInPython.datasets
 
 Module contents
 ---------------

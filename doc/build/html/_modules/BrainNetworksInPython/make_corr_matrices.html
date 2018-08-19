@@ -156,7 +156,17 @@
 
 <div class="viewcode-block" id="get_non_numeric_cols"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_corr_matrices.get_non_numeric_cols">[docs]</a><span class="k">def</span> <span class="nf">get_non_numeric_cols</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    FILL</span>
+<span class="sd">    returns the columns of df whose dtype is not numeric (e.g not a subtype of</span>
+<span class="sd">    :class:`numpy.number`)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : :class:`pandas.DataFrame`</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        non numeric columns of df</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">numeric</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="p">),</span>
                           <span class="nb">bool</span><span class="p">)</span>
@@ -164,20 +174,36 @@
     <span class="k">return</span> <span class="n">non_numeric_cols</span></div>
 
 
-<div class="viewcode-block" id="create_residuals_df"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_corr_matrices.create_residuals_df">[docs]</a><span class="k">def</span> <span class="nf">create_residuals_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">covars_list</span><span class="p">):</span>
+<div class="viewcode-block" id="create_residuals_df"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_corr_matrices.create_residuals_df">[docs]</a><span class="k">def</span> <span class="nf">create_residuals_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">covars</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Calculate residuals of columns specified by names, correcting for the</span>
 <span class="sd">    columns in covars_list.</span>
-<span class="sd">    * df is a pandas data frame with subjects as rows and columns including</span>
-<span class="sd">        brain regions and covariates</span>
-<span class="sd">    * names is a list of the brain regions you wish to correlate.</span>
-<span class="sd">    * covars_list is a list of covariates (as df column headings)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : :class:`pandas.DataFrame`</span>
+<span class="sd">        a pandas data frame with subjects as rows and columns including</span>
+<span class="sd">        brain regions and covariates. Should be numeric for the columns in</span>
+<span class="sd">        names and covars_list</span>
+<span class="sd">    names : list</span>
+<span class="sd">        a list of the brain regions you wish to correlate</span>
+<span class="sd">    covars: list</span>
+<span class="sd">        covars is a list of covariates (as df column headings)</span>
 <span class="sd">        to correct for before correlating the regions.</span>
 
-<span class="sd">    df should be numeric for the columns in names and covars_list</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`pandas.DataFrame`</span>
+<span class="sd">        Residuals of columns `names` of `df`, correcting for `covars`</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        if there are non numeric entries in the columns specified by names or</span>
+<span class="sd">        covars</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># Raise TypeError if any of the relevant columns are nonnumeric</span>
-    <span class="n">non_numeric_cols</span> <span class="o">=</span> <span class="n">get_non_numeric_cols</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">names</span><span class="o">+</span><span class="n">covars_list</span><span class="p">])</span>
+    <span class="n">non_numeric_cols</span> <span class="o">=</span> <span class="n">get_non_numeric_cols</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">names</span><span class="o">+</span><span class="n">covars</span><span class="p">])</span>
     <span class="k">if</span> <span class="n">non_numeric_cols</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;DataFrame columns </span><span class="si">{}</span><span class="s1"> are non numeric&#39;</span>
                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">non_numeric_cols</span><span class="p">)))</span>
@@ -185,13 +211,13 @@
     <span class="c1"># Make a new data frame that will contain</span>
     <span class="c1"># the residuals for each column after correcting for</span>
     <span class="c1"># the covariates in covars</span>
-    <span class="n">df_res</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">names</span><span class="o">+</span><span class="n">covars_list</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">df_res</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">names</span><span class="o">+</span><span class="n">covars</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="c1"># Create your covariates array</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">covars_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">df</span><span class="p">[</span><span class="n">covars_list</span><span class="p">]])</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">covars_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">covars_list</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">covars</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">df</span><span class="p">[</span><span class="n">covars</span><span class="p">]])</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">covars</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">covars</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
 
@@ -205,10 +231,28 @@
 
 <div class="viewcode-block" id="create_corrmat"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_corr_matrices.create_corrmat">[docs]</a><span class="k">def</span> <span class="nf">create_corrmat</span><span class="p">(</span><span class="n">df_residuals</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;pearson&#39;</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Returns a correlation matrix</span>
-<span class="sd">    * df_res is a pandas data frame with participants as rows.</span>
-<span class="sd">    * names is a list of the brain regions you wish to correlate.</span>
-<span class="sd">    * method is the method of correlation passed to pandas.DataFram.corr</span>
+<span class="sd">    Correlate over the rows of df_residuals</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df_res : :class:`pandas.DataFrame`</span>
+<span class="sd">        df_res contains structural data about regions of the brain with</span>
+<span class="sd">        subjects as rows.</span>
+<span class="sd">    names : list</span>
+<span class="sd">        The brain regions you wish to correlate over. These will become nodes</span>
+<span class="sd">        in your graph.</span>
+<span class="sd">    methods : string</span>
+<span class="sd">        the method of correlation passed to :func:`pandas.DataFram.corr`</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`pandas.DataFrame`</span>
+<span class="sd">        A correlation matrix</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        if there are non numeric entries in the columns specified by names</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">names</span> <span class="o">=</span> <span class="n">df_residuals</span><span class="o">.</span><span class="n">columns</span>
@@ -227,15 +271,28 @@
         <span class="n">covars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">method</span><span class="o">=</span><span class="s1">&#39;pearson&#39;</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Return residuals of names columns correcting for the columns in covars_list</span>
-<span class="sd">    * df is a pandas data frame with subjects as rows and columns including</span>
-<span class="sd">        brain regions and covariates</span>
-<span class="sd">    * names is a list of the brain regions you wish to correlate.</span>
-<span class="sd">    * covars_list is a list of covariates (as df column headings)</span>
-<span class="sd">        to correct for before correlating the regions.</span>
-<span class="sd">    * method is the method of correlation passed to pandas.DataFram.corr</span>
+<span class="sd">    Calculate the correlation of `names` columns over the rows of</span>
+<span class="sd">    `regional_measures` after correcting for covariance with the columns in</span>
+<span class="sd">    `covars`</span>
 
-<span class="sd">    df should be numeric for the columns in names and covars_list</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    regional_measures : :class:`pandas.DataFrame`</span>
+<span class="sd">        a pandas data frame with subjects as rows and columns including</span>
+<span class="sd">        brain regions and covariates. Should be numeric for the columns in</span>
+<span class="sd">        names and covars_list</span>
+<span class="sd">    names : list</span>
+<span class="sd">        a list of the brain regions you wish to correlate</span>
+<span class="sd">    covars: list</span>
+<span class="sd">        covars is a list of covariates (as df column headings)</span>
+<span class="sd">        to correct for before correlating the regions.</span>
+<span class="sd">    methods : string</span>
+<span class="sd">        the method of correlation passed to :func:`pandas.DataFram.corr`</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`pandas.DataFrame`</span>
+<span class="sd">        A correlation matrix with rows and cloumns keyed by `names`</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># Correct for your covariates</span>
     <span class="n">df_res</span> <span class="o">=</span> <span class="n">create_residuals_df</span><span class="p">(</span><span class="n">regional_measures</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">covars</span><span class="p">)</span>
@@ -246,19 +303,25 @@
     <span class="k">return</span> <span class="n">M</span></div>
 
 
-<div class="viewcode-block" id="save_mat"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_corr_matrices.save_mat">[docs]</a><span class="k">def</span> <span class="nf">save_mat</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">M_text_name</span><span class="p">):</span>
+<div class="viewcode-block" id="save_mat"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_corr_matrices.save_mat">[docs]</a><span class="k">def</span> <span class="nf">save_mat</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Save matrix M as a text file</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    M : array</span>
+<span class="sd">    name : str</span>
+<span class="sd">        name of the output directory</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># Check to see if the output directory</span>
     <span class="c1"># exists, and make it if it does not</span>
-    <span class="n">dirname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">M_text_name</span><span class="p">)</span>
+    <span class="n">dirname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">dirname</span><span class="p">):</span>
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span>
 
     <span class="c1"># Save the matrix as a text file</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">M_text_name</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">name</span><span class="p">,</span>
                <span class="n">M</span><span class="p">,</span>
                <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%.5f</span><span class="s1">&#39;</span><span class="p">,</span>
                <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span>

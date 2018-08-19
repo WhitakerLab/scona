@@ -11,16 +11,9 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-.. automodule:: scripts.make_corr_matrices
-    :members:
-
-.. automodule:: wrappers
-    :members:
-
 Indices and tables
 ==================
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

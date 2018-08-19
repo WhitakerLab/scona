@@ -156,27 +156,45 @@
 
 
 <div class="viewcode-block" id="anatomical_node_attributes"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_graphs.anatomical_node_attributes">[docs]</a><span class="k">def</span> <span class="nf">anatomical_node_attributes</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    default anatomical nodal attributes for BrainNetworksInPython</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        nodal attributes considered &quot;anatomical&quot; by</span>
+<span class="sd">        BrainNetworksInPython</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;name_34&quot;</span><span class="p">,</span> <span class="s2">&quot;name_68&quot;</span><span class="p">,</span> <span class="s2">&quot;hemi&quot;</span><span class="p">,</span> <span class="s2">&quot;centroids&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="anatomical_graph_attributes"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_graphs.anatomical_graph_attributes">[docs]</a><span class="k">def</span> <span class="nf">anatomical_graph_attributes</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    default anatomical graph attributes for BrainNetworksInPython</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        graph attributes considered &quot;anatomical&quot; by</span>
+<span class="sd">        BrainNetworksInPython</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;parcellation&#39;</span><span class="p">,</span> <span class="s1">&#39;centroids&#39;</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="assign_node_names"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_graphs.assign_node_names">[docs]</a><span class="k">def</span> <span class="nf">assign_node_names</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">parcellation</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the network G with node attributes &quot;name&quot; assigned</span>
-<span class="sd">    according to the list parcellation.</span>
+<span class="sd">    Modify nodal attribute &quot;name&quot; for nodes of G, inplace.</span>
 
-<span class="sd">    - G should be a network</span>
-<span class="sd">    - parcellation should be a list of names where parcellation[i]</span>
-<span class="sd">     is the name of the ith node of G.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">    parcellation : list</span>
+<span class="sd">        ``parcellation[i]`` is the name of node ``i`` in ``G``</span>
 
-<span class="sd">    If you have names in 308 style (as described in Whitaker, Vertes et al</span>
-<span class="sd">    2016) then you can also add in</span>
-<span class="sd">        * hemisphere</span>
-<span class="sd">        * 34_name (Desikan Killiany atlas region)</span>
-<span class="sd">        * 68_name (Desikan Killiany atlas region with hemisphere)</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+<span class="sd">        graph with nodal attributes modified</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Assign anatomical names to the nodes</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">()):</span>
@@ -187,15 +205,25 @@
 
 
 <div class="viewcode-block" id="assign_node_centroids"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_graphs.assign_node_centroids">[docs]</a><span class="k">def</span> <span class="nf">assign_node_centroids</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">centroids</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Assign x,y,z coordinates to each node.</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Modify the nodal attributes &quot;centroids&quot;, &quot;x&quot;, &quot;y&quot;, and &quot;z&quot; of nodes</span>
+<span class="sd">    of G, inplace. &quot;centroids&quot; will be set according to the scheme</span>
+<span class="sd">    ``G[i][&quot;centroids&quot;] = centroids[i]``</span>
+<span class="sd">    for nodes ``i`` in ``G``. &quot;x&quot;, &quot;y&quot; and &quot;z&quot; are assigned as the first,</span>
+<span class="sd">    second and third coordinate of ``centroids[i]`` respectively.</span>
 
-<span class="sd">    - G should be a network</span>
-<span class="sd">    - centroids should be a list of cartesian coordinates where centroids[i]</span>
-<span class="sd">     is the location of the ith node of G.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">    centroids : list</span>
+<span class="sd">        ``centroids[i]`` is a tuple representing the cartesian coordinates of</span>
+<span class="sd">        node ``i`` in ``G``</span>
 
-<span class="sd">    Returns the graph with modified node attributes</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+<span class="sd">        graph with nodal attributes modified</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Assign cartesian coordinates to the nodes</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">()):</span>
         <span class="n">G</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">centroids</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
@@ -211,13 +239,35 @@
                          <span class="n">nodal_keys</span><span class="o">=</span><span class="n">anatomical_node_attributes</span><span class="p">(),</span>
                          <span class="n">graph_keys</span><span class="o">=</span><span class="n">anatomical_graph_attributes</span><span class="p">()):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Copies node data from G to R for the following list of keys:</span>
-<span class="sd">    [&quot;name&quot;, &quot;name_34&quot;, &quot;name_68&quot;, &quot;hemi&quot;, &quot;centroids&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;]</span>
-<span class="sd">    or a list of keys passed to anatomical_keys.</span>
+<span class="sd">    Copies nodal and graph attributes data from ``G`` to ``R`` for keys</span>
+<span class="sd">    included in ``nodal_keys`` and ``graph_keys`` respectively.</span>
 
-<span class="sd">    R and G are both graphs. They may have non equal vertex sets, but</span>
-<span class="sd">    node data will only be copied from G to R for the nodes in the</span>
+<span class="sd">    ``R`` and ``G`` are both graphs. If they have non equal vertex sets</span>
+<span class="sd">    node data will only be copied from ``G`` to ``R`` for nodes in the</span>
 <span class="sd">    intersection.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : :class:`networkx.Graph`</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">        ``G`` has anatomical data to copy to ``R``</span>
+<span class="sd">    nodal_keys : list, optional</span>
+<span class="sd">        The list of keys to treat as anatomical nodal data.</span>
+<span class="sd">        Default is set to ``anatomical_node_attributes()``, e.g</span>
+<span class="sd">        ``[&quot;name&quot;, &quot;name_34&quot;, &quot;name_68&quot;, &quot;hemi&quot;, &quot;centroids&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;]``</span>
+<span class="sd">    graph_keys : list, optional</span>
+<span class="sd">        The list of keys rto treat as anatomical graph data.</span>
+<span class="sd">        Set to ``anatomical_graph_attributes()`` by default. E.g</span>
+<span class="sd">        ``[&quot;centroids&quot;, &quot;parcellation&quot;]``</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+<span class="sd">        graph ``R`` with the anatomical data of graph ``G``</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :func:`copy_anatomical_data`</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">R</span><span class="o">.</span><span class="n">_node</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">_node</span><span class="o">.</span><span class="n">keys</span><span class="p">()]:</span>
         <span class="n">R</span><span class="o">.</span><span class="n">_node</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span>
@@ -233,16 +283,35 @@
                     <span class="n">nodal_keys</span><span class="o">=</span><span class="n">anatomical_node_attributes</span><span class="p">(),</span>
                     <span class="n">graph_keys</span><span class="o">=</span><span class="n">anatomical_graph_attributes</span><span class="p">()):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Returns a new graph with the same nodes and edges as G, preserving node</span>
-<span class="sd">    data from the following list of keys:</span>
-<span class="sd">    [&quot;name&quot;, &quot;name_34&quot;, &quot;name_68&quot;, &quot;hemi&quot;, &quot;centroids&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;]</span>
-<span class="sd">    plus any keys passed to anatomical_keys.</span>
+<span class="sd">    Create a new graph from ``G`` preserving:</span>
+<span class="sd">    * nodes</span>
+<span class="sd">    * edges</span>
+<span class="sd">    * any nodal attributes specified in nodal_keys</span>
+<span class="sd">    * any graph attributes specified in graph_keys</span>
 
-<span class="sd">    Also preserves edge weights and G.graph values keyed by &quot;centroids&quot; or</span>
-<span class="sd">    &quot;parcellation&quot;.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">        ``G`` has anatomical data to copy to ``R``</span>
+<span class="sd">    nodal_keys : list, optional</span>
+<span class="sd">        The list of keys to treat as anatomical nodal data.</span>
+<span class="sd">        Default is set to ``anatomical_node_attributes()``, e.g</span>
+<span class="sd">        ``[&quot;name&quot;, &quot;name_34&quot;, &quot;name_68&quot;, &quot;hemi&quot;, &quot;centroids&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;]``</span>
+<span class="sd">    graph_keys : list, optional</span>
+<span class="sd">        The list of keys rto treat as anatomical graph data.</span>
+<span class="sd">        Set to ``anatomical_graph_attributes()`` by default. E.g</span>
+<span class="sd">        ``[&quot;centroids&quot;, &quot;parcellation&quot;]``</span>
 
-<span class="sd">    To specify which node or graph keys to preserve, pass a list of keys</span>
-<span class="sd">    to `nodal_keys` or `graph_keys` respectively.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+<span class="sd">        A new graph with the same nodes and edges as ``G`` and identical</span>
+<span class="sd">        anatomical data.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :func:`BrainNetwork.anatomical_copy`</span>
+<span class="sd">    :func:`copy_anatomical_data`</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># Create new empty graph</span>
     <span class="n">R</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">G</span><span class="p">)()</span>
@@ -260,17 +329,33 @@
 
 <div class="viewcode-block" id="is_nodal_match"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_graphs.is_nodal_match">[docs]</a><span class="k">def</span> <span class="nf">is_nodal_match</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Return True if the nodes of G an H are the same, including the</span>
-<span class="sd">    nodal values of any list of attributes passed to keys.</span>
+<span class="sd">    Check that G and H have equal vertex sets.</span>
+<span class="sd">    If keys is passed, also check that the nodal dictionaries of G and H (e.g</span>
+<span class="sd">    the nodal attributes) are equal over the attributes in keys.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">    H : :class:`networkx.Graph`</span>
+<span class="sd">    keys : list, optional</span>
+<span class="sd">        a list of attributes on which the nodal dictionaries of G and H should</span>
+<span class="sd">        agree.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        ``True`` if `G` and `H` have equal vertex sets, or,</span>
+<span class="sd">        if `keys` is specified, ``True`` if vertex sets are equal AND the graphs&#39;</span>
+<span class="sd">        nodal dictionaries agree on all attributes in `keys`.</span>
+<span class="sd">        ``False`` otherwise</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">set</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">nodes</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">elif</span> <span class="n">keys</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">elif</span> <span class="p">({</span><span class="n">node</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">}</span>
-            <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">_node</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-            <span class="o">!=</span> <span class="p">{</span><span class="n">node</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">}</span>
-                <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">H</span><span class="o">.</span><span class="n">_node</span><span class="o">.</span><span class="n">items</span><span class="p">()}):</span>
+    <span class="k">elif</span> <span class="kc">False</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">H</span><span class="o">.</span><span class="n">_node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">att</span><span class="p">)</span> <span class="o">==</span> <span class="n">H</span><span class="o">.</span><span class="n">_node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">att</span><span class="p">))</span>
+                   <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="n">keys</span>
+                   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">]:</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span></div>
@@ -281,7 +366,26 @@
                         <span class="n">nodal_keys</span><span class="o">=</span><span class="n">anatomical_node_attributes</span><span class="p">(),</span>
                         <span class="n">graph_keys</span><span class="o">=</span><span class="n">anatomical_graph_attributes</span><span class="p">()):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Return True if G and H have the same anatomical data</span>
+<span class="sd">    Check that G and H have identical anatomical data (including vertex sets).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">    H : :class:`networkx.Graph`</span>
+<span class="sd">    nodal_keys : list, optional</span>
+<span class="sd">        The list of keys to treat as anatomical nodal data.</span>
+<span class="sd">        Default is set to ``anatomical_node_attributes()``, e.g</span>
+<span class="sd">        ``[&quot;name&quot;, &quot;name_34&quot;, &quot;name_68&quot;, &quot;hemi&quot;, &quot;centroids&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;]``</span>
+<span class="sd">    graph_keys : list, optional</span>
+<span class="sd">        The list of keys to treat as anatomical graph data.</span>
+<span class="sd">        Set to ``anatomical_graph_attributes()`` by default. E.g</span>
+<span class="sd">        ``[&quot;centroids&quot;, &quot;parcellation&quot;]``</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        ``True`` if `G` and `H` have the same anatomical data;</span>
+<span class="sd">        ``False`` otherwise</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># check nodes match</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">is_nodal_match</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="n">nodal_keys</span><span class="p">):</span>
@@ -299,11 +403,19 @@
 
 <div class="viewcode-block" id="weighted_graph_from_matrix"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_graphs.weighted_graph_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">weighted_graph_from_matrix</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">create_using</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Return a networkx weighted graph with edge weights equivalent to matrix</span>
-<span class="sd">    entries</span>
+<span class="sd">    Create a weighted graph from an correlation matrix.</span>
 
-<span class="sd">    M is an adjacency matrix as a numpy array</span>
-<span class="sd">    create_using: Use specified graph for result. The default is Graph().</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    M : :class:`numpy.array`</span>
+<span class="sd">        an correlation matrix</span>
+<span class="sd">    create_using : :class:`networkx.Graph`, optional</span>
+<span class="sd">        Use specified graph for result. The default is Graph()</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+<span class="sd">        A weighted graph with edge weights equivalent to matrix entries</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># Make a copy of the matrix</span>
     <span class="n">thr_M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
@@ -317,22 +429,41 @@
     <span class="k">return</span> <span class="n">G</span></div>
 
 
-<div class="viewcode-block" id="weighted_graph_from_df"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_graphs.weighted_graph_from_df">[docs]</a><span class="k">def</span> <span class="nf">weighted_graph_from_df</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<div class="viewcode-block" id="weighted_graph_from_df"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_graphs.weighted_graph_from_df">[docs]</a><span class="k">def</span> <span class="nf">weighted_graph_from_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">create_using</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Return a networkx weighted graph with edge weights equivalent to dataframe</span>
-<span class="sd">    entries</span>
+<span class="sd">    Create a weighted graph from a correlation matrix.</span>
 
-<span class="sd">    M should be an adjacency matrix as a dataframe</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : :class:`pandas.DataFrame`</span>
+<span class="sd">        a correlation matrix</span>
+<span class="sd">    create_using : :class:`networkx.Graph`</span>
+<span class="sd">        Use specified graph for result. The default is Graph()</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+<span class="sd">        A weighted graph with edge weights equivalent to DataFrame entries</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">return</span> <span class="n">weighted_graph_from_matrix</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">weighted_graph_from_matrix</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">create_using</span><span class="o">=</span><span class="n">create_using</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="scale_weights"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_graphs.scale_weights">[docs]</a><span class="k">def</span> <span class="nf">scale_weights</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">scalar</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;weight&#39;</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Returns the graph G with the edge weights multiplied by scalar</span>
+<span class="sd">    Multiply edge weights of `G` by `scalar`.</span>
 
-<span class="sd">    G is a networkx graph</span>
-<span class="sd">    name is the string indexing the edge data</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">    scalar : float, optional</span>
+<span class="sd">        scalar value to multiply edge weights by. Default is -1</span>
+<span class="sd">    name : str, optional</span>
+<span class="sd">        string that indexes edge weights. Default is &quot;weight&quot;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">edges</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">get_edge_attributes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
     <span class="n">new_edges</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span><span class="o">*</span><span class="n">scalar</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">edges</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
@@ -342,13 +473,36 @@
 
 <div class="viewcode-block" id="threshold_graph"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_graphs.threshold_graph">[docs]</a><span class="k">def</span> <span class="nf">threshold_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">mst</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Returns a connected binary graph.</span>
+<span class="sd">    Create a binary graph by thresholding weighted graph G.</span>
 
 <span class="sd">    First creates the minimum spanning tree for the graph, and then adds</span>
-<span class="sd">    in edges according to their connection strength up to a particular cost.</span>
+<span class="sd">    in edges according to their connection strength up to cost.</span>
 
-<span class="sd">    G should be a networkx Graph object with edge weights</span>
-<span class="sd">    cost should be a number between 0 and 100</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">        A complete weighted graph</span>
+<span class="sd">    cost : float</span>
+<span class="sd">        A number between 0 and 100. The resulting graph will have the</span>
+<span class="sd">        ``cost*n/100`` highest weighted edges from G, where ``n`` is the number</span>
+<span class="sd">        of edges in G.</span>
+<span class="sd">    mst : bool, optional</span>
+<span class="sd">        If ``False``, skip creation of minimum spanning tree. This may cause</span>
+<span class="sd">        output graph to be disconnected</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+<span class="sd">        A binary graph</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    Exception</span>
+<span class="sd">        If it is impossible to create a minimum_spanning_tree at the given cost</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :func:`BrainNetworksInPython.BrainNetwork.threshold`</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># Weights scaled by -1 as minimum_spanning_tree minimises weight</span>
     <span class="n">H</span> <span class="o">=</span> <span class="n">scale_weights</span><span class="p">(</span><span class="n">anatomical_copy</span><span class="p">(</span><span class="n">G</span><span class="p">))</span>
@@ -397,13 +551,32 @@
 
 <div class="viewcode-block" id="graph_at_cost"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_graphs.graph_at_cost">[docs]</a><span class="k">def</span> <span class="nf">graph_at_cost</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">mst</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Returns a connected binary graph.</span>
+<span class="sd">    Create a binary graph by thresholding weighted matrix M.</span>
 
 <span class="sd">    First creates the minimum spanning tree for the graph, and then adds</span>
-<span class="sd">    in edges according to their connection strength up to a particular cost.</span>
+<span class="sd">    in edges according to their connection strength up to cost.</span>
 
-<span class="sd">    M should be an adjacency matrix as numpy array or dataframe.</span>
-<span class="sd">    cost should be a number between 0 and 100</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    M : :class:`numpy.array` or :class:`pandas.DataFrame`</span>
+<span class="sd">        A correlation matrix.</span>
+<span class="sd">    cost : float</span>
+<span class="sd">        A number between 0 and 100. The resulting graph will have the</span>
+<span class="sd">        ``cost*n/100`` highest weighted edges available, where ``n`` is the</span>
+<span class="sd">        number of edges in G</span>
+<span class="sd">    mst : bool, optional</span>
+<span class="sd">        If ``False``, skip creation of minimum spanning tree. This may cause</span>
+<span class="sd">        output graph to be disconnected</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+<span class="sd">        A binary graph</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    Exception</span>
+<span class="sd">        if M is not a :class:`numpy.array` or :class:`pandas.DataFrame`</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># If dataframe, convert to array</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
@@ -412,29 +585,36 @@
         <span class="n">array</span> <span class="o">=</span> <span class="n">M</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-              <span class="s2">&quot;expecting numpy array or pandas dataframe as first input&quot;</span><span class="p">)</span>
+              <span class="s2">&quot;M should be a numpy array or pandas dataframe&quot;</span><span class="p">)</span>
 
     <span class="c1"># Read this array into a graph G</span>
     <span class="n">G</span> <span class="o">=</span> <span class="n">weighted_graph_from_matrix</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">threshold_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">mst</span><span class="o">=</span><span class="n">mst</span><span class="p">)</span></div>
 
 
+<span class="c1"># ===================== Random Graphs ======================</span>
+
+
 <div class="viewcode-block" id="random_graph"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_graphs.random_graph">[docs]</a><span class="k">def</span> <span class="nf">random_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Return a connected random graph that preserves degree distribution</span>
-<span class="sd">    by swapping pairs of edges (double edge swap).</span>
+<span class="sd">    by swapping pairs of edges, using :func:`networkx.double_edge_swap`.</span>
 
-<span class="sd">    Inputs:</span>
-<span class="sd">        G: networkx graph</span>
-<span class="sd">        Q: constant that determines how many swaps to conduct</span>
-<span class="sd">           for every edge in the graph</span>
-<span class="sd">           Default Q =10</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">    Q : int, optional</span>
+<span class="sd">        constant that specifies how many swaps to conduct for each edge in G</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        R: networkx graph</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
 
-<span class="sd">    CAVEAT: If it is not possible in 15 attempts to create a</span>
-<span class="sd">    connected random graph then this code will raise an error</span>
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    Exception</span>
+<span class="sd">        if it is not possible in 15 attempts to create a connected random</span>
+<span class="sd">        graph.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">R</span> <span class="o">=</span> <span class="n">anatomical_copy</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
 
@@ -462,13 +642,22 @@
     <span class="k">return</span> <span class="n">R</span></div>
 
 
-<div class="viewcode-block" id="get_random_graphs"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_graphs.get_random_graphs">[docs]</a><span class="k">def</span> <span class="nf">get_random_graphs</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<div class="viewcode-block" id="get_random_graphs"><a class="viewcode-back" href="../../BrainNetworksInPython.html#BrainNetworksInPython.make_graphs.get_random_graphs">[docs]</a><span class="k">def</span> <span class="nf">get_random_graphs</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Creates n random graphs through edgeswapping.</span>
+<span class="sd">    Create n random graphs through edgeswapping.</span>
 
-<span class="sd">    Returns a list of n edgeswap randomisations of G</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">    n : int, optional</span>
+<span class="sd">    Q : int, optional</span>
+<span class="sd">        constant to specify how many swaps to conduct for each edge in G</span>
 
-<span class="sd">    G should be a graph and n an integer.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of :class:`networkx.Graph`</span>
+<span class="sd">        A list of length n of randomisations of G created using</span>
+<span class="sd">        :func:`BrainNetworksInPython.make_graphs.random_graph`</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">graph_list</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -477,7 +666,7 @@
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">graph_list</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="p">:</span>
-            <span class="n">graph_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">random_graph</span><span class="p">(</span><span class="n">G</span><span class="p">)]</span>
+            <span class="n">graph_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">random_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="n">Q</span><span class="p">)]</span>
 
     <span class="k">return</span> <span class="n">graph_list</span></div>
 </pre></div>
