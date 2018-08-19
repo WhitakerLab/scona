@@ -11,7 +11,17 @@ from BrainNetworksInPython.stats_functions import residuals
 
 def get_non_numeric_cols(df):
     '''
-    FILL
+    returns the columns of df whose dtype is not numeric (e.g not a subtype of
+    :class:`numpy.number`)
+
+    Parameters
+    ----------
+    df : :class:`pandas.DataFrame`
+
+    Returns
+    -------
+    list
+        non numeric columns of df
     '''
     numeric = np.fromiter((np.issubdtype(y, np.number) for y in df.dtypes),
                           bool)
@@ -19,20 +29,36 @@ def get_non_numeric_cols(df):
     return non_numeric_cols
 
 
-def create_residuals_df(df, names, covars_list):
+def create_residuals_df(df, names, covars):
     '''
     Calculate residuals of columns specified by names, correcting for the
     columns in covars_list.
-    * df is a pandas data frame with subjects as rows and columns including
-        brain regions and covariates
-    * names is a list of the brain regions you wish to correlate.
-    * covars_list is a list of covariates (as df column headings)
+
+    Parameters
+    ----------
+    df : :class:`pandas.DataFrame`
+        a pandas data frame with subjects as rows and columns including
+        brain regions and covariates. Should be numeric for the columns in
+        names and covars_list
+    names : list
+        a list of the brain regions you wish to correlate
+    covars: list
+        covars is a list of covariates (as df column headings)
         to correct for before correlating the regions.
 
-    df should be numeric for the columns in names and covars_list
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        Residuals of columns `names` of `df`, correcting for `covars`
+
+    Raises
+    ------
+    TypeError
+        if there are non numeric entries in the columns specified by names or
+        covars
     '''
     # Raise TypeError if any of the relevant columns are nonnumeric
-    non_numeric_cols = get_non_numeric_cols(df[names+covars_list])
+    non_numeric_cols = get_non_numeric_cols(df[names+covars])
     if non_numeric_cols:
         raise TypeError('DataFrame columns {} are non numeric'
                         .format(', '.join(non_numeric_cols)))
@@ -40,13 +66,13 @@ def create_residuals_df(df, names, covars_list):
     # Make a new data frame that will contain
     # the residuals for each column after correcting for
     # the covariates in covars
-    df_res = df[names+covars_list].copy()
+    df_res = df[names+covars].copy()
 
     # Create your covariates array
-    if len(covars_list) > 1:
-        x = np.vstack([df[covars_list]])
-    elif len(covars_list) == 1:
-        x = df[covars_list]
+    if len(covars) > 1:
+        x = np.vstack([df[covars]])
+    elif len(covars) == 1:
+        x = df[covars]
     else:
         x = np.ones_like(df.iloc[:, 0])
 
@@ -60,10 +86,28 @@ def create_residuals_df(df, names, covars_list):
 
 def create_corrmat(df_residuals, names=None, method='pearson'):
     '''
-    Returns a correlation matrix
-    * df_res is a pandas data frame with participants as rows.
-    * names is a list of the brain regions you wish to correlate.
-    * method is the method of correlation passed to pandas.DataFram.corr
+    Correlate over the rows of df_residuals
+
+    Parameters
+    ----------
+    df_res : :class:`pandas.DataFrame`
+        df_res contains structural data about regions of the brain with
+        subjects as rows.
+    names : list
+        The brain regions you wish to correlate over. These will become nodes
+        in your graph.
+    methods : string
+        the method of correlation passed to :func:`pandas.DataFram.corr`
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        A correlation matrix
+
+    Raises
+    ------
+    TypeError
+        if there are non numeric entries in the columns specified by names
     '''
     if names is None:
         names = df_residuals.columns
@@ -82,15 +126,28 @@ def corrmat_from_regionalmeasures(
         covars=None,
         method='pearson'):
     '''
-    Return residuals of names columns correcting for the columns in covars_list
-    * df is a pandas data frame with subjects as rows and columns including
-        brain regions and covariates
-    * names is a list of the brain regions you wish to correlate.
-    * covars_list is a list of covariates (as df column headings)
-        to correct for before correlating the regions.
-    * method is the method of correlation passed to pandas.DataFram.corr
+    Calculate the correlation of `names` columns over the rows of
+    `regional_measures` after correcting for covariance with the columns in
+    `covars`
 
-    df should be numeric for the columns in names and covars_list
+    Parameters
+    ----------
+    regional_measures : :class:`pandas.DataFrame`
+        a pandas data frame with subjects as rows and columns including
+        brain regions and covariates. Should be numeric for the columns in
+        names and covars_list
+    names : list
+        a list of the brain regions you wish to correlate
+    covars: list
+        covars is a list of covariates (as df column headings)
+        to correct for before correlating the regions.
+    methods : string
+        the method of correlation passed to :func:`pandas.DataFram.corr`
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        A correlation matrix with rows and cloumns keyed by `names`
     '''
     # Correct for your covariates
     df_res = create_residuals_df(regional_measures, names, covars)
@@ -101,19 +158,25 @@ def corrmat_from_regionalmeasures(
     return M
 
 
-def save_mat(M, M_text_name):
+def save_mat(M, name):
     '''
     Save matrix M as a text file
+
+    Parameters
+    ----------
+    M : array
+    name : str
+        name of the output directory
     '''
     # Check to see if the output directory
     # exists, and make it if it does not
-    dirname = os.path.dirname(M_text_name)
+    dirname = os.path.dirname(name)
 
     if not os.path.isdir(dirname):
         os.makedirs(dirname)
 
     # Save the matrix as a text file
-    np.savetxt(M_text_name,
+    np.savetxt(name,
                M,
                fmt='%.5f',
                delimiter='\t',

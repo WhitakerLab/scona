@@ -11,27 +11,45 @@ import pandas as pd
 
 
 def anatomical_node_attributes():
+    '''
+    default anatomical nodal attributes for BrainNetworksInPython
+
+    Returns
+    -------
+    list
+        nodal attributes considered "anatomical" by
+        BrainNetworksInPython
+    '''
     return ["name", "name_34", "name_68", "hemi", "centroids", "x", "y", "z"]
 
 
 def anatomical_graph_attributes():
+    '''
+    default anatomical graph attributes for BrainNetworksInPython
+
+    Returns
+    -------
+    list
+        graph attributes considered "anatomical" by
+        BrainNetworksInPython
+    '''
     return ['parcellation', 'centroids']
 
 
 def assign_node_names(G, parcellation):
     """
-    Returns the network G with node attributes "name" assigned
-    according to the list parcellation.
+    Modify nodal attribute "name" for nodes of G, inplace.
 
-    - G should be a network
-    - parcellation should be a list of names where parcellation[i]
-     is the name of the ith node of G.
+    Parameters
+    ----------
+    G : :class:`networkx.Graph`
+    parcellation : list
+        ``parcellation[i]`` is the name of node ``i`` in ``G``
 
-    If you have names in 308 style (as described in Whitaker, Vertes et al
-    2016) then you can also add in
-        * hemisphere
-        * 34_name (Desikan Killiany atlas region)
-        * 68_name (Desikan Killiany atlas region with hemisphere)
+    Returns
+    -------
+    :class:`networkx.Graph`
+        graph with nodal attributes modified
     """
     # Assign anatomical names to the nodes
     for i, node in enumerate(G.nodes()):
@@ -42,15 +60,25 @@ def assign_node_names(G, parcellation):
 
 
 def assign_node_centroids(G, centroids):
-    '''
-    Assign x,y,z coordinates to each node.
+    """
+    Modify the nodal attributes "centroids", "x", "y", and "z" of nodes
+    of G, inplace. "centroids" will be set according to the scheme
+    ``G[i]["centroids"] = centroids[i]``
+    for nodes ``i`` in ``G``. "x", "y" and "z" are assigned as the first,
+    second and third coordinate of ``centroids[i]`` respectively.
 
-    - G should be a network
-    - centroids should be a list of cartesian coordinates where centroids[i]
-     is the location of the ith node of G.
+    Parameters
+    ----------
+    G : :class:`networkx.Graph`
+    centroids : list
+        ``centroids[i]`` is a tuple representing the cartesian coordinates of
+        node ``i`` in ``G``
 
-    Returns the graph with modified node attributes
-    '''
+    Returns
+    -------
+    :class:`networkx.Graph`
+        graph with nodal attributes modified
+    """
     # Assign cartesian coordinates to the nodes
     for i, node in enumerate(G.nodes()):
         G.node[i]['x'] = centroids[i][0]
@@ -66,13 +94,35 @@ def copy_anatomical_data(R, G,
                          nodal_keys=anatomical_node_attributes(),
                          graph_keys=anatomical_graph_attributes()):
     '''
-    Copies node data from G to R for the following list of keys:
-    ["name", "name_34", "name_68", "hemi", "centroids", "x", "y", "z"]
-    or a list of keys passed to anatomical_keys.
+    Copies nodal and graph attributes data from ``G`` to ``R`` for keys
+    included in ``nodal_keys`` and ``graph_keys`` respectively.
 
-    R and G are both graphs. They may have non equal vertex sets, but
-    node data will only be copied from G to R for the nodes in the
+    ``R`` and ``G`` are both graphs. If they have non equal vertex sets
+    node data will only be copied from ``G`` to ``R`` for nodes in the
     intersection.
+
+    Parameters
+    ----------
+    R : :class:`networkx.Graph`
+    G : :class:`networkx.Graph`
+        ``G`` has anatomical data to copy to ``R``
+    nodal_keys : list, optional
+        The list of keys to treat as anatomical nodal data.
+        Default is set to ``anatomical_node_attributes()``, e.g
+        ``["name", "name_34", "name_68", "hemi", "centroids", "x", "y", "z"]``
+    graph_keys : list, optional
+        The list of keys rto treat as anatomical graph data.
+        Set to ``anatomical_graph_attributes()`` by default. E.g
+        ``["centroids", "parcellation"]``
+
+    Returns
+    -------
+    :class:`networkx.Graph`
+        graph ``R`` with the anatomical data of graph ``G``
+
+    See Also
+    --------
+    :func:`copy_anatomical_data`
     '''
     for key in [x for x in R._node.keys() if x in G._node.keys()]:
         R._node[key].update({k: v
@@ -88,16 +138,35 @@ def anatomical_copy(G,
                     nodal_keys=anatomical_node_attributes(),
                     graph_keys=anatomical_graph_attributes()):
     '''
-    Returns a new graph with the same nodes and edges as G, preserving node
-    data from the following list of keys:
-    ["name", "name_34", "name_68", "hemi", "centroids", "x", "y", "z"]
-    plus any keys passed to anatomical_keys.
+    Create a new graph from ``G`` preserving:
+    * nodes
+    * edges
+    * any nodal attributes specified in nodal_keys
+    * any graph attributes specified in graph_keys
 
-    Also preserves edge weights and G.graph values keyed by "centroids" or
-    "parcellation".
+    Parameters
+    ----------
+    G : :class:`networkx.Graph`
+        ``G`` has anatomical data to copy to ``R``
+    nodal_keys : list, optional
+        The list of keys to treat as anatomical nodal data.
+        Default is set to ``anatomical_node_attributes()``, e.g
+        ``["name", "name_34", "name_68", "hemi", "centroids", "x", "y", "z"]``
+    graph_keys : list, optional
+        The list of keys rto treat as anatomical graph data.
+        Set to ``anatomical_graph_attributes()`` by default. E.g
+        ``["centroids", "parcellation"]``
 
-    To specify which node or graph keys to preserve, pass a list of keys
-    to `nodal_keys` or `graph_keys` respectively.
+    Returns
+    -------
+    :class:`networkx.Graph`
+        A new graph with the same nodes and edges as ``G`` and identical
+        anatomical data.
+
+    See Also
+    --------
+    :func:`BrainNetwork.anatomical_copy`
+    :func:`copy_anatomical_data`
     '''
     # Create new empty graph
     R = type(G)()
@@ -115,17 +184,33 @@ def anatomical_copy(G,
 
 def is_nodal_match(G, H, keys=None):
     '''
-    Return True if the nodes of G an H are the same, including the
-    nodal values of any list of attributes passed to keys.
+    Check that G and H have equal vertex sets.
+    If keys is passed, also check that the nodal dictionaries of G and H (e.g
+    the nodal attributes) are equal over the attributes in keys.
+
+    Parameters
+    ----------
+    G : :class:`networkx.Graph`
+    H : :class:`networkx.Graph`
+    keys : list, optional
+        a list of attributes on which the nodal dictionaries of G and H should
+        agree.
+
+    Returns
+    -------
+    bool
+        ``True`` if `G` and `H` have equal vertex sets, or,
+        if `keys` is specified, ``True`` if vertex sets are equal AND the graphs'
+        nodal dictionaries agree on all attributes in `keys`.
+        ``False`` otherwise
     '''
     if set(G.nodes) != set(H.nodes):
         return False
     elif keys is None:
         return True
-    elif ({node: {k: v for k, v in values.items() if k in keys}
-            for node, values in G._node.items()}
-            != {node: {k: v for k, v in values.items() if k in keys}
-                for node, values in H._node.items()}):
+    elif False in [(H._node.get(i).get(att) == H._node.get(i).get(att))
+                   for att in keys
+                   for i in G.nodes]:
         return False
     else:
         return True
@@ -136,7 +221,26 @@ def is_anatomical_match(G,
                         nodal_keys=anatomical_node_attributes(),
                         graph_keys=anatomical_graph_attributes()):
     '''
-    Return True if G and H have the same anatomical data
+    Check that G and H have identical anatomical data (including vertex sets).
+
+    Parameters
+    ----------
+    G : :class:`networkx.Graph`
+    H : :class:`networkx.Graph`
+    nodal_keys : list, optional
+        The list of keys to treat as anatomical nodal data.
+        Default is set to ``anatomical_node_attributes()``, e.g
+        ``["name", "name_34", "name_68", "hemi", "centroids", "x", "y", "z"]``
+    graph_keys : list, optional
+        The list of keys to treat as anatomical graph data.
+        Set to ``anatomical_graph_attributes()`` by default. E.g
+        ``["centroids", "parcellation"]``
+
+    Returns
+    -------
+    bool
+        ``True`` if `G` and `H` have the same anatomical data;
+        ``False`` otherwise
     '''
     # check nodes match
     if not is_nodal_match(G, H, keys=nodal_keys):
@@ -154,11 +258,19 @@ def is_anatomical_match(G,
 
 def weighted_graph_from_matrix(M, create_using=None):
     '''
-    Return a networkx weighted graph with edge weights equivalent to matrix
-    entries
+    Create a weighted graph from an correlation matrix.
 
-    M is an adjacency matrix as a numpy array
-    create_using: Use specified graph for result. The default is Graph().
+    Parameters
+    ----------
+    M : :class:`numpy.array`
+        an correlation matrix
+    create_using : :class:`networkx.Graph`, optional
+        Use specified graph for result. The default is Graph()
+
+    Returns
+    -------
+    :class:`networkx.Graph`
+        A weighted graph with edge weights equivalent to matrix entries
     '''
     # Make a copy of the matrix
     thr_M = np.copy(M)
@@ -172,22 +284,41 @@ def weighted_graph_from_matrix(M, create_using=None):
     return G
 
 
-def weighted_graph_from_df(df):
+def weighted_graph_from_df(df, create_using=None):
     '''
-    Return a networkx weighted graph with edge weights equivalent to dataframe
-    entries
+    Create a weighted graph from a correlation matrix.
 
-    M should be an adjacency matrix as a dataframe
+    Parameters
+    ----------
+    df : :class:`pandas.DataFrame`
+        a correlation matrix
+    create_using : :class:`networkx.Graph`
+        Use specified graph for result. The default is Graph()
+
+    Returns
+    -------
+    :class:`networkx.Graph`
+        A weighted graph with edge weights equivalent to DataFrame entries
     '''
-    return weighted_graph_from_matrix(df.values)
+    return weighted_graph_from_matrix(df.values, create_using=create_using)
 
 
 def scale_weights(G, scalar=-1, name='weight'):
     '''
-    Returns the graph G with the edge weights multiplied by scalar
+    Multiply edge weights of `G` by `scalar`.
 
-    G is a networkx graph
-    name is the string indexing the edge data
+    Parameters
+    ----------
+    G : :class:`networkx.Graph`
+    scalar : float, optional
+        scalar value to multiply edge weights by. Default is -1
+    name : str, optional
+        string that indexes edge weights. Default is "weight"
+
+    Returns
+    -------
+    :class:`networkx.Graph`
+
     '''
     edges = nx.get_edge_attributes(G, name=name)
     new_edges = {key: value*scalar for key, value in edges.items()}
@@ -197,13 +328,36 @@ def scale_weights(G, scalar=-1, name='weight'):
 
 def threshold_graph(G, cost, mst=True):
     '''
-    Returns a connected binary graph.
+    Create a binary graph by thresholding weighted graph G.
 
     First creates the minimum spanning tree for the graph, and then adds
-    in edges according to their connection strength up to a particular cost.
+    in edges according to their connection strength up to cost.
 
-    G should be a networkx Graph object with edge weights
-    cost should be a number between 0 and 100
+    Parameters
+    ----------
+    G : :class:`networkx.Graph`
+        A complete weighted graph
+    cost : float
+        A number between 0 and 100. The resulting graph will have the
+        ``cost*n/100`` highest weighted edges from G, where ``n`` is the number
+        of edges in G.
+    mst : bool, optional
+        If ``False``, skip creation of minimum spanning tree. This may cause
+        output graph to be disconnected
+
+    Returns
+    -------
+    :class:`networkx.Graph`
+        A binary graph
+
+    Raises
+    ------
+    Exception
+        If it is impossible to create a minimum_spanning_tree at the given cost
+
+    See Also
+    --------
+    :func:`BrainNetworksInPython.BrainNetwork.threshold`
     '''
     # Weights scaled by -1 as minimum_spanning_tree minimises weight
     H = scale_weights(anatomical_copy(G))
@@ -252,13 +406,32 @@ def threshold_graph(G, cost, mst=True):
 
 def graph_at_cost(M, cost, mst=True):
     '''
-    Returns a connected binary graph.
+    Create a binary graph by thresholding weighted matrix M.
 
     First creates the minimum spanning tree for the graph, and then adds
-    in edges according to their connection strength up to a particular cost.
+    in edges according to their connection strength up to cost.
 
-    M should be an adjacency matrix as numpy array or dataframe.
-    cost should be a number between 0 and 100
+    Parameters
+    ----------
+    M : :class:`numpy.array` or :class:`pandas.DataFrame`
+        A correlation matrix.
+    cost : float
+        A number between 0 and 100. The resulting graph will have the
+        ``cost*n/100`` highest weighted edges available, where ``n`` is the
+        number of edges in G
+    mst : bool, optional
+        If ``False``, skip creation of minimum spanning tree. This may cause
+        output graph to be disconnected
+
+    Returns
+    -------
+    :class:`networkx.Graph`
+        A binary graph
+
+    Raises
+    ------
+    Exception
+        if M is not a :class:`numpy.array` or :class:`pandas.DataFrame`
     '''
     # If dataframe, convert to array
     if isinstance(M, pd.DataFrame):
@@ -267,29 +440,36 @@ def graph_at_cost(M, cost, mst=True):
         array = M
     else:
         raise TypeError(
-              "expecting numpy array or pandas dataframe as first input")
+              "M should be a numpy array or pandas dataframe")
 
     # Read this array into a graph G
     G = weighted_graph_from_matrix(array)
     return threshold_graph(G, cost, mst=mst)
 
 
+# ===================== Random Graphs ======================
+
+
 def random_graph(G, Q=10):
     '''
     Return a connected random graph that preserves degree distribution
-    by swapping pairs of edges (double edge swap).
+    by swapping pairs of edges, using :func:`networkx.double_edge_swap`.
 
-    Inputs:
-        G: networkx graph
-        Q: constant that determines how many swaps to conduct
-           for every edge in the graph
-           Default Q =10
+    Parameters
+    ----------
+    G : :class:`networkx.Graph`
+    Q : int, optional
+        constant that specifies how many swaps to conduct for each edge in G
 
-    Returns:
-        R: networkx graph
+    Returns
+    -------
+    :class:`networkx.Graph`
 
-    CAVEAT: If it is not possible in 15 attempts to create a
-    connected random graph then this code will raise an error
+    Raises
+    ------
+    Exception
+        if it is not possible in 15 attempts to create a connected random
+        graph.
     '''
     R = anatomical_copy(G)
 
@@ -317,13 +497,22 @@ def random_graph(G, Q=10):
     return R
 
 
-def get_random_graphs(G, n=10):
+def get_random_graphs(G, n=10, Q=10):
     '''
-    Creates n random graphs through edgeswapping.
+    Create n random graphs through edgeswapping.
 
-    Returns a list of n edgeswap randomisations of G
+    Parameters
+    ----------
+    G : :class:`networkx.Graph`
+    n : int, optional
+    Q : int, optional
+        constant to specify how many swaps to conduct for each edge in G
 
-    G should be a graph and n an integer.
+    Returns
+    -------
+    list of :class:`networkx.Graph`
+        A list of length n of randomisations of G created using
+        :func:`BrainNetworksInPython.make_graphs.random_graph`
     '''
     graph_list = []
 
@@ -332,6 +521,6 @@ def get_random_graphs(G, n=10):
 
     for i in range(n):
         if len(graph_list) <= i:
-            graph_list += [random_graph(G)]
+            graph_list += [random_graph(G, Q=Q)]
 
     return graph_list

@@ -7,7 +7,17 @@ import numpy as np
 def residuals(x, y):
     '''
     Return residuals of least squares solution to y = AB where A =[[x 1]].
-    Uses numpy.linalg.lstsq to find B
+    Uses :func:`numpy.linalg.lstsq` to find B
+
+    Parameters
+    ----------
+    x: array
+    y: array
+
+    Returns
+    -------
+    array
+        residuals of least squares solution to y = [[x 1]]B
     '''
     if len(x.shape) == 1:
         x = x[np.newaxis, :]
