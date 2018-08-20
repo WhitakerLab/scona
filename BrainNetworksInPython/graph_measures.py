@@ -228,6 +228,8 @@ def assign_interhem(G):
 
     Node attributes
 
+    "hemisphere" : int
+        1 or -1, represents the sign of the x coordinate.
     "interhem" : int
         the number of adjacent interhemispheric edges
     "interhem_proportion" : float
@@ -267,6 +269,7 @@ def assign_interhem(G):
         # of the interhem values for all edges which connect to the node
         interhem_list = [G.adj[m][n]['interhem']
                          for m, n in G.edges(nbunch=node)]
+        G.node[node]['hemisphere'] = np.sign(x1)
         G.node[node]['interhem'] = sum(interhem_list)
         G.node[node]['interhem_proportion'] = np.mean(interhem_list)
     return G
