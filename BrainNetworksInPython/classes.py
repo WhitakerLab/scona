@@ -578,7 +578,7 @@ class GraphBundle(dict):
             # Choose r to be the smallest integer that is larger than all
             # integers already naming a random graph in brainnetwork
             r = len(self)
-            while (gname + rname + str(r) not in self) and (r > 0):
+            while (gname + rname + str(r) not in self) and (r >= 0):
                 r -= 1
             name_list = [gname + rname + str(i)
                          for i in range(r+1, r+1+n)]
@@ -606,7 +606,7 @@ class GraphBundle(dict):
         :func:`small_coefficient`
         '''
         small_world_dict = self.apply(
-            lambda x: small_coefficient(self['gname'], x))
+            lambda x: small_coefficient(self[gname], x))
         return small_world_dict
 
     def nodal_matches(self):

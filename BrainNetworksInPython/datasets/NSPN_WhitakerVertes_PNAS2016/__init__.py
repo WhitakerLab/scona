@@ -22,10 +22,10 @@ covars_file = None
 
 
 def _data():
-    return (centroids_file,
-            regionalmeasures_file,
+    return (regionalmeasures_file,
             names_file,
-            covars_file)
+            covars_file,
+            centroids_file)
 
 
 def _centroids():

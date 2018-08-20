@@ -1,0 +1,2 @@
+from BrainNetworksInPython.wrappers.corrmat_from_regionalmeasures import *
+from BrainNetworksInPython.wrappers.network_analysis_from_corrmat import *

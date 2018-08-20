@@ -51,6 +51,8 @@ def read_in_data(
 
     if centroids_file is not None:
         centroids = list(np.loadtxt(centroids_file))
+    else:
+        centroids = None
 
     # Load data
     if data_as_df:
