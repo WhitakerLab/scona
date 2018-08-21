@@ -123,6 +123,8 @@ def network_analysis_from_corrmat(corr_mat_file,
     G = B.threshold(cost)
     # Calculate the modules
     G.partition()
+    # Calculate distance and hemispheric attributes
+    G.calculate_spatial_values()
     # Get the nodal measures
     # (note that this takes a bit of time because the participation coefficient
     # takes a while)
