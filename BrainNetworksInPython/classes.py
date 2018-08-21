@@ -71,6 +71,8 @@ class BrainNetwork(nx.classes.graph.Graph):
         # and therefore preserve when copying or creating new graphs
         self.anatomical_node_attributes = anatomical_node_attributes()
         self.anatomical_graph_attributes = anatomical_graph_attributes()
+        # intialise global measures as an empty dict
+        self.graph['global_measures'] = {}
 
     def threshold(self, cost, mst=True):
         '''
@@ -339,6 +341,7 @@ class BrainNetwork(nx.classes.graph.Graph):
 
     def calculate_global_measures(
             self, force=False, seed=None, partition=True):
+
         '''
         Calculate global measures `average_clustering`,
         `average_shortest_path_length`, `assortativity`, `modularity`, and
@@ -372,7 +375,8 @@ class BrainNetwork(nx.classes.graph.Graph):
             partition = nx.get_node_attributes(self, name='module')
         else:
             partition = None
-        if ('global_measures' not in self.graph) or force:
+
+        if force:
             global_measures = calculate_global_measures(
                 self, partition=partition)
             self.graph['global_measures'] = global_measures
@@ -380,7 +384,7 @@ class BrainNetwork(nx.classes.graph.Graph):
             global_measures = calculate_global_measures(
                 self,
                 partition=partition,
-                existing_global_measures=self.graph['global_measures'])
+                existing_global_measures=self.graph.get('global_measures'))
             self.graph['global_measures'].update(global_measures)
         return self.graph['global_measures']
 
@@ -502,18 +506,7 @@ class GraphBundle(dict):
 
     def apply(self, graph_function):
         '''
-        Apply a function to each graph in GraphBundle
-
-        Parameters
-        ----------
-        graph_function : func
-            a function that accepts a graph as input
-
-        Returns
-        -------
-        dict
-            a dictionary mapping the GraphBundle index of graph G
-            to the output of graph_function(G)
+        FILL
         '''
         global_dict = {}
         for name, graph in self.items():
@@ -533,6 +526,7 @@ class GraphBundle(dict):
         partition: bool
             argument to pass to :func:`BrainNetwork.calculate_global_measures`
 
+
         Return
         ------
         :class:`pandas.DataFrame` or dict
@@ -541,8 +535,8 @@ class GraphBundle(dict):
         --------
         :func:`BrainNetwork.calculate_global_measures`
         '''
-        global_dict = self.apply(
-            lambda x: x.calculate_global_measures(partition=partition))
+        self.apply(lambda x: x.calculate_global_measures())
+        global_dict = self.apply(lambda x: x.graph['global_measures'])
         if as_dict:
             return global_dict
         else:
@@ -571,7 +565,7 @@ class GraphBundle(dict):
         if as_dict:
             return rc_dict
         else:
-            return pd.DataFrame.from_dict(rc_dict).transpose()
+            return pd.DataFrame.from_dict(rc_dict)
 
     def create_random_graphs(self, gname, n, Q=10, name_list=None, rname="_R"):
         '''

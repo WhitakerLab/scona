@@ -123,8 +123,6 @@ def network_analysis_from_corrmat(corr_mat_file,
     G = B.threshold(cost)
     # Calculate the modules
     G.partition()
-    # Calculate the euclidean distances and hemispheric attributes
-    G.calculate_spatial_values()
     # Get the nodal measures
     # (note that this takes a bit of time because the participation coefficient
     # takes a while)
@@ -143,11 +141,12 @@ def network_analysis_from_corrmat(corr_mat_file,
     # (note that this takes a bit of time because you're generating random
     # graphs)
     bundle.create_random_graphs(corrmat, n_rand)
-    global_df = bundle.report_global_measures()
     # Add the small world coefficient to global measures
     small_world = bundle.report_small_world(corrmat)
-    for gname in bundle:
-        bundle[gname].graph['global_measures']["sw coeff against " + corrmat] = small_world[gname]
+    for gname, G in bundle.items():
+        G.graph['global_measures'].update(
+            {"sw coeff against " + corrmat: small_world[gname]})
+    global_df = bundle.report_global_measures()
     global_name = 'GlobalMeasures_{}_cost{:03.0f}.csv'.format(corrmat, cost)
     # Write out the global measures
     write_out_measures(
