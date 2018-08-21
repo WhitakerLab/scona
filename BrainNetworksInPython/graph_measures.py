@@ -64,27 +64,20 @@ def participation_coefficient(G, module_partition):
     # Initialise dictionary for the participation coefficients
     pc_dict = {}
 
-    # Print a little note to the screen because it can take a long
-    # time to run this code
-    print('        Calculating participation coefficient -\
-           may take a little while')
-
     # Loop over modules to calculate participation coefficient for each node
     for m in module_partition.keys():
         # Create module subgraph
-        M = G.subgraph(set(module_partition[m]))
-        for v in M.nodes:
-            # Calculate the degree for v
-            degree = nx.degree(G=G, nbunch=v)
+        M = set(module_partition[m])
+        for v in M:
+            # Calculate the degree of v in G
+            degree = float(nx.degree(G=G, nbunch=v))
 
-            # Calculate the number of intramodule edges
-            wm_edges = float(nx.degree(G=M, nbunch=v))
+            # Calculate the number of intramodule degree of v
+            wm_degree = float(sum([1 for u in M if (u, v) in G.edges()]))
 
             # The participation coeficient is 1 - the square of
             # the ratio of the within module degree and the total degree
-            pc = 1 - ((float(wm_edges) / float(degree))**2)
-
-            pc_dict[v] = pc
+            pc_dict[v] = 1 - ((float(wm_degree) / float(degree))**2)
 
     return pc_dict
 
