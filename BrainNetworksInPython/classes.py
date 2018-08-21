@@ -526,7 +526,6 @@ class GraphBundle(dict):
         partition: bool
             argument to pass to :func:`BrainNetwork.calculate_global_measures`
 
-
         Return
         ------
         :class:`pandas.DataFrame` or dict
