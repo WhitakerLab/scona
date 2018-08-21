@@ -337,7 +337,8 @@ class BrainNetwork(nx.classes.graph.Graph):
                                         self, normalized=False)
         return self.graph['rich_club']
 
-    def calculate_global_measures(self, force=False, seed=None):
+    def calculate_global_measures(
+            self, force=False, seed=None, partition=True):
         '''
         Calculate global measures `average_clustering`,
         `average_shortest_path_length`, `assortativity`, `modularity`, and
@@ -347,8 +348,14 @@ class BrainNetwork(nx.classes.graph.Graph):
         Parameters
         ----------
         force : bool
-                pass True to recalculate any global measures that have already
-                been calculated
+            pass True to recalculate any global measures that have already
+            been calculated
+        partition : bool
+            The "modularity" measure evaluates a graph partition.
+            pass True to calculate the partition of each graph using
+            :func:`BrainNetwork.partition`. Note that this won't recalculate
+            a partition that exists.
+            If False, modularity may not be calculated.
 
 
         Returns
@@ -360,14 +367,19 @@ class BrainNetwork(nx.classes.graph.Graph):
         --------
         :func:`calculate_global_measures`
         '''
+        if partition:
+            self.partition()
+            partition = nx.get_node_attributes(self, name='module')
+        else:
+            partition = None
         if ('global_measures' not in self.graph) or force:
             global_measures = calculate_global_measures(
-                self, partition=dict(self.nodes(data="module")))
+                self, partition=partition)
             self.graph['global_measures'] = global_measures
         else:
             global_measures = calculate_global_measures(
                 self,
-                partition=dict(self.nodes(data="module")),
+                partition=partition,
                 existing_global_measures=self.graph['global_measures'])
             self.graph['global_measures'].update(global_measures)
         return self.graph['global_measures']
@@ -490,14 +502,25 @@ class GraphBundle(dict):
 
     def apply(self, graph_function):
         '''
-        FILL
+        Apply a function to each graph in GraphBundle
+
+        Parameters
+        ----------
+        graph_function : func
+            a function that accepts a graph as input
+
+        Returns
+        -------
+        dict
+            a dictionary mapping the GraphBundle index of graph G
+            to the output of graph_function(G)
         '''
         global_dict = {}
         for name, graph in self.items():
             global_dict[name] = graph_function(graph)
         return global_dict
 
-    def report_global_measures(self, as_dict=False):
+    def report_global_measures(self, as_dict=False, partition=True):
         '''
         Calculate global_measures for each BrainNetwork object and report as a
         :class:`pandas.DataFrame` or nested dict.
@@ -507,6 +530,8 @@ class GraphBundle(dict):
         as_dict : bool
             pass True to return global measures as a nested dictionary;
             pass False to return a :class:`pandas.DataFrame`
+        partition: bool
+            argument to pass to :func:`BrainNetwork.calculate_global_measures`
 
         Return
         ------
@@ -516,7 +541,8 @@ class GraphBundle(dict):
         --------
         :func:`BrainNetwork.calculate_global_measures`
         '''
-        global_dict = self.apply(lambda x: x.calculate_global_measures())
+        global_dict = self.apply(
+            lambda x: x.calculate_global_measures(partition=partition))
         if as_dict:
             return global_dict
         else:
