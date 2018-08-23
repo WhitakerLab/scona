@@ -272,6 +272,7 @@ def assign_interhem(G):
 
 def calculate_nodal_measures(
         G,
+        partition=None,
         measure_list=None,
         additional_measures=None,
         force=True):
@@ -280,11 +281,10 @@ def calculate_nodal_measures(
 
     By default calculates:
 
-    * "nodal_partition" : int or str
     * "degree" : int
     * "closeness" : float
     * "betweenness" : float
-    * "shortest_path_length" : int
+    * "shortest_path_length" : float
     * "clustering" : float
     * "participation_coefficient" : float
 
@@ -321,12 +321,14 @@ def calculate_nodal_measures(
         "degree": (lambda x: dict(nx.degree(x))),
         "closeness": nx.closeness_centrality,
         "betweenness": nx.betweenness_centrality,
-        "shortest_path_length": nx.betweenness_centrality,
+        "shortest_path_length": shortest_path,
         "clustering": nx.clustering,
         "participation_coefficient": (lambda x: participation_coefficient(
                                         x,
-                                        x.graph['partition']))
+                                        partition))
         }
+    if partition is None:
+        del nodal_measure_dict['participation_coefficient']
 
     if measure_list is not None:
         nodal_measure_dict = {key: value
@@ -486,9 +488,10 @@ def calculate_global_measures(G,
             np.mean(nx.degree_assortativity_coefficient(G)))
 
     # ---- Modularity ------------------
-    if partition is not None and 'modularity' not in global_measures:
-        global_measures['modularity'] = (
-            calc_modularity(G, partition))
+    if partition is not None:
+        if 'modularity' not in global_measures:
+            global_measures['modularity'] = (
+                calc_modularity(G, partition))
 
     #  ---- Efficiency ------------------
     if 'efficiency' not in global_measures:

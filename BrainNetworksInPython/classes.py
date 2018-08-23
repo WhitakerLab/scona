@@ -234,7 +234,7 @@ class BrainNetwork(nx.classes.graph.Graph):
         * "degree" : int
         * "closeness" : float
         * "betweenness" : float
-        * "shortest_path_length" : int
+        * "shortest_path_length" : float
         * "clustering" : float
         * "participation_coefficient" : float
 
@@ -269,10 +269,11 @@ class BrainNetwork(nx.classes.graph.Graph):
         '''
         # ==== SET UP ================================
         # Ensure nodal partition exists
-        self.partition()
+        partition = self.partition()
         # ==== calculate nodal measures ==============
         calculate_nodal_measures(
             self,
+            partition=partition,
             force=force,
             measure_list=measure_list,
             additional_measures=additional_measures)
