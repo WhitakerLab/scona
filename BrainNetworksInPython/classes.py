@@ -269,7 +269,7 @@ class BrainNetwork(nx.classes.graph.Graph):
         '''
         # ==== SET UP ================================
         # Ensure nodal partition exists
-        partition = self.partition()
+        a, partition = self.partition()
         # ==== calculate nodal measures ==============
         calculate_nodal_measures(
             self,
