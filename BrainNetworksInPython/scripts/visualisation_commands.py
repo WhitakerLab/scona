@@ -55,7 +55,12 @@ def rescale(fname, suff='png'):
     # And you're done!
 
 
-def view_corr_mat(corr_mat_file, output_name, cmap_name='RdBu_r', cost=None, bin=False):
+def view_corr_mat(corr_mat_file,
+                  output_name,
+                  cmap_name='RdBu_r',
+                  cost=None,
+                  bin=False):
+    ''' This is a visualisation tool for correlation matrices'''
 
     # Read in the data
     M = np.loadtxt(corr_mat_file)
@@ -104,7 +109,7 @@ def view_corr_mat(corr_mat_file, output_name, cmap_name='RdBu_r', cost=None, bin
         color='k',
         linewidth=1) )
 
-    # Add colorbar, make sure to specify tick locations to match desired ticklabels
+    # Add colorbar, make sure to specify tick locations to match desired tick labels
     cbar = fig.colorbar(mat_ax, ticks=ticks_dict['locations'])
     cbar.ax.set_yticklabels(ticks_dict['labels'])  # vertically oriented colorbar
 
