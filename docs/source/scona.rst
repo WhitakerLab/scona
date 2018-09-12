@@ -1,4 +1,4 @@
-BrainNetworksInPython package
+scona package
 =============================
 
 Subpackages
@@ -6,14 +6,14 @@ Subpackages
 
 .. toctree::
 
-    BrainNetworksInPython.scripts
-    BrainNetworksInPython.wrappers
-    BrainNetworksInPython.datasets
+    scona.scripts
+    scona.wrappers
+    scona.datasets
 
 Module contents
 ---------------
 
-.. automodule:: BrainNetworksInPython
+.. automodule:: scona
     :members:
     :undoc-members:
     :show-inheritance:
@@ -21,42 +21,42 @@ Module contents
 Submodules
 ----------
 
-BrainNetworksInPython.make_corr_matrices module
+scona.make_corr_matrices module
 -----------------------------------------------
 
-.. automodule:: BrainNetworksInPython.make_corr_matrices
+.. automodule:: scona.make_corr_matrices
     :members:
     :undoc-members:
     :show-inheritance:
 
-BrainNetworksInPython.make_graphs module
+scona.make_graphs module
 ----------------------------------------
 
-.. automodule:: BrainNetworksInPython.make_graphs
+.. automodule:: scona.make_graphs
     :members:
     :undoc-members:
     :show-inheritance:
 
-BrainNetworksInPython.graph_measures module
+scona.graph_measures module
 -------------------------------------------
 
-.. automodule:: BrainNetworksInPython.graph_measures
+.. automodule:: scona.graph_measures
     :members:
     :undoc-members:
     :show-inheritance:
 
-BrainNetworksInPython.classes module
+scona.classes module
 ------------------------------------
 
-.. automodule:: BrainNetworksInPython.classes
+.. automodule:: scona.classes
     :members:
     :undoc-members:
     :show-inheritance:
 
-BrainNetworksInPython.stats_functions module
+scona.stats_functions module
 --------------------------------------------
 
-.. automodule:: BrainNetworksInPython.stats_functions
+.. automodule:: scona.stats_functions
     :members:
     :undoc-members:
     :show-inheritance:

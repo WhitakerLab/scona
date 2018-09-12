@@ -12,8 +12,8 @@
 import argparse
 import textwrap
 
-import BrainNetworksInPython.make_corr_matrices as mcm
-from BrainNetworksInPython.scripts.useful_functions import read_in_data
+import scona.make_corr_matrices as mcm
+from scona.scripts.useful_functions import read_in_data
 
 
 def setup_argparser():

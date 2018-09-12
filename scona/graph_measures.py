@@ -464,7 +464,7 @@ def calculate_global_measures(G,
 
     See Also
     --------
-    :func:`BrainNetworksInPython.BrainNetwork.calculate_global_measures`
+    :func:`scona.BrainNetwork.calculate_global_measures`
     '''
     # ==== MEASURES ====================
     if existing_global_measures is not None:

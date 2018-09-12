@@ -16,7 +16,7 @@ import matplotlib.gridspec as gridspec
 from glob import glob
 import itertools as it
 import matplotlib.patches as mpatches
-import BrainNetworksInPython.make_graphs as mg
+import scona.make_graphs as mg
 
 # Read in some of the other NSPN_CODE functions too
 #this_scripts_dir=os.path.dirname(os.path.abspath(__file__))

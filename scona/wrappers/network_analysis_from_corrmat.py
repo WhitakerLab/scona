@@ -13,8 +13,8 @@ import os
 import argparse
 import textwrap
 
-import BrainNetworksInPython as bnip
-from BrainNetworksInPython.scripts.useful_functions import read_in_data, \
+import scona as bnip
+from scona.scripts.useful_functions import read_in_data, \
     write_out_measures
 
 # =============================================================================

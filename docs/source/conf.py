@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# BrainNetworksInPython documentation build configuration file, created by
+# scona documentation build configuration file, created by
 # sphinx-quickstart on Mon Feb  5 16:59:27 2018.
 #
 # This file is execfile()d with the current directory set to its
@@ -59,7 +59,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'BrainNetworksInPython'
+project = 'scona'
 copyright = '2018, Dr Kirstie Whitaker, Isla Staden'
 author = 'Dr Kirstie Whitaker, Isla Staden'
 
@@ -144,7 +144,7 @@ html_theme = 'sphinx_rtd_theme'
 # The name for this set of Sphinx documents.
 # "<project> v<release> documentation" by default.
 #
-# html_title = 'BrainNetworksInPython v0.1dev'
+# html_title = 'scona v0.1dev'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #
@@ -244,7 +244,7 @@ html_static_path = ['_static']
 # html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'BrainNetworksInPythondoc'
+htmlhelp_basename = 'sconadoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -271,8 +271,8 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc,
-     'BrainNetworksInPython.tex',
-     'BrainNetworksInPython Documentation',
+     'scona.tex',
+     'scona Documentation',
      'Dr Kirstie Whitaker, Isla Staden',
      'manual'),
 ]
@@ -317,7 +317,7 @@ latex_documents = [
 man_pages = [
     (master_doc,
      'brainnetworksinpython',
-     'BrainNetworksInPython Documentation',
+     'scona Documentation',
      [author],
      1)
 ]
@@ -334,10 +334,10 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc,
-     'BrainNetworksInPython',
-     'BrainNetworksInPython Documentation',
+     'scona',
+     'scona Documentation',
      author,
-     'BrainNetworksInPython',
+     'scona',
      'Software to analyse structural covariance brain networks in python. ',
      'Miscellaneous'),
 ]

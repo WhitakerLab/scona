@@ -6,7 +6,7 @@
 # it throws up an error.
 #
 # The point of this is to check that throughout the changes we make to
-# BrainNetworksInPython the functionality of this script stays the same
+# scona the functionality of this script stays the same
 #
 # Currently the functionality of write_fixtures is to generate corrmat
 # and network_analysis data via the functions
@@ -15,8 +15,8 @@
 import os
 import sys
 import networkx as nx
-import BrainNetworksInPython as bnip
-import BrainNetworksInPython.datasets as datasets
+import scona as bnip
+import scona.datasets as datasets
 
 def recreate_correlation_matrix_fixture(folder):
     ##### generate a correlation matrix in the given folder using #####

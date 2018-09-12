@@ -7,7 +7,7 @@ install_requires = ['pandas<=0.22.0', 'python-louvain==0.11', 'numpy',
 
 if __name__ == '__main__':
     setup(
-        name='BrainNetworksInPython',
+        name='scona',
         version='0.1dev',
         packages=PACKAGES,
         package_data={'': ['*.txt', '*.csv']},

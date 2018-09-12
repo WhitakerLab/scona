@@ -60,6 +60,6 @@ The Brain Networks in Python Code of Conduct was developed by [Kirstie Whitaker]
 [ccby-link]: https://creativecommons.org/licenses/by/4.0
 [cc0-link]: https://creativecommons.org/publicdomain/zero/1.0
 [kirstie-github]: https://github.com/kirstiejane
-[bnip-repo]: https://github.com/WhitakerLab/BrainNetworksInPython
+[bnip-repo]: https://github.com/WhitakerLab/scona
 [mozilla-science-home]: https://science.mozilla.org/
 [mozilla-science-coc]: https://github.com/mozillascience/code_of_conduct

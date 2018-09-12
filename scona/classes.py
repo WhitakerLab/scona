@@ -1,12 +1,12 @@
 import numpy as np
 import networkx as nx
 import pandas as pd
-from BrainNetworksInPython.make_graphs import assign_node_names, \
+from scona.make_graphs import assign_node_names, \
     assign_node_centroids, anatomical_copy, threshold_graph, \
     weighted_graph_from_matrix, anatomical_node_attributes, \
     anatomical_graph_attributes, get_random_graphs, is_nodal_match, \
     is_anatomical_match
-from BrainNetworksInPython.graph_measures import assign_interhem, \
+from scona.graph_measures import assign_interhem, \
     calculate_nodal_measures, assign_nodal_distance, \
     calc_nodal_partition, calculate_global_measures, small_coefficient
 

@@ -115,7 +115,7 @@ Once you've identified one of the issues above that you feel you can contribute 
 
 ## Recognising contributions
 
-If you're logged into GitHub you can see everyone who has contributed to the repository via our [live contributors page][link_contributorslive]. (You might have to add `WhitakerLab/BrainNetworksInPython` as the repository name before you click to sign in via GitHub.)
+If you're logged into GitHub you can see everyone who has contributed to the repository via our [live contributors page][link_contributorslive]. (You might have to add `WhitakerLab/scona` as the repository name before you click to sign in via GitHub.)
 
 These pages are powered by the [Let's all build a hat rack][link_hatrackhome] project, and we love them.
 
@@ -142,18 +142,18 @@ You are awesome. :heart_eyes::sparkles::sunny:
 And if you've found typos in this (or any other) page, you could consider submitting your very first pull request to fix them via the [typos and broken links][link_fixingtyposissue] issue!
 
 [link_github]: https://github.com/
-[link_brainnetworksrepo]: https://github.com/WhitakerLab/BrainNetworksInPython
+[link_brainnetworksrepo]: https://github.com/WhitakerLab/scona
 [link_signupinstructions]: https://help.github.com/articles/signing-up-for-a-new-github-account
 [link_react]: https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments
-[link_issues]: https://github.com/WhitakerLab/BrainNetworksInPython/issues
-[link_labels]: https://github.com/WhitakerLab/BrainNetworksInPython/labels
+[link_issues]: https://github.com/WhitakerLab/scona/issues
+[link_labels]: https://github.com/WhitakerLab/scona/labels
 [link_discussingissues]: https://help.github.com/articles/discussing-projects-in-issues-and-pull-requests
-[link_bug]: https://github.com/WhitakerLab/BrainNetworksInPython/labels/bug
-[link_goodfirstbug]: https://github.com/WhitakerLab/BrainNetworksInPython/labels/good-first-bug
-[link_helpwanted]: https://github.com/WhitakerLab/BrainNetworksInPython/labels/help-wanted
-[link_nocode]: https://github.com/WhitakerLab/BrainNetworksInPython/labels/no-code
-[link_question]: https://github.com/WhitakerLab/BrainNetworksInPython/labels/question
-[link_request]: https://github.com/WhitakerLab/BrainNetworksInPython/labels/request
+[link_bug]: https://github.com/WhitakerLab/scona/labels/bug
+[link_goodfirstbug]: https://github.com/WhitakerLab/scona/labels/good-first-bug
+[link_helpwanted]: https://github.com/WhitakerLab/scona/labels/help-wanted
+[link_nocode]: https://github.com/WhitakerLab/scona/labels/no-code
+[link_question]: https://github.com/WhitakerLab/scona/labels/question
+[link_request]: https://github.com/WhitakerLab/scona/labels/request
 
 [link_emojis]: http://www.emoji-cheat-sheet.com/
 [link_pullrequest]: https://help.github.com/articles/proposing-changes-to-a-project-with-pull-requests/
@@ -161,17 +161,17 @@ And if you've found typos in this (or any other) page, you could consider submit
 [link_pushpullblog]: https://www.igvita.com/2011/12/19/dont-push-your-pull-requests/
 [link_branches]: https://help.github.com/articles/creating-and-deleting-branches-within-your-repository/
 [link_updateupstreamwiki]: https://github.com/KirstieJane/STEMMRoleModels/wiki/Syncing-your-fork-to-the-original-repository-via-the-browser
-[link_contributorslive]: https://labhr.github.io/hatrack/#repo=WhitakerLab/BrainNetworksInPython
+[link_contributorslive]: https://labhr.github.io/hatrack/#repo=WhitakerLab/scona
 [link_hatrackhome]: https://labhr.github.io/
 [link_hatrackidea]: http://hawthornlandings.org/2015/02/13/a-place-to-hang-your-hat/
 [link_hatrackcontributions]: http://opensource.com/life/15/10/octohat-github-non-code-contribution-tracker
-[link_fixingtyposissue]: https://github.com/WhitakerLab/BrainNetworksInPython//issues/4
+[link_fixingtyposissue]: https://github.com/WhitakerLab/scona//issues/4
 
 
 
 # Development Guide
 
-The contributing guidelines above have dealt with getting involved, asking questions, making pull requests, etcetera. The [development guide](#development-guide) deals with the specifics of contributing code to the BrainNetworksInPython codebase, and ends with a worked example to guide you through the process of writing docstrings and tests for new sections of code.
+The contributing guidelines above have dealt with getting involved, asking questions, making pull requests, etcetera. The [development guide](#development-guide) deals with the specifics of contributing code to the scona codebase, and ends with a worked example to guide you through the process of writing docstrings and tests for new sections of code.
 
 * [Installing](#installing-in-editable-mode)
 * [Linting](#linting)
@@ -184,22 +184,22 @@ The contributing guidelines above have dealt with getting involved, asking quest
 
 ### Installing in editable mode
 
-Use `pip install -e git+https://github.com/WhitakerLab/BrainNetworksInPython.git` to install BrainNetworksInPython in editable mode. This means that the python install of BrainNetworksInPython will be kept up to date with any changes you make, including switching branches in git.
+Use `pip install -e git+https://github.com/WhitakerLab/scona.git` to install scona in editable mode. This means that the python install of scona will be kept up to date with any changes you make, including switching branches in git.
 
 ### Linting
 
-BrainNetworksInPython uses the [PEP8 style guide](https://www.python.org/dev/peps/pep-0008/). You can use [flake8](http://flake8.pycqa.org/en/latest/) to lint code.  
-We're quite a young project (at time of writing! August 2018) and so we aren't going to be super hardcore about your linting! Linting should make your life easier, but if you're not sure how to get started, or if this is a barrier to you contributing to BrainNetworksInPython then don't worry about it or [get in touch](#how-to-get-in-touch) and we'll be happy to help you.  
+scona uses the [PEP8 style guide](https://www.python.org/dev/peps/pep-0008/). You can use [flake8](http://flake8.pycqa.org/en/latest/) to lint code.  
+We're quite a young project (at time of writing! August 2018) and so we aren't going to be super hardcore about your linting! Linting should make your life easier, but if you're not sure how to get started, or if this is a barrier to you contributing to scona then don't worry about it or [get in touch](#how-to-get-in-touch) and we'll be happy to help you.  
 
 ### Writing docstrings
 
-We at BrainNetworksInPython love love LOVE documentation 😍 💖 😘 so any contributions that make using the various functions, classes and wrappers easier are ALWAYS welcome.
+We at scona love love LOVE documentation 😍 💖 😘 so any contributions that make using the various functions, classes and wrappers easier are ALWAYS welcome.
 
-`BrainNetworksInPython` uses the `sphinx` extension [`napoleon`](http://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html) to generate code from numpy style docstrings. See the [numpydoc guide](https://numpydoc.readthedocs.io/en/latest/) for details on syntax. 
-For an example of how docstrings are written in BrainNetworksInPython, checkout the [docstrings section](#step-1-docstrings) in our [code example](#worked-example) below.
+`scona` uses the `sphinx` extension [`napoleon`](http://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html) to generate code from numpy style docstrings. See the [numpydoc guide](https://numpydoc.readthedocs.io/en/latest/) for details on syntax. 
+For an example of how docstrings are written in scona, checkout the [docstrings section](#step-1-docstrings) in our [code example](#worked-example) below.
 
-`sphinx` can automatically create links to crossreference other packages. If set up correctly ``:class:`package-name.special-class` `` renders as `package-name.special-class` with a link to the `special-class` documentation in `package-name`'s online documentation. If the package is BrainNetworksInPython, the package name can be omitted, so that
-``:class:`networkx.Graph` `` becomes [`networkx.Graph`](https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph), and ``:func:`create_corrmat` `` becomes [`create_corrmat`](https://whitakerlab.github.io/BrainNetworksInPython/build/html/BrainNetworksInPython.html#BrainNetworksInPython.make_corr_matrices.create_corrmat).  
+`sphinx` can automatically create links to crossreference other packages. If set up correctly ``:class:`package-name.special-class` `` renders as `package-name.special-class` with a link to the `special-class` documentation in `package-name`'s online documentation. If the package is scona, the package name can be omitted, so that
+``:class:`networkx.Graph` `` becomes [`networkx.Graph`](https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph), and ``:func:`create_corrmat` `` becomes [`create_corrmat`](https://whitakerlab.github.io/scona/build/html/scona.html#scona.make_corr_matrices.create_corrmat).  
 
 Crossreferencing is currently set up for the python standard library, networkx, pandas, numpy and python-louvain. It is possible to set this up for other python packages by adding
 ```python
@@ -209,11 +209,11 @@ to the `intersphinx_mapping` dictionary in [docs/source/conf.py](docs/source/con
 
 ### Building Sphinx docs
 
-When [docstrings](https://en.wikipedia.org/wiki/Docstring#Python) are updated, `sphinx` can automatically update the docs (and ultimately our website). Unfortunately this is [not yet an automated process](https://github.com/WhitakerLab/BrainNetworksInPython/issues/79). For the time being somebody needs to build those pages. If you're comfortable doing this you can follow the instructions below, but if it's going to be a barrier to you submitting a pull request then please just prepare the docstrings and the maintainers of BrainNetworksInPython will build the html files for you 😃. 
+When [docstrings](https://en.wikipedia.org/wiki/Docstring#Python) are updated, `sphinx` can automatically update the docs (and ultimately our website). Unfortunately this is [not yet an automated process](https://github.com/WhitakerLab/scona/issues/79). For the time being somebody needs to build those pages. If you're comfortable doing this you can follow the instructions below, but if it's going to be a barrier to you submitting a pull request then please just prepare the docstrings and the maintainers of scona will build the html files for you 😃. 
 You might also use these instructions to build documenatation locally while you're still writing, for example to check rendering.
 
 You will need `sphinx` (`pip install sphinx`) and `make` (depends on your distribution) installed.  
-In a terminal, navigate to the docs folder and run `make html`. You should be able to view the new documentation in your browser at `file:///local/path/to/BrainNetworksInPython/docs/build/html/BrainNetworksInPython.html#module-BrainNetworksInPython`
+In a terminal, navigate to the docs folder and run `make html`. You should be able to view the new documentation in your browser at `file:///local/path/to/scona/docs/build/html/scona.html#module-scona`
 
 ### Tutorials
 
@@ -223,16 +223,16 @@ You may also want to show off the functionality of some new (or old) code. Pleas
 
 Tests don't need to be exhaustive or prove the validity of a function. The aim is only to alert us when something has gone wrong. Testing is something most people do naturally whenever they write code. If you think about the sorts of things you would try running in a command line or jupyter notebook to test out a function you have just defined, these are the sorts of things that can go in unit tests.
 
-BrainNetworksInPython uses pytest to run our test suite. pytest runs test discovery on all modules with names ending `_test.py`, so if you make a new test module, make sure the filename conforms to this format.
-Use [`py.test`](https://docs.pytest.org/en/latest) to run tests, or `py.test --cov=BrainNetworksInPython` if you also want a test coverage report.
+scona uses pytest to run our test suite. pytest runs test discovery on all modules with names ending `_test.py`, so if you make a new test module, make sure the filename conforms to this format.
+Use [`py.test`](https://docs.pytest.org/en/latest) to run tests, or `py.test --cov=scona` if you also want a test coverage report.
 
-For an example of how tests are written in BrainNetworksInPython, checkout the [testing section](#step-2-testing) in our [code example](#worked-example) below.
+For an example of how tests are written in scona, checkout the [testing section](#step-2-testing) in our [code example](#worked-example) below.
 
 ### Random seeds
 
 Sometimes you want a random process to choose the same pseudo-random numbers each time so that the process returns the same result each time. This is particularly useful for testing and reproducibility. To do this we set a [random seed](https://www.tutorialspoint.com/python/number_seed.htm).  
 
-There is currently no way to seed the random graph generators in BrainNetworksInPython except by setting the global seed. For more discussion on this subject see [issue #77](https://github.com/WhitakerLab/BrainNetworksInPython/issues/77). To set the global random seed put the following lines near the top of your test.
+There is currently no way to seed the random graph generators in scona except by setting the global seed. For more discussion on this subject see [issue #77](https://github.com/WhitakerLab/scona/issues/77). To set the global random seed put the following lines near the top of your test.
 
 ```python
 import random
@@ -263,7 +263,7 @@ def calc_leaving_module_interhem(G, M):
   return leaving_interhem
 ```
 
-Now suppose we decide to add this back into the BrainNetworksInPython source code.
+Now suppose we decide to add this back into the scona source code.
 
 #### step 1: docstrings
 
@@ -296,11 +296,11 @@ See Also
 '''
 ```
 
-Let's say we add this to [`BrainNetworksInPython.graph_measures`](BrainNetworksInPython/graph_measures.py). If you followed the [instructions to build sphinx documentation locally](#building-sphinx-docs) you would be able to view this function in your browser at `file:///local/path/to/BrainNetworksInPython/docs/build/html/BrainNetworksInPython.html#module-BrainNetworksInPython.graph_measures.calc_leaving_module_interhem`
+Let's say we add this to [`scona.graph_measures`](scona/graph_measures.py). If you followed the [instructions to build sphinx documentation locally](#building-sphinx-docs) you would be able to view this function in your browser at `file:///local/path/to/scona/docs/build/html/scona.html#module-scona.graph_measures.calc_leaving_module_interhem`
 
 #### step 2: Testing
 
-Now we need to write some tests for this function to [tests/graph_measures_test.py](BrainNetworksInPython/graph_measures.py)
+Now we need to write some tests for this function to [tests/graph_measures_test.py](scona/graph_measures.py)
 Tests don't need to be exhaustive or prove the validity of a function. The aim is simply to alert us when something has gone wrong. Testing is something most people do naturally when they write code. If you think about the sorts of sanity checks you would try running in a command line or jupyter notebook to make sure everything is working properly when you have just defined a function, these are the sorts of things that should go in unit tests.
 
 Examples of good tests for `calc_leaving_module_interhem` might be:
@@ -405,4 +405,4 @@ Now we have defined the set up for testing, we can move on to the testing method
 
 And now you're ready to roll! :tada: 
 
-Thank you for reading this far through BrainNetworksInPython's contributing guidelines :sparkles::hibiscus::tada:. As always, if you have any question, see any typo's, or have suggestions or corrections for these guidelines don't hesitate to [let us know](#how-to-get-in-touch):heart_eyes:. 
+Thank you for reading this far through scona's contributing guidelines :sparkles::hibiscus::tada:. As always, if you have any question, see any typo's, or have suggestions or corrections for these guidelines don't hesitate to [let us know](#how-to-get-in-touch):heart_eyes:. 

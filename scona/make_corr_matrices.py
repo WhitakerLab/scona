@@ -6,7 +6,7 @@ Tools to create a correlation matrix from regional measures
 import os
 import numpy as np
 import pandas as pd
-from BrainNetworksInPython.stats_functions import residuals
+from scona.stats_functions import residuals
 
 
 def get_non_numeric_cols(df):

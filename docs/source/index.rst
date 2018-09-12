@@ -1,9 +1,9 @@
-.. BrainNetworksInPython documentation master file, created by
+.. scona documentation master file, created by
    sphinx-quickstart on Mon Feb  5 16:59:27 2018.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to BrainNetworksInPython's documentation!
+Welcome to scona's documentation!
 =================================================
 
 Contents:

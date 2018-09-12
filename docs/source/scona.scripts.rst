@@ -1,30 +1,30 @@
-BrainNetworksInPython.scripts package
+scona.scripts package
 =====================================
 
 Submodules
 ----------
 
 
-BrainNetworksInPython.scripts.make_figures module
+scona.scripts.make_figures module
 -------------------------------------------------
 
-.. automodule:: BrainNetworksInPython.scripts.make_figures
+.. automodule:: scona.scripts.make_figures
     :members:
     :undoc-members:
     :show-inheritance:
 
-BrainNetworksInPython.scripts.useful_functions module
+scona.scripts.useful_functions module
 -----------------------------------------------------
 
-.. automodule:: BrainNetworksInPython.scripts.useful_functions
+.. automodule:: scona.scripts.useful_functions
     :members:
     :undoc-members:
     :show-inheritance:
 
-BrainNetworksInPython.scripts.visualisation_commands module
+scona.scripts.visualisation_commands module
 -----------------------------------------------------------
 
-.. automodule:: BrainNetworksInPython.scripts.visualisation_commands
+.. automodule:: scona.scripts.visualisation_commands
     :members:
     :undoc-members:
     :show-inheritance:
@@ -33,7 +33,7 @@ BrainNetworksInPython.scripts.visualisation_commands module
 Module contents
 ---------------
 
-.. automodule:: BrainNetworksInPython.scripts
+.. automodule:: scona.scripts
     :members:
     :undoc-members:
     :show-inheritance:

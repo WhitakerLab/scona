@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 from os.path import dirname, abspath
-from BrainNetworksInPython.scripts.useful_functions import read_in_data
+from scona.scripts.useful_functions import read_in_data
 
 """NSPN Whitaker, Vertes et al, 2016"""
 

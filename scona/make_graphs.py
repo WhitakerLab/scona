@@ -12,26 +12,26 @@ import pandas as pd
 
 def anatomical_node_attributes():
     '''
-    default anatomical nodal attributes for BrainNetworksInPython
+    default anatomical nodal attributes for scona
 
     Returns
     -------
     list
         nodal attributes considered "anatomical" by
-        BrainNetworksInPython
+        scona
     '''
     return ["name", "name_34", "name_68", "hemi", "centroids", "x", "y", "z"]
 
 
 def anatomical_graph_attributes():
     '''
-    default anatomical graph attributes for BrainNetworksInPython
+    default anatomical graph attributes for scona
 
     Returns
     -------
     list
         graph attributes considered "anatomical" by
-        BrainNetworksInPython
+        scona
     '''
     return ['parcellation', 'centroids']
 
@@ -357,7 +357,7 @@ def threshold_graph(G, cost, mst=True):
 
     See Also
     --------
-    :func:`BrainNetworksInPython.BrainNetwork.threshold`
+    :func:`scona.BrainNetwork.threshold`
     '''
     # Weights scaled by -1 as minimum_spanning_tree minimises weight
     H = scale_weights(anatomical_copy(G))
@@ -512,7 +512,7 @@ def get_random_graphs(G, n=10, Q=10):
     -------
     list of :class:`networkx.Graph`
         A list of length n of randomisations of G created using
-        :func:`BrainNetworksInPython.make_graphs.random_graph`
+        :func:`scona.make_graphs.random_graph`
     '''
     graph_list = []
 

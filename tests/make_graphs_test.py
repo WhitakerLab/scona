@@ -3,7 +3,7 @@ import unittest
 import pandas as pd
 import networkx as nx
 import numpy as np
-import BrainNetworksInPython.make_graphs as mkg
+import scona.make_graphs as mkg
 
 
 @pytest.fixture

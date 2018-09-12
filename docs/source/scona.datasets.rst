@@ -1,4 +1,4 @@
-BrainNetworksInPython\.datasets package
+scona\.datasets package
 =======================================
 
 Subpackages
@@ -6,12 +6,12 @@ Subpackages
 
 .. toctree::
 
-    BrainNetworksInPython.datasets.NSPN_WhitakerVertes_PNAS2016
+    scona.datasets.NSPN_WhitakerVertes_PNAS2016
 
 Module contents
 ---------------
 
-.. automodule:: BrainNetworksInPython.datasets
+.. automodule:: scona.datasets
     :members:
     :undoc-members:
     :show-inheritance:

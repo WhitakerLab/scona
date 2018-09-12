@@ -3,7 +3,7 @@
 
 # Fill this out with the correct org/repo
 ORG="WhitakerLab"
-REPO="BrainNetworksInPython"
+REPO="scona"
 # This probably should match an email for one of your users.
 EMAIL="kw401@cam.ac.uk"
 

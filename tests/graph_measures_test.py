@@ -3,8 +3,8 @@ import unittest
 import pandas as pd
 import networkx as nx
 import numpy as np
-import BrainNetworksInPython.make_graphs as mkg
-import BrainNetworksInPython.graph_measures as gm
+import scona.make_graphs as mkg
+import scona.graph_measures as gm
 
 
 class Partitioning(unittest.TestCase):
