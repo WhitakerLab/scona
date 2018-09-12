@@ -93,6 +93,3 @@ corrmat_file.txt
 corrmat_picture.png
 corrmat_picture_LowRes.png
 network_analysis/
-
-# built docs
-docs/build/
