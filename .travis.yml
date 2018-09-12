@@ -1,8 +1,5 @@
 language: python
 python:
-    #  - "3.2" # scipy requires python >= 3.4
-    #  - "3.3"
-    #  - "3.4" # networkx2.0 requires python >= 3.6
   - "3.5"
   - "3.6"
 env:
@@ -14,7 +11,11 @@ env:
 install:
 - pip install -q networkx==$NETWORKX_VERSION
 - pip install -q -r requirements.txt
+- pip install sphinx sphinx sphinxcontrib-napoleon sphinx_rtd_theme
 script:
 - python3 -m pytest -v
+- make html
+after_success:
+- ./push.sh
 notifications:
   email: false
