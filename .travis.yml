@@ -17,7 +17,7 @@ script:
 - python3 -m pytest -v
 - cd docs
 - make html
-after_success:
+# after_success:
 - ./push.sh
 notifications:
   email: false
