@@ -1,0 +1,1837 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>scona package &mdash; scona 0.1dev documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> scona
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">scona package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#module-scona">Module contents</a><ul>
+<li><a class="reference internal" href="#scona">scona</a><ul>
+<li><a class="reference internal" href="#simple-example">Simple example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-scona.make_corr_matrices">scona.make_corr_matrices module</a></li>
+<li><a class="reference internal" href="#module-scona.make_graphs">scona.make_graphs module</a></li>
+<li><a class="reference internal" href="#module-scona.graph_measures">scona.graph_measures module</a></li>
+<li><a class="reference internal" href="#module-scona.classes">scona.classes module</a></li>
+<li><a class="reference internal" href="#module-scona.stats_functions">scona.stats_functions module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">scona</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>scona package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/scona.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="scona-package">
+<h1>scona package<a class="headerlink" href="#scona-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="scona.scripts.html">scona.scripts package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scona.scripts.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scona.scripts.html#module-scona.scripts.make_figures">scona.scripts.make_figures module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scona.scripts.html#module-scona.scripts.useful_functions">scona.scripts.useful_functions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scona.scripts.html#module-scona.scripts.visualisation_commands">scona.scripts.visualisation_commands module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scona.scripts.html#module-scona.scripts">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scona.wrappers.html">scona.wrappers package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scona.wrappers.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scona.wrappers.html#module-scona.wrappers.corrmat_from_regionalmeasures">scona.wrappers.corrmat_from_regionalmeasures module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scona.wrappers.html#module-scona.wrappers.network_analysis_from_corrmat">scona.wrappers.network_analysis_from_corrmat module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scona.wrappers.html#module-scona.wrappers">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scona.datasets.html">scona.datasets package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scona.datasets.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scona.datasets.NSPN_WhitakerVertes_PNAS2016.html">scona.datasets.NSPN_WhitakerVertes_PNAS2016 package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scona.datasets.NSPN_WhitakerVertes_PNAS2016.html#module-scona.datasets.NSPN_WhitakerVertes_PNAS2016">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scona.datasets.html#module-scona.datasets">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="module-scona">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scona" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="scona">
+<h3>scona<a class="headerlink" href="#scona" title="Permalink to this headline">¶</a></h3>
+<p>scona is a Python package for the analysis
+of structural covariance brain networks.
+Website (including documentation):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">whitakerlab</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Source::</dt>
+<dd><a class="reference external" href="https://github.com/WhitakerLab/scona">https://github.com/WhitakerLab/scona</a></dd>
+<dt>Bug reports::</dt>
+<dd><a class="reference external" href="https://github.com/WhitakerLab/scona/issues">https://github.com/WhitakerLab/scona/issues</a></dd>
+</dl>
+<div class="section" id="simple-example">
+<h4>Simple example<a class="headerlink" href="#simple-example" title="Permalink to this headline">¶</a></h4>
+<p>FILL
+Bugs
+—-
+Please report any bugs that you find <a class="reference external" href="https://github.com/WhitakerLab/scona/issues">here</a>.
+Or, even better, fork the repository on GitHub and create a pull request (PR).
+License
+——-
+FILL</p>
+</div>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-scona.make_corr_matrices">
+<span id="scona-make-corr-matrices-module"></span><h2>scona.make_corr_matrices module<a class="headerlink" href="#module-scona.make_corr_matrices" title="Permalink to this headline">¶</a></h2>
+<p>Tools to create a correlation matrix from regional measures</p>
+<dl class="function">
+<dt id="scona.make_corr_matrices.corrmat_from_regionalmeasures">
+<code class="descclassname">scona.make_corr_matrices.</code><code class="descname">corrmat_from_regionalmeasures</code><span class="sig-paren">(</span><em>regional_measures</em>, <em>names</em>, <em>covars=None</em>, <em>method='pearson'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_corr_matrices.html#corrmat_from_regionalmeasures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_corr_matrices.corrmat_from_regionalmeasures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the correlation of <cite>names</cite> columns over the rows of
+<cite>regional_measures</cite> after correcting for covariance with the columns in
+<cite>covars</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>regional_measures</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – a pandas data frame with subjects as rows and columns including
+brain regions and covariates. Should be numeric for the columns in
+names and covars_list</li>
+<li><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – a list of the brain regions you wish to correlate</li>
+<li><strong>covars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – covars is a list of covariates (as df column headings)
+to correct for before correlating the regions.</li>
+<li><strong>methods</strong> (<em>string</em>) – the method of correlation passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">pandas.DataFram.corr()</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A correlation matrix with rows and cloumns keyed by <cite>names</cite></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_corr_matrices.create_corrmat">
+<code class="descclassname">scona.make_corr_matrices.</code><code class="descname">create_corrmat</code><span class="sig-paren">(</span><em>df_residuals</em>, <em>names=None</em>, <em>method='pearson'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_corr_matrices.html#create_corrmat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_corr_matrices.create_corrmat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Correlate over the rows of df_residuals</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>df_res</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – df_res contains structural data about regions of the brain with
+subjects as rows.</li>
+<li><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – The brain regions you wish to correlate over. These will become nodes
+in your graph.</li>
+<li><strong>methods</strong> (<em>string</em>) – the method of correlation passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">pandas.DataFram.corr()</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A correlation matrix</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> – if there are non numeric entries in the columns specified by names</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_corr_matrices.create_residuals_df">
+<code class="descclassname">scona.make_corr_matrices.</code><code class="descname">create_residuals_df</code><span class="sig-paren">(</span><em>df</em>, <em>names</em>, <em>covars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_corr_matrices.html#create_residuals_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_corr_matrices.create_residuals_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate residuals of columns specified by names, correcting for the
+columns in covars_list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>df</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – a pandas data frame with subjects as rows and columns including
+brain regions and covariates. Should be numeric for the columns in
+names and covars_list</li>
+<li><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – a list of the brain regions you wish to correlate</li>
+<li><strong>covars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – covars is a list of covariates (as df column headings)
+to correct for before correlating the regions.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Residuals of columns <cite>names</cite> of <cite>df</cite>, correcting for <cite>covars</cite></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> – if there are non numeric entries in the columns specified by names or
+covars</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_corr_matrices.get_non_numeric_cols">
+<code class="descclassname">scona.make_corr_matrices.</code><code class="descname">get_non_numeric_cols</code><span class="sig-paren">(</span><em>df</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_corr_matrices.html#get_non_numeric_cols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_corr_matrices.get_non_numeric_cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns the columns of df whose dtype is not numeric (e.g not a subtype of
+<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.number</span></code>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>df</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">non numeric columns of df</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)">list</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_corr_matrices.save_mat">
+<code class="descclassname">scona.make_corr_matrices.</code><code class="descname">save_mat</code><span class="sig-paren">(</span><em>M</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_corr_matrices.html#save_mat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_corr_matrices.save_mat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save matrix M as a text file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> (<em>array</em>) – </li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – name of the output directory</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scona.make_graphs">
+<span id="scona-make-graphs-module"></span><h2>scona.make_graphs module<a class="headerlink" href="#module-scona.make_graphs" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scona.make_graphs.anatomical_copy">
+<code class="descclassname">scona.make_graphs.</code><code class="descname">anatomical_copy</code><span class="sig-paren">(</span><em>G, nodal_keys=['name', 'name_34', 'name_68', 'hemi', 'centroids', 'x', 'y', 'z'], graph_keys=['parcellation', 'centroids']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#anatomical_copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.anatomical_copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new graph from <code class="docutils literal notranslate"><span class="pre">G</span></code> preserving:
+* nodes
+* edges
+* any nodal attributes specified in nodal_keys
+* any graph attributes specified in graph_keys</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – <code class="docutils literal notranslate"><span class="pre">G</span></code> has anatomical data to copy to <code class="docutils literal notranslate"><span class="pre">R</span></code></li>
+<li><strong>nodal_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – The list of keys to treat as anatomical nodal data.
+Default is set to <code class="docutils literal notranslate"><span class="pre">anatomical_node_attributes()</span></code>, e.g
+<code class="docutils literal notranslate"><span class="pre">[&quot;name&quot;,</span> <span class="pre">&quot;name_34&quot;,</span> <span class="pre">&quot;name_68&quot;,</span> <span class="pre">&quot;hemi&quot;,</span> <span class="pre">&quot;centroids&quot;,</span> <span class="pre">&quot;x&quot;,</span> <span class="pre">&quot;y&quot;,</span> <span class="pre">&quot;z&quot;]</span></code></li>
+<li><strong>graph_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – The list of keys rto treat as anatomical graph data.
+Set to <code class="docutils literal notranslate"><span class="pre">anatomical_graph_attributes()</span></code> by default. E.g
+<code class="docutils literal notranslate"><span class="pre">[&quot;centroids&quot;,</span> <span class="pre">&quot;parcellation&quot;]</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A new graph with the same nodes and edges as <code class="docutils literal notranslate"><span class="pre">G</span></code> and identical
+anatomical data.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.anatomical_copy()</span></code>, <a class="reference internal" href="#scona.make_graphs.copy_anatomical_data" title="scona.make_graphs.copy_anatomical_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">copy_anatomical_data()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_graphs.anatomical_graph_attributes">
+<code class="descclassname">scona.make_graphs.</code><code class="descname">anatomical_graph_attributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#anatomical_graph_attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.anatomical_graph_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>default anatomical graph attributes for scona</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">graph attributes considered “anatomical” by
+scona</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)">list</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_graphs.anatomical_node_attributes">
+<code class="descclassname">scona.make_graphs.</code><code class="descname">anatomical_node_attributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#anatomical_node_attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.anatomical_node_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>default anatomical nodal attributes for scona</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">nodal attributes considered “anatomical” by
+scona</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)">list</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_graphs.assign_node_centroids">
+<code class="descclassname">scona.make_graphs.</code><code class="descname">assign_node_centroids</code><span class="sig-paren">(</span><em>G</em>, <em>centroids</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#assign_node_centroids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.assign_node_centroids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify the nodal attributes “centroids”, “x”, “y”, and “z” of nodes
+of G, inplace. “centroids” will be set according to the scheme
+<code class="docutils literal notranslate"><span class="pre">G[i][&quot;centroids&quot;]</span> <span class="pre">=</span> <span class="pre">centroids[i]</span></code>
+for nodes <code class="docutils literal notranslate"><span class="pre">i</span></code> in <code class="docutils literal notranslate"><span class="pre">G</span></code>. “x”, “y” and “z” are assigned as the first,
+second and third coordinate of <code class="docutils literal notranslate"><span class="pre">centroids[i]</span></code> respectively.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>centroids</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – <code class="docutils literal notranslate"><span class="pre">centroids[i]</span></code> is a tuple representing the cartesian coordinates of
+node <code class="docutils literal notranslate"><span class="pre">i</span></code> in <code class="docutils literal notranslate"><span class="pre">G</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">graph with nodal attributes modified</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_graphs.assign_node_names">
+<code class="descclassname">scona.make_graphs.</code><code class="descname">assign_node_names</code><span class="sig-paren">(</span><em>G</em>, <em>parcellation</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#assign_node_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.assign_node_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify nodal attribute “name” for nodes of G, inplace.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>parcellation</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – <code class="docutils literal notranslate"><span class="pre">parcellation[i]</span></code> is the name of node <code class="docutils literal notranslate"><span class="pre">i</span></code> in <code class="docutils literal notranslate"><span class="pre">G</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">graph with nodal attributes modified</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_graphs.copy_anatomical_data">
+<code class="descclassname">scona.make_graphs.</code><code class="descname">copy_anatomical_data</code><span class="sig-paren">(</span><em>R, G, nodal_keys=['name', 'name_34', 'name_68', 'hemi', 'centroids', 'x', 'y', 'z'], graph_keys=['parcellation', 'centroids']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#copy_anatomical_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.copy_anatomical_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copies nodal and graph attributes data from <code class="docutils literal notranslate"><span class="pre">G</span></code> to <code class="docutils literal notranslate"><span class="pre">R</span></code> for keys
+included in <code class="docutils literal notranslate"><span class="pre">nodal_keys</span></code> and <code class="docutils literal notranslate"><span class="pre">graph_keys</span></code> respectively.</p>
+<p><code class="docutils literal notranslate"><span class="pre">R</span></code> and <code class="docutils literal notranslate"><span class="pre">G</span></code> are both graphs. If they have non equal vertex sets
+node data will only be copied from <code class="docutils literal notranslate"><span class="pre">G</span></code> to <code class="docutils literal notranslate"><span class="pre">R</span></code> for nodes in the
+intersection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>R</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – <code class="docutils literal notranslate"><span class="pre">G</span></code> has anatomical data to copy to <code class="docutils literal notranslate"><span class="pre">R</span></code></li>
+<li><strong>nodal_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – The list of keys to treat as anatomical nodal data.
+Default is set to <code class="docutils literal notranslate"><span class="pre">anatomical_node_attributes()</span></code>, e.g
+<code class="docutils literal notranslate"><span class="pre">[&quot;name&quot;,</span> <span class="pre">&quot;name_34&quot;,</span> <span class="pre">&quot;name_68&quot;,</span> <span class="pre">&quot;hemi&quot;,</span> <span class="pre">&quot;centroids&quot;,</span> <span class="pre">&quot;x&quot;,</span> <span class="pre">&quot;y&quot;,</span> <span class="pre">&quot;z&quot;]</span></code></li>
+<li><strong>graph_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – The list of keys rto treat as anatomical graph data.
+Set to <code class="docutils literal notranslate"><span class="pre">anatomical_graph_attributes()</span></code> by default. E.g
+<code class="docutils literal notranslate"><span class="pre">[&quot;centroids&quot;,</span> <span class="pre">&quot;parcellation&quot;]</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">graph <code class="docutils literal notranslate"><span class="pre">R</span></code> with the anatomical data of graph <code class="docutils literal notranslate"><span class="pre">G</span></code></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#scona.make_graphs.copy_anatomical_data" title="scona.make_graphs.copy_anatomical_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">copy_anatomical_data()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_graphs.get_random_graphs">
+<code class="descclassname">scona.make_graphs.</code><code class="descname">get_random_graphs</code><span class="sig-paren">(</span><em>G</em>, <em>n=10</em>, <em>Q=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#get_random_graphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.get_random_graphs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create n random graphs through edgeswapping.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – </li>
+<li><strong>Q</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – constant to specify how many swaps to conduct for each edge in G</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list of length n of randomisations of G created using
+<a class="reference internal" href="#scona.make_graphs.random_graph" title="scona.make_graphs.random_graph"><code class="xref py py-func docutils literal notranslate"><span class="pre">scona.make_graphs.random_graph()</span></code></a></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of <a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_graphs.graph_at_cost">
+<code class="descclassname">scona.make_graphs.</code><code class="descname">graph_at_cost</code><span class="sig-paren">(</span><em>M</em>, <em>cost</em>, <em>mst=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#graph_at_cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.graph_at_cost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a binary graph by thresholding weighted matrix M.</p>
+<p>First creates the minimum spanning tree for the graph, and then adds
+in edges according to their connection strength up to cost.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>M</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.array</span></code> or <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – A correlation matrix.</li>
+<li><strong>cost</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – A number between 0 and 100. The resulting graph will have the
+<code class="docutils literal notranslate"><span class="pre">cost*n/100</span></code> highest weighted edges available, where <code class="docutils literal notranslate"><span class="pre">n</span></code> is the
+number of edges in G</li>
+<li><strong>mst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">False</span></code>, skip creation of minimum spanning tree. This may cause
+output graph to be disconnected</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A binary graph</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">Exception</span></code></a> – if M is not a <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.array</span></code> or <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_graphs.is_anatomical_match">
+<code class="descclassname">scona.make_graphs.</code><code class="descname">is_anatomical_match</code><span class="sig-paren">(</span><em>G, H, nodal_keys=['name', 'name_34', 'name_68', 'hemi', 'centroids', 'x', 'y', 'z'], graph_keys=['parcellation', 'centroids']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#is_anatomical_match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.is_anatomical_match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that G and H have identical anatomical data (including vertex sets).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>H</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>nodal_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – The list of keys to treat as anatomical nodal data.
+Default is set to <code class="docutils literal notranslate"><span class="pre">anatomical_node_attributes()</span></code>, e.g
+<code class="docutils literal notranslate"><span class="pre">[&quot;name&quot;,</span> <span class="pre">&quot;name_34&quot;,</span> <span class="pre">&quot;name_68&quot;,</span> <span class="pre">&quot;hemi&quot;,</span> <span class="pre">&quot;centroids&quot;,</span> <span class="pre">&quot;x&quot;,</span> <span class="pre">&quot;y&quot;,</span> <span class="pre">&quot;z&quot;]</span></code></li>
+<li><strong>graph_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – The list of keys to treat as anatomical graph data.
+Set to <code class="docutils literal notranslate"><span class="pre">anatomical_graph_attributes()</span></code> by default. E.g
+<code class="docutils literal notranslate"><span class="pre">[&quot;centroids&quot;,</span> <span class="pre">&quot;parcellation&quot;]</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><code class="docutils literal notranslate"><span class="pre">True</span></code> if <cite>G</cite> and <cite>H</cite> have the same anatomical data;
+<code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_graphs.is_nodal_match">
+<code class="descclassname">scona.make_graphs.</code><code class="descname">is_nodal_match</code><span class="sig-paren">(</span><em>G</em>, <em>H</em>, <em>keys=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#is_nodal_match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.is_nodal_match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that G and H have equal vertex sets.
+If keys is passed, also check that the nodal dictionaries of G and H (e.g
+the nodal attributes) are equal over the attributes in keys.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>H</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – a list of attributes on which the nodal dictionaries of G and H should
+agree.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><code class="docutils literal notranslate"><span class="pre">True</span></code> if <cite>G</cite> and <cite>H</cite> have equal vertex sets, or,
+if <cite>keys</cite> is specified, <code class="docutils literal notranslate"><span class="pre">True</span></code> if vertex sets are equal AND the graphs’
+nodal dictionaries agree on all attributes in <cite>keys</cite>.
+<code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_graphs.random_graph">
+<code class="descclassname">scona.make_graphs.</code><code class="descname">random_graph</code><span class="sig-paren">(</span><em>G</em>, <em>Q=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#random_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.random_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a connected random graph that preserves degree distribution
+by swapping pairs of edges, using <code class="xref py py-func docutils literal notranslate"><span class="pre">networkx.double_edge_swap()</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>Q</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – constant that specifies how many swaps to conduct for each edge in G</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">Exception</span></code></a> – if it is not possible in 15 attempts to create a connected random
+graph.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_graphs.scale_weights">
+<code class="descclassname">scona.make_graphs.</code><code class="descname">scale_weights</code><span class="sig-paren">(</span><em>G</em>, <em>scalar=-1</em>, <em>name='weight'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#scale_weights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.scale_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiply edge weights of <cite>G</cite> by <cite>scalar</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>scalar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>optional</em>) – scalar value to multiply edge weights by. Default is -1</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – string that indexes edge weights. Default is “weight”</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_graphs.threshold_graph">
+<code class="descclassname">scona.make_graphs.</code><code class="descname">threshold_graph</code><span class="sig-paren">(</span><em>G</em>, <em>cost</em>, <em>mst=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#threshold_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.threshold_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a binary graph by thresholding weighted graph G.</p>
+<p>First creates the minimum spanning tree for the graph, and then adds
+in edges according to their connection strength up to cost.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – A complete weighted graph</li>
+<li><strong>cost</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – A number between 0 and 100. The resulting graph will have the
+<code class="docutils literal notranslate"><span class="pre">cost*n/100</span></code> highest weighted edges from G, where <code class="docutils literal notranslate"><span class="pre">n</span></code> is the number
+of edges in G.</li>
+<li><strong>mst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">False</span></code>, skip creation of minimum spanning tree. This may cause
+output graph to be disconnected</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A binary graph</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">Exception</span></code></a> – If it is impossible to create a minimum_spanning_tree at the given cost</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><code class="xref py py-func docutils literal notranslate"><span class="pre">scona.BrainNetwork.threshold()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_graphs.weighted_graph_from_df">
+<code class="descclassname">scona.make_graphs.</code><code class="descname">weighted_graph_from_df</code><span class="sig-paren">(</span><em>df</em>, <em>create_using=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#weighted_graph_from_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.weighted_graph_from_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a weighted graph from a correlation matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>df</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – a correlation matrix</li>
+<li><strong>create_using</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – Use specified graph for result. The default is Graph()</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A weighted graph with edge weights equivalent to DataFrame entries</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.make_graphs.weighted_graph_from_matrix">
+<code class="descclassname">scona.make_graphs.</code><code class="descname">weighted_graph_from_matrix</code><span class="sig-paren">(</span><em>M</em>, <em>create_using=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#weighted_graph_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.weighted_graph_from_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a weighted graph from an correlation matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>M</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.array</span></code>) – an correlation matrix</li>
+<li><strong>create_using</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>, optional) – Use specified graph for result. The default is Graph()</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A weighted graph with edge weights equivalent to matrix entries</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scona.graph_measures">
+<span id="scona-graph-measures-module"></span><h2>scona.graph_measures module<a class="headerlink" href="#module-scona.graph_measures" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scona.graph_measures.assign_interhem">
+<code class="descclassname">scona.graph_measures.</code><code class="descname">assign_interhem</code><span class="sig-paren">(</span><em>G</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/graph_measures.html#assign_interhem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.graph_measures.assign_interhem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assigns nodal and edge attributes of G. Modifies G in place.
+An edge is considered interhemispheric if the x coordinates of its
+nodes have different signs.</p>
+<p>Edge attributes:</p>
+<dl class="docutils">
+<dt>“interhem” <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>1 if the edge is interhemispheric, 0 otherwise</dd>
+</dl>
+<p>Node attributes</p>
+<dl class="docutils">
+<dt>“hemisphere” <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>1 or -1, represents the sign of the x coordinate.</dd>
+<dt>“interhem” <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>the number of adjacent interhemispheric edges</dd>
+<dt>“interhem_proportion” <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>the proportion of adjacent edges that are interhemispheric</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – a graph with nodal attribute ‘centroids’ or ‘x’ defined for each
+node. The value of ‘centroids’ should be the cartesian coordinates
+of each node.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">G</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.graph_measures.assign_nodal_distance">
+<code class="descclassname">scona.graph_measures.</code><code class="descname">assign_nodal_distance</code><span class="sig-paren">(</span><em>G</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/graph_measures.html#assign_nodal_distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.graph_measures.assign_nodal_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assigns nodal and edge attributes of G. Modifies G in place.</p>
+<p>Edge attributes</p>
+<dl class="docutils">
+<dt>“euclidean” <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>the euclidean length, derived from the “centroids” values of nodes</dd>
+</dl>
+<p>Node attributes</p>
+<dl class="docutils">
+<dt>“total_dist” <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>the total length of the incident edges</dd>
+<dt>“average_dist” <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>the average length of the incident edges</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – a graph with nodal attribute ‘centroids’ defined for each
+node. The value of ‘centroids’ should be the cartesian coordinates of
+each node.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">G</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.graph_measures.calc_modularity">
+<code class="descclassname">scona.graph_measures.</code><code class="descname">calc_modularity</code><span class="sig-paren">(</span><em>G</em>, <em>nodal_partition</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/graph_measures.html#calc_modularity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.graph_measures.calc_modularity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the modularity of G under partition nodal_partition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>nodal_partition</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – a dictionary nodes to communities</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the modularity of G</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.graph_measures.calc_nodal_partition">
+<code class="descclassname">scona.graph_measures.</code><code class="descname">calc_nodal_partition</code><span class="sig-paren">(</span><em>G</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/graph_measures.html#calc_nodal_partition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.graph_measures.calc_nodal_partition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate a nodal partition of G using the louvain algorithm as
+iBrainNetworkommunity.best_partition`</p>
+<p>Note that this is a time intensive process and it is also
+non-deterministic, so for consistency and speed it’s best
+to hold on to your partition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – A binary graph</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Two dictionaries represent the resulting nodal partition of G. The
+first maps nodes to modules and the second maps modules to nodes.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a>)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.graph_measures.calculate_global_measures">
+<code class="descclassname">scona.graph_measures.</code><code class="descname">calculate_global_measures</code><span class="sig-paren">(</span><em>G</em>, <em>partition=None</em>, <em>existing_global_measures=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/graph_measures.html#calculate_global_measures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.graph_measures.calculate_global_measures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate global measures <cite>average_clustering</cite>,
+<cite>average_shortest_path_length</cite>, <cite>assortativity</cite>, <cite>modularity</cite>, and
+<cite>efficiency</cite> of G.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – A binary graph</li>
+<li><strong>partition</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – A nodal partition of G. A dictionary mapping nodes of G to modules.
+Pass a partition in order to calculate the modularity of G.</li>
+<li><strong>existing_global_measures</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – An existing dictionary of global measures of G can be passed.
+<a class="reference internal" href="#scona.graph_measures.calculate_global_measures" title="scona.graph_measures.calculate_global_measures"><code class="xref py py-func docutils literal notranslate"><span class="pre">calculate_global_measures()</span></code></a> will not recalculate any measures
+already indexed in G</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a dictionary of global network measures of G</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><code class="xref py py-func docutils literal notranslate"><span class="pre">scona.BrainNetwork.calculate_global_measures()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.graph_measures.calculate_nodal_measures">
+<code class="descclassname">scona.graph_measures.</code><code class="descname">calculate_nodal_measures</code><span class="sig-paren">(</span><em>G</em>, <em>partition=None</em>, <em>measure_list=None</em>, <em>additional_measures=None</em>, <em>force=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/graph_measures.html#calculate_nodal_measures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.graph_measures.calculate_nodal_measures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate and store nodal measures as nodal attributes.</p>
+<p>By default calculates:</p>
+<ul class="simple">
+<li>“degree” : int</li>
+<li>“closeness” : float</li>
+<li>“betweenness” : float</li>
+<li>“shortest_path_length” : float</li>
+<li>“clustering” : float</li>
+<li>“participation_coefficient” : float</li>
+</ul>
+<p>Use <cite>measure_list</cite> to specify which of the default nodal attributes to
+calculate.
+Use <cite>additional_measures</cite> to describe and calculate new measure definitions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>measure_list</strong> (<em>list of str</em><em>, </em><em>optional</em>) – pass a subset of of the keys defined above to specify which of the
+default measures to calculate</li>
+<li><strong>additional_measures</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – map from names of nodal attributes to functions
+defining how they should be calculated. Such a function should take a
+graph as an argument and return a dictionary mapping nodes to attribute
+values.</li>
+<li><strong>force</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – pass True to recalculate any measures that already
+exist in the nodal attributes.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.calculate_nodal_measures()</span></code>, <a class="reference internal" href="#scona.graph_measures.calc_nodal_partition" title="scona.graph_measures.calc_nodal_partition"><code class="xref py py-func docutils literal notranslate"><span class="pre">calc_nodal_partition()</span></code></a></p>
+</div>
+<p class="rubric">Example</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.graph_measures.participation_coefficient">
+<code class="descclassname">scona.graph_measures.</code><code class="descname">participation_coefficient</code><span class="sig-paren">(</span><em>G</em>, <em>module_partition</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/graph_measures.html#participation_coefficient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.graph_measures.participation_coefficient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the participation coefficient of nodes of G with partition
+defined by module_partition.
+(Guimera et al. 2005).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>module_partition</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – a dictionary mapping each community name to a list of nodes in G</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a dictionary mapping the nodes of G to their participation coefficient
+under the participation specified by module_partition.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.graph_measures.rich_club">
+<code class="descclassname">scona.graph_measures.</code><code class="descname">rich_club</code><span class="sig-paren">(</span><em>G</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/graph_measures.html#rich_club"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.graph_measures.rich_club" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the rich club coefficient of G for each degree between 0 and
+<code class="docutils literal notranslate"><span class="pre">max([degree(v)</span> <span class="pre">for</span> <span class="pre">v</span> <span class="pre">in</span> <span class="pre">G.nodes])</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – a binary graph</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a dictionary mapping integer <code class="docutils literal notranslate"><span class="pre">x</span></code> to the rich club coefficient of G
+for degree <code class="docutils literal notranslate"><span class="pre">x</span></code></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.rich_club()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.graph_measures.shortest_path">
+<code class="descclassname">scona.graph_measures.</code><code class="descname">shortest_path</code><span class="sig-paren">(</span><em>G</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/graph_measures.html#shortest_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.graph_measures.shortest_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate average shortest path length for each node in G.
+“length” in this case means the number of edges, and does not consider
+euclidean distance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – a connected graph</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a dictionary mapping a node v to the average length of the shortest
+from v to other nodes in G.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.graph_measures.small_coefficient">
+<code class="descclassname">scona.graph_measures.</code><code class="descname">small_coefficient</code><span class="sig-paren">(</span><em>G</em>, <em>R</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/graph_measures.html#small_coefficient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.graph_measures.small_coefficient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the small coefficient of G relative to R.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>R</strong> (<em>G</em><em>,</em>) – A binary graph</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The small coefficient of G relative to R</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.graph_measures.small_world_sigma">
+<code class="descclassname">scona.graph_measures.</code><code class="descname">small_world_sigma</code><span class="sig-paren">(</span><em>tupleG</em>, <em>tupleR</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/graph_measures.html#small_world_sigma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.graph_measures.small_world_sigma" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute small world sigma from tuples</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tupleR</strong> (<em>tupleG</em><em>,</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.graph_measures.z_score">
+<code class="descclassname">scona.graph_measures.</code><code class="descname">z_score</code><span class="sig-paren">(</span><em>G</em>, <em>module_partition</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/graph_measures.html#z_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.graph_measures.z_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the z-score of the nodes of G under partition module_partition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>module_partition</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – a dictionary mapping each community name to a lists of nodes in G</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a dictionary mapping the nodes of G to their z-score under
+module_partition.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scona.classes">
+<span id="scona-classes-module"></span><h2>scona.classes module<a class="headerlink" href="#module-scona.classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="scona.classes.BrainNetwork">
+<em class="property">class </em><code class="descclassname">scona.classes.</code><code class="descname">BrainNetwork</code><span class="sig-paren">(</span><em>network=None</em>, <em>parcellation=None</em>, <em>centroids=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#BrainNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.BrainNetwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.classes.graph.Graph</span></code></p>
+<p>A lightweight subclass of <a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>network</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a> or <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> or <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>, optional) – <cite>network</cite> is used to define graph features of G.
+If an array is passed, create a weighted graph from this array.
+If a graph is passed, G will be a <a class="reference internal" href="#scona.classes.BrainNetwork" title="scona.classes.BrainNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrainNetwork</span></code></a> otherwise
+identical to this graph.</li>
+<li><strong>parcellation</strong> (<em>list of str</em><em>, </em><em>optional</em>) – A list of node names, passed to <a class="reference internal" href="#scona.classes.BrainNetwork.set_parcellation" title="scona.classes.BrainNetwork.set_parcellation"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.set_parcellation()</span></code></a></li>
+<li><strong>centroids</strong> (<em>list of tuple</em><em>, </em><em>optional</em>) – A list of node centroids, passed to <a class="reference internal" href="#scona.classes.BrainNetwork.set_centroids" title="scona.classes.BrainNetwork.set_centroids"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.set_centroids()</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="scona.classes.BrainNetwork.anatomical_node_attributes">
+<code class="descname">anatomical_node_attributes</code><a class="headerlink" href="#scona.classes.BrainNetwork.anatomical_node_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list of str</em> – a list of node attribute keys to treat as anatomical.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scona.classes.BrainNetwork.anatomical_graph_attributes">
+<code class="descname">anatomical_graph_attributes</code><a class="headerlink" href="#scona.classes.BrainNetwork.anatomical_graph_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list of str</em> – a list of graph attribute keys to treat as anatomical.</p>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+</div>
+<dl class="method">
+<dt id="scona.classes.BrainNetwork.anatomical_copy">
+<code class="descname">anatomical_copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#BrainNetwork.anatomical_copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.BrainNetwork.anatomical_copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new graph from G preserving:
+* nodes
+* edges
+* any nodal attributes specified in G.anatomical_node_attributes
+* any graph attributes specified in G.anatomical_graph_attributes
+* <code class="docutils literal notranslate"><span class="pre">G.anatomical_node_attributes</span></code>
+* <code class="docutils literal notranslate"><span class="pre">G.anatomical_graph_attributes</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A new graph with the same nodes and edges as G and identical
+anatomical data.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#scona.classes.BrainNetwork.anatomical_copy" title="scona.classes.BrainNetwork.anatomical_copy"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.anatomical_copy()</span></code></a>, <code class="xref py py-func docutils literal notranslate"><span class="pre">anatomical_data()</span></code>, <a class="reference internal" href="#scona.classes.BrainNetwork.set_anatomical_node_attributes" title="scona.classes.BrainNetwork.set_anatomical_node_attributes"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_anatomical_node_attributes()</span></code></a>, <a class="reference internal" href="#scona.classes.BrainNetwork.set_anatomical_graph_attributes" title="scona.classes.BrainNetwork.set_anatomical_graph_attributes"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_anatomical_graph_attributes()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.BrainNetwork.calculate_global_measures">
+<code class="descname">calculate_global_measures</code><span class="sig-paren">(</span><em>force=False</em>, <em>seed=None</em>, <em>partition=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#BrainNetwork.calculate_global_measures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.BrainNetwork.calculate_global_measures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate global measures <cite>average_clustering</cite>,
+<cite>average_shortest_path_length</cite>, <cite>assortativity</cite>, <cite>modularity</cite>, and
+<cite>efficiency</cite> of G. The resulting dictionary of global measures can be
+accessed and manipulated as <code class="docutils literal notranslate"><span class="pre">G.graph['global_measures']</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>force</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – pass True to recalculate any global measures that have already
+been calculated</li>
+<li><strong>partition</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – The “modularity” measure evaluates a graph partition.
+pass True to calculate the partition of each graph using
+<a class="reference internal" href="#scona.classes.BrainNetwork.partition" title="scona.classes.BrainNetwork.partition"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.partition()</span></code></a>. Note that this won’t recalculate
+a partition that exists.
+If False, modularity may not be calculated.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a dictionary of global network measures of G</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#scona.classes.BrainNetwork.calculate_global_measures" title="scona.classes.BrainNetwork.calculate_global_measures"><code class="xref py py-func docutils literal notranslate"><span class="pre">calculate_global_measures()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.BrainNetwork.calculate_nodal_measures">
+<code class="descname">calculate_nodal_measures</code><span class="sig-paren">(</span><em>force=False</em>, <em>measure_list=None</em>, <em>additional_measures=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#BrainNetwork.calculate_nodal_measures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.BrainNetwork.calculate_nodal_measures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate and store nodal measures as nodal attributes
+which can be accessed directly, or using
+<code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.report_nodal_measures()`()</span></code></p>
+<p>By default calculates:</p>
+<ul class="simple">
+<li>“nodal_partition” : int or str</li>
+<li>“degree” : int</li>
+<li>“closeness” : float</li>
+<li>“betweenness” : float</li>
+<li>“shortest_path_length” : float</li>
+<li>“clustering” : float</li>
+<li>“participation_coefficient” : float</li>
+</ul>
+<p>Use <cite>measure_list</cite> to specify which of the default nodal attributes to
+calculate.
+Use <cite>additional_measures</cite> to describe and calculate new measure
+definitions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>measure_list</strong> (<em>list of str</em><em>, </em><em>optional</em>) – pass a subset of of the keys defined above to specify which of the
+default measures to calculate</li>
+<li><strong>additional_measures</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – map from names of nodal attributes to functions
+defining how they should be calculated. Such a function should take
+a graph as an argument and return a dictionary mapping nodes to
+attribute values.</li>
+<li><strong>force</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – pass True to recalculate any measures that already
+exist in the nodal attributes.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#scona.classes.BrainNetwork.report_nodal_measures" title="scona.classes.BrainNetwork.report_nodal_measures"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.report_nodal_measures()</span></code></a>, <a class="reference internal" href="#scona.classes.BrainNetwork.partition" title="scona.classes.BrainNetwork.partition"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.partition()</span></code></a>, <a class="reference internal" href="#scona.classes.BrainNetwork.calculate_nodal_measures" title="scona.classes.BrainNetwork.calculate_nodal_measures"><code class="xref py py-func docutils literal notranslate"><span class="pre">calculate_nodal_measures()</span></code></a></p>
+</div>
+<p class="rubric">Example</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.BrainNetwork.calculate_spatial_values">
+<code class="descname">calculate_spatial_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#BrainNetwork.calculate_spatial_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.BrainNetwork.calculate_spatial_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assigns spatial nodal and edge attributes of G. Modifies G in place.</p>
+<p>Edge attributes:</p>
+<dl class="docutils">
+<dt>“euclidean” <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>the euclidean length, as derived from the nodal attribute
+“centroids”</dd>
+<dt>“interhem” <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>1 if the edge is interhemispheric, 0 otherwise</dd>
+</dl>
+<p>Node attributes</p>
+<dl class="docutils">
+<dt>“total_dist” <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>the total length of the incident edges</dd>
+<dt>“average_dist” <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>the average length of the incident edges</dd>
+<dt>“hemisphere” <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>1 or -1, represents the sign of the x coordinate</dd>
+<dt>“interhem” <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>the number of adjacent interhemispheric edges</dd>
+<dt>“interhem_proportion” <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>the proportion of adjacent edges that are interhemispheric</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> – If the graph centroids are not set</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#scona.classes.BrainNetwork.set_centroids" title="scona.classes.BrainNetwork.set_centroids"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.set_centroids()</span></code></a>, <code class="xref py py-func docutils literal notranslate"><span class="pre">assign_interhem()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">assign_nodal_distance()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.BrainNetwork.partition">
+<code class="descname">partition</code><span class="sig-paren">(</span><em>force=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#BrainNetwork.partition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.BrainNetwork.partition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the best nodal partition of G using the louvain
+algorithm as implemented in <a class="reference external" href="https://python-louvain.readthedocs.io/en/latest/api.html#community.best_partition" title="(in Community detection for NetworkX v1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">community.best_partition()</span></code></a>.
+If desired, the node-wise partition can be accessed and manipulated by
+the nodal attribute “module” and the module-wise partition as
+<code class="docutils literal notranslate"><span class="pre">G.graph[&quot;partition&quot;]</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>force</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – pass True to recalculate when a partition exists</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Two dictionaries represent the resulting nodal partition of G. The
+first maps nodes to modules and the second maps modules to nodes.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a>)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.calc_nodal_partition()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.BrainNetwork.report_nodal_measures">
+<code class="descname">report_nodal_measures</code><span class="sig-paren">(</span><em>columns=None</em>, <em>as_dict=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#BrainNetwork.report_nodal_measures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.BrainNetwork.report_nodal_measures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Report the nodal attributes of G as a pandas dataframe or python
+dictionary</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>columns</strong> (<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – pass a list of nodal attributes to columns to specify which should
+be reported</li>
+<li><strong>as_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – pass True to return a nested dictionary instead of a dataframe.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the node attribute data from G as a pandas dataframe or dict of
+dicts</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or dict</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#scona.classes.BrainNetwork.calculate_nodal_measures" title="scona.classes.BrainNetwork.calculate_nodal_measures"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.calculate_nodal_measures()</span></code></a>, <a class="reference internal" href="#scona.classes.BrainNetwork.calculate_spatial_values" title="scona.classes.BrainNetwork.calculate_spatial_values"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.calculate_spatial_values()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.BrainNetwork.rich_club">
+<code class="descname">rich_club</code><span class="sig-paren">(</span><em>force=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#BrainNetwork.rich_club"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.BrainNetwork.rich_club" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the rich club coefficient of G for each degree between 0 and
+<code class="docutils literal notranslate"><span class="pre">max([degree(v)</span> <span class="pre">for</span> <span class="pre">v</span> <span class="pre">in</span> <span class="pre">G.nodes])</span></code>. The resulting dictionary of rich
+club coefficients can be accessed and manipulated as
+<code class="docutils literal notranslate"><span class="pre">G.graph['rich_club']</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>force</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – pass True to recalculate when a dictionary of rich club
+coefficients already exists</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a dictionary mapping integer <cite>x</cite> to the rich club coefficient of
+G for degree <cite>x</cite></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#scona.classes.BrainNetwork.rich_club" title="scona.classes.BrainNetwork.rich_club"><code class="xref py py-func docutils literal notranslate"><span class="pre">rich_club()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.BrainNetwork.set_anatomical_graph_attributes">
+<code class="descname">set_anatomical_graph_attributes</code><span class="sig-paren">(</span><em>names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#BrainNetwork.set_anatomical_graph_attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.BrainNetwork.set_anatomical_graph_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the list of graph attribute keys to preserve when using
+<a class="reference internal" href="#scona.classes.BrainNetwork.anatomical_copy" title="scona.classes.BrainNetwork.anatomical_copy"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.anatomical_copy()</span></code></a>.
+This list is set using <a class="reference internal" href="#scona.classes.BrainNetwork.anatomical_graph_attributes" title="scona.classes.BrainNetwork.anatomical_graph_attributes"><code class="xref py py-func docutils literal notranslate"><span class="pre">anatomical_graph_attributes()</span></code></a> when
+a BrainNetwork is initialised, and can be accessed as
+<code class="docutils literal notranslate"><span class="pre">G.anatomical_graph_attributes</span></code>
+It is also among the object attributes preserved by
+<a class="reference internal" href="#scona.classes.BrainNetwork.anatomical_copy" title="scona.classes.BrainNetwork.anatomical_copy"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.anatomical_copy()</span></code></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – a list of graph attribute keys to treat as anatomical.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#scona.classes.BrainNetwork.set_anatomical_node_attributes" title="scona.classes.BrainNetwork.set_anatomical_node_attributes"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.set_anatomical_node_attributes()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.BrainNetwork.set_anatomical_node_attributes">
+<code class="descname">set_anatomical_node_attributes</code><span class="sig-paren">(</span><em>names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#BrainNetwork.set_anatomical_node_attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.BrainNetwork.set_anatomical_node_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the list of node attribute keys to preserve when using
+<a class="reference internal" href="#scona.classes.BrainNetwork.anatomical_copy" title="scona.classes.BrainNetwork.anatomical_copy"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.anatomical_copy()</span></code></a>.
+This list is set using <a class="reference internal" href="#scona.classes.BrainNetwork.anatomical_node_attributes" title="scona.classes.BrainNetwork.anatomical_node_attributes"><code class="xref py py-func docutils literal notranslate"><span class="pre">anatomical_node_attributes()</span></code></a> when
+a BrainNetwork is initialised, and can be accessed as
+<code class="docutils literal notranslate"><span class="pre">G.anatomical_node_attributes</span></code>
+It is also among the object attributes preserved by
+<a class="reference internal" href="#scona.classes.BrainNetwork.anatomical_copy" title="scona.classes.BrainNetwork.anatomical_copy"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.anatomical_copy()</span></code></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – a list of node attribute keys to treat as anatomical.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#scona.classes.BrainNetwork.set_anatomical_graph_attributes" title="scona.classes.BrainNetwork.set_anatomical_graph_attributes"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.set_anatomical_graph_attributes()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.BrainNetwork.set_centroids">
+<code class="descname">set_centroids</code><span class="sig-paren">(</span><em>centroids</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#BrainNetwork.set_centroids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.BrainNetwork.set_centroids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify the nodal attributes “centroids”, “x”, “y”, and “z” of nodes
+of G inplace.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>centroids</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – <code class="docutils literal notranslate"><span class="pre">centroids[i]</span></code> is a tuple representing the cartesian coordinates
+of node <code class="docutils literal notranslate"><span class="pre">i</span></code> in <code class="docutils literal notranslate"><span class="pre">G</span></code>. “x”, “y” and “z” will be assigned as the
+first, second and third coordinate of <code class="docutils literal notranslate"><span class="pre">centroids[i]</span></code>
+respectively.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#scona.classes.BrainNetwork.calculate_spatial_values" title="scona.classes.BrainNetwork.calculate_spatial_values"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.calculate_spatial_values()</span></code></a>, <a class="reference internal" href="#scona.classes.BrainNetwork.set_parcellation" title="scona.classes.BrainNetwork.set_parcellation"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.set_parcellation()</span></code></a>, <code class="xref py py-func docutils literal notranslate"><span class="pre">assign_node_centroids()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.BrainNetwork.set_parcellation">
+<code class="descname">set_parcellation</code><span class="sig-paren">(</span><em>parcellation</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#BrainNetwork.set_parcellation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.BrainNetwork.set_parcellation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify nodal attribute “name” for nodes of G inplace.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>parcellation</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – <code class="docutils literal notranslate"><span class="pre">parcellation[i]</span></code> is the name of node <code class="docutils literal notranslate"><span class="pre">i</span></code> in <code class="docutils literal notranslate"><span class="pre">G</span></code></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><code class="xref py py-func docutils literal notranslate"><span class="pre">assign_node_names()</span></code>, <a class="reference internal" href="#scona.classes.BrainNetwork.set_centroids" title="scona.classes.BrainNetwork.set_centroids"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.set_centroids()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.BrainNetwork.threshold">
+<code class="descname">threshold</code><span class="sig-paren">(</span><em>cost</em>, <em>mst=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#BrainNetwork.threshold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.BrainNetwork.threshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a binary graph by thresholding weighted BrainNetwork G</p>
+<p>First creates the minimum spanning tree for the graph, and then adds
+in edges according to their connection strength up to cost.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cost</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – A number between 0 and 100. The resulting graph will have the
+<code class="docutils literal notranslate"><span class="pre">cost*n/100</span></code> highest weighted edges from G, where
+<code class="docutils literal notranslate"><span class="pre">n</span></code> is the number of edges in G.</li>
+<li><strong>mst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">False</span></code>, skip creation of minimum spanning tree. This may
+cause output graph to be disconnected</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A binary graph</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference internal" href="#scona.classes.BrainNetwork" title="scona.classes.BrainNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrainNetwork</span></code></a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">Exception</span></code></a> – If it is impossible to create a minimum_spanning_tree at the given
+cost</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><code class="xref py py-func docutils literal notranslate"><span class="pre">threshold_graph()</span></code></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scona.classes.GraphBundle">
+<em class="property">class </em><code class="descclassname">scona.classes.</code><code class="descname">GraphBundle</code><span class="sig-paren">(</span><em>graph_list</em>, <em>name_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+<p>GraphBundle is a subclass of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> containing
+<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>: <a class="reference internal" href="#scona.classes.BrainNetwork" title="scona.classes.BrainNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrainNetwork</span></code></a> pairs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>graph_list</strong> (list of <a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>name_list</strong> (<em>list of str</em>) – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#scona.classes.BrainNetwork" title="scona.classes.BrainNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrainNetwork</span></code></a></p>
+</div>
+<p class="rubric">Example</p>
+<dl class="method">
+<dt id="scona.classes.GraphBundle.add_graphs">
+<code class="descname">add_graphs</code><span class="sig-paren">(</span><em>graph_list</em>, <em>name_list=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle.add_graphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle.add_graphs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update dictionary with <cite>graph_list : names_list</cite> pairs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>graph_list</strong> (list of <a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>name_list</strong> (<em>list of str</em><em>, </em><em>optional</em>) – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#scona.classes.GraphBundle.create_random_graphs" title="scona.classes.GraphBundle.create_random_graphs"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphBundle.create_random_graphs</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.GraphBundle.anatomical_matches">
+<code class="descname">anatomical_matches</code><span class="sig-paren">(</span><em>nodal_keys=['name', 'name_34', 'name_68', 'hemi', 'centroids', 'x', 'y', 'z'], graph_keys=['parcellation', 'centroids']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle.anatomical_matches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle.anatomical_matches" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that all graphs in GraphBundle are pairwise anatomical matches
+as defined in <code class="xref py py-func docutils literal notranslate"><span class="pre">is_anatomical_match()</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nodal_keys</strong> (<em>list of str</em><em>, </em><em>optional</em>) – </li>
+<li><strong>graph_keys</strong> (<em>list of str</em><em>, </em><em>optional</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><cite>True</cite> if all graphs are anatomically matched, <cite>False</cite> otherwise.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><code class="xref py py-func docutils literal notranslate"><span class="pre">is_anatomical_match()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.is_nodal_match()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.GraphBundle.apply">
+<code class="descname">apply</code><span class="sig-paren">(</span><em>graph_function</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle.apply" title="Permalink to this definition">¶</a></dt>
+<dd><p>FILL</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.GraphBundle.create_random_graphs">
+<code class="descname">create_random_graphs</code><span class="sig-paren">(</span><em>gname</em>, <em>n</em>, <em>Q=10</em>, <em>name_list=None</em>, <em>rname='_R'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle.create_random_graphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle.create_random_graphs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create <cite>n</cite> edge swap randomisations of <a class="reference internal" href="#scona.classes.BrainNetwork" title="scona.classes.BrainNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrainNetwork</span></code></a> keyed by
+<cite>gname</cite>. These random graphs are added to GraphBundle.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>gname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – indexes a graph in GraphBundle</li>
+<li><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – the number of random graphs to create</li>
+<li><strong>Q</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – constant to specify how many swaps to conduct for each edge in G</li>
+<li><strong>name_list</strong> (<em>list of str</em><em>, </em><em>optional</em>) – a list of names to use for indexing the new random graphs in
+GraphBundle.</li>
+<li><strong>rname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – if <code class="docutils literal notranslate"><span class="pre">name_list=None</span></code> the new random graphs will be indexed
+according to the scheme <code class="docutils literal notranslate"><span class="pre">gname</span> <span class="pre">+</span> <span class="pre">rname</span> <span class="pre">+</span> <span class="pre">r</span></code> where <cite>r</cite> is some
+integer.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_random_graphs()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">random_graph()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.add_graphs()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.GraphBundle.nodal_matches">
+<code class="descname">nodal_matches</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle.nodal_matches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle.nodal_matches" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks the statement “All graphs in GraphBundle have congruent
+vertex sets”</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><cite>True</cite> if all graphs have the same node set, <cite>False</cite> otherwise.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><code class="xref py py-func docutils literal notranslate"><span class="pre">is_nodal_match()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.anatomical_matches()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.GraphBundle.report_global_measures">
+<code class="descname">report_global_measures</code><span class="sig-paren">(</span><em>as_dict=False</em>, <em>partition=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle.report_global_measures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle.report_global_measures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate global_measures for each BrainNetwork object and report as a
+<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or nested dict.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>as_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – pass True to return global measures as a nested dictionary;
+pass False to return a <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></li>
+<li><strong>partition</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – argument to pass to <a class="reference internal" href="#scona.classes.BrainNetwork.calculate_global_measures" title="scona.classes.BrainNetwork.calculate_global_measures"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.calculate_global_measures()</span></code></a></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or dict</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#scona.classes.BrainNetwork.calculate_global_measures" title="scona.classes.BrainNetwork.calculate_global_measures"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.calculate_global_measures()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.GraphBundle.report_rich_club">
+<code class="descname">report_rich_club</code><span class="sig-paren">(</span><em>as_dict=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle.report_rich_club"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle.report_rich_club" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate rich_club coefficients for each BrainNetwork object and
+report as a <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or nested dict.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>as_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – pass True to return rich club coefficients as a nested dictionary;
+pass False to return a <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or dict</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#scona.classes.BrainNetwork.rich_club" title="scona.classes.BrainNetwork.rich_club"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.rich_club()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scona.classes.GraphBundle.report_small_world">
+<code class="descname">report_small_world</code><span class="sig-paren">(</span><em>gname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle.report_small_world"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle.report_small_world" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the small coefficient of <cite>gname</cite> relative to each other
+graph in GraphBundle.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>gname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – indexes a graph in GraphBundle</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a dictionary, mapping a GraphBundle key “x” to the small
+coefficient of graph “gname” relative to graph “x”.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><code class="xref py py-func docutils literal notranslate"><span class="pre">small_coefficient()</span></code></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scona.stats_functions">
+<span id="scona-stats-functions-module"></span><h2>scona.stats_functions module<a class="headerlink" href="#module-scona.stats_functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scona.stats_functions.partial_r">
+<code class="descclassname">scona.stats_functions.</code><code class="descname">partial_r</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>covars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/stats_functions.html#partial_r"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.stats_functions.partial_r" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="scona.stats_functions.residuals">
+<code class="descclassname">scona.stats_functions.</code><code class="descname">residuals</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/stats_functions.html#residuals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.stats_functions.residuals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return residuals of least squares solution to y = AB where A =[[x 1]].
+Uses <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.lstsq.html#numpy.linalg.lstsq" title="(in NumPy v1.15)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.linalg.lstsq()</span></code></a> to find B</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>array</em>) – </li>
+<li><strong>y</strong> (<em>array</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">residuals of least squares solution to y = [[x 1]]B</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.stats_functions.variance_partition">
+<code class="descclassname">scona.stats_functions.</code><code class="descname">variance_partition</code><span class="sig-paren">(</span><em>x1</em>, <em>x2</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/stats_functions.html#variance_partition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.stats_functions.variance_partition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describe the independent and shared explanatory
+variance of two (possibly correlated) variables on
+the dependent variable (y)</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Dr Kirstie Whitaker, Isla Staden.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1dev',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

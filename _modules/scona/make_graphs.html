@@ -1,0 +1,729 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>scona.make_graphs &mdash; scona 0.1dev documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> scona
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">scona</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>scona.make_graphs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for scona.make_graphs</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="c1"># A Global import to make code python 2 and 3 compatible</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+<span class="c1"># ==================== Anatomical Functions =================</span>
+
+
+<div class="viewcode-block" id="anatomical_node_attributes"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.anatomical_node_attributes">[docs]</a><span class="k">def</span> <span class="nf">anatomical_node_attributes</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    default anatomical nodal attributes for scona</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        nodal attributes considered &quot;anatomical&quot; by</span>
+<span class="sd">        scona</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;name_34&quot;</span><span class="p">,</span> <span class="s2">&quot;name_68&quot;</span><span class="p">,</span> <span class="s2">&quot;hemi&quot;</span><span class="p">,</span> <span class="s2">&quot;centroids&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="anatomical_graph_attributes"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.anatomical_graph_attributes">[docs]</a><span class="k">def</span> <span class="nf">anatomical_graph_attributes</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    default anatomical graph attributes for scona</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        graph attributes considered &quot;anatomical&quot; by</span>
+<span class="sd">        scona</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;parcellation&#39;</span><span class="p">,</span> <span class="s1">&#39;centroids&#39;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="assign_node_names"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.assign_node_names">[docs]</a><span class="k">def</span> <span class="nf">assign_node_names</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">parcellation</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Modify nodal attribute &quot;name&quot; for nodes of G, inplace.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">    parcellation : list</span>
+<span class="sd">        ``parcellation[i]`` is the name of node ``i`` in ``G``</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+<span class="sd">        graph with nodal attributes modified</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Assign anatomical names to the nodes</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">()):</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parcellation</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="c1">#</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;parcellation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="n">G</span></div>
+
+
+<div class="viewcode-block" id="assign_node_centroids"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.assign_node_centroids">[docs]</a><span class="k">def</span> <span class="nf">assign_node_centroids</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">centroids</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Modify the nodal attributes &quot;centroids&quot;, &quot;x&quot;, &quot;y&quot;, and &quot;z&quot; of nodes</span>
+<span class="sd">    of G, inplace. &quot;centroids&quot; will be set according to the scheme</span>
+<span class="sd">    ``G[i][&quot;centroids&quot;] = centroids[i]``</span>
+<span class="sd">    for nodes ``i`` in ``G``. &quot;x&quot;, &quot;y&quot; and &quot;z&quot; are assigned as the first,</span>
+<span class="sd">    second and third coordinate of ``centroids[i]`` respectively.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">    centroids : list</span>
+<span class="sd">        ``centroids[i]`` is a tuple representing the cartesian coordinates of</span>
+<span class="sd">        node ``i`` in ``G``</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+<span class="sd">        graph with nodal attributes modified</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Assign cartesian coordinates to the nodes</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">()):</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">centroids</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">centroids</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">centroids</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;centroids&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">centroids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="c1">#</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;centroids&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="n">G</span></div>
+
+
+<div class="viewcode-block" id="copy_anatomical_data"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.copy_anatomical_data">[docs]</a><span class="k">def</span> <span class="nf">copy_anatomical_data</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span>
+                         <span class="n">nodal_keys</span><span class="o">=</span><span class="n">anatomical_node_attributes</span><span class="p">(),</span>
+                         <span class="n">graph_keys</span><span class="o">=</span><span class="n">anatomical_graph_attributes</span><span class="p">()):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Copies nodal and graph attributes data from ``G`` to ``R`` for keys</span>
+<span class="sd">    included in ``nodal_keys`` and ``graph_keys`` respectively.</span>
+
+<span class="sd">    ``R`` and ``G`` are both graphs. If they have non equal vertex sets</span>
+<span class="sd">    node data will only be copied from ``G`` to ``R`` for nodes in the</span>
+<span class="sd">    intersection.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : :class:`networkx.Graph`</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">        ``G`` has anatomical data to copy to ``R``</span>
+<span class="sd">    nodal_keys : list, optional</span>
+<span class="sd">        The list of keys to treat as anatomical nodal data.</span>
+<span class="sd">        Default is set to ``anatomical_node_attributes()``, e.g</span>
+<span class="sd">        ``[&quot;name&quot;, &quot;name_34&quot;, &quot;name_68&quot;, &quot;hemi&quot;, &quot;centroids&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;]``</span>
+<span class="sd">    graph_keys : list, optional</span>
+<span class="sd">        The list of keys rto treat as anatomical graph data.</span>
+<span class="sd">        Set to ``anatomical_graph_attributes()`` by default. E.g</span>
+<span class="sd">        ``[&quot;centroids&quot;, &quot;parcellation&quot;]``</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+<span class="sd">        graph ``R`` with the anatomical data of graph ``G``</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :func:`copy_anatomical_data`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">R</span><span class="o">.</span><span class="n">_node</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">_node</span><span class="o">.</span><span class="n">keys</span><span class="p">()]:</span>
+        <span class="n">R</span><span class="o">.</span><span class="n">_node</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span>
+                            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">_node</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">nodal_keys</span><span class="p">})</span>
+
+    <span class="n">R</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">key</span><span class="p">:</span> <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                   <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">graph_keys</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="anatomical_copy"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.anatomical_copy">[docs]</a><span class="k">def</span> <span class="nf">anatomical_copy</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                    <span class="n">nodal_keys</span><span class="o">=</span><span class="n">anatomical_node_attributes</span><span class="p">(),</span>
+                    <span class="n">graph_keys</span><span class="o">=</span><span class="n">anatomical_graph_attributes</span><span class="p">()):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Create a new graph from ``G`` preserving:</span>
+<span class="sd">    * nodes</span>
+<span class="sd">    * edges</span>
+<span class="sd">    * any nodal attributes specified in nodal_keys</span>
+<span class="sd">    * any graph attributes specified in graph_keys</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">        ``G`` has anatomical data to copy to ``R``</span>
+<span class="sd">    nodal_keys : list, optional</span>
+<span class="sd">        The list of keys to treat as anatomical nodal data.</span>
+<span class="sd">        Default is set to ``anatomical_node_attributes()``, e.g</span>
+<span class="sd">        ``[&quot;name&quot;, &quot;name_34&quot;, &quot;name_68&quot;, &quot;hemi&quot;, &quot;centroids&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;]``</span>
+<span class="sd">    graph_keys : list, optional</span>
+<span class="sd">        The list of keys rto treat as anatomical graph data.</span>
+<span class="sd">        Set to ``anatomical_graph_attributes()`` by default. E.g</span>
+<span class="sd">        ``[&quot;centroids&quot;, &quot;parcellation&quot;]``</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+<span class="sd">        A new graph with the same nodes and edges as ``G`` and identical</span>
+<span class="sd">        anatomical data.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :func:`BrainNetwork.anatomical_copy`</span>
+<span class="sd">    :func:`copy_anatomical_data`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># Create new empty graph</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">G</span><span class="p">)()</span>
+    <span class="c1"># Copy nodes</span>
+    <span class="n">R</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+    <span class="c1"># Copy anatomical data</span>
+    <span class="n">copy_anatomical_data</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">nodal_keys</span><span class="o">=</span><span class="n">nodal_keys</span><span class="p">,</span> <span class="n">graph_keys</span><span class="o">=</span><span class="n">graph_keys</span><span class="p">)</span>
+    <span class="c1"># Preserve edges and edge weights</span>
+    <span class="n">R</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">)</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">set_edge_attributes</span><span class="p">(</span><span class="n">R</span><span class="p">,</span>
+                           <span class="n">name</span><span class="o">=</span><span class="s2">&quot;weight&quot;</span><span class="p">,</span>
+                           <span class="n">values</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">get_edge_attributes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;weight&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="is_nodal_match"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.is_nodal_match">[docs]</a><span class="k">def</span> <span class="nf">is_nodal_match</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Check that G and H have equal vertex sets.</span>
+<span class="sd">    If keys is passed, also check that the nodal dictionaries of G and H (e.g</span>
+<span class="sd">    the nodal attributes) are equal over the attributes in keys.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">    H : :class:`networkx.Graph`</span>
+<span class="sd">    keys : list, optional</span>
+<span class="sd">        a list of attributes on which the nodal dictionaries of G and H should</span>
+<span class="sd">        agree.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        ``True`` if `G` and `H` have equal vertex sets, or,</span>
+<span class="sd">        if `keys` is specified, ``True`` if vertex sets are equal AND the graphs&#39;</span>
+<span class="sd">        nodal dictionaries agree on all attributes in `keys`.</span>
+<span class="sd">        ``False`` otherwise</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span> <span class="o">!=</span> <span class="nb">set</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">nodes</span><span class="p">()):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">elif</span> <span class="n">keys</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="kc">False</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">H</span><span class="o">.</span><span class="n">_node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">att</span><span class="p">)</span> <span class="o">==</span> <span class="n">H</span><span class="o">.</span><span class="n">_node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">att</span><span class="p">))</span>
+                   <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="n">keys</span>
+                   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">()]:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="is_anatomical_match"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.is_anatomical_match">[docs]</a><span class="k">def</span> <span class="nf">is_anatomical_match</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                        <span class="n">H</span><span class="p">,</span>
+                        <span class="n">nodal_keys</span><span class="o">=</span><span class="n">anatomical_node_attributes</span><span class="p">(),</span>
+                        <span class="n">graph_keys</span><span class="o">=</span><span class="n">anatomical_graph_attributes</span><span class="p">()):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Check that G and H have identical anatomical data (including vertex sets).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">    H : :class:`networkx.Graph`</span>
+<span class="sd">    nodal_keys : list, optional</span>
+<span class="sd">        The list of keys to treat as anatomical nodal data.</span>
+<span class="sd">        Default is set to ``anatomical_node_attributes()``, e.g</span>
+<span class="sd">        ``[&quot;name&quot;, &quot;name_34&quot;, &quot;name_68&quot;, &quot;hemi&quot;, &quot;centroids&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;]``</span>
+<span class="sd">    graph_keys : list, optional</span>
+<span class="sd">        The list of keys to treat as anatomical graph data.</span>
+<span class="sd">        Set to ``anatomical_graph_attributes()`` by default. E.g</span>
+<span class="sd">        ``[&quot;centroids&quot;, &quot;parcellation&quot;]``</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        ``True`` if `G` and `H` have the same anatomical data;</span>
+<span class="sd">        ``False`` otherwise</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># check nodes match</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_nodal_match</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="n">nodal_keys</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="c1"># check graph attributes match</span>
+    <span class="k">elif</span> <span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">graph_keys</span><span class="p">}</span>
+            <span class="o">!=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">H</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">graph_keys</span><span class="p">}):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<span class="c1"># ================= Graph construction =====================</span>
+
+
+<div class="viewcode-block" id="weighted_graph_from_matrix"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.weighted_graph_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">weighted_graph_from_matrix</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">create_using</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Create a weighted graph from an correlation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    M : :class:`numpy.array`</span>
+<span class="sd">        an correlation matrix</span>
+<span class="sd">    create_using : :class:`networkx.Graph`, optional</span>
+<span class="sd">        Use specified graph for result. The default is Graph()</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+<span class="sd">        A weighted graph with edge weights equivalent to matrix entries</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># Make a copy of the matrix</span>
+    <span class="n">thr_M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+
+    <span class="c1"># Set all diagonal values to 0</span>
+    <span class="n">thr_M</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">diag_indices_from</span><span class="p">(</span><span class="n">thr_M</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Read this full matrix into a graph G</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">from_numpy_matrix</span><span class="p">(</span><span class="n">thr_M</span><span class="p">,</span> <span class="n">create_using</span><span class="o">=</span><span class="n">create_using</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">G</span></div>
+
+
+<div class="viewcode-block" id="weighted_graph_from_df"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.weighted_graph_from_df">[docs]</a><span class="k">def</span> <span class="nf">weighted_graph_from_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">create_using</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Create a weighted graph from a correlation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : :class:`pandas.DataFrame`</span>
+<span class="sd">        a correlation matrix</span>
+<span class="sd">    create_using : :class:`networkx.Graph`</span>
+<span class="sd">        Use specified graph for result. The default is Graph()</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+<span class="sd">        A weighted graph with edge weights equivalent to DataFrame entries</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">weighted_graph_from_matrix</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">create_using</span><span class="o">=</span><span class="n">create_using</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="scale_weights"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.scale_weights">[docs]</a><span class="k">def</span> <span class="nf">scale_weights</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">scalar</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;weight&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Multiply edge weights of `G` by `scalar`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">    scalar : float, optional</span>
+<span class="sd">        scalar value to multiply edge weights by. Default is -1</span>
+<span class="sd">    name : str, optional</span>
+<span class="sd">        string that indexes edge weights. Default is &quot;weight&quot;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">get_edge_attributes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">new_edges</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span><span class="o">*</span><span class="n">scalar</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">edges</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">set_edge_attributes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">new_edges</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">G</span></div>
+
+
+<div class="viewcode-block" id="threshold_graph"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.threshold_graph">[docs]</a><span class="k">def</span> <span class="nf">threshold_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">mst</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Create a binary graph by thresholding weighted graph G.</span>
+
+<span class="sd">    First creates the minimum spanning tree for the graph, and then adds</span>
+<span class="sd">    in edges according to their connection strength up to cost.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">        A complete weighted graph</span>
+<span class="sd">    cost : float</span>
+<span class="sd">        A number between 0 and 100. The resulting graph will have the</span>
+<span class="sd">        ``cost*n/100`` highest weighted edges from G, where ``n`` is the number</span>
+<span class="sd">        of edges in G.</span>
+<span class="sd">    mst : bool, optional</span>
+<span class="sd">        If ``False``, skip creation of minimum spanning tree. This may cause</span>
+<span class="sd">        output graph to be disconnected</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+<span class="sd">        A binary graph</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    Exception</span>
+<span class="sd">        If it is impossible to create a minimum_spanning_tree at the given cost</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :func:`scona.BrainNetwork.threshold`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># Weights scaled by -1 as minimum_spanning_tree minimises weight</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">scale_weights</span><span class="p">(</span><span class="n">anatomical_copy</span><span class="p">(</span><span class="n">G</span><span class="p">))</span>
+    <span class="c1"># Make a list of all the sorted edges in the full matrix</span>
+    <span class="n">H_edges_sorted</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">edge_info</span><span class="p">:</span> <span class="n">edge_info</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s1">&#39;weight&#39;</span><span class="p">])</span>
+    <span class="c1"># Create an empty graph with the same nodes as H</span>
+    <span class="n">germ</span> <span class="o">=</span> <span class="n">anatomical_copy</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    <span class="n">germ</span><span class="o">.</span><span class="n">remove_edges_from</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">mst</span><span class="p">:</span>
+        <span class="c1"># Calculate minimum spanning tree</span>
+        <span class="n">germ</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">minimum_spanning_edges</span><span class="p">(</span><span class="n">H</span><span class="p">))</span>
+
+    <span class="c1"># Make a list of the germ graph&#39;s edges</span>
+    <span class="n">germ_edges</span> <span class="o">=</span> <span class="n">germ</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Create a list of sorted edges that are *not* in the germ</span>
+    <span class="c1"># (because you don&#39;t want to add them in twice!)</span>
+    <span class="n">H_edges_sorted_not_germ</span> <span class="o">=</span> <span class="p">[</span><span class="n">edge</span> <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">H_edges_sorted</span>
+                               <span class="k">if</span> <span class="n">edge</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">germ_edges</span><span class="p">]</span>
+    <span class="c1"># Calculate how many edges need to be added to reach the specified cost</span>
+    <span class="c1"># and round to the nearest integer.</span>
+    <span class="n">n_edges</span> <span class="o">=</span> <span class="p">(</span><span class="n">cost</span><span class="o">/</span><span class="mf">100.0</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">H</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">H</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">0.5</span>
+    <span class="n">n_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">n_edges</span><span class="p">))</span>
+    <span class="n">n_edges</span> <span class="o">=</span> <span class="n">n_edges</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">germ_edges</span><span class="p">)</span>
+
+    <span class="c1"># If your cost is so small that your minimum spanning tree already covers</span>
+    <span class="c1"># it then you can&#39;t do any better than the MST and you&#39;ll just have to</span>
+    <span class="c1"># return it with an accompanying error message</span>
+    <span class="c1"># A tree has n-1 edges and a complete graph has n(n − 1)/2 edges, so we</span>
+    <span class="c1"># need cost/100 &gt; 2/n, where n is the number of vertices</span>
+    <span class="k">if</span> <span class="n">n_edges</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Unable to calculate matrix at this cost -</span><span class="se">\</span>
+<span class="s1">                         minimum spanning tree is too large&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cost must be &gt;= </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">H</span><span class="p">)))</span>
+    <span class="c1"># Otherwise, add in the appropriate number of edges (n_edges)</span>
+    <span class="c1"># from your sorted list (H_edges_sorted_not_germ)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">germ</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">H_edges_sorted_not_germ</span><span class="p">[:</span><span class="n">n_edges</span><span class="p">])</span>
+    <span class="c1"># binarise edge weights</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">set_edge_attributes</span><span class="p">(</span><span class="n">germ</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;weight&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># And return the updated germ as your graph</span>
+    <span class="k">return</span> <span class="n">germ</span></div>
+
+
+<div class="viewcode-block" id="graph_at_cost"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.graph_at_cost">[docs]</a><span class="k">def</span> <span class="nf">graph_at_cost</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">mst</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Create a binary graph by thresholding weighted matrix M.</span>
+
+<span class="sd">    First creates the minimum spanning tree for the graph, and then adds</span>
+<span class="sd">    in edges according to their connection strength up to cost.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    M : :class:`numpy.array` or :class:`pandas.DataFrame`</span>
+<span class="sd">        A correlation matrix.</span>
+<span class="sd">    cost : float</span>
+<span class="sd">        A number between 0 and 100. The resulting graph will have the</span>
+<span class="sd">        ``cost*n/100`` highest weighted edges available, where ``n`` is the</span>
+<span class="sd">        number of edges in G</span>
+<span class="sd">    mst : bool, optional</span>
+<span class="sd">        If ``False``, skip creation of minimum spanning tree. This may cause</span>
+<span class="sd">        output graph to be disconnected</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+<span class="sd">        A binary graph</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    Exception</span>
+<span class="sd">        if M is not a :class:`numpy.array` or :class:`pandas.DataFrame`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># If dataframe, convert to array</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="n">array</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">values</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">array</span> <span class="o">=</span> <span class="n">M</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+              <span class="s2">&quot;M should be a numpy array or pandas dataframe&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Read this array into a graph G</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">weighted_graph_from_matrix</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">threshold_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">mst</span><span class="o">=</span><span class="n">mst</span><span class="p">)</span></div>
+
+
+<span class="c1"># ===================== Random Graphs ======================</span>
+
+
+<div class="viewcode-block" id="random_graph"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.random_graph">[docs]</a><span class="k">def</span> <span class="nf">random_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return a connected random graph that preserves degree distribution</span>
+<span class="sd">    by swapping pairs of edges, using :func:`networkx.double_edge_swap`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">    Q : int, optional</span>
+<span class="sd">        constant that specifies how many swaps to conduct for each edge in G</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`networkx.Graph`</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    Exception</span>
+<span class="sd">        if it is not possible in 15 attempts to create a connected random</span>
+<span class="sd">        graph.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">anatomical_copy</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+    <span class="c1"># Calculate the number of edges and set a constant</span>
+    <span class="c1"># as suggested in the nx documentation</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">number_of_edges</span><span class="p">()</span>
+
+    <span class="c1"># Start the counter for randomisation attempts and set connected to False</span>
+    <span class="n">attempt</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">connected</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Keep making random graphs until they are connected</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">connected</span> <span class="ow">and</span> <span class="n">attempt</span> <span class="o">&lt;</span> <span class="mi">15</span><span class="p">:</span>
+        <span class="c1"># Now swap some edges in order to preserve the degree distribution</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">double_edge_swap</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">Q</span><span class="o">*</span><span class="n">E</span><span class="p">,</span> <span class="n">max_tries</span><span class="o">=</span><span class="n">Q</span><span class="o">*</span><span class="n">E</span><span class="o">*</span><span class="mi">10</span><span class="p">)</span>
+
+        <span class="c1"># Check that this graph is connected! If not, start again</span>
+        <span class="n">connected</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">is_connected</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">connected</span><span class="p">:</span>
+            <span class="n">attempt</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">attempt</span> <span class="o">==</span> <span class="mi">15</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;** Failed to randomise graph in first 15 tries -</span><span class="se">\</span>
+<span class="s2">                             Attempt aborted. Network is likely too sparse **&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="get_random_graphs"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.get_random_graphs">[docs]</a><span class="k">def</span> <span class="nf">get_random_graphs</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Create n random graphs through edgeswapping.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">    n : int, optional</span>
+<span class="sd">    Q : int, optional</span>
+<span class="sd">        constant to specify how many swaps to conduct for each edge in G</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of :class:`networkx.Graph`</span>
+<span class="sd">        A list of length n of randomisations of G created using</span>
+<span class="sd">        :func:`scona.make_graphs.random_graph`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">graph_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;        Creating </span><span class="si">{}</span><span class="s1"> random graphs - may take a little while&#39;</span>
+          <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">graph_list</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="p">:</span>
+            <span class="n">graph_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">random_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="n">Q</span><span class="p">)]</span>
+
+    <span class="k">return</span> <span class="n">graph_list</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Dr Kirstie Whitaker, Isla Staden.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1dev',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
