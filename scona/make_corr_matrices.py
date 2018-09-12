@@ -29,7 +29,7 @@ def get_non_numeric_cols(df):
     return non_numeric_cols
 
 
-def create_residuals_df(df, names, covars):
+def create_residuals_df(df, names, covars=[]):
     '''
     Calculate residuals of columns specified by names, correcting for the
     columns in covars_list.
@@ -37,14 +37,16 @@ def create_residuals_df(df, names, covars):
     Parameters
     ----------
     df : :class:`pandas.DataFrame`
-        a pandas data frame with subjects as rows and columns including
+        A pandas data frame with subjects as rows and columns including
         brain regions and covariates. Should be numeric for the columns in
-        names and covars_list
+        `names` and `covars`.
     names : list
-        a list of the brain regions you wish to correlate
-    covars: list
-        covars is a list of covariates (as df column headings)
-        to correct for before correlating the regions.
+        A list of the brain regions you wish to correlate.
+    covars: list, optional
+        A list of covariates to correct for before correlating
+        the regional measures. Each element should correspond to a
+        column heading in `df`.
+        Default is an empty list.
 
     Returns
     -------
@@ -54,8 +56,8 @@ def create_residuals_df(df, names, covars):
     Raises
     ------
     TypeError
-        if there are non numeric entries in the columns specified by names or
-        covars
+        if there are non numeric entries in the columns specified by `names` or
+        `covars`
     '''
     # Raise TypeError if any of the relevant columns are nonnumeric
     non_numeric_cols = get_non_numeric_cols(df[names+covars])
@@ -84,40 +86,44 @@ def create_residuals_df(df, names, covars):
     return df_res
 
 
-def create_corrmat(df_residuals, names=None, method='pearson'):
+def create_corrmat(df_res, names=None, method='pearson'):
     '''
-    Correlate over the rows of df_residuals
+    Correlate over the rows of `df_res`
 
     Parameters
     ----------
     df_res : :class:`pandas.DataFrame`
-        df_res contains structural data about regions of the brain with
-        subjects as rows.
-    names : list
+        `df_res` contains structural data about regions of the brain with
+        subjects as rows after correction for any covariates of no interest.
+    names : list, optional
         The brain regions you wish to correlate over. These will become nodes
-        in your graph.
-    methods : string
-        the method of correlation passed to :func:`pandas.DataFram.corr`
+        in your graph. If `names` is None then all columns are included.
+        Default is `None`.
+    methods : string, optional
+        The method of correlation passed to :func:`pandas.DataFrame.corr`.
+        Default is pearsons correlation (`pearson`).
 
     Returns
     -------
     :class:`pandas.DataFrame`
-        A correlation matrix
+        A correlation matrix.
 
     Raises
     ------
     TypeError
-        if there are non numeric entries in the columns specified by names
+        If there are non numeric entries in the columns in `df_res` specified
+        by `names`.
     '''
     if names is None:
-        names = df_residuals.columns
+        names = df_res.columns
+
     # Raise TypeError if any of the relevant columns are nonnumeric
-    non_numeric_cols = get_non_numeric_cols(df_residuals)
+    non_numeric_cols = get_non_numeric_cols(df_res)
     if non_numeric_cols:
         raise TypeError('DataFrame columns {} are non numeric'
                         .format(', '.join(non_numeric_cols)))
 
-    return df_residuals.loc[:, names].astype(float).corr(method=method)
+    return df_res.loc[:, names].astype(float).corr(method=method)
 
 
 def corrmat_from_regionalmeasures(
