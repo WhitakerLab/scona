@@ -800,8 +800,10 @@ nodes have different signs.</p>
 </dl>
 <p>Node attributes</p>
 <dl class="docutils">
-<dt>“hemisphere” <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>1 or -1, represents the sign of the x coordinate.</dd>
+<dt>“hemisphere” <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>L or R, as determined by the sign of the x coordinate
+and assuming MNI space. The x coordinates are negative
+in the left hemisphere and positive in the right.</dd>
 <dt>“interhem” <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
 <dd>the number of adjacent interhemispheric edges</dd>
 <dt>“interhem_proportion” <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
@@ -1293,8 +1295,10 @@ exist in the nodal attributes.</li>
 <dd>the total length of the incident edges</dd>
 <dt>“average_dist” <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
 <dd>the average length of the incident edges</dd>
-<dt>“hemisphere” <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>1 or -1, represents the sign of the x coordinate</dd>
+<dt>“hemisphere” <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>L or R, as determined by the sign of the x coordinate
+and assuming MNI space. The x coordinates are negative
+in the left hemisphere and positive in the right.</dd>
 <dt>“interhem” <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
 <dd>the number of adjacent interhemispheric edges</dd>
 <dt>“interhem_proportion” <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
