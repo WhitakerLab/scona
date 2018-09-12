@@ -33,11 +33,11 @@ def plot_connectome_with_nilearn(G, node_colour_att=None, node_colour="auto", no
     node_colour_att : str, optional
         Defines a nodal attribute.
     node_colour : str or :class:`matplotlib.colors.Colormap`, optional
-        
+
     node_size_att : str, optional
-        
+
     node_size : int, float, optional
-        
+
     edge_attribute : str, optional
     edge_cmap : :class:`matplotlib.colors.Colormap`
         colormap used for representing `edge_attribute`.
@@ -89,7 +89,7 @@ def view_connectome_with_nilearn(G, edge_attribute="weight", edge_cmap="Spectral
     node_colour_list : array type, optional
         pass a list of colours (formats accepted by matplotlib, see
         https://matplotlib.org/users/colors.html#specifying-colors).
-        The list should be ordered as so that `node_colour_list[i]` 
+        The list should be ordered as so that `node_colour_list[i]`
         is the colour of node `node_order[i]` where
         `node_order=sorted(list(G.nodes()))`
     edge_cmap : str or :class:`matplotlib.colormap`, optional

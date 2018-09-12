@@ -3,7 +3,7 @@ Network Analysis at the Global Level
 
 Random Graphs
 -------------
-To 
+
 
 
 The GraphBundle Class

@@ -194,8 +194,10 @@ class BrainNetwork(nx.classes.graph.Graph):
             the total length of the incident edges
         "average_dist" : float
             the average length of the incident edges
-        "hemisphere" : int
-            1 or -1, represents the sign of the x coordinate
+        "hemisphere" : str
+            L or R, as determined by the sign of the x coordinate
+            and assuming MNI space. The x coordinates are negative
+            in the left hemisphere and positive in the right.
         "interhem" : int
             the number of adjacent interhemispheric edges
         "interhem_proportion" : float
@@ -507,7 +509,22 @@ class GraphBundle(dict):
 
     def apply(self, graph_function):
         '''
-        FILL
+        Apply a user defined function to each network in a :class:`GraphBundle`.
+
+        Parameters
+        ----------
+        graph_function : :class:`types.FunctionType`
+            Function defined on a :class:`BrainNetwork` object
+
+        Example
+        -------
+        To calculate and return the degree for each network in a
+        :class:`GraphBundle` pass this following expression to `apply`
+        as the `graph_function`.
+
+        .. code-block:: python
+            get_degree = lambda x: x.calculate_nodal_measures(measure_list=["degree"])
+            brain_bundle.apply(graph_function=get_degree)
         '''
         global_dict = {}
         for name, graph in self.items():
