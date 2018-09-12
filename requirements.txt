@@ -8,3 +8,4 @@ seaborn
 nibabel
 forceatlas2
 pillow
+nilearn==0.5.0a0
