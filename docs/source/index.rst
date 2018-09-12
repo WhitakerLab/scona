@@ -3,13 +3,19 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to scona's documentation!
-=================================================
-
-Contents:
+scona : Structural Covariance Network Analysis
+==============================================
 
 .. toctree::
    :maxdepth: 2
+   :caption: Contents:
+
+   introduction
+   sc-matrices
+   create-network
+   local-analysis
+   global-analysis
+   plotting
 
 Indices and tables
 ==================
