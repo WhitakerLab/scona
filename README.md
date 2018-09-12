@@ -6,9 +6,6 @@
 Welcome to the BrainNetworksInPython GitHub repository!:sparkles: <img align="right" src="https://media.giphy.com/media/3ohhwwL4kj5z1Id6uI/giphy.gif">
 
 
-
-
-
 ## What are we doing?
 BrainNetworksInPython is a toolkit to analyse structural covariance brain networks using python.  
 
