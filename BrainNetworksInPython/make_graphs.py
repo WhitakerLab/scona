@@ -171,7 +171,7 @@ def anatomical_copy(G,
     # Create new empty graph
     R = type(G)()
     # Copy nodes
-    R.add_nodes_from(G.nodes)
+    R.add_nodes_from(G.nodes())
     # Copy anatomical data
     copy_anatomical_data(R, G, nodal_keys=nodal_keys, graph_keys=graph_keys)
     # Preserve edges and edge weights
@@ -204,13 +204,13 @@ def is_nodal_match(G, H, keys=None):
         nodal dictionaries agree on all attributes in `keys`.
         ``False`` otherwise
     '''
-    if set(G.nodes) != set(H.nodes):
+    if set(G.nodes()) != set(H.nodes()):
         return False
     elif keys is None:
         return True
     elif False in [(H._node.get(i).get(att) == H._node.get(i).get(att))
                    for att in keys
-                   for i in G.nodes]:
+                   for i in G.nodes()]:
         return False
     else:
         return True
