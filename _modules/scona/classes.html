@@ -292,7 +292,7 @@
 
 <div class="viewcode-block" id="BrainNetwork.set_parcellation"><a class="viewcode-back" href="../../scona.html#scona.classes.BrainNetwork.set_parcellation">[docs]</a>    <span class="k">def</span> <span class="nf">set_parcellation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parcellation</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Modify nodal attribute &quot;name&quot; for nodes of G inplace.</span>
+<span class="sd">        Modify nodal attribute &quot;name&quot; for nodes of `G` inplace.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -323,13 +323,13 @@
 
 <span class="sd">        See Also</span>
 <span class="sd">        --------</span>
-<span class="sd">        :func:`BrainNetwork.calculate_spatial_values`</span>
+<span class="sd">        :func:`BrainNetwork.calculate_spatial_measures`</span>
 <span class="sd">        :func:`BrainNetwork.set_parcellation`</span>
 <span class="sd">        :func:`assign_node_centroids`</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">assign_node_centroids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centroids</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BrainNetwork.calculate_spatial_values"><a class="viewcode-back" href="../../scona.html#scona.classes.BrainNetwork.calculate_spatial_values">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_spatial_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BrainNetwork.calculate_spatial_measures"><a class="viewcode-back" href="../../scona.html#scona.classes.BrainNetwork.calculate_spatial_measures">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_spatial_measures</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Assigns spatial nodal and edge attributes of G. Modifies G in place.</span>
 
@@ -366,7 +366,7 @@
 <span class="sd">        :func:`assign_nodal_distance`</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;centroids&quot;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Cannot calculate spatial values if centroids are </span><span class="se">\</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Cannot calculate spatial measures if centroids are </span><span class="se">\</span>
 <span class="s2">            not set&quot;</span><span class="p">)</span>
         <span class="n">assign_nodal_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">assign_interhem</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
@@ -383,13 +383,13 @@
 
 <span class="sd">        By default calculates:</span>
 
-<span class="sd">        * &quot;nodal_partition&quot; : int or str</span>
-<span class="sd">        * &quot;degree&quot; : int</span>
-<span class="sd">        * &quot;closeness&quot; : float</span>
-<span class="sd">        * &quot;betweenness&quot; : float</span>
-<span class="sd">        * &quot;shortest_path_length&quot; : float</span>
-<span class="sd">        * &quot;clustering&quot; : float</span>
-<span class="sd">        * &quot;participation_coefficient&quot; : float</span>
+<span class="sd">        * `betweenness` : float</span>
+<span class="sd">        * `closeness` : float</span>
+<span class="sd">        * `clustering` : float</span>
+<span class="sd">        * `degree` : int</span>
+<span class="sd">        * `module` : int</span>
+<span class="sd">        * `participation_coefficient` : float</span>
+<span class="sd">        * `shortest_path_length` : float</span>
 
 <span class="sd">        Use `measure_list` to specify which of the default nodal attributes to</span>
 <span class="sd">        calculate.</span>
@@ -453,7 +453,7 @@
 <span class="sd">        See Also</span>
 <span class="sd">        --------</span>
 <span class="sd">        :func:`BrainNetwork.calculate_nodal_measures`</span>
-<span class="sd">        :func:`BrainNetwork.calculate_spatial_values`</span>
+<span class="sd">        :func:`BrainNetwork.calculate_spatial_measures`</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">nodal_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="p">{</span><span class="n">u</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">y</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">}</span>

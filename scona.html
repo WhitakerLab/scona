@@ -1238,13 +1238,13 @@ which can be accessed directly, or using
 <code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.report_nodal_measures()`()</span></code></p>
 <p>By default calculates:</p>
 <ul class="simple">
-<li>“nodal_partition” : int or str</li>
-<li>“degree” : int</li>
-<li>“closeness” : float</li>
-<li>“betweenness” : float</li>
-<li>“shortest_path_length” : float</li>
-<li>“clustering” : float</li>
-<li>“participation_coefficient” : float</li>
+<li><cite>betweenness</cite> : float</li>
+<li><cite>closeness</cite> : float</li>
+<li><cite>clustering</cite> : float</li>
+<li><cite>degree</cite> : int</li>
+<li><cite>module</cite> : int</li>
+<li><cite>participation_coefficient</cite> : float</li>
+<li><cite>shortest_path_length</cite> : float</li>
 </ul>
 <p>Use <cite>measure_list</cite> to specify which of the default nodal attributes to
 calculate.
@@ -1276,8 +1276,8 @@ exist in the nodal attributes.</li>
 </dd></dl>
 
 <dl class="method">
-<dt id="scona.classes.BrainNetwork.calculate_spatial_values">
-<code class="descname">calculate_spatial_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#BrainNetwork.calculate_spatial_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.BrainNetwork.calculate_spatial_values" title="Permalink to this definition">¶</a></dt>
+<dt id="scona.classes.BrainNetwork.calculate_spatial_measures">
+<code class="descname">calculate_spatial_measures</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#BrainNetwork.calculate_spatial_measures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.BrainNetwork.calculate_spatial_measures" title="Permalink to this definition">¶</a></dt>
 <dd><p>Assigns spatial nodal and edge attributes of G. Modifies G in place.</p>
 <p>Edge attributes:</p>
 <dl class="docutils">
@@ -1368,7 +1368,7 @@ dicts</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#scona.classes.BrainNetwork.calculate_nodal_measures" title="scona.classes.BrainNetwork.calculate_nodal_measures"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.calculate_nodal_measures()</span></code></a>, <a class="reference internal" href="#scona.classes.BrainNetwork.calculate_spatial_values" title="scona.classes.BrainNetwork.calculate_spatial_values"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.calculate_spatial_values()</span></code></a></p>
+<p class="last"><a class="reference internal" href="#scona.classes.BrainNetwork.calculate_nodal_measures" title="scona.classes.BrainNetwork.calculate_nodal_measures"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.calculate_nodal_measures()</span></code></a>, <a class="reference internal" href="#scona.classes.BrainNetwork.calculate_spatial_measures" title="scona.classes.BrainNetwork.calculate_spatial_measures"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.calculate_spatial_measures()</span></code></a></p>
 </div>
 </dd></dl>
 
@@ -1469,14 +1469,14 @@ respectively.</li>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#scona.classes.BrainNetwork.calculate_spatial_values" title="scona.classes.BrainNetwork.calculate_spatial_values"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.calculate_spatial_values()</span></code></a>, <a class="reference internal" href="#scona.classes.BrainNetwork.set_parcellation" title="scona.classes.BrainNetwork.set_parcellation"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.set_parcellation()</span></code></a>, <code class="xref py py-func docutils literal notranslate"><span class="pre">assign_node_centroids()</span></code></p>
+<p class="last"><a class="reference internal" href="#scona.classes.BrainNetwork.calculate_spatial_measures" title="scona.classes.BrainNetwork.calculate_spatial_measures"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.calculate_spatial_measures()</span></code></a>, <a class="reference internal" href="#scona.classes.BrainNetwork.set_parcellation" title="scona.classes.BrainNetwork.set_parcellation"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.set_parcellation()</span></code></a>, <code class="xref py py-func docutils literal notranslate"><span class="pre">assign_node_centroids()</span></code></p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="scona.classes.BrainNetwork.set_parcellation">
 <code class="descname">set_parcellation</code><span class="sig-paren">(</span><em>parcellation</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#BrainNetwork.set_parcellation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.BrainNetwork.set_parcellation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Modify nodal attribute “name” for nodes of G inplace.</p>
+<dd><p>Modify nodal attribute “name” for nodes of <cite>G</cite> inplace.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
