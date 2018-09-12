@@ -16,7 +16,7 @@ script:
 #- python3 -m pytest -v
 - cd docs
 - make html
-- touch build/.nojekyll
+- touch build/html/.nojekyll
 - cd ..
 deploy:
   provider: pages
