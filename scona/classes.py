@@ -139,7 +139,7 @@ class BrainNetwork(nx.classes.graph.Graph):
 
     def set_parcellation(self, parcellation):
         '''
-        Modify nodal attribute "name" for nodes of G inplace.
+        Modify nodal attribute "name" for nodes of `G` inplace.
 
         Parameters
         ----------
@@ -170,13 +170,13 @@ class BrainNetwork(nx.classes.graph.Graph):
 
         See Also
         --------
-        :func:`BrainNetwork.calculate_spatial_values`
+        :func:`BrainNetwork.calculate_spatial_measures`
         :func:`BrainNetwork.set_parcellation`
         :func:`assign_node_centroids`
         '''
         assign_node_centroids(self, centroids)
 
-    def calculate_spatial_values(self):
+    def calculate_spatial_measures(self):
         '''
         Assigns spatial nodal and edge attributes of G. Modifies G in place.
 
@@ -194,8 +194,10 @@ class BrainNetwork(nx.classes.graph.Graph):
             the total length of the incident edges
         "average_dist" : float
             the average length of the incident edges
-        "hemisphere" : int
-            1 or -1, represents the sign of the x coordinate
+        "hemisphere" : str
+            L or R, as determined by the sign of the x coordinate
+            and assuming MNI space. The x coordinates are negative
+            in the left hemisphere and positive in the right.
         "interhem" : int
             the number of adjacent interhemispheric edges
         "interhem_proportion" : float
@@ -213,7 +215,7 @@ class BrainNetwork(nx.classes.graph.Graph):
         :func:`assign_nodal_distance`
         '''
         if not self.graph.get("centroids"):
-            raise KeyError("Cannot calculate spatial values if centroids are \
+            raise KeyError("Cannot calculate spatial measures if centroids are \
             not set")
         assign_nodal_distance(self)
         assign_interhem(self)
@@ -230,13 +232,13 @@ class BrainNetwork(nx.classes.graph.Graph):
 
         By default calculates:
 
-        * "nodal_partition" : int or str
-        * "degree" : int
-        * "closeness" : float
-        * "betweenness" : float
-        * "shortest_path_length" : float
-        * "clustering" : float
-        * "participation_coefficient" : float
+        * `betweenness` : float
+        * `closeness` : float
+        * `clustering` : float
+        * `degree` : int
+        * `module` : int
+        * `participation_coefficient` : float
+        * `shortest_path_length` : float
 
         Use `measure_list` to specify which of the default nodal attributes to
         calculate.
@@ -300,7 +302,7 @@ class BrainNetwork(nx.classes.graph.Graph):
         See Also
         --------
         :func:`BrainNetwork.calculate_nodal_measures`
-        :func:`BrainNetwork.calculate_spatial_values`
+        :func:`BrainNetwork.calculate_spatial_measures`
         '''
         if columns is not None:
             nodal_dict = {x: {u: v for u, v in y.items() if u in columns}

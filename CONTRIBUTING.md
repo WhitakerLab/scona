@@ -107,7 +107,7 @@ Once you've identified one of the issues above that you feel you can contribute 
 
 4. Submit a [pull request][link_pullrequest].
 
-    A member of the executive team will review your changes, have a bit of discussion and hopefully merge them in!  
+    A member of the executive team will review your changes, have a bit of discussion and hopefully merge them in!
     N.B. you don't have to be ready to merge to make a pull request! We encourage you to submit a pull request as early as you want to. They help us to keep track of progress and help you to get earlier feedback.
 
 **Success!!** :balloon::balloon::balloon: Well done! And thank you :smiley::tada::sparkles:
@@ -188,18 +188,18 @@ Use `pip install -e git+https://github.com/WhitakerLab/scona.git` to install sco
 
 ### Linting
 
-scona uses the [PEP8 style guide](https://www.python.org/dev/peps/pep-0008/). You can use [flake8](http://flake8.pycqa.org/en/latest/) to lint code.  
-We're quite a young project (at time of writing! August 2018) and so we aren't going to be super hardcore about your linting! Linting should make your life easier, but if you're not sure how to get started, or if this is a barrier to you contributing to scona then don't worry about it or [get in touch](#how-to-get-in-touch) and we'll be happy to help you.  
+scona uses the [PEP8 style guide](https://www.python.org/dev/peps/pep-0008/). You can use [flake8](http://flake8.pycqa.org/en/latest/) to lint code.
+We're quite a young project (at time of writing! August 2018) and so we aren't going to be super hardcore about your linting! Linting should make your life easier, but if you're not sure how to get started, or if this is a barrier to you contributing to scona then don't worry about it or [get in touch](#how-to-get-in-touch) and we'll be happy to help you.
 
 ### Writing docstrings
 
 We at scona love love LOVE documentation 😍 💖 😘 so any contributions that make using the various functions, classes and wrappers easier are ALWAYS welcome.
 
-`scona` uses the `sphinx` extension [`napoleon`](http://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html) to generate code from numpy style docstrings. See the [numpydoc guide](https://numpydoc.readthedocs.io/en/latest/) for details on syntax. 
+`scona` uses the `sphinx` extension [`napoleon`](http://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html) to generate code from numpy style docstrings. See the [numpydoc guide](https://numpydoc.readthedocs.io/en/latest/) for details on syntax.
 For an example of how docstrings are written in scona, checkout the [docstrings section](#step-1-docstrings) in our [code example](#worked-example) below.
 
 `sphinx` can automatically create links to crossreference other packages. If set up correctly ``:class:`package-name.special-class` `` renders as `package-name.special-class` with a link to the `special-class` documentation in `package-name`'s online documentation. If the package is scona, the package name can be omitted, so that
-``:class:`networkx.Graph` `` becomes [`networkx.Graph`](https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph), and ``:func:`create_corrmat` `` becomes [`create_corrmat`](https://whitakerlab.github.io/scona/build/html/scona.html#scona.make_corr_matrices.create_corrmat).  
+``:class:`networkx.Graph` `` becomes [`networkx.Graph`](https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph), and ``:func:`create_corrmat` `` becomes [`create_corrmat`](https://whitakerlab.github.io/scona/build/html/scona.html#scona.make_corr_matrices.create_corrmat).
 
 Crossreferencing is currently set up for the python standard library, networkx, pandas, numpy and python-louvain. It is possible to set this up for other python packages by adding
 ```python
@@ -209,10 +209,10 @@ to the `intersphinx_mapping` dictionary in [docs/source/conf.py](docs/source/con
 
 ### Building Sphinx docs
 
-When [docstrings](https://en.wikipedia.org/wiki/Docstring#Python) are updated, `sphinx` can automatically update the docs (and ultimately our website). Unfortunately this is [not yet an automated process](https://github.com/WhitakerLab/scona/issues/79). For the time being somebody needs to build those pages. If you're comfortable doing this you can follow the instructions below, but if it's going to be a barrier to you submitting a pull request then please just prepare the docstrings and the maintainers of scona will build the html files for you 😃. 
+When [docstrings](https://en.wikipedia.org/wiki/Docstring#Python) are updated, `sphinx` can automatically update the docs (and ultimately our website). Unfortunately this is [not yet an automated process](https://github.com/WhitakerLab/scona/issues/79). For the time being somebody needs to build those pages. If you're comfortable doing this you can follow the instructions below, but if it's going to be a barrier to you submitting a pull request then please just prepare the docstrings and the maintainers of scona will build the html files for you 😃.
 You might also use these instructions to build documenatation locally while you're still writing, for example to check rendering.
 
-You will need `sphinx` (`pip install sphinx`) and `make` (depends on your distribution) installed.  
+You will need `sphinx` (`pip install sphinx`) and `make` (depends on your distribution) installed.
 In a terminal, navigate to the docs folder and run `make html`. You should be able to view the new documentation in your browser at `file:///local/path/to/scona/docs/build/html/scona.html#module-scona`
 
 ### Tutorials
@@ -230,7 +230,7 @@ For an example of how tests are written in scona, checkout the [testing section]
 
 ### Random seeds
 
-Sometimes you want a random process to choose the same pseudo-random numbers each time so that the process returns the same result each time. This is particularly useful for testing and reproducibility. To do this we set a [random seed](https://www.tutorialspoint.com/python/number_seed.htm).  
+Sometimes you want a random process to choose the same pseudo-random numbers each time so that the process returns the same result each time. This is particularly useful for testing and reproducibility. To do this we set a [random seed](https://www.tutorialspoint.com/python/number_seed.htm).
 
 There is currently no way to seed the random graph generators in scona except by setting the global seed. For more discussion on this subject see [issue #77](https://github.com/WhitakerLab/scona/issues/77). To set the global random seed put the following lines near the top of your test.
 
@@ -309,14 +309,14 @@ Examples of good tests for `calc_leaving_module_interhem` might be:
 * given a partition M with only two modules, check that the values of `calc_leaving_module_interhem(G, M)` are equal as they are evaluating the same set of edges. (There is no third module to connect to, so the set of leaving A is actually the set of edges from A -> B, which is the same set of edges from B -> A, and these are precisely the edges leaving B)
 * given a partition M with only one module, check that the values of `calc_leaving_module_interhem(G, M)` are 0, as there are no leaving edges.
 
-* 
+*
     ```
     G :       0-----1
               |     |
               |     |
               2-----3
     ```
-    We can define a simple square graph G with nodes 0 and 2 in the "+1"-hemisphere and 2 and 3 in the "-1"-hemisphere. Using this simple graph let's calculate the expected result for a couple of partitions.
+    We can define a simple square graph G with nodes 0 and 2 in the right hemisphere and 2 and 3 in the left hemisphere. Using this simple graph let's calculate the expected result for a couple of partitions.
     * If M = `{0: {0,2}, 1: {1,3}}` then `calc_leaving_module_interhem(G, M)` is `{0:1.0, 1:1.0}` since all leaving edges are interhemispheric
     * If M = `{0: {0,1}, 1: {2,3}}` then `calc_leaving_module_interhem(G, M)` is `{0:0.0, 1:0.0}` since no leaving edges are interhemispheric
     * If M = `{0: {0}, 1: {1,2,3}}` then `calc_leaving_module_interhem(G, M)` is `{0:0.5, 1:0.5}`
@@ -403,6 +403,6 @@ Now we have defined the set up for testing, we can move on to the testing method
     assert  == {0: .5, 1: .5}
 ```
 
-And now you're ready to roll! :tada: 
+And now you're ready to roll! :tada:
 
-Thank you for reading this far through scona's contributing guidelines :sparkles::hibiscus::tada:. As always, if you have any question, see any typo's, or have suggestions or corrections for these guidelines don't hesitate to [let us know](#how-to-get-in-touch):heart_eyes:. 
+Thank you for reading this far through scona's contributing guidelines :sparkles::hibiscus::tada:. As always, if you have any question, see any typo's, or have suggestions or corrections for these guidelines don't hesitate to [let us know](#how-to-get-in-touch):heart_eyes:.

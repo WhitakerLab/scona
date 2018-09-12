@@ -93,3 +93,10 @@ corrmat_file.txt
 corrmat_picture.png
 corrmat_picture_LowRes.png
 network_analysis/
+
+# ignore vscode settings
+.vscode
+
+# ignore the built sphinx docs
+docs/source/_build/
+
