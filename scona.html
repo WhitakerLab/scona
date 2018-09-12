@@ -1615,7 +1615,19 @@ as defined in <code class="xref py py-func docutils literal notranslate"><span c
 <dl class="method">
 <dt id="scona.classes.GraphBundle.apply">
 <code class="descname">apply</code><span class="sig-paren">(</span><em>graph_function</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle.apply" title="Permalink to this definition">¶</a></dt>
-<dd><p>FILL</p>
+<dd><p>Apply a user defined function to each network in a <a class="reference internal" href="#scona.classes.GraphBundle" title="scona.classes.GraphBundle"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphBundle</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>graph_function</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">types.FunctionType</span></code>) – Function defined on a <a class="reference internal" href="#scona.classes.BrainNetwork" title="scona.classes.BrainNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrainNetwork</span></code></a> object</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>To calculate and return the degree for each network in a
+<a class="reference internal" href="#scona.classes.GraphBundle" title="scona.classes.GraphBundle"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphBundle</span></code></a> pass this following expression to <cite>apply</cite>
+as the <cite>graph_function</cite>.</p>
 </dd></dl>
 
 <dl class="method">

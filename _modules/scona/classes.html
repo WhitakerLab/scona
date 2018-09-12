@@ -662,7 +662,22 @@
 
 <div class="viewcode-block" id="GraphBundle.apply"><a class="viewcode-back" href="../../scona.html#scona.classes.GraphBundle.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_function</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        FILL</span>
+<span class="sd">        Apply a user defined function to each network in a :class:`GraphBundle`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        graph_function : :class:`types.FunctionType`</span>
+<span class="sd">            Function defined on a :class:`BrainNetwork` object</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        To calculate and return the degree for each network in a</span>
+<span class="sd">        :class:`GraphBundle` pass this following expression to `apply`</span>
+<span class="sd">        as the `graph_function`.</span>
+
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">            get_degree = lambda x: x.calculate_nodal_measures(measure_list=[&quot;degree&quot;])</span>
+<span class="sd">            brain_bundle.apply(graph_function=get_degree)</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">global_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">graph</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
