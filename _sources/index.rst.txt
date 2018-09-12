@@ -6,10 +6,10 @@
 scona : Structural Covariance Network Analysis
 ==============================================
 
-Contents:
-
 .. toctree::
    :maxdepth: 2
+   :caption: Contents:
+
    introduction
    sc-matrices
    create-network
