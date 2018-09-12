@@ -11,6 +11,7 @@ script:
 - cd docs
 - make html
 # after_success:
+- cd ..
 - ./push.sh
 notifications:
   email: false
