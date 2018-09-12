@@ -266,28 +266,31 @@ to correct for before correlating the regions.</li>
 
 <dl class="function">
 <dt id="scona.make_corr_matrices.create_corrmat">
-<code class="descclassname">scona.make_corr_matrices.</code><code class="descname">create_corrmat</code><span class="sig-paren">(</span><em>df_residuals</em>, <em>names=None</em>, <em>method='pearson'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_corr_matrices.html#create_corrmat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_corr_matrices.create_corrmat" title="Permalink to this definition">¶</a></dt>
-<dd><p>Correlate over the rows of df_residuals</p>
+<code class="descclassname">scona.make_corr_matrices.</code><code class="descname">create_corrmat</code><span class="sig-paren">(</span><em>df_res</em>, <em>names=None</em>, <em>method='pearson'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_corr_matrices.html#create_corrmat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_corr_matrices.create_corrmat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Correlate over the rows of <cite>df_res</cite></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>df_res</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – df_res contains structural data about regions of the brain with
-subjects as rows.</li>
-<li><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – The brain regions you wish to correlate over. These will become nodes
-in your graph.</li>
-<li><strong>methods</strong> (<em>string</em>) – the method of correlation passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">pandas.DataFram.corr()</span></code></li>
+<li><strong>df_res</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – <cite>df_res</cite> contains structural data about regions of the brain with
+subjects as rows after correction for any covariates of no interest.</li>
+<li><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – The brain regions you wish to correlate over. These will become nodes
+in your graph. If <cite>names</cite> is None then all columns are included.
+Default is <cite>None</cite>.</li>
+<li><strong>methods</strong> (<em>string</em><em>, </em><em>optional</em>) – The method of correlation passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">pandas.DataFrame.corr()</span></code>.
+Default is pearsons correlation (<cite>pearson</cite>).</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A correlation matrix</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A correlation matrix.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> – if there are non numeric entries in the columns specified by names</p>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> – If there are non numeric entries in the columns in <cite>df_res</cite> specified
+by <cite>names</cite>.</p>
 </td>
 </tr>
 </tbody>
@@ -296,7 +299,7 @@ in your graph.</li>
 
 <dl class="function">
 <dt id="scona.make_corr_matrices.create_residuals_df">
-<code class="descclassname">scona.make_corr_matrices.</code><code class="descname">create_residuals_df</code><span class="sig-paren">(</span><em>df</em>, <em>names</em>, <em>covars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_corr_matrices.html#create_residuals_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_corr_matrices.create_residuals_df" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">scona.make_corr_matrices.</code><code class="descname">create_residuals_df</code><span class="sig-paren">(</span><em>df</em>, <em>names</em>, <em>covars=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_corr_matrices.html#create_residuals_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_corr_matrices.create_residuals_df" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate residuals of columns specified by names, correcting for the
 columns in covars_list.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -304,12 +307,14 @@ columns in covars_list.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>df</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – a pandas data frame with subjects as rows and columns including
+<li><strong>df</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – A pandas data frame with subjects as rows and columns including
 brain regions and covariates. Should be numeric for the columns in
-names and covars_list</li>
-<li><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – a list of the brain regions you wish to correlate</li>
-<li><strong>covars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – covars is a list of covariates (as df column headings)
-to correct for before correlating the regions.</li>
+<cite>names</cite> and <cite>covars</cite>.</li>
+<li><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – A list of the brain regions you wish to correlate.</li>
+<li><strong>covars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – A list of covariates to correct for before correlating
+the regional measures. Each element should correspond to a
+column heading in <cite>df</cite>.
+Default is an empty list.</li>
 </ul>
 </td>
 </tr>
@@ -319,8 +324,8 @@ to correct for before correlating the regions.</li>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> – if there are non numeric entries in the columns specified by names or
-covars</p>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> – if there are non numeric entries in the columns specified by <cite>names</cite> or
+<cite>covars</cite></p>
 </td>
 </tr>
 </tbody>

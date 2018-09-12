@@ -174,7 +174,7 @@
     <span class="k">return</span> <span class="n">non_numeric_cols</span></div>
 
 
-<div class="viewcode-block" id="create_residuals_df"><a class="viewcode-back" href="../../scona.html#scona.make_corr_matrices.create_residuals_df">[docs]</a><span class="k">def</span> <span class="nf">create_residuals_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">covars</span><span class="p">):</span>
+<div class="viewcode-block" id="create_residuals_df"><a class="viewcode-back" href="../../scona.html#scona.make_corr_matrices.create_residuals_df">[docs]</a><span class="k">def</span> <span class="nf">create_residuals_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">covars</span><span class="o">=</span><span class="p">[]):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Calculate residuals of columns specified by names, correcting for the</span>
 <span class="sd">    columns in covars_list.</span>
@@ -182,14 +182,16 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    df : :class:`pandas.DataFrame`</span>
-<span class="sd">        a pandas data frame with subjects as rows and columns including</span>
+<span class="sd">        A pandas data frame with subjects as rows and columns including</span>
 <span class="sd">        brain regions and covariates. Should be numeric for the columns in</span>
-<span class="sd">        names and covars_list</span>
+<span class="sd">        `names` and `covars`.</span>
 <span class="sd">    names : list</span>
-<span class="sd">        a list of the brain regions you wish to correlate</span>
-<span class="sd">    covars: list</span>
-<span class="sd">        covars is a list of covariates (as df column headings)</span>
-<span class="sd">        to correct for before correlating the regions.</span>
+<span class="sd">        A list of the brain regions you wish to correlate.</span>
+<span class="sd">    covars: list, optional</span>
+<span class="sd">        A list of covariates to correct for before correlating</span>
+<span class="sd">        the regional measures. Each element should correspond to a</span>
+<span class="sd">        column heading in `df`.</span>
+<span class="sd">        Default is an empty list.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -199,8 +201,8 @@
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
 <span class="sd">    TypeError</span>
-<span class="sd">        if there are non numeric entries in the columns specified by names or</span>
-<span class="sd">        covars</span>
+<span class="sd">        if there are non numeric entries in the columns specified by `names` or</span>
+<span class="sd">        `covars`</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># Raise TypeError if any of the relevant columns are nonnumeric</span>
     <span class="n">non_numeric_cols</span> <span class="o">=</span> <span class="n">get_non_numeric_cols</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">names</span><span class="o">+</span><span class="n">covars</span><span class="p">])</span>
@@ -229,40 +231,44 @@
     <span class="k">return</span> <span class="n">df_res</span></div>
 
 
-<div class="viewcode-block" id="create_corrmat"><a class="viewcode-back" href="../../scona.html#scona.make_corr_matrices.create_corrmat">[docs]</a><span class="k">def</span> <span class="nf">create_corrmat</span><span class="p">(</span><span class="n">df_residuals</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;pearson&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="create_corrmat"><a class="viewcode-back" href="../../scona.html#scona.make_corr_matrices.create_corrmat">[docs]</a><span class="k">def</span> <span class="nf">create_corrmat</span><span class="p">(</span><span class="n">df_res</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;pearson&#39;</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Correlate over the rows of df_residuals</span>
+<span class="sd">    Correlate over the rows of `df_res`</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    df_res : :class:`pandas.DataFrame`</span>
-<span class="sd">        df_res contains structural data about regions of the brain with</span>
-<span class="sd">        subjects as rows.</span>
-<span class="sd">    names : list</span>
+<span class="sd">        `df_res` contains structural data about regions of the brain with</span>
+<span class="sd">        subjects as rows after correction for any covariates of no interest.</span>
+<span class="sd">    names : list, optional</span>
 <span class="sd">        The brain regions you wish to correlate over. These will become nodes</span>
-<span class="sd">        in your graph.</span>
-<span class="sd">    methods : string</span>
-<span class="sd">        the method of correlation passed to :func:`pandas.DataFram.corr`</span>
+<span class="sd">        in your graph. If `names` is None then all columns are included.</span>
+<span class="sd">        Default is `None`.</span>
+<span class="sd">    methods : string, optional</span>
+<span class="sd">        The method of correlation passed to :func:`pandas.DataFrame.corr`.</span>
+<span class="sd">        Default is pearsons correlation (`pearson`).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    :class:`pandas.DataFrame`</span>
-<span class="sd">        A correlation matrix</span>
+<span class="sd">        A correlation matrix.</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
 <span class="sd">    TypeError</span>
-<span class="sd">        if there are non numeric entries in the columns specified by names</span>
+<span class="sd">        If there are non numeric entries in the columns in `df_res` specified</span>
+<span class="sd">        by `names`.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">names</span> <span class="o">=</span> <span class="n">df_residuals</span><span class="o">.</span><span class="n">columns</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="n">df_res</span><span class="o">.</span><span class="n">columns</span>
+
     <span class="c1"># Raise TypeError if any of the relevant columns are nonnumeric</span>
-    <span class="n">non_numeric_cols</span> <span class="o">=</span> <span class="n">get_non_numeric_cols</span><span class="p">(</span><span class="n">df_residuals</span><span class="p">)</span>
+    <span class="n">non_numeric_cols</span> <span class="o">=</span> <span class="n">get_non_numeric_cols</span><span class="p">(</span><span class="n">df_res</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">non_numeric_cols</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;DataFrame columns </span><span class="si">{}</span><span class="s1"> are non numeric&#39;</span>
                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">non_numeric_cols</span><span class="p">)))</span>
 
-    <span class="k">return</span> <span class="n">df_residuals</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">names</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">df_res</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">names</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="corrmat_from_regionalmeasures"><a class="viewcode-back" href="../../scona.html#scona.make_corr_matrices.corrmat_from_regionalmeasures">[docs]</a><span class="k">def</span> <span class="nf">corrmat_from_regionalmeasures</span><span class="p">(</span>
