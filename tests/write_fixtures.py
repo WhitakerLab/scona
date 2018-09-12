@@ -15,7 +15,7 @@
 import os
 import sys
 import networkx as nx
-import scona as bnip
+import scona as scn
 import scona.datasets as datasets
 
 def recreate_correlation_matrix_fixture(folder):
@@ -23,7 +23,7 @@ def recreate_correlation_matrix_fixture(folder):
     ##### the Whitaker_Vertes dataset                             #####
     regionalmeasures, names, covars, centroids = datasets.NSPN_WhitakerVertes_PNAS2016._data()
     corrmat_path = os.path.join(folder, 'corrmat_file.txt')
-    bnip.wrappers.corrmat_from_regionalmeasures(
+    scn.wrappers.corrmat_from_regionalmeasures(
         regionalmeasures,
         names,
         corrmat_path)
@@ -38,7 +38,7 @@ def recreate_network_analysis_fixture(folder, corrmat_path):
     # calculate global measures
     import random
     random.seed(2984)
-    bnip.wrappers.network_analysis_from_corrmat(corrmat_path,
+    scn.wrappers.network_analysis_from_corrmat(corrmat_path,
                               names,
                               centroids,
                               os.path.join(os.getcwd(), folder, 'network-analysis'),

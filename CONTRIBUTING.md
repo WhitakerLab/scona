@@ -332,7 +332,7 @@ class LeavingModuleInterhem(unittest.TestCase):
       self.G_no_centroids = nx.erdos_renyi_graph(20, 0.2)
       self.G_random_graph = self.G_no_centroids.copy()
       # assign random centroids to G_random_graph
-      bnip.assign_node_centroids(
+      scn.assign_node_centroids(
         self.G_random_graph,
         [tuple(np.subtract((.5, .5, .5), np.random.rand(3))) for x in range(20)])
       # Define a trivial partition for G1
@@ -349,7 +349,7 @@ class LeavingModuleInterhem(unittest.TestCase):
       self.G_square_graph = nx.Graph()
       self.G_square_graph.add_nodes_from([0, 1, 2, 3])
       self.G_square_graph.add_edges_from([(0, 2), (2, 3), (1, 3), (0, 1)])
-      bnip.assign_node_centroids(
+      scn.assign_node_centroids(
         self.G_square_graph, [(1, 0, 0), (-1, 0, 0), (1, 0, 0), (-1, 0, 0)])
 ```
 Now we have defined the set up for testing, we can move on to the testing methods. These should be short methods making one or two assertions about the behaviour of our new function. We try to make the function names descriptive so that if they error during testing we can tell at a glance which behaviour they were testing.
@@ -358,20 +358,20 @@ Now we have defined the set up for testing, we can move on to the testing method
   def centroids_must_be_defined(self):
     # This function should fail on a graph where no centroids are defined
     with self.assertRaises(Exception):
-      bnip.calc_leaving_module_interhem(
+      scn.calc_leaving_module_interhem(
           self.G_no_centroids, self.M_one_big_module)
 
   def result_keys_are_modules(self):
     # check that `calc_leaving_module_interhem(G, M)` has the same
     # dictionary keys as M
-    result = bnip.calc_leaving_module_interhem(
+    result = scn.calc_leaving_module_interhem(
         self.G_random_graph, self.M_one_big_module)
     assert result.keys() == self.M_one_big_module.keys()
 
   def trivial_partition_values_equal_zero(self):
     # check that the values of `calc_leaving_module_interhem(G, M)` are 0,
     # as there are no leaving edges
-    result = bnip.calc_leaving_module_interhem(
+    result = scn.calc_leaving_module_interhem(
         self.G_random_graph, self.M_one_big_module)
     for x in result.values():
       assert x == 0
@@ -379,26 +379,26 @@ Now we have defined the set up for testing, we can move on to the testing method
   def partition_size_two_modules_have_equal_values(self):
     # check that the values of `calc_leaving_module_interhem(G, M)` are equal,
     # as they are evaluating the same edges.
-    L2 = bnip.calc_leaving_module_interhem(
+    L2 = scn.calc_leaving_module_interhem(
         self.G_random_graph, self.M_two_random_modules)
     assert L2[0] == L2[1]
 
   def G2_modules_are_hemispheres_values_are_1(self):
     # the leaving interhem values should be one for each module, since since
     # all leaving edges are interhemispheric
-    result = bnip.calc_leaving_module_interhem(
+    result = scn.calc_leaving_module_interhem(
         self.G_square_graph, {0: {0, 2}, 1: {1, 3}})
     assert result == {0: 1.0, 1: 1.0}
 
   def G2_modules_are_split_across_hemispheres_values_0(self):
     # the leaving interhem values should be zero for each module, since since
     # none of the leaving edges are interhemispheric
-    result = bnip.calc_leaving_module_interhem(
+    result = scn.calc_leaving_module_interhem(
         self.G_square_graph, {0: {0, 1}, 1: {2, 3}})
     assert result == {0: 0.0, 1: 0.0}
 
   def G2_test_module_M5(self):
-    result = bnip.calc_leaving_module_interhem(
+    result = scn.calc_leaving_module_interhem(
         self.G_square_graph, {0: {0}, 1: {1, 2, 3}})
     assert  == {0: .5, 1: .5}
 ```

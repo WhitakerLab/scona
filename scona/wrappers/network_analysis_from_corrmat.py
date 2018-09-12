@@ -13,7 +13,7 @@ import os
 import argparse
 import textwrap
 
-import scona as bnip
+import scona as scn
 from scona.scripts.useful_functions import read_in_data, \
     write_out_measures
 
@@ -115,7 +115,7 @@ def network_analysis_from_corrmat(corr_mat_file,
     corrmat = os.path.basename(corr_mat_file).strip('.txt')
 
     # Initialise graph
-    B = bnip.BrainNetwork(
+    B = scn.BrainNetwork(
         network=M,
         parcellation=names,
         centroids=centroids)
@@ -138,7 +138,7 @@ def network_analysis_from_corrmat(corr_mat_file,
 
     # Create setup for comparing real_graph against random graphs
     # name your graph G after the corrmat it was created from
-    bundle = bnip.GraphBundle([G], [corrmat])
+    bundle = scn.GraphBundle([G], [corrmat])
     # Get the global measures
     # (note that this takes a bit of time because you're generating random
     # graphs)
