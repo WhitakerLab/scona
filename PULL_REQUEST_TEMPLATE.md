@@ -1,5 +1,5 @@
 <!---
-This is a suggested pull request template for the BrainNetworksInPython. 
+This is a suggested pull request template for the scona. 
 We don't mind whether or not you use it. It's just a list of useful 
 questions to answer. :)
 -->

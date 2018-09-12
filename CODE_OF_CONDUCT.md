@@ -52,7 +52,7 @@ Members of the community who violate these rules - no matter how much they have 
 
 This Code of Conduct was built on top of the [Mozilla Science Lab's][mozilla-science-home] [Code of Conduct][mozilla-science-coc] which is in the public domain under a [CC0 license][cc0-link]. It also incorporates part of the [Contributor Covenant][contributor-covenant-home], version 1.4, available at [http://contributor-covenant.org/version/1/4][contributor-covenant-version] and used under a [CC-BY 4.0][ccby-link] license.
 
-The Brain Networks in Python Code of Conduct was developed by [Kirstie Whitaker][kirstie-github] and is provided under a [CC-BY 4.0][ccby-link] license, which means that anyone can remix and reuse the content provided here, without seeking additional permission, so long as it is attributed back to the [Brain Networks in Python][bnip-repo] project. Please remember to also attribute the [Contributor Covenant][contributor-covenant-home].
+The Brain Networks in Python Code of Conduct was developed by [Kirstie Whitaker][kirstie-github] and is provided under a [CC-BY 4.0][ccby-link] license, which means that anyone can remix and reuse the content provided here, without seeking additional permission, so long as it is attributed back to the [Brain Networks in Python][scn-repo] project. Please remember to also attribute the [Contributor Covenant][contributor-covenant-home].
 
 
 [contributor-covenant-home]: http://contributor-covenant.org
@@ -60,6 +60,6 @@ The Brain Networks in Python Code of Conduct was developed by [Kirstie Whitaker]
 [ccby-link]: https://creativecommons.org/licenses/by/4.0
 [cc0-link]: https://creativecommons.org/publicdomain/zero/1.0
 [kirstie-github]: https://github.com/kirstiejane
-[bnip-repo]: https://github.com/WhitakerLab/BrainNetworksInPython
+[scn-repo]: https://github.com/WhitakerLab/scona
 [mozilla-science-home]: https://science.mozilla.org/
 [mozilla-science-coc]: https://github.com/mozillascience/code_of_conduct

@@ -1,6 +1,6 @@
-from BrainNetworksInPython.make_corr_matrices import create_residuals_df, \
+from scona.make_corr_matrices import create_residuals_df, \
     get_non_numeric_cols, create_corrmat
-from BrainNetworksInPython.stats_functions import residuals
+from scona.stats_functions import residuals
 import pytest
 import pandas as pd
 import numpy as np

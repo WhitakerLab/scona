@@ -6,7 +6,7 @@
 # it throws up an error.
 #
 # The point of this is to check that throughout the changes we make to
-# BrainNetworksInPython the functionality of this script stays the same
+# scona the functionality of this script stays the same
 #
 # Currently the functionality of write_fixtures is to generate corrmat
 # and network_analysis data via the functions
@@ -15,15 +15,15 @@
 import os
 import sys
 import networkx as nx
+import scona as scn
+import scona.datasets as datasets
 
 def recreate_correlation_matrix_fixture(folder):
     ##### generate a correlation matrix in the given folder using #####
     ##### the Whitaker_Vertes dataset                             #####
-    import BrainNetworksInPython.datasets.NSPN_WhitakerVertes_PNAS2016.data as data
-    centroids, regionalmeasures, names, covars= data._get_data()
-    from BrainNetworksInPython.wrappers.corrmat_from_regionalmeasures import corrmat_from_regionalmeasures
-    corrmat_path = os.getcwd()+folder+'/corrmat_file.txt'
-    corrmat_from_regionalmeasures(
+    regionalmeasures, names, covars, centroids = datasets.NSPN_WhitakerVertes_PNAS2016._data()
+    corrmat_path = os.path.join(folder, 'corrmat_file.txt')
+    scn.wrappers.corrmat_from_regionalmeasures(
         regionalmeasures,
         names,
         corrmat_path)
@@ -32,37 +32,35 @@ def recreate_network_analysis_fixture(folder, corrmat_path):
     ##### generate network analysis in the given folder using the #####
     ##### data in example_data and the correlation matrix given   #####
     ##### by corrmat_path                                         #####
-    import BrainNetworksInPython.datasets.NSPN_WhitakerVertes_PNAS2016.data as data
-    centroids, regionalmeasures, names, covars= data._get_data()
+    regionalmeasures, names, covars, centroids = datasets.NSPN_WhitakerVertes_PNAS2016._data()
     # It is necessary to specify a random seed because
     # network_analysis_from_corrmat generates random graphs to
     # calculate global measures
     import random
     random.seed(2984)
-    from BrainNetworksInPython.wrappers.network_analysis_from_corrmat import network_analysis_from_corrmat
-    network_analysis_from_corrmat(corrmat_path,
+    scn.wrappers.network_analysis_from_corrmat(corrmat_path,
                               names,
                               centroids,
-                              os.getcwd()+folder+'/network-analysis',
+                              os.path.join(os.getcwd(), folder, 'network-analysis'),
                               cost=10,
                               n_rand=10 # this is not a reasonable
                               # value for n, we generate only 10 random
                               # graphs to save time
                               )
 
-def write_fixtures(folder='/temporary_test_fixtures'):
+def write_fixtures(folder='temporary_test_fixtures'):
     ## Run functions corrmat_from_regionalmeasures and               ##
     ## network_analysis_from_corrmat to save corrmat in given folder ##
     ##---------------------------------------------------------------##
     # if the folder does not exist, create it
-    if not os.path.isdir(os.getcwd()+folder):
-        os.makedirs(os.getcwd()+folder)
+    if not os.path.isdir(os.path.join(os.getcwd(),folder)):
+        os.makedirs(os.path.join(os.getcwd(),folder))
     # generate and save the correlation matrix
     print("generating new correlation matrix")
     recreate_correlation_matrix_fixture(folder)
     # generate and save the network analysis
     print("generating new network analysis")
-    corrmat_path = 'temporary_test_fixtures/corrmat_file.txt'
+    corrmat_path = os.path.join(folder,'corrmat_file.txt')
     recreate_network_analysis_fixture(folder, corrmat_path)
 
 def delete_fixtures(folder):
@@ -93,7 +91,7 @@ def hash_file(filename):
 
 def generate_fixture_hashes(folder='temporary_test_fixtures'):
     # generate the fixtures
-    write_fixtures("/"+folder)
+    write_fixtures(folder=folder)
     # calculate the hash
     hash_dict = hash_folder(folder)
     # delete the new files
