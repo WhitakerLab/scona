@@ -1,8 +1,8 @@
 Structural Covariance Matrices
 ==============================
 
-The logic behind structural covariance matrices
------------------------------------------------
+scona needs two key inputs to create a correlation matrix
+
 
 
 Resources
