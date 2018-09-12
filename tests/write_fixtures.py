@@ -119,6 +119,6 @@ def unpickle_hash():
     return pickle_file
 
 if __name__ == '__main__':
-    if input("Are you sure you want to update Brain Networks In Python's test fixtures? (y/n)") == 'y':
+    if input("Are you sure you want to update scona's test fixtures? (y/n)") == 'y':
         hash_dict = generate_fixture_hashes()
         pickle_hash(hash_dict)

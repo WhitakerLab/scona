@@ -1,6 +1,6 @@
-# Contributing to Brain Networks in Python project
+# Contributing to scona project
 
-Welcome to the Brain Networks in Python GitHub repository, and thank you for thinking about contributing! :smiley::heart::smiley:
+Welcome to the scona GitHub repository, and thank you for thinking about contributing! :smiley::heart::smiley:
 
 The point of this file is to make it suuuuuper easy for you to get involved. So if you have any questions that aren't covered here please let us know! Check out the [Share your thoughts](#share-your-thoughts) section below for more details.
 
@@ -19,7 +19,7 @@ Scroll down or jump to one of the following sections:
 
 Although GitHub calls them **issues**, we'd like you to think of them as **conversation starters**. They're our way of communicating across all the members of the team.
 
-(If you're here you ***already are*** a member of the Brain Networks in Python team.)
+(If you're here you ***already are*** a member of the scona team.)
 
 Your thoughts can be [questions][link_question], [bugs][link_bug], [requests][link_request], or a myriad of other suggestions. In the next section we'll talk through some of the labels on each issue to help you select the ones you'd most like to help with.
 
@@ -80,7 +80,7 @@ The current list of labels are [here][link_labels] and include:
 
 * [![request](https://img.shields.io/badge/-request-fbca04.svg)][link_request] These issues are asking for features (or anything else) to be added to the project.
 
-    If you have a good idea and would like to see it implemented in the Brain Networks in Python project please open a new issue and add in as much detail as possible.
+    If you have a good idea and would like to see it implemented in the scona project please open a new issue and add in as much detail as possible.
 
     Please try to make sure that your feature is distinct from any others that have already been requested or implemented. If you find one that's similar but there are subtle differences please reference the other request in your issue.
 
@@ -91,11 +91,11 @@ Once you've identified one of the issues above that you feel you can contribute 
 
 1. First, describe what you're planning to do as a comment to the issue, (and this might mean making a new issue).
 
-    Check in with one of the Brain Networks in Python development team to ensure you aren't overlapping with work that's currently underway and that everyone is on the same page with the goal of the work you're going to carry out.
+    Check in with one of the scona development team to ensure you aren't overlapping with work that's currently underway and that everyone is on the same page with the goal of the work you're going to carry out.
 
     [This blog][link_pushpullblog] is a nice explanation of why putting this work in up front is so useful to everyone involved.
 
-2. [Fork][link_fork] the [Brain Networks in Python][link_brainnetworksrepo] to your profile.
+2. [Fork][link_fork] the [scona][link_brainnetworksrepo] to your profile.
 
     You can now do whatever you want with this copy of the project. You won't mess up anyone else's work so you're super safe.
 
