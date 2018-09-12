@@ -221,8 +221,10 @@ def assign_interhem(G):
 
     Node attributes
 
-    "hemisphere" : int
-        1 or -1, represents the sign of the x coordinate.
+    "hemisphere" : str
+        L or R, as determined by the sign of the x coordinate
+        and assuming MNI space. The x coordinates are negative
+        in the left hemisphere and positive in the right.
     "interhem" : int
         the number of adjacent interhemispheric edges
     "interhem_proportion" : float
@@ -258,11 +260,15 @@ def assign_interhem(G):
             else:
                 G.adj[node1][node2]['interhem'] = 1
 
+        # Assign the value 'L' or 'R' to the node to indicate
+        # whether it is in the left or right hemisphere
+        # (according to its x coordinate)
+        G.node[node]['hemisphere'] = [ 'L' if x1 < 0.0 else 'R' ][0]
+
         # Create an interhem nodal attribute by getting the average
         # of the interhem values for all edges which connect to the node
         interhem_list = [G.adj[m][n]['interhem']
                          for m, n in G.edges(nbunch=node)]
-        G.node[node]['hemisphere'] = np.sign(x1)
         G.node[node]['interhem'] = sum(interhem_list)
         G.node[node]['interhem_proportion'] = np.mean(interhem_list)
     return G

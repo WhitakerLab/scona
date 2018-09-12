@@ -194,8 +194,10 @@ class BrainNetwork(nx.classes.graph.Graph):
             the total length of the incident edges
         "average_dist" : float
             the average length of the incident edges
-        "hemisphere" : int
-            1 or -1, represents the sign of the x coordinate
+        "hemisphere" : str
+            L or R, as determined by the sign of the x coordinate
+            and assuming MNI space. The x coordinates are negative
+            in the left hemisphere and positive in the right.
         "interhem" : int
             the number of adjacent interhemispheric edges
         "interhem_proportion" : float
