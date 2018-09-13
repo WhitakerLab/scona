@@ -73,7 +73,7 @@ def plot_connectome_with_nilearn(G, node_colour_att=None, node_colour="auto", no
     if node_size_att is not None:
         node_size = [x*node_size for x in size_list]
 
-    plotting.plot_connectome(adjacency_matrix, node_coords, node_color=node_colour, node_size=node_size, edge_cmap="Spectral_r", edge_vmin=edge_vmin, edge_vmax=edge_vmax, edge_threshold=None, output_file=output_file, display_mode=display_mode, figure=figure, axes=axes, title=title, annotate=annotate, black_bg=black_bg, alpha=alpha, edge_kwargs=edge_kwargs, node_kwargs=node_kwargs, colorbar=colorbar)
+    plotting.plot_connectome(adjacency_matrix, node_coords, node_color=node_colour, node_size=node_size, edge_cmap="Spectral_r", edge_vmin=edge_vmin, edge_vmax=edge_vmax, edge_threshold=0.01, output_file=output_file, display_mode=display_mode, figure=figure, axes=axes, title=title, annotate=annotate, black_bg=black_bg, alpha=alpha, edge_kwargs=edge_kwargs, node_kwargs=node_kwargs, colorbar=colorbar)
 
 
 def view_connectome_with_nilearn(G, edge_attribute="weight", edge_cmap="Spectral_r", symmetric_cmap=True, edgewidth=6.0, node_size=3.0, node_colour_att=None, node_colour='black', node_colour_list=None):
