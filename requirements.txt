@@ -5,4 +5,4 @@ pandas<=0.22.0
 python-louvain==0.11 
 numpy
 scipy
-networkx>=2.0
+networkx>=2.2

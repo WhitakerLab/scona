@@ -40,10 +40,8 @@ from scona.make_graphs import *
 from scona.graph_measures import *
 from scona.classes import *
 
+from scona.wrappers import *
+
 import scona.datasets
 from scona import *
 
-if __name__() == __main__()
-    import scona.wrappers
-    import scona.wrappers.network_analysis_from_corrmat
-    import scona.wrappers.corrmat_from_regionalmeasures
