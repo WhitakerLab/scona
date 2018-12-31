@@ -285,7 +285,7 @@ def calculate_nodal_measures(
     '''
     Calculate and store nodal measures as nodal attributes.
 
-    By default calculates:
+    By default `calculate_nodal_measures` calculates the following :
 
     * "degree" : int
     * "closeness" : float
@@ -296,7 +296,8 @@ def calculate_nodal_measures(
 
     Use `measure_list` to specify which of the default nodal attributes to
     calculate.
-    Use `additional_measures` to describe and calculate new measure definitions.
+    Use `additional_measures` to describe and calculate new measure
+    definitions.
 
     Parameters
     ----------

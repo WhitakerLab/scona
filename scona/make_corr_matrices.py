@@ -5,7 +5,6 @@ Tools to create a correlation matrix from regional measures
 # Essential package imports
 import os
 import numpy as np
-import pandas as pd
 from scona.stats_functions import residuals
 
 
