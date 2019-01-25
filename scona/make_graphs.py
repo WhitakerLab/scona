@@ -450,7 +450,7 @@ def graph_at_cost(M, cost, mst=True):
 # ===================== Random Graphs ======================
 
 
-def random_graph(G, Q=10):
+def random_graph(G, Q=10, seed=None):
     '''
     Return a connected random graph that preserves degree distribution
     by swapping pairs of edges, using :func:`networkx.double_edge_swap`.
@@ -460,6 +460,8 @@ def random_graph(G, Q=10):
     G : :class:`networkx.Graph`
     Q : int, optional
         constant that specifies how many swaps to conduct for each edge in G
+    seed : int, random_state or None (default)
+        Indicator of random state to pass to networkx
 
     Returns
     -------
@@ -484,7 +486,7 @@ def random_graph(G, Q=10):
     # Keep making random graphs until they are connected
     while not connected and attempt < 15:
         # Now swap some edges in order to preserve the degree distribution
-        nx.double_edge_swap(R, Q*E, max_tries=Q*E*10)
+        nx.double_edge_swap(R, Q*E, max_tries=Q*E*10, seed=seed)
 
         # Check that this graph is connected! If not, start again
         connected = nx.is_connected(R)
@@ -497,7 +499,7 @@ def random_graph(G, Q=10):
     return R
 
 
-def get_random_graphs(G, n=10, Q=10):
+def get_random_graphs(G, n=10, Q=10, seed=None):
     '''
     Create n random graphs through edgeswapping.
 
@@ -507,6 +509,8 @@ def get_random_graphs(G, n=10, Q=10):
     n : int, optional
     Q : int, optional
         constant to specify how many swaps to conduct for each edge in G
+    seed : int, random_state or None (default)
+        Indicator of random state to pass to networkx
 
     Returns
     -------
@@ -521,6 +525,6 @@ def get_random_graphs(G, n=10, Q=10):
 
     for i in range(n):
         if len(graph_list) <= i:
-            graph_list += [random_graph(G, Q=Q)]
+            graph_list += [random_graph(G, Q=Q, seed=seed)]
 
     return graph_list

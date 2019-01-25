@@ -38,17 +38,16 @@ def recreate_network_analysis_fixture(folder, corrmat_path):
     # It is necessary to specify a random seed because
     # network_analysis_from_corrmat generates random graphs to
     # calculate global measures
-    import random
-    random.seed(2984)
     scn.wrappers.network_analysis_from_corrmat(
         corrmat_path,
         names,
         centroids,
         os.path.join(os.getcwd(), folder, 'network-analysis'),
         cost=10,
-        n_rand=10  # this is not a reasonable
+        n_rand=10,  # this is not a reasonable
         # value for n, we generate only 10 random
         # graphs to save time
+        edge_swap_seed=2984
         )
 
 
