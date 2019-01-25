@@ -3,7 +3,7 @@ PACKAGES = find_packages()
 
 install_requires = [
    "pandas",
-   "python-louvain==0.11", 
+   "python-louvain==0.11",
    "numpy",
    "scipy",
    "networkx>=2.2",
