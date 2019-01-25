@@ -13,8 +13,6 @@
 # corrmat_from_regionalmeasures and network_analysis_from_corrmat.
 # ---------------------------------------------------------------------
 import os
-import sys
-import networkx as nx
 import scona as scn
 import scona.datasets as datasets
 
@@ -111,27 +109,17 @@ def generate_fixture_hashes(folder='temporary_test_fixtures'):
     return hash_dict
 
 
-def current_fixture_name():
-    # returns the fixture name appropriate the current versions
-    # of python and networkx
-    return ("tests/.fixture_hash" +
-            str(sys.version_info[:2]) +
-            'networkx_version'+str(nx.__version__))
-
-
 def pickle_hash(hash_dict):
     import pickle
-    # when we save we record the python and networkx versions
-    with open(current_fixture_name(), 'wb') as f:
+    with open("tests/.fixture_hash", 'wb') as f:
         pickle.dump(hash_dict, f)
 
 
 def unpickle_hash():
     import pickle
     # import fixture relevant to the current python, networkx versions
-    print('loading fixtures for python version {}, networkx version {}'.format(
-        sys.version_info[:2], nx.__version__))
-    with open(current_fixture_name(), "rb") as f:
+    print('loading test fixtures')
+    with open("tests/.fixture_hash", "rb") as f:
         pickle_file = pickle.load(f)
     return pickle_file
 
