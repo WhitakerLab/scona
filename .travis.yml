@@ -1,6 +1,7 @@
 language: python
 python:
   - "3.6"
+  - "3.5"
 env:
   matrix:
   - NETWORKX_VERSION=2.2
@@ -11,7 +12,7 @@ install:
   - pip install -q -r requirements.txt
   - pip install sphinx sphinx sphinxcontrib-napoleon sphinx_rtd_theme
 script:
- #- python3 -m pytest -v
+  - python3 -m pytest -v
   - cd docs
   - make html
   - touch .nojekyll
