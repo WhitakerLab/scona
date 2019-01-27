@@ -1,9 +1,12 @@
+<img align="right" src="https://media.giphy.com/media/3ohhwwL4kj5z1Id6uI/giphy.gif">
+
 # scona
+
 [![Join the chat at https://gitter.im/WhitakerLab/scona](https://badges.gitter.im/WhitakerLab/scona.svg)](https://gitter.im/WhitakerLab/scona?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/WhitakerLab/scona.svg?branch=master)](https://travis-ci.org/WhitakerLab/scona)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/WhitakerLab/scona/blob/master/LICENSE)
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/WhitakerLab/scona/master)
 
-Welcome to the `scona` GitHub repository!:sparkles: <img align="right" src="https://media.giphy.com/media/3ohhwwL4kj5z1Id6uI/giphy.gif">
+Welcome to the `scona` GitHub repository! :sparkles:
 
 * [Get started](#get-started)
 * [What are we doing?](#what-are-we-doing)
@@ -54,7 +57,7 @@ We welcome any contributions to extend these "standard analysis" into a suite of
 For example, we've incorporated methods to include anatomical locations of your regions of interest, double edge swapping to preserve degree distribution in random graphs, and some standard reporting mechanisms that would be expected in a neuroimaging journal article.
 
 Our target audience are researchers who have structural brain imaging data and would like to run quite standard structural covariance network analyses.
-We don't want experts in neuroimaging to have to also become expert in building reproducible piplines and well tested software.
+We don't want experts in neuroimaging to have to also become expert in building reproducible pipelines and well tested software.
 (Although we'd love to answer questions if you are interested in improving your development skills!)
 `scona` is available to help researchers get started (and publish) their analyses quickly and reliably.
 
