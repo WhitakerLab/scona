@@ -18,8 +18,10 @@ Use `pip install -e git+https://github.com/WhitakerLab/scona.git` to install sco
 
 ### Linting
 
-scona uses the [PEP8 style guide](https://www.python.org/dev/peps/pep-0008/). You can use [flake8](http://flake8.pycqa.org/en/latest/) to lint code.
-We're quite a young project (at time of writing! August 2018) and so we aren't going to be super hardcore about your linting! Linting should make your life easier, but if you're not sure how to get started, or if this is a barrier to you contributing to scona then don't worry about it or [get in touch](#how-to-get-in-touch) and we'll be happy to help you.
+scona uses the [PEP8 style guide](https://www.python.org/dev/peps/pep-0008/).
+You can use [flake8](http://flake8.pycqa.org/en/latest/) to lint code.
+We're quite a young project (at time of writing in January 2019) and so we aren't going to be super hardcore about your linting!
+Linting should make your life easier, but if you're not sure how to get started, or if this is a barrier to you contributing to `scona` then don't worry about it or [get in touch](CONTRIBUTING.md#how-to-get-in-touch) and we'll be happy to help you.
 
 ### Writing docstrings
 
@@ -235,4 +237,5 @@ Now we have defined the set up for testing, we can move on to the testing method
 
 And now you're ready to roll! :tada:
 
-Thank you for reading this far through scona's contributing guidelines :sparkles::hibiscus::tada:. As always, if you have any question, see any typo's, or have suggestions or corrections for these guidelines don't hesitate to [let us know](#how-to-get-in-touch):heart_eyes:.
+Thank you for reading this far through scona's contributing guidelines :sparkles::hibiscus::tada:.
+As always, if you have any question, see any typo's, or have suggestions or corrections for these guidelines don't hesitate to [let us know](#how-to-get-in-touch):heart_eyes:.
