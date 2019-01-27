@@ -1,8 +1,8 @@
 # Code of Conduct
 
-We value the participation of every member of our community and want to ensure an that every contributer has an enjoyable and fulfilling experience. Accordingly, everyone who participates in the scona project is expected to show respect and courtesy to other community members at all time.
+We value the participation of every member of our community and want to ensure an that every contributer has an enjoyable and fulfilling experience. Accordingly, everyone who participates in the `scona` project is expected to show respect and courtesy to other community members at all time.
 
-Kirstie Whitaker, founder and lead developer of the scona project, members of the Whitaker lab, and contributors to the scona project are dedicated to a ***harassment-free experience for everyone***, regardless of gender, gender identity and expression, sexual orientation, disability, physical appearance, body size, race, age or religion. **We do not tolerate harassment by and/or of members of our community in any form**.
+[Kirstie Whitaker](https://whitakerlab.github.io/about/#head-honcho-dr-kirstie-whitaker), founder and lead developer of the `scona` project, members of the Whitaker lab, and contributors to the `scona` project are dedicated to a ***harassment-free experience for everyone***, regardless of gender, gender identity and expression, sexual orientation, disability, physical appearance, body size, race, age or religion. **We do not tolerate harassment by and/or of members of our community in any form**.
 
 *We are particularly motivated to support new and/or anxious collaborators, people who are looking to learn and develop their skills, and anyone who has experienced discrimination in the past.*
 
@@ -46,13 +46,13 @@ Project maintainers have the right and responsibility to remove, edit, or reject
 
 Members of the community who violate these rules - no matter how much they have contributed to the Whitaker lab, or how specialised their skill set - will be approached by Kirstie Whitaker. If inappropriate behaviour persists after a discussion with Kirstie, the contributer will be asked to discontinue their participation in Whitaker lab projects.
 
-**To report an issue** please contact [Kirstie Whitaker](https://github.com/KirstieJane) or [Isla Staden](https://github.com/Islast). All communication will be treated as confidential.
+**To report an issue** please contact [Kirstie Whitaker](https://github.com/KirstieJane) (email: [kwhitaker@turing.ac.uk](mailto:kwhitaker@turing.ac.uk)) or [Isla Staden](https://github.com/Islast) (email: [islastaden@gmail.com](mailto:islastaden@gmail.com)). All communication will be treated as confidential.
 
 ## Attribution
 
 This Code of Conduct was built on top of the [Mozilla Science Lab's][mozilla-science-home] [Code of Conduct][mozilla-science-coc] which is in the public domain under a [CC0 license][cc0-link]. It also incorporates part of the [Contributor Covenant][contributor-covenant-home], version 1.4, available at [http://contributor-covenant.org/version/1/4][contributor-covenant-version] and used under a [CC-BY 4.0][ccby-link] license.
 
-The scona Code of Conduct was developed by [Kirstie Whitaker][kirstie-github] and is provided under a [CC-BY 4.0][ccby-link] license, which means that anyone can remix and reuse the content provided here, without seeking additional permission, so long as it is attributed back to the [scona][scn-repo] project. Please remember to also attribute the [Contributor Covenant][contributor-covenant-home].
+The `scona` Code of Conduct was developed by [Kirstie Whitaker][kirstie-github] and is provided under a [CC-BY 4.0][ccby-link] license, which means that anyone can remix and reuse the content provided here, without seeking additional permission, so long as it is attributed back to the [scona][scn-repo] project. Please remember to also attribute the [Contributor Covenant][contributor-covenant-home].
 
 
 [contributor-covenant-home]: http://contributor-covenant.org
