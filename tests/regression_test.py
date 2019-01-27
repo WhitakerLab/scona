@@ -1,5 +1,5 @@
 import unittest
-from write_fixtures import generate_fixture_hashes, unpickle_hash
+from tests.write_fixtures import generate_fixture_hashes, unpickle_hash
 
 
 class FixturesTest(unittest.TestCase):

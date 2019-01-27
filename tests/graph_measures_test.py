@@ -1,6 +1,4 @@
-import pytest
 import unittest
-import pandas as pd
 import networkx as nx
 import numpy as np
 import scona.make_graphs as mkg
@@ -154,7 +152,8 @@ class GlobalMeasuresMethod(unittest.TestCase):
     def setUpClass(self):
         self.karate = nx.karate_club_graph()
         self.measures_no_part = gm.calculate_global_measures(
-            self.karate)
+            self.karate,
+            partition=None)
         self.totalpart = {x: x for x in list(self.karate.nodes)}
         self.measures_part = gm.calculate_global_measures(
             self.karate,
@@ -174,6 +173,8 @@ class GlobalMeasuresMethod(unittest.TestCase):
         assert 'assortativity' in self.measures_no_part
 
     def test_modularity(self):
+        print(self.measures_no_part)
+        print(self.measures_part)
         assert 'modularity' in self.measures_part
         assert 'modularity' not in self.measures_no_part
 
@@ -187,10 +188,12 @@ class GlobalMeasuresMethod(unittest.TestCase):
             partition=self.totalpart,
             existing_global_measures=self.measures_no_part)
                 == self.measures_part)
-        measures_with_extra = self.measures_no_part
+        measures_with_extra = self.measures_no_part.copy()
         measures_with_extra.update(self.extra_measure)
+        new_measures = self.measures_part.copy()
+        new_measures.update(self.extra_measure)
         assert (gm.calculate_global_measures(
             self.karate,
             partition=self.totalpart,
             existing_global_measures=measures_with_extra)
-                == self.measures_part.update(self.extra_measure))
+                == new_measures)

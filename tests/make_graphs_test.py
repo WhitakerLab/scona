@@ -50,6 +50,7 @@ def nm(exclude=[]):
 
 
 class AnatCopying(unittest.TestCase):
+    # Test anatomical copying methods from make_graphs
     @classmethod
     def setUpClass(cls):
         cls.G = simple_weighted_graph()
@@ -64,13 +65,13 @@ class AnatCopying(unittest.TestCase):
                                {0: (1, 0, 0), 1: (0, 1, 0), 2: (0, 0, 1)},
                                name='centroids')
         nx.set_node_attributes(cls.Gcentroids,
-                               {0: '1', 1: '0', 2: '0'},
+                               {0: 1, 1: 0, 2: 0},
                                name='x')
         nx.set_node_attributes(cls.Gcentroids,
-                               {0: '0', 1: '1', 2: '0'},
+                               {0: 0, 1: 1, 2: 0},
                                name='y')
         nx.set_node_attributes(cls.Gcentroids,
-                               {0: '0', 1: '0', 2: '1'},
+                               {0: 0, 1: 0, 2: 1},
                                name='z')
 
         cls.H = simple_anatomical_graph()
@@ -183,9 +184,18 @@ class AnatCopying(unittest.TestCase):
         assert not mkg.is_nodal_match(S, M)
 
     def test_key_matchings(self):
-        assert not mkg.is_nodal_match(self.G, self.H, keys=['x'])
-        assert mkg.is_nodal_match(self.R, self.H, keys=['x'])
-        assert not mkg.is_nodal_match(self.R, self.H, keys=['x', 'hats'])
+        assert not mkg.is_nodal_match(
+            simple_weighted_graph(),
+            simple_anatomical_graph(),
+            keys=['x'])
+        assert mkg.is_nodal_match(
+            self.R,
+            simple_anatomical_graph(),
+            keys=['x'])
+        assert not mkg.is_nodal_match(
+            self.R,
+            simple_anatomical_graph(),
+            keys=['x', 'hats'])
 
     def check_anatomical_matches(self):
         assert mkg.is_anatomical_match(self.L, self.H)

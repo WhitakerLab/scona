@@ -475,7 +475,7 @@ def calculate_global_measures(G,
     '''
     # ==== MEASURES ====================
     if existing_global_measures is not None:
-        global_measures = existing_global_measures
+        global_measures = existing_global_measures.copy()
     else:
         global_measures = {}
 

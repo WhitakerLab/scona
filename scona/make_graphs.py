@@ -199,8 +199,8 @@ def is_nodal_match(G, H, keys=None):
     Returns
     -------
     bool
-        ``True`` if `G` and `H` have equal vertex sets, or,
-        if `keys` is specified, ``True`` if vertex sets are equal AND the graphs'
+        ``True`` if `G` and `H` have equal vertex sets, or if `keys` is
+        specified: ``True`` if vertex sets are equal AND the graphs'
         nodal dictionaries agree on all attributes in `keys`.
         ``False`` otherwise
     '''
@@ -208,7 +208,7 @@ def is_nodal_match(G, H, keys=None):
         return False
     elif keys is None:
         return True
-    elif False in [(H._node.get(i).get(att) == H._node.get(i).get(att))
+    elif False in [(H._node.get(i).get(att) == G._node.get(i).get(att))
                    for att in keys
                    for i in G.nodes()]:
         return False
