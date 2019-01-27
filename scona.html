@@ -234,7 +234,7 @@ Or, even better, fork the repository and create a pull request.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>regional_measures</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – a pandas data frame with subjects as rows and columns including
+<li><strong>regional_measures</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – a pandas data frame with subjects as rows and columns including
 brain regions and covariates. Should be numeric for the columns in
 names and covars_list</li>
 <li><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – a list of the brain regions you wish to correlate</li>
@@ -247,7 +247,7 @@ to correct for before correlating the regions.</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A correlation matrix with rows and cloumns keyed by <cite>names</cite></p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -263,7 +263,7 @@ to correct for before correlating the regions.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>df_res</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – <cite>df_res</cite> contains structural data about regions of the brain with
+<li><strong>df_res</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – <cite>df_res</cite> contains structural data about regions of the brain with
 subjects as rows after correction for any covariates of no interest.</li>
 <li><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – The brain regions you wish to correlate over. These will become nodes
 in your graph. If <cite>names</cite> is None then all columns are included.
@@ -276,7 +276,7 @@ Default is pearsons correlation (<cite>pearson</cite>).</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A correlation matrix.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> – If there are non numeric entries in the columns in <cite>df_res</cite> specified
@@ -297,7 +297,7 @@ columns in covars_list.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>df</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – A pandas data frame with subjects as rows and columns including
+<li><strong>df</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – A pandas data frame with subjects as rows and columns including
 brain regions and covariates. Should be numeric for the columns in
 <cite>names</cite> and <cite>covars</cite>.</li>
 <li><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – A list of the brain regions you wish to correlate.</li>
@@ -311,7 +311,7 @@ Default is an empty list.</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Residuals of columns <cite>names</cite> of <cite>df</cite>, correcting for <cite>covars</cite></p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> – if there are non numeric entries in the columns specified by <cite>names</cite> or
@@ -331,7 +331,7 @@ Default is an empty list.</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>df</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>df</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">non numeric columns of df</td>
 </tr>
@@ -375,7 +375,7 @@ Default is an empty list.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – <code class="docutils literal notranslate"><span class="pre">G</span></code> has anatomical data to copy to <code class="docutils literal notranslate"><span class="pre">R</span></code></li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – <code class="docutils literal notranslate"><span class="pre">G</span></code> has anatomical data to copy to <code class="docutils literal notranslate"><span class="pre">R</span></code></li>
 <li><strong>nodal_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – The list of keys to treat as anatomical nodal data.
 Default is set to <code class="docutils literal notranslate"><span class="pre">anatomical_node_attributes()</span></code>, e.g
 <code class="docutils literal notranslate"><span class="pre">[&quot;name&quot;,</span> <span class="pre">&quot;name_34&quot;,</span> <span class="pre">&quot;name_68&quot;,</span> <span class="pre">&quot;hemi&quot;,</span> <span class="pre">&quot;centroids&quot;,</span> <span class="pre">&quot;x&quot;,</span> <span class="pre">&quot;y&quot;,</span> <span class="pre">&quot;z&quot;]</span></code></li>
@@ -389,7 +389,7 @@ Set to <code class="docutils literal notranslate"><span class="pre">anatomical_g
 anatomical data.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -447,7 +447,7 @@ second and third coordinate of <code class="docutils literal notranslate"><span 
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
 <li><strong>centroids</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – <code class="docutils literal notranslate"><span class="pre">centroids[i]</span></code> is a tuple representing the cartesian coordinates of
 node <code class="docutils literal notranslate"><span class="pre">i</span></code> in <code class="docutils literal notranslate"><span class="pre">G</span></code></li>
 </ul>
@@ -456,7 +456,7 @@ node <code class="docutils literal notranslate"><span class="pre">i</span></code
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">graph with nodal attributes modified</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -472,7 +472,7 @@ node <code class="docutils literal notranslate"><span class="pre">i</span></code
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
 <li><strong>parcellation</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – <code class="docutils literal notranslate"><span class="pre">parcellation[i]</span></code> is the name of node <code class="docutils literal notranslate"><span class="pre">i</span></code> in <code class="docutils literal notranslate"><span class="pre">G</span></code></li>
 </ul>
 </td>
@@ -480,7 +480,7 @@ node <code class="docutils literal notranslate"><span class="pre">i</span></code
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">graph with nodal attributes modified</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -500,8 +500,8 @@ intersection.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>R</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
-<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – <code class="docutils literal notranslate"><span class="pre">G</span></code> has anatomical data to copy to <code class="docutils literal notranslate"><span class="pre">R</span></code></li>
+<li><strong>R</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – <code class="docutils literal notranslate"><span class="pre">G</span></code> has anatomical data to copy to <code class="docutils literal notranslate"><span class="pre">R</span></code></li>
 <li><strong>nodal_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – The list of keys to treat as anatomical nodal data.
 Default is set to <code class="docutils literal notranslate"><span class="pre">anatomical_node_attributes()</span></code>, e.g
 <code class="docutils literal notranslate"><span class="pre">[&quot;name&quot;,</span> <span class="pre">&quot;name_34&quot;,</span> <span class="pre">&quot;name_68&quot;,</span> <span class="pre">&quot;hemi&quot;,</span> <span class="pre">&quot;centroids&quot;,</span> <span class="pre">&quot;x&quot;,</span> <span class="pre">&quot;y&quot;,</span> <span class="pre">&quot;z&quot;]</span></code></li>
@@ -514,7 +514,7 @@ Set to <code class="docutils literal notranslate"><span class="pre">anatomical_g
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">graph <code class="docutils literal notranslate"><span class="pre">R</span></code> with the anatomical data of graph <code class="docutils literal notranslate"><span class="pre">G</span></code></p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -534,7 +534,7 @@ Set to <code class="docutils literal notranslate"><span class="pre">anatomical_g
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
 <li><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – </li>
 <li><strong>Q</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – constant to specify how many swaps to conduct for each edge in G</li>
 </ul>
@@ -544,7 +544,7 @@ Set to <code class="docutils literal notranslate"><span class="pre">anatomical_g
 <a class="reference internal" href="#scona.make_graphs.random_graph" title="scona.make_graphs.random_graph"><code class="xref py py-func docutils literal notranslate"><span class="pre">scona.make_graphs.random_graph()</span></code></a></p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of <a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of <a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -562,7 +562,7 @@ in edges according to their connection strength up to cost.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>M</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.array</span></code> or <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – A correlation matrix.</li>
+<li><strong>M</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.array</span></code> or <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – A correlation matrix.</li>
 <li><strong>cost</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – A number between 0 and 100. The resulting graph will have the
 <code class="docutils literal notranslate"><span class="pre">cost*n/100</span></code> highest weighted edges available, where <code class="docutils literal notranslate"><span class="pre">n</span></code> is the
 number of edges in G</li>
@@ -574,10 +574,10 @@ output graph to be disconnected</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A binary graph</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">Exception</span></code></a> – if M is not a <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.array</span></code> or <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">Exception</span></code></a> – if M is not a <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.array</span></code> or <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -593,8 +593,8 @@ output graph to be disconnected</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
-<li><strong>H</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>H</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
 <li><strong>nodal_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – The list of keys to treat as anatomical nodal data.
 Default is set to <code class="docutils literal notranslate"><span class="pre">anatomical_node_attributes()</span></code>, e.g
 <code class="docutils literal notranslate"><span class="pre">[&quot;name&quot;,</span> <span class="pre">&quot;name_34&quot;,</span> <span class="pre">&quot;name_68&quot;,</span> <span class="pre">&quot;hemi&quot;,</span> <span class="pre">&quot;centroids&quot;,</span> <span class="pre">&quot;x&quot;,</span> <span class="pre">&quot;y&quot;,</span> <span class="pre">&quot;z&quot;]</span></code></li>
@@ -626,8 +626,8 @@ the nodal attributes) are equal over the attributes in keys.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
-<li><strong>H</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>H</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
 <li><strong>keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – a list of attributes on which the nodal dictionaries of G and H should
 agree.</li>
 </ul>
@@ -656,7 +656,7 @@ by swapping pairs of edges, using <code class="xref py py-func docutils literal 
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
 <li><strong>Q</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – constant that specifies how many swaps to conduct for each edge in G</li>
 </ul>
 </td>
@@ -664,7 +664,7 @@ by swapping pairs of edges, using <code class="xref py py-func docutils literal 
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">Exception</span></code></a> – if it is not possible in 15 attempts to create a connected random
@@ -684,7 +684,7 @@ graph.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
 <li><strong>scalar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>optional</em>) – scalar value to multiply edge weights by. Default is -1</li>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – string that indexes edge weights. Default is “weight”</li>
 </ul>
@@ -693,7 +693,7 @@ graph.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -711,7 +711,7 @@ in edges according to their connection strength up to cost.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – A complete weighted graph</li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – A complete weighted graph</li>
 <li><strong>cost</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – A number between 0 and 100. The resulting graph will have the
 <code class="docutils literal notranslate"><span class="pre">cost*n/100</span></code> highest weighted edges from G, where <code class="docutils literal notranslate"><span class="pre">n</span></code> is the number
 of edges in G.</li>
@@ -723,7 +723,7 @@ output graph to be disconnected</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A binary graph</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.7)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">Exception</span></code></a> – If it is impossible to create a minimum_spanning_tree at the given cost</p>
@@ -746,15 +746,15 @@ output graph to be disconnected</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>df</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – a correlation matrix</li>
-<li><strong>create_using</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – Use specified graph for result. The default is Graph()</li>
+<li><strong>df</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – a correlation matrix</li>
+<li><strong>create_using</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – Use specified graph for result. The default is Graph()</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A weighted graph with edge weights equivalent to DataFrame entries</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -771,14 +771,14 @@ output graph to be disconnected</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>M</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.array</span></code>) – an correlation matrix</li>
-<li><strong>create_using</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>, optional) – Use specified graph for result. The default is Graph()</li>
+<li><strong>create_using</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>, optional) – Use specified graph for result. The default is Graph()</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A weighted graph with edge weights equivalent to matrix entries</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -814,13 +814,13 @@ in the left hemisphere and positive in the right.</dd>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – a graph with nodal attribute ‘centroids’ or ‘x’ defined for each
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – a graph with nodal attribute ‘centroids’ or ‘x’ defined for each
 node. The value of ‘centroids’ should be the cartesian coordinates
 of each node.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">G</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -846,13 +846,13 @@ of each node.</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – a graph with nodal attribute ‘centroids’ defined for each
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – a graph with nodal attribute ‘centroids’ defined for each
 node. The value of ‘centroids’ should be the cartesian coordinates of
 each node.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">G</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -867,7 +867,7 @@ each node.</td>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
 <li><strong>nodal_partition</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – a dictionary nodes to communities</li>
 </ul>
 </td>
@@ -894,7 +894,7 @@ to hold on to your partition.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – A binary graph</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – A binary graph</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Two dictionaries represent the resulting nodal partition of G. The
 first maps nodes to modules and the second maps modules to nodes.</td>
@@ -916,7 +916,7 @@ first maps nodes to modules and the second maps modules to nodes.</td>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – A binary graph</li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – A binary graph</li>
 <li><strong>partition</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – A nodal partition of G. A dictionary mapping nodes of G to modules.
 Pass a partition in order to calculate the modularity of G.</li>
 <li><strong>existing_global_measures</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – An existing dictionary of global measures of G can be passed.
@@ -960,7 +960,7 @@ Use <cite>additional_measures</cite> to describe and calculate new measure defin
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
 <li><strong>measure_list</strong> (<em>list of str</em><em>, </em><em>optional</em>) – pass a subset of of the keys defined above to specify which of the
 default measures to calculate</li>
 <li><strong>additional_measures</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – map from names of nodal attributes to functions
@@ -992,7 +992,7 @@ defined by module_partition.
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
 <li><strong>module_partition</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – a dictionary mapping each community name to a list of nodes in G</li>
 </ul>
 </td>
@@ -1017,7 +1017,7 @@ under the participation specified by module_partition.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – a binary graph</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – a binary graph</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a dictionary mapping integer <code class="docutils literal notranslate"><span class="pre">x</span></code> to the rich club coefficient of G
 for degree <code class="docutils literal notranslate"><span class="pre">x</span></code></td>
@@ -1042,7 +1042,7 @@ euclidean distance.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – a connected graph</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – a connected graph</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a dictionary mapping a node v to the average length of the shortest
 from v to other nodes in G.</td>
@@ -1098,7 +1098,7 @@ from v to other nodes in G.</td>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
 <li><strong>module_partition</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – a dictionary mapping each community name to a lists of nodes in G</li>
 </ul>
 </td>
@@ -1121,13 +1121,13 @@ module_partition.</p>
 <dt id="scona.classes.BrainNetwork">
 <em class="property">class </em><code class="descclassname">scona.classes.</code><code class="descname">BrainNetwork</code><span class="sig-paren">(</span><em>network=None</em>, <em>parcellation=None</em>, <em>centroids=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#BrainNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.BrainNetwork" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.classes.graph.Graph</span></code></p>
-<p>A lightweight subclass of <a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>.</p>
+<p>A lightweight subclass of <a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>network</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a> or <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> or <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>, optional) – <cite>network</cite> is used to define graph features of G.
+<li><strong>network</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a> or <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> or <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>, optional) – <cite>network</cite> is used to define graph features of G.
 If an array is passed, create a weighted graph from this array.
 If a graph is passed, G will be a <a class="reference internal" href="#scona.classes.BrainNetwork" title="scona.classes.BrainNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrainNetwork</span></code></a> otherwise
 identical to this graph.</li>
@@ -1168,7 +1168,7 @@ identical to this graph.</li>
 
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
+<p class="last"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></p>
 </div>
 <dl class="method">
 <dt id="scona.classes.BrainNetwork.anatomical_copy">
@@ -1187,7 +1187,7 @@ identical to this graph.</li>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A new graph with the same nodes and edges as G and identical
 anatomical data.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1366,7 +1366,7 @@ be reported</li>
 dicts</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or dict</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or dict</p>
 </td>
 </tr>
 </tbody>
@@ -1462,7 +1462,7 @@ of G inplace.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
 <li><strong>centroids</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – <code class="docutils literal notranslate"><span class="pre">centroids[i]</span></code> is a tuple representing the cartesian coordinates
 of node <code class="docutils literal notranslate"><span class="pre">i</span></code> in <code class="docutils literal notranslate"><span class="pre">G</span></code>. “x”, “y” and “z” will be assigned as the
 first, second and third coordinate of <code class="docutils literal notranslate"><span class="pre">centroids[i]</span></code>
@@ -1487,7 +1487,7 @@ respectively.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
 <li><strong>parcellation</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – <code class="docutils literal notranslate"><span class="pre">parcellation[i]</span></code> is the name of node <code class="docutils literal notranslate"><span class="pre">i</span></code> in <code class="docutils literal notranslate"><span class="pre">G</span></code></li>
 </ul>
 </td>
@@ -1550,7 +1550,7 @@ cost</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>graph_list</strong> (list of <a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>graph_list</strong> (list of <a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
 <li><strong>name_list</strong> (<em>list of str</em>) – </li>
 </ul>
 </td>
@@ -1571,7 +1571,7 @@ cost</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>graph_list</strong> (list of <a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
+<li><strong>graph_list</strong> (list of <a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
 <li><strong>name_list</strong> (<em>list of str</em><em>, </em><em>optional</em>) – </li>
 </ul>
 </td>
@@ -1685,14 +1685,14 @@ vertex sets”</p>
 <dt id="scona.classes.GraphBundle.report_global_measures">
 <code class="descname">report_global_measures</code><span class="sig-paren">(</span><em>as_dict=False</em>, <em>partition=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle.report_global_measures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle.report_global_measures" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate global_measures for each BrainNetwork object and report as a
-<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or nested dict.</p>
+<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or nested dict.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>as_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – pass True to return global measures as a nested dictionary;
-pass False to return a <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></li>
+pass False to return a <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></li>
 <li><strong>partition</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – argument to pass to <a class="reference internal" href="#scona.classes.BrainNetwork.calculate_global_measures" title="scona.classes.BrainNetwork.calculate_global_measures"><code class="xref py py-func docutils literal notranslate"><span class="pre">BrainNetwork.calculate_global_measures()</span></code></a></li>
 </ul>
 </td>
@@ -1700,7 +1700,7 @@ pass False to return a <a class="reference external" href="http://pandas.pydata.
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or dict</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or dict</p>
 </td>
 </tr>
 </tbody>
@@ -1715,17 +1715,17 @@ pass False to return a <a class="reference external" href="http://pandas.pydata.
 <dt id="scona.classes.GraphBundle.report_rich_club">
 <code class="descname">report_rich_club</code><span class="sig-paren">(</span><em>as_dict=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle.report_rich_club"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle.report_rich_club" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate rich_club coefficients for each BrainNetwork object and
-report as a <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or nested dict.</p>
+report as a <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or nested dict.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>as_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – pass True to return rich club coefficients as a nested dictionary;
-pass False to return a <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></td>
+pass False to return a <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or dict</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or dict</td>
 </tr>
 </tbody>
 </table>
@@ -1816,7 +1816,7 @@ the dependent variable (y)</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Dr Kirstie Whitaker, Isla Staden.
+        &copy; Copyright 2018, Dr Kirstie Whitaker, Isla Staden
 
     </p>
   </div>
@@ -1835,21 +1835,14 @@ the dependent variable (y)</p>
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.1dev',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
 
   
 
