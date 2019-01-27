@@ -14,7 +14,52 @@ import itertools as it
 import matplotlib.patches as mpatches
 
 
-def view_corr_mat(corr_mat_file, output_name, cmap_name='RdBu_r', cost=None, bin=False):
+def rescale(fname, suff='png'):
+    '''
+    Journals generally like to make life easier for reviewers
+    by sending them a manuscript that is not going to crash
+    their computers with its size, so we're going to create
+    a smaller version of the input figure (fname) that is
+    8 inches wide at 200 dpi. It will be saved out in whatever
+    format specified by the suff parameter, and the name
+    will be the same as the original but with _LowRes appended
+    '''
+
+    from PIL import Image
+    import numpy as np
+
+    # Open the file and figure out what size it is
+    img = Image.open(fname+'.'+suff)
+    size = img.size
+
+    # Calculate the scale factor that sets the width
+    # of the figure to 1600 pixels
+    scale_factor = 1600.0/size[0]
+
+    # Apply this scale factor to the width and height
+    # to get the new size
+    new_size = (np.int(size[0]*scale_factor), np.int(size[1]*scale_factor))
+
+    # Resize the image
+    small_img = img.resize(new_size, Image.ANTIALIAS)
+
+    # Define the output name
+    new_name = ''.join([os.path.splitext(fname)[0],
+                                            '_LowRes.',
+                                            suff])
+
+    # Save the image
+    small_img.save(new_name, optimize=True, quality=95)
+
+    # And you're done!
+
+
+def view_corr_mat(corr_mat_file,
+                  output_name,
+                  cmap_name='RdBu_r',
+                  cost=None,
+                  bin=False):
+    ''' This is a visualisation tool for correlation matrices'''
 
     # Read in the data
     M = np.loadtxt(corr_mat_file)
@@ -63,7 +108,7 @@ def view_corr_mat(corr_mat_file, output_name, cmap_name='RdBu_r', cost=None, bin
         color='k',
         linewidth=1) )
 
-    # Add colorbar, make sure to specify tick locations to match desired ticklabels
+    # Add colorbar, make sure to specify tick locations to match desired tick labels
     cbar = fig.colorbar(mat_ax, ticks=ticks_dict['locations'])
     cbar.ax.set_yticklabels(ticks_dict['labels'])  # vertically oriented colorbar
 

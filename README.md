@@ -14,9 +14,6 @@ pip install git+https://github.com/WhitakerLab/scona.git@dev
 
 Check out our [tutorial](tutorials/tutorial.ipynb) for examples of basic functionality.
 
-
-
-
 ## What are we doing?
 scona is a toolkit to analyse structural covariance brain networks using python.  
 
