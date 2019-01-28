@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 PACKAGES = find_packages()
 
 install_requires = [
-   "pandas",
+   "pandas<=0.22.0",
    "python-louvain==0.11",
    "numpy",
    "scipy",
