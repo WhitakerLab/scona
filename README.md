@@ -72,7 +72,7 @@ You don't need advanced skills or knowledge to help out.
 Newbies to Python, neuroscience, network analyses, git and GitHub are all welcome.
 
 The only rule you absolutely have to follow when you're contributing to `scona` is to act in accordance with our [code of conduct](CODE_OF_CONDUCT.md).
-We value the participation of every member of our community and want to ensure an that every contributor has an enjoyable and fulfilling experience.
+We value the participation of every member of our community and want to ensure that every contributor has an enjoyable and fulfilling experience.
 
 Our detailed development guide can be found at [DEVELOPMENT_GUIDE.md](DEVELOPMENT_GUIDE.md).
 Once you've read the [contributing guidelines](CONTRIBUTING.md), and if you think you need the additional information on linting, testing, and writing and building the documentation, please check out those instructions too.
