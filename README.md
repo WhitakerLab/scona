@@ -4,7 +4,7 @@
 
 [![Join the chat at https://gitter.im/WhitakerLab/scona](https://badges.gitter.im/WhitakerLab/scona.svg)](https://gitter.im/WhitakerLab/scona?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/WhitakerLab/scona.svg?branch=master)](https://travis-ci.org/WhitakerLab/scona)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/WhitakerLab/scona/blob/master/LICENSE)
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/WhitakerLab/scona/master)
+[![Binder](http://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/WhitakerLab/scona/master)
 
 Welcome to the `scona` GitHub repository! :sparkles:
 
