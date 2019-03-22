@@ -31,7 +31,7 @@ We at scona love love LOVE documentation 😍 💖 😘 so any contributions tha
 For an example of how docstrings are written in scona, checkout the [docstrings section](#step-1-docstrings) in our [code example](#worked-example) below.
 
 `sphinx` can automatically create links to crossreference other packages. If set up correctly ``:class:`package-name.special-class` `` renders as `package-name.special-class` with a link to the `special-class` documentation in `package-name`'s online documentation. If the package is scona, the package name can be omitted, so that
-``:class:`networkx.Graph` `` becomes [`networkx.Graph`](https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph), and ``:func:`create_corrmat` `` becomes [`create_corrmat`](https://whitakerlab.github.io/scona/build/html/scona.html#scona.make_corr_matrices.create_corrmat).
+``:class:`networkx.Graph` `` becomes [`networkx.Graph`](https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph), and ``:func:`create_corrmat` `` becomes [`create_corrmat`](https://whitakerlab.github.io/scona/scona.html#scona.make_corr_matrices.create_corrmat).
 
 Crossreferencing is currently set up for the python standard library, networkx, pandas, numpy and python-louvain. It is possible to set this up for other python packages by adding
 ```python
