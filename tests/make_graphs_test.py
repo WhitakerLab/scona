@@ -6,17 +6,14 @@ import numpy as np
 import scona.make_graphs as mkg
 
 
-@pytest.fixture
 def symmetric_matrix_1():
     return np.array([[1+x, 2+x, 1+x] for x in [1, 4, 1]])
 
 
-@pytest.fixture
 def symmetric_df_1():
     return pd.DataFrame(symmetric_matrix_1(), index=['a', 'b', 'c'])
 
 
-@pytest.fixture
 def simple_weighted_graph():
     G = nx.Graph()
     G.add_path([1, 2], weight=2)
@@ -25,7 +22,6 @@ def simple_weighted_graph():
     return G
 
 
-@pytest.fixture
 def simple_anatomical_graph():
     G = simple_weighted_graph()
     mkg.assign_node_centroids(G,
@@ -34,12 +30,10 @@ def simple_anatomical_graph():
     return G
 
 
-@pytest.fixture
 def em():
     return nx.algorithms.isomorphism.numerical_edge_match('weight', 1)
 
 
-@pytest.fixture
 def nm(exclude=[]):
     nm = ["name", "name_34", "name_68", "hemi",
           "centroids", "x", "y", "z",
@@ -294,10 +288,10 @@ class RandomGraphs(unittest.TestCase):
         self.assertEqual(self.lattice_rand.size(), self.lattice.size())
 
     def test_random_graph_degree_distribution(self):
-        self.assertEqual(list(self.karate_club_graph_rand.degree()),
-                         list(self.karate_club_graph.degree()))
-        self.assertEqual(list(self.lattice_rand.degree()),
-                         list(self.lattice.degree()))
+        self.assertEqual(dict(self.karate_club_graph_rand.degree()),
+                         dict(self.karate_club_graph.degree()))
+        self.assertEqual(dict(self.lattice_rand.degree()),
+                         dict(self.lattice.degree()))
 
     def test_random_graph_makes_changes(self):
         self.assertNotEqual(self.karate_club_graph, self.karate_club_graph_rand)
