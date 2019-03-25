@@ -17,32 +17,34 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -167,7 +169,52 @@
 <span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">mpatches</span>
 
 
-<div class="viewcode-block" id="view_corr_mat"><a class="viewcode-back" href="../../../scona.scripts.html#scona.scripts.visualisation_commands.view_corr_mat">[docs]</a><span class="k">def</span> <span class="nf">view_corr_mat</span><span class="p">(</span><span class="n">corr_mat_file</span><span class="p">,</span> <span class="n">output_name</span><span class="p">,</span> <span class="n">cmap_name</span><span class="o">=</span><span class="s1">&#39;RdBu_r&#39;</span><span class="p">,</span> <span class="n">cost</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">bin</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="rescale"><a class="viewcode-back" href="../../../scona.scripts.html#scona.scripts.visualisation_commands.rescale">[docs]</a><span class="k">def</span> <span class="nf">rescale</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">suff</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Journals generally like to make life easier for reviewers</span>
+<span class="sd">    by sending them a manuscript that is not going to crash</span>
+<span class="sd">    their computers with its size, so we&#39;re going to create</span>
+<span class="sd">    a smaller version of the input figure (fname) that is</span>
+<span class="sd">    8 inches wide at 200 dpi. It will be saved out in whatever</span>
+<span class="sd">    format specified by the suff parameter, and the name</span>
+<span class="sd">    will be the same as the original but with _LowRes appended</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="kn">from</span> <span class="nn">PIL</span> <span class="k">import</span> <span class="n">Image</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+    <span class="c1"># Open the file and figure out what size it is</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="o">+</span><span class="s1">&#39;.&#39;</span><span class="o">+</span><span class="n">suff</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span>
+
+    <span class="c1"># Calculate the scale factor that sets the width</span>
+    <span class="c1"># of the figure to 1600 pixels</span>
+    <span class="n">scale_factor</span> <span class="o">=</span> <span class="mf">1600.0</span><span class="o">/</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Apply this scale factor to the width and height</span>
+    <span class="c1"># to get the new size</span>
+    <span class="n">new_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">scale_factor</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">scale_factor</span><span class="p">))</span>
+
+    <span class="c1"># Resize the image</span>
+    <span class="n">small_img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">new_size</span><span class="p">,</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">)</span>
+
+    <span class="c1"># Define the output name</span>
+    <span class="n">new_name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">fname</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+                                            <span class="s1">&#39;_LowRes.&#39;</span><span class="p">,</span>
+                                            <span class="n">suff</span><span class="p">])</span>
+
+    <span class="c1"># Save the image</span>
+    <span class="n">small_img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">new_name</span><span class="p">,</span> <span class="n">optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="mi">95</span><span class="p">)</span></div>
+
+    <span class="c1"># And you&#39;re done!</span>
+
+
+<div class="viewcode-block" id="view_corr_mat"><a class="viewcode-back" href="../../../scona.scripts.html#scona.scripts.visualisation_commands.view_corr_mat">[docs]</a><span class="k">def</span> <span class="nf">view_corr_mat</span><span class="p">(</span><span class="n">corr_mat_file</span><span class="p">,</span>
+                  <span class="n">output_name</span><span class="p">,</span>
+                  <span class="n">cmap_name</span><span class="o">=</span><span class="s1">&#39;RdBu_r&#39;</span><span class="p">,</span>
+                  <span class="n">cost</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="nb">bin</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; This is a visualisation tool for correlation matrices&#39;&#39;&#39;</span>
 
     <span class="c1"># Read in the data</span>
     <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">corr_mat_file</span><span class="p">)</span>
@@ -216,7 +263,7 @@
         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span>
         <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
 
-    <span class="c1"># Add colorbar, make sure to specify tick locations to match desired ticklabels</span>
+    <span class="c1"># Add colorbar, make sure to specify tick locations to match desired tick labels</span>
     <span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">mat_ax</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="n">ticks_dict</span><span class="p">[</span><span class="s1">&#39;locations&#39;</span><span class="p">])</span>
     <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">ticks_dict</span><span class="p">[</span><span class="s1">&#39;labels&#39;</span><span class="p">])</span>  <span class="c1"># vertically oriented colorbar</span>
 
@@ -238,7 +285,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Dr Kirstie Whitaker, Isla Staden.
+        &copy; Copyright 2018, Dr Kirstie Whitaker, Isla Staden
 
     </p>
   </div>
@@ -255,33 +302,16 @@
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../../',
-            VERSION:'0.1dev',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

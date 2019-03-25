@@ -739,7 +739,8 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">rc_dict</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GraphBundle.create_random_graphs"><a class="viewcode-back" href="../../scona.html#scona.classes.GraphBundle.create_random_graphs">[docs]</a>    <span class="k">def</span> <span class="nf">create_random_graphs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gname</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">name_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rname</span><span class="o">=</span><span class="s2">&quot;_R&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="GraphBundle.create_random_graphs"><a class="viewcode-back" href="../../scona.html#scona.classes.GraphBundle.create_random_graphs">[docs]</a>    <span class="k">def</span> <span class="nf">create_random_graphs</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">gname</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">name_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rname</span><span class="o">=</span><span class="s2">&quot;_R&quot;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Create `n` edge swap randomisations of :class:`BrainNetwork` keyed by</span>
 <span class="sd">        `gname`. These random graphs are added to GraphBundle.</span>
@@ -759,6 +760,9 @@
 <span class="sd">            if ``name_list=None`` the new random graphs will be indexed</span>
 <span class="sd">            according to the scheme ``gname + rname + r`` where `r` is some</span>
 <span class="sd">            integer.</span>
+<span class="sd">        seed : int, random_state or None (default)</span>
+<span class="sd">            Indicator of random state to pass to</span>
+<span class="sd">            :func:`networkx.double_edge_swap`</span>
 
 <span class="sd">        See Also</span>
 <span class="sd">        --------</span>
@@ -775,7 +779,8 @@
             <span class="n">name_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">gname</span> <span class="o">+</span> <span class="n">rname</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
                          <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="n">n</span><span class="p">)]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_graphs</span><span class="p">(</span>
-            <span class="n">get_random_graphs</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">gname</span><span class="p">],</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">),</span> <span class="n">name_list</span><span class="o">=</span><span class="n">name_list</span><span class="p">)</span></div>
+            <span class="n">get_random_graphs</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">gname</span><span class="p">],</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">),</span>
+            <span class="n">name_list</span><span class="o">=</span><span class="n">name_list</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GraphBundle.report_small_world"><a class="viewcode-back" href="../../scona.html#scona.classes.GraphBundle.report_small_world">[docs]</a>    <span class="k">def</span> <span class="nf">report_small_world</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gname</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>

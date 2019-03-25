@@ -354,8 +354,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    bool</span>
-<span class="sd">        ``True`` if `G` and `H` have equal vertex sets, or,</span>
-<span class="sd">        if `keys` is specified, ``True`` if vertex sets are equal AND the graphs&#39;</span>
+<span class="sd">        ``True`` if `G` and `H` have equal vertex sets, or if `keys` is</span>
+<span class="sd">        specified: ``True`` if vertex sets are equal AND the graphs&#39;</span>
 <span class="sd">        nodal dictionaries agree on all attributes in `keys`.</span>
 <span class="sd">        ``False`` otherwise</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -363,7 +363,7 @@
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">elif</span> <span class="n">keys</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">elif</span> <span class="kc">False</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">H</span><span class="o">.</span><span class="n">_node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">att</span><span class="p">)</span> <span class="o">==</span> <span class="n">H</span><span class="o">.</span><span class="n">_node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">att</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="kc">False</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">H</span><span class="o">.</span><span class="n">_node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">att</span><span class="p">)</span> <span class="o">==</span> <span class="n">G</span><span class="o">.</span><span class="n">_node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">att</span><span class="p">))</span>
                    <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="n">keys</span>
                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">()]:</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -605,7 +605,7 @@
 <span class="c1"># ===================== Random Graphs ======================</span>
 
 
-<div class="viewcode-block" id="random_graph"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.random_graph">[docs]</a><span class="k">def</span> <span class="nf">random_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<div class="viewcode-block" id="random_graph"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.random_graph">[docs]</a><span class="k">def</span> <span class="nf">random_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Return a connected random graph that preserves degree distribution</span>
 <span class="sd">    by swapping pairs of edges, using :func:`networkx.double_edge_swap`.</span>
@@ -615,6 +615,8 @@
 <span class="sd">    G : :class:`networkx.Graph`</span>
 <span class="sd">    Q : int, optional</span>
 <span class="sd">        constant that specifies how many swaps to conduct for each edge in G</span>
+<span class="sd">    seed : int, random_state or None (default)</span>
+<span class="sd">        Indicator of random state to pass to networkx</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -639,7 +641,7 @@
     <span class="c1"># Keep making random graphs until they are connected</span>
     <span class="k">while</span> <span class="ow">not</span> <span class="n">connected</span> <span class="ow">and</span> <span class="n">attempt</span> <span class="o">&lt;</span> <span class="mi">15</span><span class="p">:</span>
         <span class="c1"># Now swap some edges in order to preserve the degree distribution</span>
-        <span class="n">nx</span><span class="o">.</span><span class="n">double_edge_swap</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">Q</span><span class="o">*</span><span class="n">E</span><span class="p">,</span> <span class="n">max_tries</span><span class="o">=</span><span class="n">Q</span><span class="o">*</span><span class="n">E</span><span class="o">*</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">double_edge_swap</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">Q</span><span class="o">*</span><span class="n">E</span><span class="p">,</span> <span class="n">max_tries</span><span class="o">=</span><span class="n">Q</span><span class="o">*</span><span class="n">E</span><span class="o">*</span><span class="mi">10</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
 
         <span class="c1"># Check that this graph is connected! If not, start again</span>
         <span class="n">connected</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">is_connected</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
@@ -652,7 +654,7 @@
     <span class="k">return</span> <span class="n">R</span></div>
 
 
-<div class="viewcode-block" id="get_random_graphs"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.get_random_graphs">[docs]</a><span class="k">def</span> <span class="nf">get_random_graphs</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<div class="viewcode-block" id="get_random_graphs"><a class="viewcode-back" href="../../scona.html#scona.make_graphs.get_random_graphs">[docs]</a><span class="k">def</span> <span class="nf">get_random_graphs</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Create n random graphs through edgeswapping.</span>
 
@@ -662,6 +664,8 @@
 <span class="sd">    n : int, optional</span>
 <span class="sd">    Q : int, optional</span>
 <span class="sd">        constant to specify how many swaps to conduct for each edge in G</span>
+<span class="sd">    seed : int, random_state or None (default)</span>
+<span class="sd">        Indicator of random state to pass to networkx</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -676,7 +680,7 @@
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">graph_list</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="p">:</span>
-            <span class="n">graph_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">random_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="n">Q</span><span class="p">)]</span>
+            <span class="n">graph_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">random_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="n">Q</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)]</span>
 
     <span class="k">return</span> <span class="n">graph_list</span></div>
 </pre></div>
