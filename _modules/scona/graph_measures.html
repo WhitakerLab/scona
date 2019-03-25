@@ -440,7 +440,7 @@
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Calculate and store nodal measures as nodal attributes.</span>
 
-<span class="sd">    By default `calculate_nodal_measures` calculates the following :</span>
+<span class="sd">    By default calculates:</span>
 
 <span class="sd">    * &quot;degree&quot; : int</span>
 <span class="sd">    * &quot;closeness&quot; : float</span>
@@ -451,8 +451,7 @@
 
 <span class="sd">    Use `measure_list` to specify which of the default nodal attributes to</span>
 <span class="sd">    calculate.</span>
-<span class="sd">    Use `additional_measures` to describe and calculate new measure</span>
-<span class="sd">    definitions.</span>
+<span class="sd">    Use `additional_measures` to describe and calculate new measure definitions.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -630,7 +629,7 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># ==== MEASURES ====================</span>
     <span class="k">if</span> <span class="n">existing_global_measures</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">global_measures</span> <span class="o">=</span> <span class="n">existing_global_measures</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">global_measures</span> <span class="o">=</span> <span class="n">existing_global_measures</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">global_measures</span> <span class="o">=</span> <span class="p">{}</span>
 

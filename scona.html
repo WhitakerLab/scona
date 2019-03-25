@@ -162,9 +162,9 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="scona.scripts.html">scona.scripts package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="scona.scripts.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scona.scripts.html#module-scona.scripts.make_figures">scona.scripts.make_figures module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scona.scripts.html#scona-scripts-make-figures-module">scona.scripts.make_figures module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scona.scripts.html#module-scona.scripts.useful_functions">scona.scripts.useful_functions module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scona.scripts.html#module-scona.scripts.visualisation_commands">scona.scripts.visualisation_commands module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scona.scripts.html#scona-scripts-visualisation-commands-module">scona.scripts.visualisation_commands module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scona.scripts.html#module-scona.scripts">Module contents</a></li>
 </ul>
 </li>
@@ -236,17 +236,17 @@ Or, even better, fork the repository and create a pull request.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>regional_measures</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – a pandas data frame with subjects as rows, and columns including
+<li><strong>regional_measures</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – a pandas data frame with subjects as rows and columns including
 brain regions and covariates. Should be numeric for the columns in
 names and covars_list</li>
 <li><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – a list of the brain regions you wish to correlate</li>
 <li><strong>covars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – covars is a list of covariates (as df column headings)
 to correct for before correlating the regions.</li>
-<li><strong>methods</strong> (<em>string</em>) – the method of correlation passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">pandas.DataFrame.corr()</span></code></li>
+<li><strong>methods</strong> (<em>string</em>) – the method of correlation passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">pandas.DataFram.corr()</span></code></li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A correlation matrix with rows and columns keyed by <cite>names</cite></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A correlation matrix with rows and cloumns keyed by <cite>names</cite></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
@@ -529,7 +529,7 @@ Set to <code class="docutils literal notranslate"><span class="pre">anatomical_g
 
 <dl class="function">
 <dt id="scona.make_graphs.get_random_graphs">
-<code class="descclassname">scona.make_graphs.</code><code class="descname">get_random_graphs</code><span class="sig-paren">(</span><em>G</em>, <em>n=10</em>, <em>Q=10</em>, <em>seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#get_random_graphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.get_random_graphs" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">scona.make_graphs.</code><code class="descname">get_random_graphs</code><span class="sig-paren">(</span><em>G</em>, <em>n=10</em>, <em>Q=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#get_random_graphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.get_random_graphs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create n random graphs through edgeswapping.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -539,7 +539,6 @@ Set to <code class="docutils literal notranslate"><span class="pre">anatomical_g
 <li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
 <li><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – </li>
 <li><strong>Q</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – constant to specify how many swaps to conduct for each edge in G</li>
-<li><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>random_state</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a><em> (</em><em>default</em><em>)</em>) – Indicator of random state to pass to networkx</li>
 </ul>
 </td>
 </tr>
@@ -636,8 +635,8 @@ agree.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><code class="docutils literal notranslate"><span class="pre">True</span></code> if <cite>G</cite> and <cite>H</cite> have equal vertex sets, or if <cite>keys</cite> is
-specified: <code class="docutils literal notranslate"><span class="pre">True</span></code> if vertex sets are equal AND the graphs’
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><code class="docutils literal notranslate"><span class="pre">True</span></code> if <cite>G</cite> and <cite>H</cite> have equal vertex sets, or,
+if <cite>keys</cite> is specified, <code class="docutils literal notranslate"><span class="pre">True</span></code> if vertex sets are equal AND the graphs’
 nodal dictionaries agree on all attributes in <cite>keys</cite>.
 <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise</p>
 </td>
@@ -651,7 +650,7 @@ nodal dictionaries agree on all attributes in <cite>keys</cite>.
 
 <dl class="function">
 <dt id="scona.make_graphs.random_graph">
-<code class="descclassname">scona.make_graphs.</code><code class="descname">random_graph</code><span class="sig-paren">(</span><em>G</em>, <em>Q=10</em>, <em>seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#random_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.random_graph" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">scona.make_graphs.</code><code class="descname">random_graph</code><span class="sig-paren">(</span><em>G</em>, <em>Q=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/make_graphs.html#random_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.make_graphs.random_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a connected random graph that preserves degree distribution
 by swapping pairs of edges, using <code class="xref py py-func docutils literal notranslate"><span class="pre">networkx.double_edge_swap()</span></code>.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -661,7 +660,6 @@ by swapping pairs of edges, using <code class="xref py py-func docutils literal 
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – </li>
 <li><strong>Q</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – constant that specifies how many swaps to conduct for each edge in G</li>
-<li><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>random_state</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a><em> (</em><em>default</em><em>)</em>) – Indicator of random state to pass to networkx</li>
 </ul>
 </td>
 </tr>
@@ -947,7 +945,7 @@ already indexed in G</li>
 <dt id="scona.graph_measures.calculate_nodal_measures">
 <code class="descclassname">scona.graph_measures.</code><code class="descname">calculate_nodal_measures</code><span class="sig-paren">(</span><em>G</em>, <em>partition=None</em>, <em>measure_list=None</em>, <em>additional_measures=None</em>, <em>force=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/graph_measures.html#calculate_nodal_measures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.graph_measures.calculate_nodal_measures" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate and store nodal measures as nodal attributes.</p>
-<p>By default <cite>calculate_nodal_measures</cite> calculates the following :</p>
+<p>By default calculates:</p>
 <ul class="simple">
 <li>“degree” : int</li>
 <li>“closeness” : float</li>
@@ -958,8 +956,7 @@ already indexed in G</li>
 </ul>
 <p>Use <cite>measure_list</cite> to specify which of the default nodal attributes to
 calculate.
-Use <cite>additional_measures</cite> to describe and calculate new measure
-definitions.</p>
+Use <cite>additional_measures</cite> to describe and calculate new measure definitions.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1638,7 +1635,7 @@ as the <cite>graph_function</cite>.</p>
 
 <dl class="method">
 <dt id="scona.classes.GraphBundle.create_random_graphs">
-<code class="descname">create_random_graphs</code><span class="sig-paren">(</span><em>gname</em>, <em>n</em>, <em>Q=10</em>, <em>name_list=None</em>, <em>rname='_R'</em>, <em>seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle.create_random_graphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle.create_random_graphs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_random_graphs</code><span class="sig-paren">(</span><em>gname</em>, <em>n</em>, <em>Q=10</em>, <em>name_list=None</em>, <em>rname='_R'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle.create_random_graphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle.create_random_graphs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create <cite>n</cite> edge swap randomisations of <a class="reference internal" href="#scona.classes.BrainNetwork" title="scona.classes.BrainNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrainNetwork</span></code></a> keyed by
 <cite>gname</cite>. These random graphs are added to GraphBundle.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1654,8 +1651,6 @@ GraphBundle.</li>
 <li><strong>rname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – if <code class="docutils literal notranslate"><span class="pre">name_list=None</span></code> the new random graphs will be indexed
 according to the scheme <code class="docutils literal notranslate"><span class="pre">gname</span> <span class="pre">+</span> <span class="pre">rname</span> <span class="pre">+</span> <span class="pre">r</span></code> where <cite>r</cite> is some
 integer.</li>
-<li><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>random_state</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a><em> (</em><em>default</em><em>)</em>) – Indicator of random state to pass to
-<code class="xref py py-func docutils literal notranslate"><span class="pre">networkx.double_edge_swap()</span></code></li>
 </ul>
 </td>
 </tr>
