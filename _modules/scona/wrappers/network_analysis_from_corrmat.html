@@ -241,6 +241,13 @@
 <span class="s1">with real network.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;  Default: 1000&#39;</span><span class="p">)),</span>
         <span class="n">default</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="s1">&#39;--seed&#39;</span><span class="p">,</span> <span class="s1">&#39;--random_seed&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">metavar</span><span class="o">=</span><span class="s1">&#39;seed&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">((</span><span class="s1">&#39;Set a random seed to pass to the random graph </span><span class="se">\</span>
+<span class="s1">creator.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;  Default: None&#39;</span><span class="p">)),</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="n">arguments</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
@@ -252,7 +259,8 @@
                                   <span class="n">centroids_file</span><span class="p">,</span>
                                   <span class="n">output_dir</span><span class="p">,</span>
                                   <span class="n">cost</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                                  <span class="n">n_rand</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+                                  <span class="n">n_rand</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                                  <span class="n">edge_swap_seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    This is the big function!</span>
 <span class="sd">    It reads in the correlation matrix, thresholds it at the given cost</span>
@@ -297,7 +305,7 @@
     <span class="c1"># Get the global measures</span>
     <span class="c1"># (note that this takes a bit of time because you&#39;re generating random</span>
     <span class="c1"># graphs)</span>
-    <span class="n">bundle</span><span class="o">.</span><span class="n">create_random_graphs</span><span class="p">(</span><span class="n">corrmat</span><span class="p">,</span> <span class="n">n_rand</span><span class="p">)</span>
+    <span class="n">bundle</span><span class="o">.</span><span class="n">create_random_graphs</span><span class="p">(</span><span class="n">corrmat</span><span class="p">,</span> <span class="n">n_rand</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">edge_swap_seed</span><span class="p">)</span>
     <span class="c1"># Add the small world coefficient to global measures</span>
     <span class="n">small_world</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">report_small_world</span><span class="p">(</span><span class="n">corrmat</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">gname</span><span class="p">,</span> <span class="n">G</span> <span class="ow">in</span> <span class="n">bundle</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -329,7 +337,8 @@
                                 <span class="n">arg</span><span class="o">.</span><span class="n">centroids_file</span><span class="p">,</span>
                                 <span class="n">arg</span><span class="o">.</span><span class="n">output_dir</span><span class="p">,</span>
                                 <span class="n">cost</span><span class="o">=</span><span class="n">arg</span><span class="o">.</span><span class="n">cost</span><span class="p">,</span>
-                                <span class="n">n_rand</span><span class="o">=</span><span class="n">arg</span><span class="o">.</span><span class="n">n_rand</span><span class="p">)</span>
+                                <span class="n">n_rand</span><span class="o">=</span><span class="n">arg</span><span class="o">.</span><span class="n">n_rand</span><span class="p">,</span>
+                                <span class="n">edge_swap_seed</span><span class="o">=</span><span class="n">arg</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
 
 <span class="c1"># =============================================================================</span>
 <span class="c1"># Wooo! All done :)</span>
