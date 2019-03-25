@@ -5,7 +5,6 @@ Tools to create a correlation matrix from regional measures
 # Essential package imports
 import os
 import numpy as np
-import pandas as pd
 from scona.stats_functions import residuals
 
 
@@ -139,7 +138,7 @@ def corrmat_from_regionalmeasures(
     Parameters
     ----------
     regional_measures : :class:`pandas.DataFrame`
-        a pandas data frame with subjects as rows and columns including
+        a pandas data frame with subjects as rows, and columns including
         brain regions and covariates. Should be numeric for the columns in
         names and covars_list
     names : list
@@ -148,12 +147,12 @@ def corrmat_from_regionalmeasures(
         covars is a list of covariates (as df column headings)
         to correct for before correlating the regions.
     methods : string
-        the method of correlation passed to :func:`pandas.DataFram.corr`
+        the method of correlation passed to :func:`pandas.DataFrame.corr`
 
     Returns
     -------
     :class:`pandas.DataFrame`
-        A correlation matrix with rows and cloumns keyed by `names`
+        A correlation matrix with rows and columns keyed by `names`
     '''
     # Correct for your covariates
     df_res = create_residuals_df(regional_measures, names, covars)

@@ -2,11 +2,11 @@ from setuptools import setup, find_packages
 PACKAGES = find_packages()
 
 install_requires = [
-   "pandas",
-   "python-louvain==0.11", 
+   "pandas<=0.22.0",
+   "python-louvain==0.11",
    "numpy",
    "scipy",
-   "networkx>=2.0",
+   "networkx>=2.2",
    "seaborn",
    "forceatlas2",
    "nilearn==0.5.0a0"]
