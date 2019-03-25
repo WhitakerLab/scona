@@ -6,17 +6,14 @@ import numpy as np
 import scona.make_graphs as mkg
 
 
-@pytest.fixture
 def symmetric_matrix_1():
     return np.array([[1+x, 2+x, 1+x] for x in [1, 4, 1]])
 
 
-@pytest.fixture
 def symmetric_df_1():
     return pd.DataFrame(symmetric_matrix_1(), index=['a', 'b', 'c'])
 
 
-@pytest.fixture
 def simple_weighted_graph():
     G = nx.Graph()
     G.add_path([1, 2], weight=2)
@@ -25,7 +22,6 @@ def simple_weighted_graph():
     return G
 
 
-@pytest.fixture
 def simple_anatomical_graph():
     G = simple_weighted_graph()
     mkg.assign_node_centroids(G,
@@ -34,12 +30,10 @@ def simple_anatomical_graph():
     return G
 
 
-@pytest.fixture
 def em():
     return nx.algorithms.isomorphism.numerical_edge_match('weight', 1)
 
 
-@pytest.fixture
 def nm(exclude=[]):
     nm = ["name", "name_34", "name_68", "hemi",
           "centroids", "x", "y", "z",
@@ -50,6 +44,7 @@ def nm(exclude=[]):
 
 
 class AnatCopying(unittest.TestCase):
+    # Test anatomical copying methods from make_graphs
     @classmethod
     def setUpClass(cls):
         cls.G = simple_weighted_graph()
@@ -64,13 +59,13 @@ class AnatCopying(unittest.TestCase):
                                {0: (1, 0, 0), 1: (0, 1, 0), 2: (0, 0, 1)},
                                name='centroids')
         nx.set_node_attributes(cls.Gcentroids,
-                               {0: '1', 1: '0', 2: '0'},
+                               {0: 1, 1: 0, 2: 0},
                                name='x')
         nx.set_node_attributes(cls.Gcentroids,
-                               {0: '0', 1: '1', 2: '0'},
+                               {0: 0, 1: 1, 2: 0},
                                name='y')
         nx.set_node_attributes(cls.Gcentroids,
-                               {0: '0', 1: '0', 2: '1'},
+                               {0: 0, 1: 0, 2: 1},
                                name='z')
 
         cls.H = simple_anatomical_graph()
@@ -183,9 +178,18 @@ class AnatCopying(unittest.TestCase):
         assert not mkg.is_nodal_match(S, M)
 
     def test_key_matchings(self):
-        assert not mkg.is_nodal_match(self.G, self.H, keys=['x'])
-        assert mkg.is_nodal_match(self.R, self.H, keys=['x'])
-        assert not mkg.is_nodal_match(self.R, self.H, keys=['x', 'hats'])
+        assert not mkg.is_nodal_match(
+            simple_weighted_graph(),
+            simple_anatomical_graph(),
+            keys=['x'])
+        assert mkg.is_nodal_match(
+            self.R,
+            simple_anatomical_graph(),
+            keys=['x'])
+        assert not mkg.is_nodal_match(
+            self.R,
+            simple_anatomical_graph(),
+            keys=['x', 'hats'])
 
     def check_anatomical_matches(self):
         assert mkg.is_anatomical_match(self.L, self.H)
@@ -284,10 +288,10 @@ class RandomGraphs(unittest.TestCase):
         self.assertEqual(self.lattice_rand.size(), self.lattice.size())
 
     def test_random_graph_degree_distribution(self):
-        self.assertEqual(list(self.karate_club_graph_rand.degree()),
-                         list(self.karate_club_graph.degree()))
-        self.assertEqual(list(self.lattice_rand.degree()),
-                         list(self.lattice.degree()))
+        self.assertEqual(dict(self.karate_club_graph_rand.degree()),
+                         dict(self.karate_club_graph.degree()))
+        self.assertEqual(dict(self.lattice_rand.degree()),
+                         dict(self.lattice.degree()))
 
     def test_random_graph_makes_changes(self):
         self.assertNotEqual(self.karate_club_graph, self.karate_club_graph_rand)

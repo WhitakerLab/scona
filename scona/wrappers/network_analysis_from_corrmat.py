@@ -86,6 +86,13 @@ measures.')))
 with real network.\n') + ('  Default: 1000')),
         default=1000)
 
+    parser.add_argument(
+        '-s', '--seed', '--random_seed',
+        type=int,
+        metavar='seed',
+        help=textwrap.dedent(('Set a random seed to pass to the random graph \
+creator.\n') + ('  Default: None')),
+        default=None)
 
     arguments = parser.parse_args()
 
@@ -97,7 +104,8 @@ def network_analysis_from_corrmat(corr_mat_file,
                                   centroids_file,
                                   output_dir,
                                   cost=10,
-                                  n_rand=1000):
+                                  n_rand=1000,
+                                  edge_swap_seed=None):
     '''
     This is the big function!
     It reads in the correlation matrix, thresholds it at the given cost
@@ -142,7 +150,7 @@ def network_analysis_from_corrmat(corr_mat_file,
     # Get the global measures
     # (note that this takes a bit of time because you're generating random
     # graphs)
-    bundle.create_random_graphs(corrmat, n_rand)
+    bundle.create_random_graphs(corrmat, n_rand, seed=edge_swap_seed)
     # Add the small world coefficient to global measures
     small_world = bundle.report_small_world(corrmat)
     for gname, G in bundle.items():
@@ -174,7 +182,8 @@ if __name__ == "__main__":
                                 arg.centroids_file,
                                 arg.output_dir,
                                 cost=arg.cost,
-                                n_rand=arg.n_rand)
+                                n_rand=arg.n_rand,
+                                edge_swap_seed=arg.seed)
 
 # =============================================================================
 # Wooo! All done :)
