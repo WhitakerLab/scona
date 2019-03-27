@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 PACKAGES = find_packages()
 
 install_requires = [
-   "pandas",             # unpinning pandas makes binder work but the tests break
+   "pandas",
    "python-louvain==0.11",
    "numpy",
    "scikit-learn",
