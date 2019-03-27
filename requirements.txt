@@ -1,9 +1,9 @@
 # Note that this requirements file list the requirements needed to run the testing suite.
 # Package dependencies should be listed in setup.py instead. 
 pytest
-pandas<=0.22.0
+pandas  # unpinning pandas makes binder work but the tests break
 python-louvain==0.11
-numpy==1.16.2
+numpy
 scipy
 networkx>=2.2
 seaborn

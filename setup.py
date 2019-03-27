@@ -4,7 +4,7 @@ PACKAGES = find_packages()
 install_requires = [
    "pandas",             # unpinning pandas makes binder work but the tests break
    "python-louvain==0.11",
-   "numpy==1.16.2",
+   "numpy",
    "scipy",
    "networkx>=2.2",
    "seaborn",
