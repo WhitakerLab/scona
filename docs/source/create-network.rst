@@ -8,8 +8,6 @@ Minimum Spanning Tree
 ---------------------
 - why a connected graph?
 
-Thresholding
-------------
 
 
 The BrainNetwork Class
@@ -19,9 +17,23 @@ This is a very lightweight subclass of the :class:`networkx.Graph` class. This m
 
 All :class:`scona.BrainNetwork` **methods** have a corresponding ``scona`` **function**. So while the :class:`scona.BrainNetwork` methods can only be applied to :class:`scona.BrainNetwork` objects, you can find the equivalent function in ``scona`` which can be used on a regular :class:`networkx.Graph` object.
 
-For example, if ``G`` is a :class:`scona.BrainNetwork` object, you can threshold it by typing ``G.threshold(10)``. If ``nxG`` is a :class:`Networkx.Graph` you can use ``scona.threshold_graph(nxG, 10)`` to perform the same function.
-
 A :class:`BrainNetwork` can be initialised from a :class:`networkx.Graph` or from a correlation matrix represented as a :class:`pandas.DataFrame` or :class:`numpy.array`.
+
+Threshold
+------------
+if ``G`` is a :class:`scona.BrainNetwork` object, you can threshold it by typing ``G.threshold(10)``. If ``nxG`` is a :class:`Networkx.Graph` you can use ``scona.threshold_graph(nxG, 10)`` to perform the same function.
+
+This function creates a binary graph by thresholding weighted graph ``G``.
+
+First creates a spanning forest that is a union of the spanning trees for each connected component of the graph.
+
+Then adds in edges according to their connection strength up to cost.
+
+
+The GraphBundle Class
+----------------------
+
+This is is a subclass of :class:`dict` containing :class:`str`: :class:`BrainNetwork` pairs.
 
 
 Resources
