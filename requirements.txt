@@ -1,10 +1,11 @@
 # Note that this requirements file list the requirements needed to run the testing suite.
 # Package dependencies should be listed in setup.py instead. 
 pytest
-pandas<=0.22.0
+pandas
 python-louvain==0.11
 numpy
 scipy
+scikit-learn
 networkx>=2.2
 seaborn
 forceatlas2
