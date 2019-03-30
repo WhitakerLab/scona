@@ -178,7 +178,7 @@ And if you've found typos in this (or any other) page, you could consider submit
 [link_react]: https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments
 [link_issues]: https://github.com/WhitakerLab/scona/issues
 [link_labels]: https://github.com/WhitakerLab/scona/labels
-[link_discussingissues]: https://help.github.com/articles/discussing-projects-in-issues-and-pull-requests
+[link_discussingissues]: https://help.github.com/en/categories/collaborating-with-issues-and-pull-requests
 [link_bug]: https://github.com/WhitakerLab/scona/labels/bug
 [link_goodfirstbug]: https://github.com/WhitakerLab/scona/labels/good-first-bug
 [link_helpwanted]: https://github.com/WhitakerLab/scona/labels/help-wanted
@@ -187,7 +187,7 @@ And if you've found typos in this (or any other) page, you could consider submit
 [link_request]: https://github.com/WhitakerLab/scona/labels/request
 
 [link_emojis]: http://www.emoji-cheat-sheet.com/
-[link_pullrequest]: https://help.github.com/articles/proposing-changes-to-a-project-with-pull-requests/
+[link_pullrequest]: https://help.github.com/en/articles/proposing-changes-to-your-work-with-pull-requests
 [link_fork]: https://help.github.com/articles/fork-a-repo/
 [link_pushpullblog]: https://www.igvita.com/2011/12/19/dont-push-your-pull-requests/
 [link_branches]: https://help.github.com/articles/creating-and-deleting-branches-within-your-repository/

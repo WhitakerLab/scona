@@ -312,6 +312,23 @@ class BrainNetwork(nx.classes.graph.Graph):
         if as_dict:
             return nodal_dict
         df = pd.DataFrame(nodal_dict).transpose()
+
+        # make "name", "centroids" attributes appear as 1st and 2nd columns accordingly
+        dfColumns = df.columns.tolist()
+
+        if "name" in dfColumns:
+            dfColumns.remove("name")
+            dfColumns.insert(0, "name")
+        elif "centroids" in dfColumns:
+            dfColumns.remove("centroids")
+            dfColumns.insert(0, "centroids")
+
+        if "name" in dfColumns and "centroids" in dfColumns:
+            dfColumns.remove("centroids")
+            dfColumns.insert(1, "centroids")
+
+        df = df[dfColumns]
+
         return df
 
     def rich_club(self, force=False):
@@ -584,7 +601,8 @@ class GraphBundle(dict):
         else:
             return pd.DataFrame.from_dict(rc_dict)
 
-    def create_random_graphs(self, gname, n, Q=10, name_list=None, rname="_R"):
+    def create_random_graphs(
+            self, gname, n, Q=10, name_list=None, rname="_R", seed=None):
         '''
         Create `n` edge swap randomisations of :class:`BrainNetwork` keyed by
         `gname`. These random graphs are added to GraphBundle.
@@ -604,6 +622,9 @@ class GraphBundle(dict):
             if ``name_list=None`` the new random graphs will be indexed
             according to the scheme ``gname + rname + r`` where `r` is some
             integer.
+        seed : int, random_state or None (default)
+            Indicator of random state to pass to
+            :func:`networkx.double_edge_swap`
 
         See Also
         --------
@@ -620,7 +641,8 @@ class GraphBundle(dict):
             name_list = [gname + rname + str(i)
                          for i in range(r+1, r+1+n)]
         self.add_graphs(
-            get_random_graphs(self[gname], n=n), name_list=name_list)
+            get_random_graphs(self[gname], n=n, seed=seed),
+            name_list=name_list)
 
     def report_small_world(self, gname):
         '''

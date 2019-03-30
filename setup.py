@@ -3,10 +3,11 @@ PACKAGES = find_packages()
 
 install_requires = [
    "pandas",
-   "python-louvain==0.11", 
+   "python-louvain==0.11",
    "numpy",
+   "scikit-learn",
    "scipy",
-   "networkx>=2.0",
+   "networkx>=2.2",
    "seaborn",
    "forceatlas2",
    "nilearn==0.5.0a0"]
