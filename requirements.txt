@@ -6,7 +6,6 @@ python-louvain==0.11
 numpy
 scipy
 seaborn==0.9.0
-networkx>=2.0
 scikit-learn
 networkx>=2.2
 seaborn
