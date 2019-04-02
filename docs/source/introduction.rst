@@ -20,10 +20,19 @@ You can install scona directly from the GitHub repository::
 
 If you want to edit scona it's recommended that you pass the ``-e`` flag to ``pip`` to install the package editably.
 
+Getting Started
+---------------
+
+We have automatically generated docstring documentation and here's how to navigate to it.
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`scripts#submodules`
+
+Alongside this documentation scona has some jupyter notebook `tutorials <https://github.com/WhitakerLab/scona/tree/master/tutorials>`_.
+
 Finding Help
 ------------
 If you have questions or want to get in touch, you can join our `gitter lobby <https://gitter.im/WhitakerLab/BrainNetworksInPython>`_, tweet `@Whitaker_Lab <https://twitter.com/Whitaker_Lab>`_ or email Isla at islastaden@gmail.com.
 
-Getting Started
----------------
-Alongside this documentation scona has some jupyter notebook `tutorials <https://github.com/WhitakerLab/scona/tree/master/tutorials>`_.
+
