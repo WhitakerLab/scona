@@ -23,13 +23,19 @@ If you want to edit scona it's recommended that you pass the ``-e`` flag to ``pi
 Getting Started
 ---------------
 
-We have automatically generated docstring documentation and here's how to navigate to it.
+We have automatically generated `docstring <https://github.com/WhitakerLab/scona/blob/master/DEVELOPMENT_GUIDE.md#writing-docstrings>`_ documentation and here's how to navigate to it.
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`scripts#submodules`
+See all docs organized in the alphabetical order:
+    * :ref:`genindex`
 
-Alongside this documentation scona has some jupyter notebook `tutorials <https://github.com/WhitakerLab/scona/tree/master/tutorials>`_.
+See the structure of the package:
+    * :ref:`modindex`
+
+See the submodules page:
+    * :ref:`ref-subpackages-label`
+
+| Besides, you can type any function into the **search bar** and come up with some results.
+| Alongside this documentation scona has some jupyter notebook `tutorials <https://github.com/WhitakerLab/scona/tree/master/tutorials>`_.
 
 Finding Help
 ------------
