@@ -166,25 +166,21 @@
 <code class="descclassname">scona.wrappers.corrmat_from_regionalmeasures.</code><code class="descname">corrmat_from_regionalmeasures</code><span class="sig-paren">(</span><em>regional_measures_file</em>, <em>names_file</em>, <em>output_name</em>, <em>covars_file=None</em>, <em>method='pearson'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/wrappers/corrmat_from_regionalmeasures.html#corrmat_from_regionalmeasures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.wrappers.corrmat_from_regionalmeasures.corrmat_from_regionalmeasures" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read in regional measures, names and covariates files to compute
 correlation matrix and write it to output_name.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>regional_measures_file</strong> (<em>*</em>) – a csv containing data for some regional
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>regional_measures_file</strong> (<em>*</em>) – a csv containing data for some regional
 measures with brain regions and covariates as columns and subjects
 as rows. The first row of regional_measures should be column
-headings.</li>
-<li><strong>names_file</strong> (<em>*</em>) – a text file containing names of brain regions. One name
-per line of text. These names key columns in df to correlate over.</li>
-<li><strong>covars_file</strong> (<em>*</em>) – a text file containing a list of covariates to account
-for. One covariate per line of text. These names key columns in df.</li>
-<li><strong>output_name</strong> (<em>*</em>) – file name to save output matrix to.</li>
+headings.</p></li>
+<li><p><strong>names_file</strong> (<em>*</em>) – a text file containing names of brain regions. One name
+per line of text. These names key columns in df to correlate over.</p></li>
+<li><p><strong>covars_file</strong> (<em>*</em>) – a text file containing a list of covariates to account
+for. One covariate per line of text. These names key columns in df.</p></li>
+<li><p><strong>output_name</strong> (<em>*</em>) – file name to save output matrix to.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">

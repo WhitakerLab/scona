@@ -230,20 +230,20 @@ of the axis range</p>
 <code class="descclassname">scona.scripts.make_figures.</code><code class="descname">create_violin_data</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>mpm='MT'</em>, <em>measure='all_slope_age'</em>, <em>cmap='RdBu_r'</em>, <em>cmap_min=-7</em>, <em>cmap_max=7</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/scripts/make_figures.html#create_violin_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.scripts.make_figures.create_violin_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>A little function to create a the data frame list
 for the MT depth violin plots</p>
-<dl class="docutils">
-<dt>INPUTS:</dt>
-<dd><p class="first">measure_dict — dictionary containing measure values
+<dl>
+<dt>INPUTS:</dt><dd><p>measure_dict — dictionary containing measure values
 measure ——– one of ‘mean’</p>
 <blockquote>
 <div><blockquote>
-<div>‘std’
+<div><p>‘std’
 ‘all_slope_age’
-‘all_slope_ct’</div></blockquote>
+‘all_slope_ct’</p>
+</div></blockquote>
 <p>default = ‘all_slope_age’</p>
 </div></blockquote>
-<dl class="last docutils">
-<dt>colormap ——- matplotlib colormap</dt>
-<dd>default = ‘RdBu_r’</dd>
+<dl class="simple">
+<dt>colormap ——- matplotlib colormap</dt><dd><p>default = ‘RdBu_r’</p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -524,25 +524,26 @@ freesurfer analyses.</p>
 <p>The variance around each value was reasonably small.
 Means:</p>
 <blockquote>
-<div>0.9     1.6     4.6     5.7     7.6     11.0</div></blockquote>
-<dl class="docutils">
-<dt>Standard deviations:</dt>
-<dd>0.17 0.21 0.25 0.12     0.10 0.12</dd>
-<dt>Mean + 1 standard devation:</dt>
-<dd>1.6     2.2     5.0     6.0     7.8     10.9</dd>
-<dt>Mean - 1 standard deviation:</dt>
-<dd>2.0     2.6     5.5     6.3     8.0     11.1</dd>
+<div><p>0.9     1.6     4.6     5.7     7.6     11.0</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Standard deviations:</dt><dd><p>0.17 0.21 0.25 0.12     0.10 0.12</p>
+</dd>
+<dt>Mean + 1 standard devation:</dt><dd><p>1.6     2.2     5.0     6.0     7.8     10.9</p>
+</dd>
+<dt>Mean - 1 standard deviation:</dt><dd><p>2.0     2.6     5.5     6.3     8.0     11.1</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="scona.scripts.make_figures.violin_mt_depths">
 <code class="descclassname">scona.scripts.make_figures.</code><code class="descname">violin_mt_depths</code><span class="sig-paren">(</span><em>measure_dict</em>, <em>mpm='MT'</em>, <em>measure='all_slope_age'</em>, <em>cmap='PRGn'</em>, <em>cmap_min=-7</em>, <em>cmap_max=7</em>, <em>y_max=None</em>, <em>y_min=None</em>, <em>figure_name=None</em>, <em>ax=None</em>, <em>figure=None</em>, <em>y_label=None</em>, <em>vert=True</em>, <em>lam_labels=True</em>, <em>cbar=False</em>, <em>pad=30</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/scripts/make_figures.html#violin_mt_depths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.scripts.make_figures.violin_mt_depths" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>INPUTS:</dt>
-<dd>data_dir ——— where the PARC_*_behavmerge.csv files are saved
+<dd><dl class="simple">
+<dt>INPUTS:</dt><dd><p>data_dir ——— where the PARC_*_behavmerge.csv files are saved
 measure_dict
-vert ————- create vertical box plots (rather than horizontal)</dd>
+vert ————- create vertical box plots (rather than horizontal)</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -568,56 +569,48 @@ vert ————- create vertical box plots (rather than horizontal)</dd>
 <dt id="scona.scripts.useful_functions.read_in_data">
 <code class="descclassname">scona.scripts.useful_functions.</code><code class="descname">read_in_data</code><span class="sig-paren">(</span><em>data</em>, <em>names_file</em>, <em>covars_file=None</em>, <em>centroids_file=None</em>, <em>data_as_df=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/scripts/useful_functions.html#read_in_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.scripts.useful_functions.read_in_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read in data from file paths</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – path to a csv file.
-Read in as a <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> unless <code class="docutils literal notranslate"><span class="pre">data_as_df=False</span></code></li>
-<li><strong>names_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – path to a text file containing names of brain regions. Read in as list.</li>
-<li><strong>covars_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – a text file containing a list of covariates to correct for. Read in as
-list.</li>
-<li><strong>centroids_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – a text file containing cartesian coordinates of
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – path to a csv file.
+Read in as a <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> unless <code class="docutils literal notranslate"><span class="pre">data_as_df=False</span></code></p></li>
+<li><p><strong>names_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – path to a text file containing names of brain regions. Read in as list.</p></li>
+<li><p><strong>covars_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – a text file containing a list of covariates to correct for. Read in as
+list.</p></li>
+<li><p><strong>centroids_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – a text file containing cartesian coordinates of
 brain regions. Should be aligned with names_file so that the ith
 line of centroids_file is the coordinates of the brain region named
-in the ith line of names_file. Read in as list.</li>
-<li><strong>data_as_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – If False, returns data uses <code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.loadtext()</span></code> to import data as
-<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></li>
+in the ith line of names_file. Read in as list.</p></li>
+<li><p><strong>data_as_df</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – If False, returns data uses <code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.loadtext()</span></code> to import data as
+<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><cite>data, names, covars, centroids</cite></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>, list, list or None, list or None</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><cite>data, names, covars, centroids</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>, list, list or None, list or None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="scona.scripts.useful_functions.write_out_measures">
 <code class="descclassname">scona.scripts.useful_functions.</code><code class="descname">write_out_measures</code><span class="sig-paren">(</span><em>df</em>, <em>output_dir</em>, <em>name</em>, <em>first_columns=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/scripts/useful_functions.html#write_out_measures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.scripts.useful_functions.write_out_measures" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write out a DataFrame as a csv</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>df</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – A dataframe of measures to write out</li>
-<li><strong>name</strong> (<em>output_dir</em><em>,</em>) – The output and filename to write out to. Creates output_dir if it does
-not exist</li>
-<li><strong>first_columns</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – There may be columns you want to be saved on the left hand side of the
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.24.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – A dataframe of measures to write out</p></li>
+<li><p><strong>name</strong> (<em>output_dir</em><em>,</em>) – The output and filename to write out to. Creates output_dir if it does
+not exist</p></li>
+<li><p><strong>first_columns</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – There may be columns you want to be saved on the left hand side of the
 csv for readability. Columns will go left to right in the order
 specified by first_columns, followed by any columns not in
-first_columns.</li>
+first_columns.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
