@@ -54,21 +54,46 @@ def rescale(fname, suff='png'):
     # And you're done!
 
 
-def view_corr_mat(corr_mat_file,
+def view_corr_mat(corr_mat,
                   output_name,
                   cmap_name='RdBu_r',
                   cost=None,
                   bin=False):
-    ''' This is a visualisation tool for correlation matrices'''
+    '''
+    This is a visualisation tool for correlation matrices
 
-    # Read in the data
-    M = np.loadtxt(corr_mat_file)
+    Parameters
+    ----------
+    corr_mat : :class:`pandas.DataFrame` or :class:`str`
+        corr_mat could be a DataFrame object to represent a correlation matrix
+        or a string object - Path to the File, containing the matrix.
+    output_name : :class:`str`
+        the name of the file you want to save your visualization
+        of correlation matrix to in.
+    cmap_name : string or Colormap, optional
+        A Colormap instance or registered colormap name.
+        The colormap maps scalar data to colors. It is ignored for RGB(A) data.
+        Defaults to 'RdBu_r'.
+
+    Returns
+    -------
+        The visualization of the correlation matrix is saved in the file.
+
+    '''
 
     # If cost is given then roughly threshold at that cost.
     # NOTE - this is not actually the EXACT network that you're analysing
     # because it doesn't include the minimum spanning tree. But it will give
     # you a good sense of the network structure.
     # #GoodEnough ;)
+
+    if isinstance(corr_mat, str):
+        M = np.loadtxt(corr_mat)                  # Read in the data
+    elif isinstance(corr_mat, pd.DataFrame):
+        M = corr_mat.to_numpy()                   # Convert the DataFrame to a NumPy array
+    else:
+        print("Please provide correlation matrix as pandas.DataFrame object or as a path to the file containing the matrix")
+        return
 
     if cost:
         thr = np.percentile(M.reshape(-1), 100-cost)
