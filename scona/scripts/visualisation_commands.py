@@ -64,9 +64,10 @@ def view_corr_mat(corr_mat,
 
     Parameters
     ----------
-    corr_mat : :class:`pandas.DataFrame` or :class:`str`
+    corr_mat : :class:`pandas.DataFrame` or :class:`str` or :class:`numpy.array`
         corr_mat could be a DataFrame object to represent a correlation matrix
         or a string object - Path to the File, containing the matrix.
+        or a numpy.array representing a correlation matrix
     output_name : :class:`str`
         the name of the file you want to save your visualization
         of correlation matrix to in.
@@ -91,9 +92,10 @@ def view_corr_mat(corr_mat,
         M = np.loadtxt(corr_mat)                  # Read in the data
     elif isinstance(corr_mat, pd.DataFrame):
         M = corr_mat.to_numpy()                   # Convert the DataFrame to a NumPy array
+    elif isinstance(corr_mat, np.ndarray):
+        M = corr_mat                              # support numpy array as input to the function
     else:
-        print("Please provide correlation matrix as pandas.DataFrame object or as a path to the file containing the matrix")
-        return
+        raise TypeError("corr_mat argument must be a 1)pandas.DataFrame object or 2) numpy.array or 3)a path to the file containing the matrix")
 
     if cost:
         thr = np.percentile(M.reshape(-1), 100-cost)
