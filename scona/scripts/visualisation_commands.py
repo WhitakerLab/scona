@@ -97,6 +97,9 @@ def view_corr_mat(corr_mat,
     else:
         raise TypeError("corr_mat argument must be a 1)pandas.DataFrame object or 2) numpy.array or 3)a path to the file containing the matrix")
 
+    if M.shape[0] != M.shape[1]:
+        raise ValueError("The correlation matrix must be n x n, where n is the number of nodes")
+
     if cost:
         thr = np.percentile(M.reshape(-1), 100-cost)
         M[M<thr] = 0
