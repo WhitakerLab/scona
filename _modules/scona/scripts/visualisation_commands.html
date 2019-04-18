@@ -209,21 +209,55 @@
     <span class="c1"># And you&#39;re done!</span>
 
 
-<div class="viewcode-block" id="view_corr_mat"><a class="viewcode-back" href="../../../scona.scripts.html#scona.scripts.visualisation_commands.view_corr_mat">[docs]</a><span class="k">def</span> <span class="nf">view_corr_mat</span><span class="p">(</span><span class="n">corr_mat_file</span><span class="p">,</span>
+<div class="viewcode-block" id="view_corr_mat"><a class="viewcode-back" href="../../../scona.scripts.html#scona.scripts.visualisation_commands.view_corr_mat">[docs]</a><span class="k">def</span> <span class="nf">view_corr_mat</span><span class="p">(</span><span class="n">corr_mat</span><span class="p">,</span>
                   <span class="n">output_name</span><span class="p">,</span>
                   <span class="n">cmap_name</span><span class="o">=</span><span class="s1">&#39;RdBu_r&#39;</span><span class="p">,</span>
                   <span class="n">cost</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="nb">bin</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; This is a visualisation tool for correlation matrices&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    This is a visualisation tool for correlation matrices</span>
 
-    <span class="c1"># Read in the data</span>
-    <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">corr_mat_file</span><span class="p">)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    corr_mat : :class:`str` or :class:`pandas.DataFrame` or :class:`numpy.array`</span>
+<span class="sd">        corr_mat could be:</span>
+
+<span class="sd">        - a string object - Path to the File, containing the matrix; ``Note`` loading the corr_mat from file is only possible if all data values are float (or integers). Please do not include column or row labels in the file.</span>
+
+<span class="sd">        - or a pandas.DataFrame object to represent a correlation matrix;</span>
+
+<span class="sd">        - or a numpy.array representing a correlation matrix;</span>
+<span class="sd">    output_name : :class:`str`</span>
+<span class="sd">        the name of the file you want to save your visualization</span>
+<span class="sd">        of correlation matrix to in.</span>
+<span class="sd">    cmap_name : string or Colormap, optional</span>
+<span class="sd">        A Colormap instance or registered colormap name.</span>
+<span class="sd">        The colormap maps scalar data to colors. It is ignored for RGB(A) data.</span>
+<span class="sd">        Defaults to &#39;RdBu_r&#39;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        The visualization of the correlation matrix is saved in the file.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="c1"># If cost is given then roughly threshold at that cost.</span>
     <span class="c1"># NOTE - this is not actually the EXACT network that you&#39;re analysing</span>
     <span class="c1"># because it doesn&#39;t include the minimum spanning tree. But it will give</span>
     <span class="c1"># you a good sense of the network structure.</span>
     <span class="c1"># #GoodEnough ;)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">corr_mat</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">corr_mat</span><span class="p">)</span>                  <span class="c1"># Read in the data</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">corr_mat</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="n">corr_mat</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>                   <span class="c1"># Convert the DataFrame to a NumPy array</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">corr_mat</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="n">corr_mat</span>                              <span class="c1"># support numpy array as input to the function</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;corr_mat argument must be 1) a path to the file containing the matrix or 2) pandas.DataFrame object or 3) numpy.array&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The correlation matrix must be n x n, where n is the number of nodes&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">cost</span><span class="p">:</span>
         <span class="n">thr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mi">100</span><span class="o">-</span><span class="n">cost</span><span class="p">)</span>
