@@ -64,10 +64,14 @@ def view_corr_mat(corr_mat,
 
     Parameters
     ----------
-    corr_mat : :class:`pandas.DataFrame` or :class:`str` or :class:`numpy.array`
-        corr_mat could be a DataFrame object to represent a correlation matrix
-        or a string object - Path to the File, containing the matrix.
-        or a numpy.array representing a correlation matrix
+    corr_mat : :class:`str` or :class:`pandas.DataFrame` or :class:`numpy.array`
+        corr_mat could be:
+
+        - a string object - Path to the File, containing the matrix; ``Note`` loading the corr_mat from file is only possible if all data values are float (or integers). Please do not include column or row labels in the file.
+
+        - or a pandas.DataFrame object to represent a correlation matrix;
+
+        - or a numpy.array representing a correlation matrix;
     output_name : :class:`str`
         the name of the file you want to save your visualization
         of correlation matrix to in.
@@ -95,7 +99,7 @@ def view_corr_mat(corr_mat,
     elif isinstance(corr_mat, np.ndarray):
         M = corr_mat                              # support numpy array as input to the function
     else:
-        raise TypeError("corr_mat argument must be a 1)pandas.DataFrame object or 2) numpy.array or 3)a path to the file containing the matrix")
+        raise TypeError("corr_mat argument must be 1) a path to the file containing the matrix or 2) pandas.DataFrame object or 3) numpy.array")
 
     if M.shape[0] != M.shape[1]:
         raise ValueError("The correlation matrix must be n x n, where n is the number of nodes")
