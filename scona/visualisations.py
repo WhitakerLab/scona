@@ -1,3 +1,5 @@
+import warnings
+
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -129,13 +131,22 @@ def plot_network_measures(network_measures, rand_network_measures, figure_name=N
 
     """
 
-    # split the network_measures dict into 2 arrays
-    measures_network = list(network_measures.keys())
-    values_network = list(network_measures.values())
+    # make sure that values of the measures in network_measures
+    # and rand_network_measures are aligned with each other
+    sorted_net_measures = sorted(network_measures.keys())
 
-    # split the random_network_measures into 2 arrays
-    random_measures_network = list(rand_network_measures.keys())
-    random_values_network = list(rand_network_measures.values())
+    sorted_net_values = []
+    sorted_random_net_values = []
+
+    for i in sorted_net_measures:
+        sorted_net_values.append(network_measures[i])
+
+        try:
+            sorted_random_net_values.append(rand_network_measures[i])
+        except KeyError:
+            warnings.warn( "There is no measure *{}* in random network mesures."
+                           " The value *0* will used for measure - {}".format(i, i))
+            sorted_random_net_values.append(0)
 
     # Create a figure
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -146,7 +157,7 @@ def plot_network_measures(network_measures, rand_network_measures, figure_name=N
 
     # Set position of bar on X axis
     barWidth = 0.2
-    r1 = np.arange(len(values_network))
+    r1 = np.arange(len(sorted_net_values))
     r2 = [x + barWidth + 0.05 for x in r1]
 
     # set the default colors of plotted values if not provided
@@ -154,11 +165,11 @@ def plot_network_measures(network_measures, rand_network_measures, figure_name=N
         color = [sns.color_palette()[0], "lightgrey"]
 
     # plot bar chart for network measures
-    rects1 = ax.bar(r1, values_network, color=color[0], width=barWidth,
+    rects1 = ax.bar(r1, sorted_net_values, color=color[0], width=barWidth,
                     edgecolor='white', label='Network Measures')
 
     # plot bar chart for random network measures
-    rects2 = ax.bar(r2, random_values_network, color=color[1], width=barWidth,
+    rects2 = ax.bar(r2, sorted_random_net_values, color=color[1], width=barWidth,
                     edgecolor='white', label='Random Network Measures')
 
     # autolabel each bar column with the value
@@ -178,8 +189,17 @@ def plot_network_measures(network_measures, rand_network_measures, figure_name=N
                             va="top",
                             size=14)
 
+    # set abbreviations for measures
+    abbreviation = {'assortativity': 'a', 'average_clustering': 'C',
+                    'average_shortest_path_length': 'L',
+                    'efficiency': 'E', 'modularity': 'M'}
+    barsLabels = []
+    for i in sorted_net_measures:
+        barsLabels.append(abbreviation[i])
+
+    # set the current tick locations and labels of the x-axis
     ax.set_xticks([r + barWidth/2 for r in range(len(r1))])
-    ax.set_xticklabels(["C", "L", "a", "M", "E"])
+    ax.set_xticklabels(barsLabels)
 
     # make a line at y=0
     ax.axhline(0, linewidth=0.7, color='black')
