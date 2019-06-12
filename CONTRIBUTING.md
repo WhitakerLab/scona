@@ -184,7 +184,7 @@ The contributing guidelines above have dealt with getting involved, asking quest
 
 ### Installing in editable mode
 
-Use `pip install -e git+https://github.com/WhitakerLab/scona.git` to install scona in editable mode. This means that the python install of scona will be kept up to date with any changes you make, including switching branches in git.
+Use `pip install -e git+https://github.com/WhitakerLab/scona.git#egg=scona` to install scona in editable mode. This means that the python install of scona will be kept up to date with any changes you make, including switching branches in git.
 
 ### Linting
 

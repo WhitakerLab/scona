@@ -9,7 +9,7 @@ Welcome to the scona GitHub repository!:sparkles: <img align="right" src="https:
 
 To install scona as a python package with pip
 ```
-pip install git+https://github.com/WhitakerLab/scona.git@dev
+pip install git+https://github.com/WhitakerLab/scona.git#egg=scona
 ```
 
 Check out our [tutorial](tutorials/tutorial.ipynb) for examples of basic functionality.
