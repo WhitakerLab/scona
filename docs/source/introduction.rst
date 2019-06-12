@@ -14,16 +14,31 @@ The logic behind structural covariance networks
 Installing scona
 ----------------
 
-You can install scona directly from the GitHub repository
-.. code-block:: bash
+You can install scona directly from the GitHub repository::
+
     pip install git+https://github.com/WhitakerLab/scona.git
 
 If you want to edit scona it's recommended that you pass the ``-e`` flag to ``pip`` to install the package editably.
 
-Finding Help
-------------
-If you have questions or want to get in touch you can join our `gitter lobby <https://gitter.im/WhitakerLab/BrainNetworksInPython>`, tweet @Whitaker_Lab or email Isla at islastaden@gmail.com.
-
 Getting Started
 ---------------
-Alongside this documentation scona has some jupyter notebook `tutorials <https://github.com/WhitakerLab/scona/tree/master/tutorials>`
+
+We have automatically generated `docstring <https://github.com/WhitakerLab/scona/blob/master/DEVELOPMENT_GUIDE.md#writing-docstrings>`_ documentation and here's how to navigate to it.
+
+See all docs organized in the alphabetical order:
+    * :ref:`genindex`
+
+See the structure of the package:
+    * :ref:`modindex`
+
+See the submodules page:
+    * :ref:`ref-subpackages-label`
+
+| Besides, you can type any function into the **search bar** and come up with some results.
+| Alongside this documentation scona has some jupyter notebook `tutorials <https://github.com/WhitakerLab/scona/tree/master/tutorials>`_.
+
+Finding Help
+------------
+If you have questions or want to get in touch, you can join our `gitter lobby <https://gitter.im/WhitakerLab/BrainNetworksInPython>`_, tweet `@Whitaker_Lab <https://twitter.com/Whitaker_Lab>`_ or email Isla at islastaden@gmail.com.
+
+

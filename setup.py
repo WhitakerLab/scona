@@ -2,9 +2,10 @@ from setuptools import setup, find_packages
 PACKAGES = find_packages()
 
 install_requires = [
-   "pandas<=0.22.0",
+   "pandas",
    "python-louvain==0.11",
    "numpy",
+   "scikit-learn",
    "scipy",
    "networkx>=2.2",
    "seaborn",

@@ -101,7 +101,7 @@ def generate_fixture_hashes(folder='temporary_test_fixtures'):
     # generate the fixtures
     write_fixtures(folder=folder)
     # calculate the hash
-    hash_dict = hash_folder(folder)
+    hash_dict = hash_folder(folder=folder)
     # delete the new files
     delete_fixtures("/"+folder)
     # return hash

@@ -1,6 +1,8 @@
 scona package
 =============================
 
+.. _ref-subpackages-label:
+
 Subpackages
 -----------
 

@@ -51,10 +51,10 @@ def plot_rich_club(rc, rc_rand, ax=None, figure_name=None, x_max=200, y_max=1.2,
 
     if not norm:
         # Plot the real rich club data
-        sns.tsplot(rc, color=color, ax=ax)
+        sns.lineplot(rc, color=color, ax=ax)
 
         # Plot the random rich club data with confidence intervals error bars
-        sns.tsplot(rc_rand.T, err_style='ci_bars', color='grey', ci=95, ax=ax)
+        sns.lineplot(rc_rand.T, err_style='ci_bars', color='grey', ci=95, ax=ax)
 
         # Fix the x and y axis limits
         ax.set_xlim((0, x_max))
@@ -64,7 +64,7 @@ def plot_rich_club(rc, rc_rand, ax=None, figure_name=None, x_max=200, y_max=1.2,
         # Divide the real rich club by the averge of the
         # randomised rich club to get a normalised curve
         rc_norm = rc / rc_rand.T
-        sns.tsplot(rc_norm, err_style='ci_bars', color=color, ax=ax, ci=95)
+        sns.lineplot(rc_norm, err_style='ci_bars', color=color, ax=ax, ci=95)
 
     # Make sure there aren't too many bins!
     plt.locator_params(nbins=5)
@@ -3360,7 +3360,7 @@ def read_in_rich_club(RichClub_file):
     df = pd.read_csv(RichClub_file)
     deg = list(df.pop('degree').values)
     rc = list(df.pop('real graph').values)
-    return deg, rc, df.as_matrix()
+    return deg, rc, df.values
 
 def network_summary_fig(corrmat_file, NodalMeasures_file, GlobalMeasures_file, RichClub_file, figures_dir):
 

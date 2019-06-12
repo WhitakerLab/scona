@@ -312,6 +312,23 @@ class BrainNetwork(nx.classes.graph.Graph):
         if as_dict:
             return nodal_dict
         df = pd.DataFrame(nodal_dict).transpose()
+
+        # make "name", "centroids" attributes appear as 1st and 2nd columns accordingly
+        dfColumns = df.columns.tolist()
+
+        if "name" in dfColumns:
+            dfColumns.remove("name")
+            dfColumns.insert(0, "name")
+        elif "centroids" in dfColumns:
+            dfColumns.remove("centroids")
+            dfColumns.insert(0, "centroids")
+
+        if "name" in dfColumns and "centroids" in dfColumns:
+            dfColumns.remove("centroids")
+            dfColumns.insert(1, "centroids")
+
+        df = df[dfColumns]
+
         return df
 
     def rich_club(self, force=False):

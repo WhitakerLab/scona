@@ -14,16 +14,95 @@ import itertools as it
 import matplotlib.patches as mpatches
 
 
-def view_corr_mat(corr_mat_file, output_name, cmap_name='RdBu_r', cost=None, bin=False):
+def rescale(fname, suff='png'):
+    '''
+    Journals generally like to make life easier for reviewers
+    by sending them a manuscript that is not going to crash
+    their computers with its size, so we're going to create
+    a smaller version of the input figure (fname) that is
+    8 inches wide at 200 dpi. It will be saved out in whatever
+    format specified by the suff parameter, and the name
+    will be the same as the original but with _LowRes appended
+    '''
 
-    # Read in the data
-    M = np.loadtxt(corr_mat_file)
+    from PIL import Image
+    import numpy as np
+
+    # Open the file and figure out what size it is
+    img = Image.open(fname+'.'+suff)
+    size = img.size
+
+    # Calculate the scale factor that sets the width
+    # of the figure to 1600 pixels
+    scale_factor = 1600.0/size[0]
+
+    # Apply this scale factor to the width and height
+    # to get the new size
+    new_size = (np.int(size[0]*scale_factor), np.int(size[1]*scale_factor))
+
+    # Resize the image
+    small_img = img.resize(new_size, Image.ANTIALIAS)
+
+    # Define the output name
+    new_name = ''.join([os.path.splitext(fname)[0],
+                                            '_LowRes.',
+                                            suff])
+
+    # Save the image
+    small_img.save(new_name, optimize=True, quality=95)
+
+    # And you're done!
+
+
+def view_corr_mat(corr_mat,
+                  output_name,
+                  cmap_name='RdBu_r',
+                  cost=None,
+                  bin=False):
+    '''
+    This is a visualisation tool for correlation matrices
+
+    Parameters
+    ----------
+    corr_mat : :class:`str` or :class:`pandas.DataFrame` or :class:`numpy.array`
+        corr_mat could be:
+
+        - a string object - Path to the File, containing the matrix; ``Note`` loading the corr_mat from file is only possible if all data values are float (or integers). Please do not include column or row labels in the file.
+
+        - or a pandas.DataFrame object to represent a correlation matrix;
+
+        - or a numpy.array representing a correlation matrix;
+    output_name : :class:`str`
+        the name of the file you want to save your visualization
+        of correlation matrix to in.
+    cmap_name : string or Colormap, optional
+        A Colormap instance or registered colormap name.
+        The colormap maps scalar data to colors. It is ignored for RGB(A) data.
+        Defaults to 'RdBu_r'.
+
+    Returns
+    -------
+        The visualization of the correlation matrix is saved in the file.
+
+    '''
 
     # If cost is given then roughly threshold at that cost.
     # NOTE - this is not actually the EXACT network that you're analysing
     # because it doesn't include the minimum spanning tree. But it will give
     # you a good sense of the network structure.
     # #GoodEnough ;)
+
+    if isinstance(corr_mat, str):
+        M = np.loadtxt(corr_mat)                  # Read in the data
+    elif isinstance(corr_mat, pd.DataFrame):
+        M = corr_mat.to_numpy()                   # Convert the DataFrame to a NumPy array
+    elif isinstance(corr_mat, np.ndarray):
+        M = corr_mat                              # support numpy array as input to the function
+    else:
+        raise TypeError("corr_mat argument must be 1) a path to the file containing the matrix or 2) pandas.DataFrame object or 3) numpy.array")
+
+    if M.shape[0] != M.shape[1]:
+        raise ValueError("The correlation matrix must be n x n, where n is the number of nodes")
 
     if cost:
         thr = np.percentile(M.reshape(-1), 100-cost)

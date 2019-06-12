@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+.pytest_cache/
 
 # C extensions
 *.so
@@ -100,3 +101,10 @@ network_analysis/
 # ignore the built sphinx docs
 docs/source/_build/
 
+# ignore temporary test files
+# These are created when you run the regression tests
+# locally. If the tests run to the end they'll be deleted
+# but if you've ended up with an error half way then they'll
+# stick around. Either way we don't want them in the main
+# repository so lets ignore the directory.
+temporary_test_fixtures/
