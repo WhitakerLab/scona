@@ -1,6 +1,7 @@
 import warnings
 
 import numpy as np
+import networkx as nx
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -212,6 +213,90 @@ def plot_network_measures(network_measures, rand_network_measures, figure_name=N
 
     # create a legend
     ax.legend(fontsize="xx-small")
+
+    # remove the top and right spines from plot
+    sns.despine()
+
+    # adjust subplot params so that the subplot fits in to the figure area
+    plt.tight_layout()
+
+    # display the figure
+    plt.show()
+
+    # save the figure if the location-to-save is provided
+    if figure_name:
+        fig.savefig(figure_name, bbox_inches=0, dpi=100)
+
+        plt.close(fig)
+
+
+def plot_degree_dist(G, binomial_graph=True, figure_name=None, color=None):
+
+    """
+    This is a visualisation tool for plotting the degree distribution
+    along with the degree distribution of an Erdos Renyi random graph
+    that has the same number of nodes.
+
+    Parameters
+    ----------
+    G : :class:`networkx.Graph`
+
+    binomial_graph : bool, optional
+        if "True" plot the degree distribution of an Erdos Renyi random graph.
+    figure_name : str, optional
+        path to the file to store the created figure in (e.g. "/home/Desktop/name")
+        or to store in the current directory include just a name ("fig_name");
+    color : list of 2 strings, optional
+        where the 1st string is a color for rich club values and 2nd - for random
+        rich club values. You can specify the color using an html hex string
+        (e.g. color =["#06209c","#c1b8b1"]) or you can pass an (r, g, b) tuple,
+        where each of r, g, b are in the range [0,1]. Finally, legal html names
+        for colors, like "red", "black" and so on are supported.
+
+    Returns
+    -------
+        Plot the Figure and if figure_name provided, save it in a figure_name file.
+
+    """
+
+    # calculate the degrees from the graph
+    degrees = np.array(list(dict(G.degree()).values()))
+
+    # calculate the Erdos Renyi graph from the main graph
+    nodes = len(G.nodes())
+    cost = G.number_of_edges() * 2.0 / (nodes*(nodes-1))    # probability for edge creation
+    G_ER = nx.erdos_renyi_graph(nodes, cost)
+
+    # calculate the degrees for the ER graph
+    degrees_ER = np.array(list(dict(G_ER.degree()).values()))
+
+    # create a figure
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    # set the seaborn style and context
+    sns.set(style="white")
+    sns.set_context("poster", font_scale=1)
+
+    # set the default colors of plotted values if not provided
+    if color is None:
+        color = [sns.color_palette()[0], "grey"]
+
+    # plot distribution of graph's degrees
+    ax = sns.distplot(degrees, color=color[0])
+
+    # plot a Erdos Renyi graph density estimate
+    if binomial_graph:
+        ax = sns.kdeplot(degrees_ER, color=color[1])
+
+    # fix the x axis limits
+    ax.set_xlim((0, max(degrees)))
+
+    # set the number of bins to 5
+    ax.locator_params(axis="x", nbins=5)
+
+    # Set the x and y axis labels
+    ax.set_xlabel("Degree")
+    ax.set_ylabel("Probability")
 
     # remove the top and right spines from plot
     sns.despine()
