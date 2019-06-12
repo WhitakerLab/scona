@@ -191,6 +191,10 @@ Use `pip install -e git+https://github.com/WhitakerLab/scona.git#egg=scona` to i
 scona uses the [PEP8 style guide](https://www.python.org/dev/peps/pep-0008/). You can use [flake8](http://flake8.pycqa.org/en/latest/) to lint code.
 We're quite a young project (at time of writing! August 2018) and so we aren't going to be super hardcore about your linting! Linting should make your life easier, but if you're not sure how to get started, or if this is a barrier to you contributing to scona then don't worry about it or [get in touch](#how-to-get-in-touch) and we'll be happy to help you.
 
+The following things have come up during community discussions of style in scona:
+* imports are preferred at the top of the file rather than inside functions
+* shebangs (things that look like `#!/usr/bin/env python`) are unecessary in .py files
+
 ### Writing docstrings
 
 We at scona love love LOVE documentation 😍 💖 😘 so any contributions that make using the various functions, classes and wrappers easier are ALWAYS welcome.
