@@ -163,7 +163,7 @@
 <span id="scona-wrappers-corrmat-from-regionalmeasures-module"></span><h2>scona.wrappers.corrmat_from_regionalmeasures module<a class="headerlink" href="#module-scona.wrappers.corrmat_from_regionalmeasures" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="scona.wrappers.corrmat_from_regionalmeasures.corrmat_from_regionalmeasures">
-<code class="descclassname">scona.wrappers.corrmat_from_regionalmeasures.</code><code class="descname">corrmat_from_regionalmeasures</code><span class="sig-paren">(</span><em>regional_measures_file</em>, <em>names_file</em>, <em>output_name</em>, <em>covars_file=None</em>, <em>method='pearson'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/wrappers/corrmat_from_regionalmeasures.html#corrmat_from_regionalmeasures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.wrappers.corrmat_from_regionalmeasures.corrmat_from_regionalmeasures" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">scona.wrappers.corrmat_from_regionalmeasures.</code><code class="sig-name descname">corrmat_from_regionalmeasures</code><span class="sig-paren">(</span><em class="sig-param">regional_measures_file</em>, <em class="sig-param">names_file</em>, <em class="sig-param">output_name</em>, <em class="sig-param">covars_file=None</em>, <em class="sig-param">method='pearson'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/wrappers/corrmat_from_regionalmeasures.html#corrmat_from_regionalmeasures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.wrappers.corrmat_from_regionalmeasures.corrmat_from_regionalmeasures" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read in regional measures, names and covariates files to compute
 correlation matrix and write it to output_name.</p>
 <dl class="field-list simple">
@@ -185,7 +185,7 @@ for. One covariate per line of text. These names key columns in df.</p></li>
 
 <dl class="function">
 <dt id="scona.wrappers.corrmat_from_regionalmeasures.setup_argparser">
-<code class="descclassname">scona.wrappers.corrmat_from_regionalmeasures.</code><code class="descname">setup_argparser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/wrappers/corrmat_from_regionalmeasures.html#setup_argparser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.wrappers.corrmat_from_regionalmeasures.setup_argparser" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">scona.wrappers.corrmat_from_regionalmeasures.</code><code class="sig-name descname">setup_argparser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/wrappers/corrmat_from_regionalmeasures.html#setup_argparser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.wrappers.corrmat_from_regionalmeasures.setup_argparser" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -193,7 +193,7 @@ for. One covariate per line of text. These names key columns in df.</p></li>
 <span id="scona-wrappers-network-analysis-from-corrmat-module"></span><h2>scona.wrappers.network_analysis_from_corrmat module<a class="headerlink" href="#module-scona.wrappers.network_analysis_from_corrmat" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="scona.wrappers.network_analysis_from_corrmat.network_analysis_from_corrmat">
-<code class="descclassname">scona.wrappers.network_analysis_from_corrmat.</code><code class="descname">network_analysis_from_corrmat</code><span class="sig-paren">(</span><em>corr_mat_file</em>, <em>names_file</em>, <em>centroids_file</em>, <em>output_dir</em>, <em>cost=10</em>, <em>n_rand=1000</em>, <em>edge_swap_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/wrappers/network_analysis_from_corrmat.html#network_analysis_from_corrmat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.wrappers.network_analysis_from_corrmat.network_analysis_from_corrmat" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">scona.wrappers.network_analysis_from_corrmat.</code><code class="sig-name descname">network_analysis_from_corrmat</code><span class="sig-paren">(</span><em class="sig-param">corr_mat_file</em>, <em class="sig-param">names_file</em>, <em class="sig-param">centroids_file</em>, <em class="sig-param">output_dir</em>, <em class="sig-param">cost=10</em>, <em class="sig-param">n_rand=1000</em>, <em class="sig-param">edge_swap_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/wrappers/network_analysis_from_corrmat.html#network_analysis_from_corrmat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.wrappers.network_analysis_from_corrmat.network_analysis_from_corrmat" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is the big function!
 It reads in the correlation matrix, thresholds it at the given cost
 (incorporating a minimum spanning tree), creates a networkx graph,
@@ -203,7 +203,7 @@ for the global measures) and writes them out to csv files.</p>
 
 <dl class="function">
 <dt id="scona.wrappers.network_analysis_from_corrmat.setup_argparser">
-<code class="descclassname">scona.wrappers.network_analysis_from_corrmat.</code><code class="descname">setup_argparser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/wrappers/network_analysis_from_corrmat.html#setup_argparser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.wrappers.network_analysis_from_corrmat.setup_argparser" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">scona.wrappers.network_analysis_from_corrmat.</code><code class="sig-name descname">setup_argparser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/wrappers/network_analysis_from_corrmat.html#setup_argparser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.wrappers.network_analysis_from_corrmat.setup_argparser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Code to read in arguments from the command line
 Also allows you to change some settings</p>
 </dd></dl>
