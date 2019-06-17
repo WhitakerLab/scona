@@ -215,7 +215,7 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># Raise TypeError if any of the relevant columns are nonnumeric</span>
     <span class="n">non_numeric_cols</span> <span class="o">=</span> <span class="n">get_non_numeric_cols</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">names</span><span class="o">+</span><span class="n">covars</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">non_numeric_cols</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">non_numeric_cols</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;DataFrame columns </span><span class="si">{}</span><span class="s1"> are non numeric&#39;</span>
                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">non_numeric_cols</span><span class="p">)))</span>
 
@@ -273,7 +273,7 @@
 
     <span class="c1"># Raise TypeError if any of the relevant columns are nonnumeric</span>
     <span class="n">non_numeric_cols</span> <span class="o">=</span> <span class="n">get_non_numeric_cols</span><span class="p">(</span><span class="n">df_res</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">non_numeric_cols</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">non_numeric_cols</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;DataFrame columns </span><span class="si">{}</span><span class="s1"> are non numeric&#39;</span>
                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">non_numeric_cols</span><span class="p">)))</span>
 
