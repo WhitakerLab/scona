@@ -42,6 +42,8 @@ from scona.classes import *
 
 from scona.wrappers import *
 
+from scona.helpers import *
+
 import scona.datasets
 from scona import *
 
