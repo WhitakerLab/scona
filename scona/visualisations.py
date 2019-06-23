@@ -2,25 +2,25 @@ import warnings
 
 import numpy as np
 import networkx as nx
+import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 from scona.helpers import save_fig
 
 
-def plot_rich_club(rc_coef, rc_coef_rand, figure_name=None, color=None,
+def plot_rich_club(brain_bundle, figure_name=None, color=None,
                    show_legend=True, x_max=None, y_max=None):
     """
     This is a visualisation tool for plotting the rich club values per degree
-    along with the random rich club values created from a random network
+    along with the random rich club values created from a random networks
     with a preserved degree distribution.
 
     Parameters
     ----------
-    rc_coef : dict
-        rich club coefficient values
-    rc_coef_rand : dict
-        random rich club coefficient values
+    brain_bundle : `GraphBundle` object
+        a python dictionary with BrainNetwork objects as values
+        (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and random graphs
     figure_name : str, optional
         path to the file to store the created figure in (e.g. "/home/Desktop/name")
         or to store in the current directory include just a name ("fig_name");
@@ -30,6 +30,8 @@ def plot_rich_club(rc_coef, rc_coef_rand, figure_name=None, color=None,
         (e.g. color =["#06209c","#c1b8b1"]) or you can pass an (r, g, b) tuple,
         where each of r, g, b are in the range [0,1]. Finally, legal html names
         for colors, like "red", "black" and so on are supported.
+    show_legend: bool (optional, default=True)
+        if True - show legend, otherwise - do not display legend.
     x_max : int, optional
         the max length of the x-axis of the plot
     y_max : int, optional
@@ -45,32 +47,64 @@ def plot_rich_club(rc_coef, rc_coef_rand, figure_name=None, color=None,
     sns.set(style="white")
     sns.set_context("poster", font_scale=1)
 
+    # calculate rich club coefficients for each graph in Graph Bundle
+    rich_club_df = brain_bundle.report_rich_club()
+
     # get the degrees
-    degree = list(rc_coef.keys())
+    degree = rich_club_df.index.values
 
-    # get the rich club coefficient values
-    rc = list(rc_coef.values())
+    # select the values of the 1st Graph in Graph Bundle - Real Graph
+    rc_real = np.array(rich_club_df.iloc[:, 0])
 
-    # get the random rich club coefficient values
-    rc_rand = list(rc_coef_rand.values())
+    # create a dataframe of random Graphs (exclude Real Graph)
+    rand_df = rich_club_df.drop(rich_club_df.columns.tolist()[0], axis=1)
+
+    # re-organize rand_df dataframe in a suitable way
+    # so that there is one column for the degrees data, one for rich club values
+    # required for seaborn plotting with error bars
+
+    # create array to store the degrees
+    rand_degree = []
+
+    # create array to store a rich_club values according to the degree
+    rc_rand = []
+
+    # append each column in rand_df to a list
+    for i in range(len(rand_df.columns)):
+        rand_degree = np.append(rand_degree, rand_df.index.values)
+        rc_rand = np.append(rc_rand, rand_df.iloc[:, i])
+
+    new_rand_df = pd.DataFrame({'Degree': rand_degree, 'Rich Club': rc_rand})
 
     # create a figure
     fig, ax = plt.subplots(figsize=(10, 6))
 
     # set the default colors of plotted values if not provided
     if color is None:
-        color = [sns.color_palette()[0], "lightgrey"]
+        color = ["#00C9FF", "grey"]
 
-    # plot the rich club values and random rich club values
-    ax = sns.lineplot(x=degree, y=rc, label="rich-club coefficient", color=color[0])
-    ax = sns.lineplot(x=degree, y=rc_rand, label="random rich-club coefficient", color=color[1])
+    # if the user provided color not as a list - show warning, use default colors
+    if not isinstance(color, list):
+        warnings.warn("Please, provide a *color* parameter as a "
+                      "python list object, e.g. [\"green\", \"pink\"]. "
+                      "Right now the default colors will be used")
+        color = ["#00C9FF", "grey"]
+
+    # plot the random rich club values of random graphs
+    ax = sns.lineplot(x="Degree", y="Rich Club", data=new_rand_df,
+                      err_style="band", ci=95, color=color[1],
+                      label="random rich-club coefficient")
+
+    # plot the rich club values of real Graph
+    ax = sns.lineplot(x=degree, y=rc_real, label="rich-club coefficient",
+                      color=color[0])
 
     # set the max values of x & y - axis if not provided
     if x_max is None:
         x_max = max(degree)
 
     if y_max is None:
-        y_max = max(rc) + 0.1   # let y-axis be longer -> looks better
+        y_max = max(rc_real) + 0.1   # let y-axis be longer -> looks better
 
     # set the x and y axis limits
     ax.set_xlim((0, x_max))
@@ -83,9 +117,11 @@ def plot_rich_club(rc_coef, rc_coef_rand, figure_name=None, color=None,
     ax.set_xlabel("Degree")
     ax.set_ylabel("Rich Club")
 
-    # create a legend
+    # create a legend if show_legend = True, otherwise - remove
     if show_legend:
         ax.legend(fontsize="x-small")
+    else:
+        ax.legend_.remove()
 
     # remove the top and right spines from plot
     sns.despine()
