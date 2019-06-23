@@ -15,11 +15,14 @@ def save_fig(figure, path_name):
     # if path_name ends with "/" - do not save, e.g. "/home/user/dir1/dir2/"
     if os.path.basename(path_name):
 
+        # get the directory path (exclude file_name in the end of path_name)
+        dir_path = os.path.dirname(path_name)
+
         # if dir *path_name* does not exist - create
         # os.path.dirname(path_name) - make sure not to create a dir if path_name="myfile.png"
-        if not os.path.exists(path_name) and os.path.dirname(path_name):
+        if not os.path.exists(dir_path) and os.path.dirname(path_name):
             warnings.warn("The path - {} does not exist. But we will create this "
-                          "directory for you and store the figure there.".format(path_name))
+                          "directory for you and store the figure there.".format(dir_path))
 
             # get the dirname to create "/home/dir1/myfile.png" -> "/home/dir1"
             dir_create = os.path.dirname(path_name)

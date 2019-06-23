@@ -82,9 +82,11 @@ def plot_rich_club(brain_bundle, figure_name=None, color=None,
     # set the default colors of plotted values if not provided
     if color is None:
         color = ["#00C9FF", "grey"]
+    elif len(color) == 1:              # in case only to plot only real values
+        color.append("grey")
 
-    # if the user provided color not as a list - show warning, use default colors
-    if not isinstance(color, list):
+    # if the user provided color not as a list of size 2 - show warning, use default colors
+    if not isinstance(color, list) and len(color) == 2:
         warnings.warn("Please, provide a *color* parameter as a "
                       "python list object, e.g. [\"green\", \"pink\"]. "
                       "Right now the default colors will be used")
@@ -322,6 +324,13 @@ def plot_degree_dist(G, binomial_graph=True, figure_name=None, color=None):
     if color is None:
         color = [sns.color_palette()[0], "grey"]
 
+    # if the user provided color not as a list of size 2 - show warning, use default colors
+    if not isinstance(color, list) and len(color) == 2:
+        warnings.warn("Please, provide a *color* parameter as a "
+                      "python list object, e.g. [\"green\", \"pink\"]. "
+                      "Right now the default colors will be used")
+        color = ["#00C9FF", "grey"]
+
     # plot distribution of graph's degrees
     ax = sns.distplot(degrees, color=color[0])
 
@@ -329,8 +338,8 @@ def plot_degree_dist(G, binomial_graph=True, figure_name=None, color=None):
     if binomial_graph:
         ax = sns.kdeplot(degrees_ER, color=color[1])
 
-    # fix the x axis limits
-    ax.set_xlim((0, max(degrees)))
+    # fix the x axis limits - without the gap between the 1st column and x = 0 - start from 1
+    ax.set_xlim((1, max(degrees)))
 
     # set the number of bins to 5
     ax.locator_params(axis="x", nbins=5)
