@@ -346,14 +346,11 @@ def calculate_nodal_measures(
 
     # ==== CALCULATE MEASURES ====================
 
-    def calc_nodal_measure(G, measure, method, force=False):
+    for measure, method in nodal_measure_dict.items():
         if (not nx.get_node_attributes(G, name=measure)) or force:
             nx.set_node_attributes(G,
                                    name=measure,
                                    values=method(G))
-
-    for measure, method in nodal_measure_dict.items():
-        calc_nodal_measure(G, measure, method, force=force)
 
 
 # ============= Global measures =============
@@ -451,6 +448,9 @@ def calculate_global_measures(G,
     Calculate global measures `average_clustering`,
     `average_shortest_path_length`, `assortativity`, `modularity`, and
     `efficiency` of G.
+
+    Note: Global measures **will not** be calculated again if they have already been calculated.
+    So it is only needed to calculate them once and then they aren't calculated again.
 
     Parameters
     ----------
