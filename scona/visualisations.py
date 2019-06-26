@@ -86,7 +86,7 @@ def plot_rich_club(brain_bundle, figure_name=None, color=None,
         color.append("grey")
 
     # if the user provided color not as a list of size 2 - show warning, use default colors
-    if not isinstance(color, list) and len(color) == 2:
+    if not isinstance(color, list) and len(color) != 2:
         warnings.warn("Please, provide a *color* parameter as a "
                       "python list object, e.g. [\"green\", \"pink\"]. "
                       "Right now the default colors will be used")
@@ -142,119 +142,145 @@ def plot_rich_club(brain_bundle, figure_name=None, color=None,
         plt.close(fig)
 
 
-def plot_network_measures(network_measures, rand_network_measures, figure_name=None,
-                          color=None, label_bar=True):
+def plot_network_measures(brain_bundle, real_network, figure_name=None,
+                          color=None, ci=95, show_legend=True):
     """
     This is a visualisation tool for plotting network measures values
-    along with the random network values values created from a random network.
+    along with the random network values created from a random networks.
 
     Parameters
     ----------
-    network_measures : dict
-        real network measures
-        Note: the dict could be obtained from calculate_global_measures()
-    rand_network_measures : dict
-        random network measure values
+    brain_bundle : :class:`GraphBundle`
+        a python dictionary with BrainNetwork objects as values
+        (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and random graphs
+    real_network: str, required
+        This is the name of the real Graph in GraphBundle.
+        While instantiating GraphBundle object we pass the real Graph and its name.
+        (e.g. bundleGraphs = scn.GraphBundle([H], ['Real Network'])).
+        To plot real network measures along with the random network values  it is
+        required to pass the name of the real network (e.g.'Real Network').
     figure_name : str, optional
         path to the file to store the created figure in (e.g. "/home/Desktop/name")
         or to store in the current directory include just a name ("fig_name");
     color : list of 2 strings, optional
-        where the 1st string is a color for rich club values and 2nd - for random
-        rich club values. You can specify the color using an html hex string
+        where the 1st string is a color for real network measures and the 2nd
+        - for measures values of random graphs.
+        You can specify the color using an html hex string
         (e.g. color =["#06209c","#c1b8b1"]) or you can pass an (r, g, b) tuple,
         where each of r, g, b are in the range [0,1]. Finally, legal html names
         for colors, like "red", "black" and so on are supported.
-    label_bar : bool (optional, default=True)
-        show a measure value on top of each bar. Note - the value is rounded to
-        2 decimals.
-
+    show_legend: bool (optional, default=True)
+        if True - show legend, otherwise - do not display legend.
+    ci: float or “sd” or None (optional, default=95)
+        Size of confidence intervals to draw around estimated values. If “sd”,
+        skip bootstrapping and draw the standard deviation of the observations.
+        If None, no bootstrapping will be performed, and error bars will not be drawn.
     Returns
     -------
         Plot the Figure and if figure_name provided, save it in a figure_name file.
-
     """
 
     # set the seaborn style and context in the beginning!
     sns.set(style="white")
     sns.set_context("poster", font_scale=1)
 
-    # make sure that values of the measures in network_measures
-    # and rand_network_measures are aligned with each other
-    sorted_net_measures = sorted(network_measures.keys())
+    # calculate network measures for each graph in brain_bundle
+    # if each graph in GraphBundle has already calculated global measures,
+    # this step will be skipped
+    bundleGraphs_measures = brain_bundle.report_global_measures()
 
-    sorted_net_values = []
-    sorted_random_net_values = []
-
-    for i in sorted_net_measures:
-        sorted_net_values.append(network_measures[i])
-
-        try:
-            sorted_random_net_values.append(rand_network_measures[i])
-        except KeyError:
-            warnings.warn( "There is no measure *{}* in random network mesures."
-                           " The value *0* will used for measure - {}".format(i, i))
-            sorted_random_net_values.append(0)
-
-    # Create a figure
-    fig, ax = plt.subplots(figsize=(10, 6))
-
-    # Set position of bar on X axis
-    barWidth = 0.2
-    r1 = np.arange(len(sorted_net_values))
-    r2 = [x + barWidth + 0.05 for x in r1]
-
-    # set the default colors of plotted values if not provided
-    if color is None:
-        color = [sns.color_palette()[0], "lightgrey"]
-
-    # plot bar chart for network measures
-    rects1 = ax.bar(r1, sorted_net_values, color=color[0], width=barWidth,
-                    edgecolor='white', label='Network Measures')
-
-    # plot bar chart for random network measures
-    rects2 = ax.bar(r2, sorted_random_net_values, color=color[1], width=barWidth,
-                    edgecolor='white', label='Random Network Measures')
-
-    # autolabel each bar column with the value
-    if label_bar:
-        for rect in rects1+rects2:
-            height = round(rect.get_height(),2)
-            if height > 0:
-                ax.annotate('{}'.format(height),                                # text - what to show
-                            xy=(rect.get_x() + rect.get_width() / 2, height),   # (xy) coordinate where it should be
-                            ha="center",                                        # ha - horizontal alignment
-                            va="bottom",                                        # va - vertical alignment
-                            size=14)                                            # size - the size of the text
-            elif height < 0:
-                ax.annotate('{}'.format(height),
-                            xy=(rect.get_x() + rect.get_width() / 2, height),
-                            ha="center",
-                            va="top",
-                            size=14)
+    # get the names (types) of network measures in a sorted order
+    sorted_net_measures = sorted(bundleGraphs_measures.columns.values)
 
     # set abbreviations for measures
     abbreviation = {'assortativity': 'a', 'average_clustering': 'C',
                     'average_shortest_path_length': 'L',
                     'efficiency': 'E', 'modularity': 'M'}
-    barsLabels = []
-    for i in sorted_net_measures:
-        barsLabels.append(abbreviation[i])
 
-    # set the current tick locations and labels of the x-axis
-    ax.set_xticks([r + barWidth/2 for r in range(len(r1))])
-    ax.set_xticklabels(barsLabels)
+    ### Build a new dataframe for seaborn plotting
+
+    # set columns for our new dataframe
+    new_columns = ["measure", "value", "TypeNetwork"]
+
+    # set number of rows (indexes)
+    no_columns_old = len(bundleGraphs_measures.columns)
+    no_rows_old = len(bundleGraphs_measures.index)
+    total_rows = no_columns_old * no_rows_old
+
+    # set index for our new dataframe
+    index = [i for i in range(1, total_rows + 1)]
+
+    ## Build array to contain all data to futher use for creating dataframe
+
+    # store the values of real Graph in data_array
+    data_array = list()
+
+    for measure in bundleGraphs_measures.columns:
+        # check that the param - real_network - is correct, otherwise - error
+        try:
+            value = bundleGraphs_measures.loc[real_network, measure]  # value of each measure for Real_Network
+        except KeyError:
+            raise KeyError(
+                "The name of the real Graph you passed to the function - \"{}\", does not exist in GraphBundle. "
+                "Please provide a true name of real Graph (represented as a key in GraphBundle)".format(real_network))
+
+        measure_short = abbreviation[measure]         # get the abbreviation for measure and use this abbreviation
+        type_network = "Real Network"
+
+        tmp = [measure_short, value, type_network]
+
+        data_array.append(tmp)
+
+    # store the values of random Graphs
+
+    # create a new dataframe without Real Network
+    random_df = bundleGraphs_measures.drop(real_network)
+
+    # store the values of random Graphs in data_array
+    for measure in random_df.columns:
+        for rand_graph in random_df.index:
+            value = random_df[measure][rand_graph]
+            measure_short = abbreviation[measure]
+            type_network = "Random Network"
+
+            tmp = [measure_short, value, type_network]
+
+            data_array.append(tmp)
+
+    # finally create a new dataframe
+    NewDataFrame = pd.DataFrame(data=data_array, index=index, columns=new_columns)
+
+    # set the default colors of barsplot values if not provided
+    if color is None:
+        color = [sns.color_palette()[0], "lightgrey"]
+    elif len(color) == 1:              # in case only to plot only real values
+        color.append("lightgrey")
+
+    # if the user provided color not as a list of size 2 - show warning, use default colors
+    if not isinstance(color, list) and len(color) != 2:
+        warnings.warn("Please, provide a *color* parameter as a "
+                      "python list object, e.g. [\"green\", \"pink\"]. "
+                      "Right now the default colors will be used")
+        color = [sns.color_palette()[0], "lightgrey"]
+
+    # Create a figure
+    fig, ax = plt.subplots(figsize=(8, 6))
+
+    ax = sns.barplot(x="measure", y="value", hue="TypeNetwork",
+                     data=NewDataFrame, palette=[color[0], color[1]], ci=ci)
 
     # make a line at y=0
-    ax.axhline(0, linewidth=0.7, color='black')
-
-    # set the number of bins to 5
-    ax.locator_params(axis='y', nbins=5)
+    ax.axhline(0, linewidth=0.8, color='black')
 
     # set labels for y axix
-    ax.set_ylabel("Network Values")
+    ax.set_ylabel("Global network measures")
+    ax.set_xlabel("")   # empty -> no x-label
 
-    # create a legend
-    ax.legend(fontsize="xx-small")
+    # create a legend if show_legend = True, otherwise - remove
+    if show_legend:
+        ax.legend(fontsize="xx-small")
+    else:
+        ax.legend_.remove()
 
     # remove the top and right spines from plot
     sns.despine()
