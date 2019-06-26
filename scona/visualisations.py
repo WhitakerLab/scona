@@ -9,7 +9,7 @@ import seaborn as sns
 from scona.helpers import save_fig
 
 
-def plot_rich_club(brain_bundle, figure_name=None, color=None,
+def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
                    show_legend=True, x_max=None, y_max=None):
     """
     This is a visualisation tool for plotting the rich club values per degree
@@ -21,6 +21,12 @@ def plot_rich_club(brain_bundle, figure_name=None, color=None,
     brain_bundle : `GraphBundle` object
         a python dictionary with BrainNetwork objects as values
         (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and random graphs
+    real_network: str, required
+        This is the name of the real Graph in GraphBundle.
+        While instantiating GraphBundle object we pass the real Graph and its name.
+        (e.g. bundleGraphs = scn.GraphBundle([H], ['Real Network'])).
+        To plot rich club values along with the rich club values from randomed graphs
+        it is required to pass the name of the real network (e.g.'Real Network').
     figure_name : str, optional
         path to the file to store the created figure in (e.g. "/home/Desktop/name")
         or to store in the current directory include just a name ("fig_name");
@@ -54,10 +60,10 @@ def plot_rich_club(brain_bundle, figure_name=None, color=None,
     degree = rich_club_df.index.values
 
     # select the values of the 1st Graph in Graph Bundle - Real Graph
-    rc_real = np.array(rich_club_df.iloc[:, 0])
+    rc_real = np.array(rich_club_df[real_network])
 
     # create a dataframe of random Graphs (exclude Real Graph)
-    rand_df = rich_club_df.drop(rich_club_df.columns.tolist()[0], axis=1)
+    rand_df = rich_club_df.drop(real_network, axis=1)
 
     # re-organize rand_df dataframe in a suitable way
     # so that there is one column for the degrees data, one for rich club values
