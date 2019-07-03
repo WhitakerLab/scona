@@ -1,6 +1,7 @@
 import numpy as np
 import networkx as nx
 import pandas as pd
+from copy import deepcopy
 from scona.make_graphs import assign_node_names, \
     assign_node_centroids, anatomical_copy, threshold_graph, \
     weighted_graph_from_matrix, anatomical_node_attributes, \
@@ -39,6 +40,8 @@ class BrainNetwork(nx.classes.graph.Graph):
     See Also
     --------
     :class:`networkx.Graph`
+    :class:`WeightedBrainNetwork`
+    :class:`BinaryBrainNetwork`
     '''
     def __init__(self,
                  network=None,
@@ -73,69 +76,6 @@ class BrainNetwork(nx.classes.graph.Graph):
         self.anatomical_graph_attributes = anatomical_graph_attributes()
         # intialise global measures as an empty dict
         self.graph['global_measures'] = {}
-
-    def threshold(self, cost, mst=True):
-        '''
-        Create a binary graph by thresholding weighted BrainNetwork G
-
-        First creates the minimum spanning tree for the graph, and then adds
-        in edges according to their connection strength up to cost.
-
-        Parameters
-        ----------
-        cost : float
-            A number between 0 and 100. The resulting graph will have the
-            ``cost*n/100`` highest weighted edges from G, where
-            ``n`` is the number of edges in G.
-        mst : bool, optional
-            If ``False``, skip creation of minimum spanning tree. This may
-            cause output graph to be disconnected
-
-        Returns
-        -------
-        :class:`BrainNetwork`
-            A binary graph
-
-        Raises
-        ------
-        Exception
-            If it is impossible to create a minimum_spanning_tree at the given
-            cost
-
-        See Also
-        --------
-        :func:`threshold_graph`
-        '''
-        return threshold_graph(self, cost, mst=True)
-
-    def partition(self, force=False):
-        '''
-        Calculate the best nodal partition of G using the louvain
-        algorithm as implemented in :func:`community.best_partition`.
-        If desired, the node-wise partition can be accessed and manipulated by
-        the nodal attribute "module" and the module-wise partition as
-        ``G.graph["partition"]``
-
-        Parameters
-        ----------
-        force : bool
-            pass True to recalculate when a partition exists
-
-        Returns
-        -------
-        (dict, dict)
-            Two dictionaries represent the resulting nodal partition of G. The
-            first maps nodes to modules and the second maps modules to nodes.
-
-        See Also
-        --------
-        :func:`BrainNetwork.calc_nodal_partition`
-        '''
-        if 'partition' not in self.graph:
-            nodal_partition, module_partition = calc_nodal_partition(self)
-            nx.set_node_attributes(self, nodal_partition, name='module')
-            self.graph['partition'] = module_partition
-        return nx.get_node_attributes(self, name='module'), self.graph['partition']
 
     def set_parcellation(self, parcellation):
         '''
@@ -220,6 +160,197 @@ class BrainNetwork(nx.classes.graph.Graph):
         assign_nodal_distance(self)
         assign_interhem(self)
 
+    def anatomical_copy(self):
+        '''
+        Create a new graph from G preserving:
+        * nodes
+        * edges
+        * any nodal attributes specified in G.anatomical_node_attributes
+        * any graph attributes specified in G.anatomical_graph_attributes
+        * ``G.anatomical_node_attributes``
+        * ``G.anatomical_graph_attributes``
+
+        Returns
+        -------
+        :class:`networkx.Graph`
+            A new graph with the same nodes and edges as G and identical
+            anatomical data.
+
+        See Also
+        --------
+        :func:`BrainNetwork.anatomical_copy`
+        :func:`anatomical_data`
+        :func:`set_anatomical_node_attributes`
+        :func:`set_anatomical_graph_attributes`
+        '''
+        H = anatomical_copy(self,
+                            nodal_keys=self.anatomical_node_attributes,
+                            graph_keys=self.anatomical_graph_attributes)
+        H.set_anatomical_node_attributes(self.anatomical_node_attributes)
+        H.set_anatomical_graph_attributes(self.anatomical_graph_attributes)
+        return H
+
+    def set_anatomical_node_attributes(self, names):
+        '''
+        Define the list of node attribute keys to preserve when using
+        :func:`BrainNetwork.anatomical_copy`.
+        This list is set using :func:`anatomical_node_attributes` when
+        a BrainNetwork is initialised, and can be accessed as
+        ``G.anatomical_node_attributes``
+        It is also among the object attributes preserved by
+        :func:`BrainNetwork.anatomical_copy`
+
+        Parameters
+        ----------
+        names : list
+            a list of node attribute keys to treat as anatomical.
+
+        See Also
+        --------
+        :func:`BrainNetwork.set_anatomical_graph_attributes`
+        '''
+        self.anatomical_node_attributes = names
+
+    def set_anatomical_graph_attributes(self, names):
+        '''
+        Define the list of graph attribute keys to preserve when using
+        :func:`BrainNetwork.anatomical_copy`.
+        This list is set using :func:`anatomical_graph_attributes` when
+        a BrainNetwork is initialised, and can be accessed as
+        ``G.anatomical_graph_attributes``
+        It is also among the object attributes preserved by
+        :func:`BrainNetwork.anatomical_copy`
+
+        Parameters
+        ----------
+        names : list
+            a list of graph attribute keys to treat as anatomical.
+
+        See Also
+        --------
+        :func:`BrainNetwork.set_anatomical_node_attributes`
+        '''
+        self.anatomical_graph_attributes = names
+
+
+class WeightedBrainNetwork(BrainNetwork):
+    '''
+    A weighted subclass of :class:`BrainNetwork`.
+    This class can be thresholded to create a :class:`BinaryBrainNetwork` using :func:`WeightedBrainNetwork.threshold`
+
+    Parameters
+    ----------
+    network : :class:`networkx.Graph` or :class:`numpy.ndarray` or :class:`pandas.DataFrame` or :class:`BrainNetwork`, optional
+        `network` is used to define graph features of G.
+        If an array is passed, create a weighted graph from this array.
+        If a graph is passed, G will be a :class:`BrainNetwork` otherwise
+        identical to this graph.
+    parcellation : list of str, optional
+        A list of node names, passed to :func:`BrainNetwork.set_parcellation`
+    centroids : list of tuple, optional
+        A list of node centroids, passed to :func:`BrainNetwork.set_centroids`
+
+
+    Attributes
+    ----------
+    anatomical_node_attributes : list of str
+        a list of node attribute keys to treat as anatomical.
+    anatomical_graph_attributes : list of str
+        a list of graph attribute keys to treat as anatomical.
+
+
+    See Also
+    --------
+    :class:`networkx.Graph`
+    :class:`BrainNetwork`
+    :class:`BinaryBrainNetwork`
+    '''
+    
+    def __init__(self,
+                 network=None,
+                 parcellation=None,
+                 centroids=None,):
+        BrainNetwork.__init__(self,
+                              network=None,
+                              parcellation=None,
+                              centroids=None,)
+
+    def threshold(self, cost, mst=True):
+        '''
+        Create a binary graph by thresholding WeightedBrainNetwork G
+
+        First creates the minimum spanning tree for the graph, and then adds
+        in edges according to their connection strength up to cost.
+
+        Parameters
+        ----------
+        cost : float
+            A number between 0 and 100. The resulting graph will have the
+            ``cost*n/100`` highest weighted edges from G, where
+            ``n`` is the number of edges in G.
+        mst : bool, optional
+            If ``False``, skip creation of minimum spanning tree. This may
+            cause output graph to be disconnected
+
+        Returns
+        -------
+        :class:`BinaryBrainNetwork`
+            A binary graph
+
+        Raises
+        ------
+        Exception
+            If it is impossible to create a minimum_spanning_tree at the given
+            cost
+
+        See Also
+        --------
+        :func:`threshold_graph`
+        :func:`scona.BinaryBrainNetwork.rethreshold`
+        '''
+        return BinaryBrainNetwork(threshold_graph(self, cost, mst=True))
+
+
+class BinaryBrainNetwork(BrainNetwork):
+
+    def __init__(self,
+                 network=None,
+                 parcellation=None,
+                 centroids=None,):
+        BrainNetwork.__init__(self,
+                              network=None,
+                              parcellation=None,
+                              centroids=None,)
+
+    def partition(self, force=False):
+        '''
+        Calculate the best nodal partition of G using the louvain
+        algorithm as implemented in :func:`community.best_partition`.
+        If desired, the node-wise partition can be accessed and manipulated by
+        the nodal attribute "module" and the module-wise partition as
+        ``G.graph["partition"]``
+
+        Parameters
+        ----------
+        force : bool
+            pass True to recalculate when a partition exists
+
+        Returns
+        -------
+        (dict, dict)
+            Two dictionaries represent the resulting nodal partition of G. The
+            first maps nodes to modules and the second maps modules to nodes.
+
+        See Also
+        --------
+        :func:`BinaryBrainNetwork.calc_nodal_partition`
+        '''
+        if 'partition' not in self.graph:
+            nodal_partition, module_partition = calc_nodal_partition(self)
+            nx.set_node_attributes(self, nodal_partition, name='module')
+            self.graph['partition'] = module_partition
+        return nx.get_node_attributes(self, name='module'), self.graph['partition']
+
     def calculate_nodal_measures(
             self,
             force=False,
@@ -228,7 +359,7 @@ class BrainNetwork(nx.classes.graph.Graph):
         '''
         Calculate and store nodal measures as nodal attributes
         which can be accessed directly, or using
-        :func:`BrainNetwork.report_nodal_measures()``
+        :func:`BinaryBrainNetwork.report_nodal_measures()``
 
         By default calculates:
 
@@ -261,8 +392,8 @@ class BrainNetwork(nx.classes.graph.Graph):
 
         See Also
         --------
-        :func:`BrainNetwork.report_nodal_measures`
-        :func:`BrainNetwork.partition`
+        :func:`BinaryBrainNetwork.report_nodal_measures`
+        :func:`BinaryBrainNetwork.partition`
         :func:`calculate_nodal_measures`
 
         Example
@@ -301,8 +432,8 @@ class BrainNetwork(nx.classes.graph.Graph):
 
         See Also
         --------
-        :func:`BrainNetwork.calculate_nodal_measures`
-        :func:`BrainNetwork.calculate_spatial_measures`
+        :func:`BinaryBrainNetwork.calculate_nodal_measures`
+        :func:`BinaryBrainNetwork.calculate_spatial_measures`
         '''
         if columns is not None:
             nodal_dict = {x: {u: v for u, v in y.items() if u in columns}
@@ -408,77 +539,35 @@ class BrainNetwork(nx.classes.graph.Graph):
             self.graph['global_measures'].update(global_measures)
         return self.graph['global_measures']
 
-    def anatomical_copy(self):
+    def rethreshold(self, cost, weight="correlation weighting"):
         '''
-        Create a new graph from G preserving:
-        * nodes
-        * edges
-        * any nodal attributes specified in G.anatomical_node_attributes
-        * any graph attributes specified in G.anatomical_graph_attributes
-        * ``G.anatomical_node_attributes``
-        * ``G.anatomical_graph_attributes``
+        Creates a new binary graph by removing the lowest weighted edges.
+
+        Parameters
+        ----------
+        cost : float
+            A number between 0 and 100. The resulting graph will have the
+            ``cost*n/100`` highest weighted edges, where
+            ``n`` is the total possible number of edges in the network.
+        weight : str
+            A string indexing the nodal attribute that will describe the weight of each edge
 
         Returns
         -------
-        :class:`networkx.Graph`
-            A new graph with the same nodes and edges as G and identical
-            anatomical data.
+        :class:`BinaryBrainNetwork`
+            A binary graph
 
         See Also
         --------
-        :func:`BrainNetwork.anatomical_copy`
-        :func:`anatomical_data`
-        :func:`set_anatomical_node_attributes`
-        :func:`set_anatomical_graph_attributes`
+        :func:`threshold_graph`
+        :func:`WeightedBrainNetwork.threshold`
         '''
-        H = anatomical_copy(self,
-                            nodal_keys=self.anatomical_node_attributes,
-                            graph_keys=self.anatomical_graph_attributes)
-        H.set_anatomical_node_attributes(self.anatomical_node_attributes)
-        H.set_anatomical_graph_attributes(self.anatomical_graph_attributes)
+        H = deepcopy(self)
+        H_edges_sorted = sorted(H.edges(data=True),
+                                key=lambda edge_info: edge_info[2][weight]).copy()
+        n = np.int(np.around((cost/100)*len(H)*(len(H)-1)*0.5))
+        H.remove_edges_from(H_edges_sorted[n:])
         return H
-
-    def set_anatomical_node_attributes(self, names):
-        '''
-        Define the list of node attribute keys to preserve when using
-        :func:`BrainNetwork.anatomical_copy`.
-        This list is set using :func:`anatomical_node_attributes` when
-        a BrainNetwork is initialised, and can be accessed as
-        ``G.anatomical_node_attributes``
-        It is also among the object attributes preserved by
-        :func:`BrainNetwork.anatomical_copy`
-
-        Parameters
-        ----------
-        names : list
-            a list of node attribute keys to treat as anatomical.
-
-        See Also
-        --------
-        :func:`BrainNetwork.set_anatomical_graph_attributes`
-        '''
-        self.anatomical_node_attributes = names
-
-    def set_anatomical_graph_attributes(self, names):
-        '''
-        Define the list of graph attribute keys to preserve when using
-        :func:`BrainNetwork.anatomical_copy`.
-        This list is set using :func:`anatomical_graph_attributes` when
-        a BrainNetwork is initialised, and can be accessed as
-        ``G.anatomical_graph_attributes``
-        It is also among the object attributes preserved by
-        :func:`BrainNetwork.anatomical_copy`
-
-        Parameters
-        ----------
-        names : list
-            a list of graph attribute keys to treat as anatomical.
-
-        See Also
-        --------
-        :func:`BrainNetwork.set_anatomical_node_attributes`
-        '''
-        self.anatomical_graph_attributes = names
 
 
 class GraphBundle(dict):
@@ -559,7 +648,8 @@ class GraphBundle(dict):
             pass True to return global measures as a nested dictionary;
             pass False to return a :class:`pandas.DataFrame`
         partition: bool
-            argument to pass to :func:`BrainNetwork.calculate_global_measures`
+            argument to pass to :func:`BinaryBrainNetwork.calculate_global_measures`
+            pass False if you do not want to calculate the communities of the graph
 
         Return
         ------
@@ -567,7 +657,7 @@ class GraphBundle(dict):
 
         See Also
         --------
-        :func:`BrainNetwork.calculate_global_measures`
+        :func:`BinaryBrainNetwork.calculate_global_measures`
         '''
         self.apply(lambda x: x.calculate_global_measures())
         global_dict = self.apply(lambda x: x.graph['global_measures'])
@@ -593,7 +683,7 @@ class GraphBundle(dict):
 
         See Also
         --------
-        :func:`BrainNetwork.rich_club`
+        :func:`BinaryBrainNetwork.rich_club`
         '''
         rc_dict = self.apply(lambda x: x.rich_club())
         if as_dict:
@@ -630,7 +720,7 @@ class GraphBundle(dict):
         --------
         :func:`get_random_graphs`
         :func:`random_graph`
-        :func:`BrainNetwork.add_graphs`
+        :func:`GraphBundle.add_graphs`
         '''
         if name_list is None:
             # Choose r to be the smallest integer that is larger than all

@@ -316,7 +316,7 @@ def calculate_nodal_measures(
 
     See Also
     --------
-    :func:`BrainNetwork.calculate_nodal_measures`
+    :func:`BinaryBrainNetwork.calculate_nodal_measures`
     :func:`calc_nodal_partition`
 
     Example
@@ -396,7 +396,7 @@ def rich_club(G):
 
     See Also
     --------
-    :func:`BrainNetwork.rich_club`
+    :func:`BinaryBrainNetwork.rich_club`
     '''
     return nx.rich_club_coefficient(G, normalized=False)
 
@@ -471,7 +471,7 @@ def calculate_global_measures(G,
 
     See Also
     --------
-    :func:`scona.BrainNetwork.calculate_global_measures`
+    :func:`BinaryBrainNetwork.calculate_global_measures`
     '''
     # ==== MEASURES ====================
     if existing_global_measures is not None:
