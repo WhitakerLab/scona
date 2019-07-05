@@ -489,6 +489,17 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="c1"># set the default colors of plotted values if not provided</span>
+    <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;grey&quot;</span><span class="p">]</span>
+
+    <span class="c1"># if the user provided color not as a list of size 2 - show warning, use default colors</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">color</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Please, provide a *color* parameter as a &quot;</span>
+                      <span class="s2">&quot;python list object, e.g. [</span><span class="se">\&quot;</span><span class="s2">green</span><span class="se">\&quot;</span><span class="s2">, </span><span class="se">\&quot;</span><span class="s2">pink</span><span class="se">\&quot;</span><span class="s2">]. &quot;</span>
+                      <span class="s2">&quot;Right now the default colors will be used&quot;</span><span class="p">)</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;#00C9FF&quot;</span><span class="p">,</span> <span class="s2">&quot;grey&quot;</span><span class="p">]</span>
+
     <span class="c1"># set the seaborn style and context in the beginning!</span>
     <span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
     <span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;poster&quot;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -506,17 +517,6 @@
 
     <span class="c1"># create a figure</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-
-    <span class="c1"># set the default colors of plotted values if not provided</span>
-    <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;grey&quot;</span><span class="p">]</span>
-
-    <span class="c1"># if the user provided color not as a list of size 2 - show warning, use default colors</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">color</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Please, provide a *color* parameter as a &quot;</span>
-                      <span class="s2">&quot;python list object, e.g. [</span><span class="se">\&quot;</span><span class="s2">green</span><span class="se">\&quot;</span><span class="s2">, </span><span class="se">\&quot;</span><span class="s2">pink</span><span class="se">\&quot;</span><span class="s2">]. &quot;</span>
-                      <span class="s2">&quot;Right now the default colors will be used&quot;</span><span class="p">)</span>
-        <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;#00C9FF&quot;</span><span class="p">,</span> <span class="s2">&quot;grey&quot;</span><span class="p">]</span>
 
     <span class="c1"># plot distribution of graph&#39;s degrees</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">degrees</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
