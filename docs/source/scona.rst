@@ -62,3 +62,11 @@ scona.stats_functions module
     :members:
     :undoc-members:
     :show-inheritance:
+
+scona.visualisations module
+--------------------------------------------
+
+.. automodule:: scona.visualisations
+    :members:
+    :undoc-members:
+    :show-inheritance:
