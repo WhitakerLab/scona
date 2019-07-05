@@ -638,8 +638,13 @@
 
 <div class="viewcode-block" id="GraphBundle"><a class="viewcode-back" href="../../scona.html#scona.classes.GraphBundle">[docs]</a><span class="k">class</span> <span class="nc">GraphBundle</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    GraphBundle is a subclass of :class:`dict` containing</span>
-<span class="sd">    :class:`str`: :class:`BrainNetwork` pairs.</span>
+<span class="sd">    The GraphBundle class (after instantiating - object) is the scona way to</span>
+<span class="sd">    handle across-network comparisons.</span>
+<span class="sd">    What is it?</span>
+<span class="sd">    Essentially it&#39;s a python dictionary with BrainNetwork objects as values</span>
+<span class="sd">    (:class:`str`: :class:`BrainNetwork` pairs).</span>
+
+<span class="sd">    Mainly used to create random graphs for comparison with your real network data.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -707,6 +712,9 @@
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Calculate global_measures for each BrainNetwork object and report as a</span>
 <span class="sd">        :class:`pandas.DataFrame` or nested dict.</span>
+
+<span class="sd">        Note: Global measures **will not** be calculated again if they have already been calculated.</span>
+<span class="sd">        So it is only needed to calculate them once and then they aren&#39;t calculated again.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

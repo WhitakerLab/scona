@@ -501,14 +501,11 @@
 
     <span class="c1"># ==== CALCULATE MEASURES ====================</span>
 
-    <span class="k">def</span> <span class="nf">calc_nodal_measure</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">measure</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">measure</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">nodal_measure_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">nx</span><span class="o">.</span><span class="n">get_node_attributes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">measure</span><span class="p">))</span> <span class="ow">or</span> <span class="n">force</span><span class="p">:</span>
             <span class="n">nx</span><span class="o">.</span><span class="n">set_node_attributes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
                                    <span class="n">name</span><span class="o">=</span><span class="n">measure</span><span class="p">,</span>
-                                   <span class="n">values</span><span class="o">=</span><span class="n">method</span><span class="p">(</span><span class="n">G</span><span class="p">))</span>
-
-    <span class="k">for</span> <span class="n">measure</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">nodal_measure_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">calc_nodal_measure</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">measure</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="n">force</span><span class="p">)</span></div>
+                                   <span class="n">values</span><span class="o">=</span><span class="n">method</span><span class="p">(</span><span class="n">G</span><span class="p">))</span></div>
 
 
 <span class="c1"># ============= Global measures =============</span>
@@ -606,6 +603,9 @@
 <span class="sd">    Calculate global measures `average_clustering`,</span>
 <span class="sd">    `average_shortest_path_length`, `assortativity`, `modularity`, and</span>
 <span class="sd">    `efficiency` of G.</span>
+
+<span class="sd">    Note: Global measures **will not** be calculated again if they have already been calculated.</span>
+<span class="sd">    So it is only needed to calculate them once and then they aren&#39;t calculated again.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

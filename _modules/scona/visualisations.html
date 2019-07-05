@@ -1,0 +1,594 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>scona.visualisations &mdash; scona 0.1dev documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> scona
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sc-matrices.html">Structural Covariance Matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../create-network.html">Creating a Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../local-analysis.html">Network Analysis at the Nodal Level</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../global-analysis.html">Network Analysis at the Global Level</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plotting.html">Plotting Brain Networks</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">scona</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>scona.visualisations</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for scona.visualisations</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="kn">from</span> <span class="nn">scona.helpers</span> <span class="k">import</span> <span class="n">save_fig</span>
+
+
+<div class="viewcode-block" id="plot_rich_club"><a class="viewcode-back" href="../../scona.html#scona.visualisations.plot_rich_club">[docs]</a><span class="k">def</span> <span class="nf">plot_rich_club</span><span class="p">(</span><span class="n">brain_bundle</span><span class="p">,</span> <span class="n">real_network</span><span class="p">,</span> <span class="n">figure_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">x_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a visualisation tool for plotting the rich club values per degree</span>
+<span class="sd">    along with the random rich club values created from a random networks</span>
+<span class="sd">    with a preserved degree distribution.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    brain_bundle : `GraphBundle` object</span>
+<span class="sd">        a python dictionary with BrainNetwork objects as values</span>
+<span class="sd">        (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and random graphs</span>
+<span class="sd">    real_network: str, required</span>
+<span class="sd">        This is the name of the real Graph in GraphBundle.</span>
+<span class="sd">        While instantiating GraphBundle object we pass the real Graph and its name.</span>
+<span class="sd">        (e.g. bundleGraphs = scn.GraphBundle([H], [&#39;Real Network&#39;])).</span>
+<span class="sd">        To plot rich club values along with the rich club values from randomed graphs</span>
+<span class="sd">        it is required to pass the name of the real network (e.g.&#39;Real Network&#39;).</span>
+<span class="sd">    figure_name : str, optional</span>
+<span class="sd">        path to the file to store the created figure in (e.g. &quot;/home/Desktop/name&quot;)</span>
+<span class="sd">        or to store in the current directory include just a name (&quot;fig_name&quot;);</span>
+<span class="sd">    color : list of 2 strings, optional</span>
+<span class="sd">        where the 1st string is a color for rich club values and 2nd - for random</span>
+<span class="sd">        rich club values. You can specify the color using an html hex string</span>
+<span class="sd">        (e.g. color =[&quot;#06209c&quot;,&quot;#c1b8b1&quot;]) or you can pass an (r, g, b) tuple,</span>
+<span class="sd">        where each of r, g, b are in the range [0,1]. Finally, legal html names</span>
+<span class="sd">        for colors, like &quot;red&quot;, &quot;black&quot; and so on are supported.</span>
+<span class="sd">    show_legend: bool (optional, default=True)</span>
+<span class="sd">        if True - show legend, otherwise - do not display legend.</span>
+<span class="sd">    x_max : int, optional</span>
+<span class="sd">        the max length of the x-axis of the plot</span>
+<span class="sd">    y_max : int, optional</span>
+<span class="sd">        the max length of the y-axis of the plot</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        Plot the Figure and if figure_name provided, save it in a figure_name file.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># set the seaborn style and context in the beginning!</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;poster&quot;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># calculate rich club coefficients for each graph in Graph Bundle</span>
+    <span class="n">rich_club_df</span> <span class="o">=</span> <span class="n">brain_bundle</span><span class="o">.</span><span class="n">report_rich_club</span><span class="p">()</span>
+
+    <span class="c1"># get the degrees</span>
+    <span class="n">degree</span> <span class="o">=</span> <span class="n">rich_club_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="c1"># select the values of the 1st Graph in Graph Bundle - Real Graph</span>
+    <span class="n">rc_real</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rich_club_df</span><span class="p">[</span><span class="n">real_network</span><span class="p">])</span>
+
+    <span class="c1"># create a dataframe of random Graphs (exclude Real Graph)</span>
+    <span class="n">rand_df</span> <span class="o">=</span> <span class="n">rich_club_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">real_network</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># re-organize rand_df dataframe in a suitable way</span>
+    <span class="c1"># so that there is one column for the degrees data, one for rich club values</span>
+    <span class="c1"># required for seaborn plotting with error bars</span>
+
+    <span class="c1"># create array to store the degrees</span>
+    <span class="n">rand_degree</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># create array to store a rich_club values according to the degree</span>
+    <span class="n">rc_rand</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># append each column in rand_df to a list</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rand_df</span><span class="o">.</span><span class="n">columns</span><span class="p">)):</span>
+        <span class="n">rand_degree</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rand_degree</span><span class="p">,</span> <span class="n">rand_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">rc_rand</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rc_rand</span><span class="p">,</span> <span class="n">rand_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
+
+    <span class="n">new_rand_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Degree&#39;</span><span class="p">:</span> <span class="n">rand_degree</span><span class="p">,</span> <span class="s1">&#39;Rich Club&#39;</span><span class="p">:</span> <span class="n">rc_rand</span><span class="p">})</span>
+
+    <span class="c1"># create a figure</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+    <span class="c1"># set the default colors of plotted values if not provided</span>
+    <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;#00C9FF&quot;</span><span class="p">,</span> <span class="s2">&quot;grey&quot;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">color</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>              <span class="c1"># in case only to plot only real values</span>
+        <span class="n">color</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+
+    <span class="c1"># if the user provided color not as a list of size 2 - show warning, use default colors</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">color</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Please, provide a *color* parameter as a &quot;</span>
+                      <span class="s2">&quot;python list object, e.g. [</span><span class="se">\&quot;</span><span class="s2">green</span><span class="se">\&quot;</span><span class="s2">, </span><span class="se">\&quot;</span><span class="s2">pink</span><span class="se">\&quot;</span><span class="s2">]. &quot;</span>
+                      <span class="s2">&quot;Right now the default colors will be used&quot;</span><span class="p">)</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;#00C9FF&quot;</span><span class="p">,</span> <span class="s2">&quot;grey&quot;</span><span class="p">]</span>
+
+    <span class="c1"># plot the random rich club values of random graphs</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;Degree&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Rich Club&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">new_rand_df</span><span class="p">,</span>
+                      <span class="n">err_style</span><span class="o">=</span><span class="s2">&quot;band&quot;</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="mi">95</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                      <span class="n">label</span><span class="o">=</span><span class="s2">&quot;random rich-club coefficient&quot;</span><span class="p">)</span>
+
+    <span class="c1"># plot the rich club values of real Graph</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">degree</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">rc_real</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;rich-club coefficient&quot;</span><span class="p">,</span>
+                      <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># set the max values of x &amp; y - axis if not provided</span>
+    <span class="k">if</span> <span class="n">x_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">x_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">degree</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">y_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">y_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">rc_real</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.1</span>   <span class="c1"># let y-axis be longer -&gt; looks better</span>
+
+    <span class="c1"># set the x and y axis limits</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_max</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">y_max</span><span class="p">))</span>
+
+    <span class="c1"># set the number of bins to 4</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">locator_params</span><span class="p">(</span><span class="n">nbins</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="c1"># set the x and y axis labels</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Degree&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Rich Club&quot;</span><span class="p">)</span>
+
+    <span class="c1"># create a legend if show_legend = True, otherwise - remove</span>
+    <span class="k">if</span> <span class="n">show_legend</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;x-small&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend_</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+
+    <span class="c1"># remove the top and right spines from plot</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+    <span class="c1"># adjust subplot params so that the subplot fits in to the figure area</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+    <span class="c1"># display the figure</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="c1"># save the figure if the location-to-save is provided</span>
+    <span class="k">if</span> <span class="n">figure_name</span><span class="p">:</span>
+        <span class="c1"># use the helper-function from module helpers to save the figure</span>
+        <span class="n">save_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">figure_name</span><span class="p">)</span>
+        <span class="c1"># close the file after saving to a file</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="plot_network_measures"><a class="viewcode-back" href="../../scona.html#scona.visualisations.plot_network_measures">[docs]</a><span class="k">def</span> <span class="nf">plot_network_measures</span><span class="p">(</span><span class="n">brain_bundle</span><span class="p">,</span> <span class="n">real_network</span><span class="p">,</span> <span class="n">figure_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="mi">95</span><span class="p">,</span> <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a visualisation tool for plotting network measures values</span>
+<span class="sd">    along with the random network values created from a random networks.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    brain_bundle : :class:`GraphBundle`</span>
+<span class="sd">        a python dictionary with BrainNetwork objects as values</span>
+<span class="sd">        (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and random graphs</span>
+<span class="sd">    real_network: str, required</span>
+<span class="sd">        This is the name of the real Graph in GraphBundle.</span>
+<span class="sd">        While instantiating GraphBundle object we pass the real Graph and its name.</span>
+<span class="sd">        (e.g. bundleGraphs = scn.GraphBundle([H], [&#39;Real Network&#39;])).</span>
+<span class="sd">        To plot real network measures along with the random network values  it is</span>
+<span class="sd">        required to pass the name of the real network (e.g.&#39;Real Network&#39;).</span>
+<span class="sd">    figure_name : str, optional</span>
+<span class="sd">        path to the file to store the created figure in (e.g. &quot;/home/Desktop/name&quot;)</span>
+<span class="sd">        or to store in the current directory include just a name (&quot;fig_name&quot;);</span>
+<span class="sd">    color : list of 2 strings, optional</span>
+<span class="sd">        where the 1st string is a color for real network measures and the 2nd</span>
+<span class="sd">        - for measures values of random graphs.</span>
+<span class="sd">        You can specify the color using an html hex string</span>
+<span class="sd">        (e.g. color =[&quot;#06209c&quot;,&quot;#c1b8b1&quot;]) or you can pass an (r, g, b) tuple,</span>
+<span class="sd">        where each of r, g, b are in the range [0,1]. Finally, legal html names</span>
+<span class="sd">        for colors, like &quot;red&quot;, &quot;black&quot; and so on are supported.</span>
+<span class="sd">    show_legend: bool (optional, default=True)</span>
+<span class="sd">        if True - show legend, otherwise - do not display legend.</span>
+<span class="sd">    ci: float or “sd” or None (optional, default=95)</span>
+<span class="sd">        Size of confidence intervals to draw around estimated values. If “sd”,</span>
+<span class="sd">        skip bootstrapping and draw the standard deviation of the observations.</span>
+<span class="sd">        If None, no bootstrapping will be performed, and error bars will not be drawn.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        Plot the Figure and if figure_name provided, save it in a figure_name file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># set the seaborn style and context in the beginning!</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;poster&quot;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># calculate network measures for each graph in brain_bundle</span>
+    <span class="c1"># if each graph in GraphBundle has already calculated global measures,</span>
+    <span class="c1"># this step will be skipped</span>
+    <span class="n">bundleGraphs_measures</span> <span class="o">=</span> <span class="n">brain_bundle</span><span class="o">.</span><span class="n">report_global_measures</span><span class="p">()</span>
+
+    <span class="c1"># get the names (types) of network measures in a sorted order</span>
+    <span class="n">sorted_net_measures</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">bundleGraphs_measures</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="c1"># set abbreviations for measures</span>
+    <span class="n">abbreviation</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;assortativity&#39;</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;average_clustering&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;average_shortest_path_length&#39;</span><span class="p">:</span> <span class="s1">&#39;L&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;efficiency&#39;</span><span class="p">:</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;modularity&#39;</span><span class="p">:</span> <span class="s1">&#39;M&#39;</span><span class="p">}</span>
+
+    <span class="c1">### Build a new dataframe for seaborn plotting</span>
+
+    <span class="c1"># set columns for our new dataframe</span>
+    <span class="n">new_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;measure&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="s2">&quot;TypeNetwork&quot;</span><span class="p">]</span>
+
+    <span class="c1"># set number of rows (indexes)</span>
+    <span class="n">no_columns_old</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bundleGraphs_measures</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">no_rows_old</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bundleGraphs_measures</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">total_rows</span> <span class="o">=</span> <span class="n">no_columns_old</span> <span class="o">*</span> <span class="n">no_rows_old</span>
+
+    <span class="c1"># set index for our new dataframe</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">total_rows</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+
+    <span class="c1">## Build array to contain all data to futher use for creating dataframe</span>
+
+    <span class="c1"># store the values of real Graph in data_array</span>
+    <span class="n">data_array</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">bundleGraphs_measures</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="c1"># check that the param - real_network - is correct, otherwise - error</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">bundleGraphs_measures</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">real_network</span><span class="p">,</span> <span class="n">measure</span><span class="p">]</span>  <span class="c1"># value of each measure for Real_Network</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                <span class="s2">&quot;The name of the real Graph you passed to the function - </span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2">, does not exist in GraphBundle. &quot;</span>
+                <span class="s2">&quot;Please provide a true name of real Graph (represented as a key in GraphBundle)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">real_network</span><span class="p">))</span>
+
+        <span class="n">measure_short</span> <span class="o">=</span> <span class="n">abbreviation</span><span class="p">[</span><span class="n">measure</span><span class="p">]</span>         <span class="c1"># get the abbreviation for measure and use this abbreviation</span>
+        <span class="n">type_network</span> <span class="o">=</span> <span class="s2">&quot;Real Network&quot;</span>
+
+        <span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span><span class="n">measure_short</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">type_network</span><span class="p">]</span>
+
+        <span class="n">data_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+
+    <span class="c1"># store the values of random Graphs</span>
+
+    <span class="c1"># create a new dataframe without Real Network</span>
+    <span class="n">random_df</span> <span class="o">=</span> <span class="n">bundleGraphs_measures</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">real_network</span><span class="p">)</span>
+
+    <span class="c1"># store the values of random Graphs in data_array</span>
+    <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">random_df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">rand_graph</span> <span class="ow">in</span> <span class="n">random_df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">random_df</span><span class="p">[</span><span class="n">measure</span><span class="p">][</span><span class="n">rand_graph</span><span class="p">]</span>
+            <span class="n">measure_short</span> <span class="o">=</span> <span class="n">abbreviation</span><span class="p">[</span><span class="n">measure</span><span class="p">]</span>
+            <span class="n">type_network</span> <span class="o">=</span> <span class="s2">&quot;Random Network&quot;</span>
+
+            <span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span><span class="n">measure_short</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">type_network</span><span class="p">]</span>
+
+            <span class="n">data_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+
+    <span class="c1"># finally create a new dataframe</span>
+    <span class="n">NewDataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data_array</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">new_columns</span><span class="p">)</span>
+
+    <span class="c1"># set the default colors of barsplot values if not provided</span>
+    <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;lightgrey&quot;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">color</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>              <span class="c1"># in case only to plot only real values</span>
+        <span class="n">color</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;lightgrey&quot;</span><span class="p">)</span>
+
+    <span class="c1"># if the user provided color not as a list of size 2 - show warning, use default colors</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">color</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Please, provide a *color* parameter as a &quot;</span>
+                      <span class="s2">&quot;python list object, e.g. [</span><span class="se">\&quot;</span><span class="s2">green</span><span class="se">\&quot;</span><span class="s2">, </span><span class="se">\&quot;</span><span class="s2">pink</span><span class="se">\&quot;</span><span class="s2">]. &quot;</span>
+                      <span class="s2">&quot;Right now the default colors will be used&quot;</span><span class="p">)</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;lightgrey&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Create a figure</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;measure&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;TypeNetwork&quot;</span><span class="p">,</span>
+                     <span class="n">data</span><span class="o">=</span><span class="n">NewDataFrame</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="p">[</span><span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">ci</span><span class="o">=</span><span class="n">ci</span><span class="p">)</span>
+
+    <span class="c1"># make a line at y=0</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+    <span class="c1"># set labels for y axix</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Global network measures&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>   <span class="c1"># empty -&gt; no x-label</span>
+
+    <span class="c1"># create a legend if show_legend = True, otherwise - remove</span>
+    <span class="k">if</span> <span class="n">show_legend</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;xx-small&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend_</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+
+    <span class="c1"># remove the top and right spines from plot</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+    <span class="c1"># adjust subplot params so that the subplot fits in to the figure area</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+    <span class="c1"># display the figure</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="c1"># save the figure if the location-to-save is provided</span>
+    <span class="k">if</span> <span class="n">figure_name</span><span class="p">:</span>
+        <span class="c1"># use the helper-function from module helpers to save the figure</span>
+        <span class="n">save_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">figure_name</span><span class="p">)</span>
+        <span class="c1"># close the file after saving to a file</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="plot_degree_dist"><a class="viewcode-back" href="../../scona.html#scona.visualisations.plot_degree_dist">[docs]</a><span class="k">def</span> <span class="nf">plot_degree_dist</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">binomial_graph</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figure_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a visualisation tool for plotting the degree distribution</span>
+<span class="sd">    along with the degree distribution of an Erdos Renyi random graph</span>
+<span class="sd">    that has the same number of nodes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">        BrainNetwork object</span>
+<span class="sd">    binomial_graph : bool (optional, default=True)</span>
+<span class="sd">        if &quot;True&quot; plot the degree distribution of an Erdos Renyi random graph.</span>
+<span class="sd">    figure_name : str, optional</span>
+<span class="sd">        path to the file to store the created figure in (e.g. &quot;/home/Desktop/name&quot;)</span>
+<span class="sd">        or to store in the current directory include just a name (&quot;fig_name&quot;);</span>
+<span class="sd">    color : list of 2 strings, optional</span>
+<span class="sd">        where the 1st string is a color for rich club values and 2nd - for random</span>
+<span class="sd">        rich club values. You can specify the color using an html hex string</span>
+<span class="sd">        (e.g. color =[&quot;#06209c&quot;,&quot;#c1b8b1&quot;]) or you can pass an (r, g, b) tuple,</span>
+<span class="sd">        where each of r, g, b are in the range [0,1]. Finally, legal html names</span>
+<span class="sd">        for colors, like &quot;red&quot;, &quot;black&quot; and so on are supported.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        Plot the Figure and if figure_name provided, save it in a figure_name file.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># set the seaborn style and context in the beginning!</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;poster&quot;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># calculate the degrees from the graph</span>
+    <span class="n">degrees</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">degree</span><span class="p">())</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+    <span class="c1"># calculate the Erdos Renyi graph from the main graph</span>
+    <span class="n">nodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">number_of_edges</span><span class="p">()</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">nodes</span><span class="o">*</span><span class="p">(</span><span class="n">nodes</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>    <span class="c1"># probability for edge creation</span>
+    <span class="n">G_ER</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">erdos_renyi_graph</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">cost</span><span class="p">)</span>
+
+    <span class="c1"># calculate the degrees for the ER graph</span>
+    <span class="n">degrees_ER</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">G_ER</span><span class="o">.</span><span class="n">degree</span><span class="p">())</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+    <span class="c1"># create a figure</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+    <span class="c1"># set the default colors of plotted values if not provided</span>
+    <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;grey&quot;</span><span class="p">]</span>
+
+    <span class="c1"># if the user provided color not as a list of size 2 - show warning, use default colors</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">color</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Please, provide a *color* parameter as a &quot;</span>
+                      <span class="s2">&quot;python list object, e.g. [</span><span class="se">\&quot;</span><span class="s2">green</span><span class="se">\&quot;</span><span class="s2">, </span><span class="se">\&quot;</span><span class="s2">pink</span><span class="se">\&quot;</span><span class="s2">]. &quot;</span>
+                      <span class="s2">&quot;Right now the default colors will be used&quot;</span><span class="p">)</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;#00C9FF&quot;</span><span class="p">,</span> <span class="s2">&quot;grey&quot;</span><span class="p">]</span>
+
+    <span class="c1"># plot distribution of graph&#39;s degrees</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">degrees</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># plot a Erdos Renyi graph density estimate</span>
+    <span class="k">if</span> <span class="n">binomial_graph</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">degrees_ER</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="c1"># fix the x axis limits - without the gap between the 1st column and x = 0 - start from 1</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">degrees</span><span class="p">)))</span>
+
+    <span class="c1"># set the number of bins to 5</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">locator_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="c1"># Set the x and y axis labels</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Degree&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Probability&quot;</span><span class="p">)</span>
+
+    <span class="c1"># remove the top and right spines from plot</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+    <span class="c1"># adjust subplot params so that the subplot fits in to the figure area</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+    <span class="c1"># display the figure</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="c1"># save the figure if the location-to-save is provided</span>
+    <span class="k">if</span> <span class="n">figure_name</span><span class="p">:</span>
+        <span class="c1"># use the helper-function from module helpers to save the figure</span>
+        <span class="n">save_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">figure_name</span><span class="p">)</span>
+        <span class="c1"># close the file after saving to a file</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Dr Kirstie Whitaker, Isla Staden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
