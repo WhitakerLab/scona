@@ -1,15 +1,25 @@
 import warnings
 import os
 import matplotlib.pyplot as plt
+import matplotlib as mpl
+import seaborn as sns
 
 
 def save_fig(figure, path_name):
     """
-    Helper function to save figure to the specified location - path_name
+    Helper function to save figure at the specified location - path_name
 
-    :param figure: matplot
-    :param path_name:
-    :return:
+    Parameters
+    ----------
+    figure : :class:`matplotlib.figure.Figure`
+        Figure to save.
+
+    path_name : str
+        Location where to save the figure.
+
+    Returns
+    -------
+        Saves figure to the location - path_name
     """
 
     # if path_name ends with "/" - do not save, e.g. "/home/user/dir1/dir2/"
@@ -35,3 +45,93 @@ def save_fig(figure, path_name):
 
     # save the figure to the file
     figure.savefig(path_name, bbox_inches=0, dpi=100)
+
+
+def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
+                     continuous=False, vmin=None, vmax=None):
+    """
+    Use a colormap to set color for each value in the DataFrame[column].
+    Convert data values (floats) from the interval [vmin,vmax] to the
+    RGBA colors that the respective Colormap represents.
+
+    Parameters
+    ----------
+    df : :class:`pandas.DataFrame`
+        The DataFrame that contains the required column (measure parameter).
+
+    measure : str
+        The name of the column in the df (pandas.DataFrame) that contains
+        values intended to be mapped to colors.
+
+    cmap_name : str or Colormap instance
+        The colormap used to map normalized data values to RGBA colors.
+
+    sns_palette: seaborn palette, (optional, default=None)
+        Discrete color palette only for discrete data. List of colors defining
+        a color palette (list of RGB tuples from seaborn color palettes).
+
+    continuous : bool,  optional (default=True)
+        if *True* return the list of colors for continuous data.
+
+    vmin : scalar or None, optional
+        The minimum value used in colormapping *data*. If *None* the minimum
+        value in *data* is used.
+
+    vmax : scalar or None, optional
+        The maximum value used in colormapping *data*. If *None* the maximum
+        value in *data* is used.
+
+    Returns
+    -------
+    list
+        a list of colors for each value in the DataFrame[measure]
+    """
+
+    # Store pair (value, color) as a (key,value) in a dict
+    colors_dict = {}
+
+    # If vmin or vmax not passed, calculate the min and max of the column (measure)
+    if vmin is None:
+        vmin = min(df[measure].values)
+    if vmax is None:
+        vmax = max(df[measure].values)
+
+    # The number of different colors needed
+    num_color = len(set(df[measure]))
+
+    # Continuous colorbar for continuous data
+    if continuous:
+        # Normalize data into the [0.0, 1.0] interval
+        norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
+
+        # Use of data normalization before returning RGBA colors from colormap
+        scalarMap = mpl.cm.ScalarMappable(norm=norm, cmap=cmap_name)
+
+        # Map normalized data values to RGBA colors
+        colors_list = [ scalarMap.to_rgba(x) for x in df[measure] ]
+
+    # For discrete data
+    else:
+        # Option 1: If you've passed a matplotlib color map
+        try:
+            cmap = mpl.cm.get_cmap(cmap_name)
+        except ValueError:
+            warnings.warn("ValueError: Colormap {} is not recognized. ". format(cmap_name) +
+                            "Default colormap jet will be used.")
+            cmap = mpl.cm.get_cmap("jet")
+
+        for i, value in enumerate(sorted(set(df[measure]))):
+            colors_dict[value] = cmap((i+0.5)/num_color)
+
+        # Option 2: If you've passed a sns_color_palette - use color_palette
+        if sns_palette:
+            color_palette = sns.color_palette(sns_palette, num_color)
+
+            for i, value in enumerate(sorted(set(df[measure]))):
+                colors_dict[value] = color_palette[i]
+
+        # Make a list of colors for each node in df based on the measure
+        colors_list = [ colors_dict[value] for value in df[measure].values ]
+
+    return colors_list
+
