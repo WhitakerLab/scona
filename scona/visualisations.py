@@ -334,6 +334,17 @@ def plot_degree_dist(G, binomial_graph=True, figure_name=None, color=None):
 
     """
 
+    # set the default colors of plotted values if not provided
+    if color is None:
+        color = [sns.color_palette()[0], "grey"]
+
+    # if the user provided color not as a list of size 2 - show warning, use default colors
+    if not isinstance(color, list) and len(color) == 2:
+        warnings.warn("Please, provide a *color* parameter as a "
+                      "python list object, e.g. [\"green\", \"pink\"]. "
+                      "Right now the default colors will be used")
+        color = ["#00C9FF", "grey"]
+
     # set the seaborn style and context in the beginning!
     sns.set(style="white")
     sns.set_context("poster", font_scale=1)
@@ -351,17 +362,6 @@ def plot_degree_dist(G, binomial_graph=True, figure_name=None, color=None):
 
     # create a figure
     fig, ax = plt.subplots(figsize=(10, 6))
-
-    # set the default colors of plotted values if not provided
-    if color is None:
-        color = [sns.color_palette()[0], "grey"]
-
-    # if the user provided color not as a list of size 2 - show warning, use default colors
-    if not isinstance(color, list) and len(color) == 2:
-        warnings.warn("Please, provide a *color* parameter as a "
-                      "python list object, e.g. [\"green\", \"pink\"]. "
-                      "Right now the default colors will be used")
-        color = ["#00C9FF", "grey"]
 
     # plot distribution of graph's degrees
     ax = sns.distplot(degrees, color=color[0])
