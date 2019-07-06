@@ -135,3 +135,59 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
 
     return colors_list
 
+
+def add_colorbar(fig, grid, cb_name, cmap_name, vmin=0, vmax=1):
+    """
+    Add a colorbar to the figure in the location defined by grid.
+
+    Parameters
+    ----------
+    fig : :class:`matplotlib.figure.Figure`
+        Figure to which colorbar will be added.
+
+    grid : str
+        Grid spec location to add colormap.
+
+    cb_name: str, (optional, default=None)
+        The label for the colorbar. Name of data values this colorbar represents.
+
+    cmap_name : str or Colormap instance
+        Name of the colormap
+
+    vmin : scalar or None, (optional, default=0)
+        Minimum value for the colormap
+
+    vmax : scalar or None, (optional, default=1)
+        Maximum value for the colormap
+
+    Returns
+    -------
+    `matplotlib.figure.Figure` object
+        figure with recently added colorbar
+    """
+
+    # add ax axes to the figure
+    ax_cbar = plt.Subplot(fig, grid)
+    fig.add_subplot(ax_cbar)
+
+    # normalise the colorbar to have the correct upper and lower limits
+    norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
+
+    # set ticks (min, median, max) for colorbar
+    ticks = [vmin, (vmin + vmax)/2, vmax]
+
+    # put a colorbar in a specified axes, and make colorbar for a given colormap
+    cb = mpl.colorbar.ColorbarBase(ax_cbar, cmap=cmap_name,
+                                   norm=norm,
+                                   ticks=ticks,
+                                   format='%.2f',
+                                   orientation='horizontal')
+
+    # set the name of the colorbar
+    if cb_name:
+        cb.set_label(cb_name, size=20)
+
+    # adjust the fontsize of ticks to look better
+    ax_cbar.tick_params(labelsize=20)
+
+    return fig
