@@ -1,5 +1,8 @@
 import warnings
 import os
+
+import numpy as np
+
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import seaborn as sns
@@ -197,3 +200,95 @@ def add_colorbar(fig, grid, cb_name, cmap_name, vmin=0, vmax=1):
     ax_cbar.tick_params(labelsize=20)
 
     return fig
+
+
+def axial_layout(x, y, z):
+    """
+    Axial (horizontal)  plane, the plane that is horizontal and parallel to the
+    axial plane of the body. It contains the lateral and the medial axes of the
+    brain.
+
+    Parameters
+    ----------
+    x, y, z : float
+        Node Coordinates
+
+    Returns
+    -------
+    numpy array
+        The node coordinates excluding z-axis. `array([x, y])`
+
+    """
+
+    return np.array([x, y])
+
+
+def sagittal_layout(x, y, z):
+    """
+    Sagittal plane, a vertical plane that passes from between the cerebral
+    hemispheres, dividing the brain into left and right halves.
+
+    Parameters
+    ----------
+    x, y, z : float
+        Node Coordinates
+
+    Returns
+    -------
+    numpy array
+        The node coordinates excluding y-axis. `array([x, z])`
+
+    """
+
+    return np.array([x, z])
+
+
+def coronal_layout(x, y, z):
+    """
+    Coronal (frontal) plane, a vertical plane that passes through both ears,
+    and contains the lateral and dorsoventral axes.
+
+    Parameters
+    ----------
+    x, y, z : float
+        Node Coordinates
+
+    Returns
+    -------
+    numpy array
+        The node coordinates excluding y-axis. `array([y, z])`
+
+    """
+
+    return np.array([y, z])
+
+
+def anatomical_layout(x, y, z, orientation="sagittal"):
+    """
+    This function extracts the required coordinates of a node based on the given
+     anatomical layout.
+
+    Parameters
+    ----------
+    x, y, z : float
+        Node Coordinates
+
+    orientation: str, (optional, default="sagittal)
+        The name of the plane: `sagittal` or `axial` or `coronal`.
+
+    Returns
+    -------
+    numpy array
+        The node coordinates for the given anatomical layout.
+    """
+
+    if orientation == "sagittal":
+        return sagittal_layout(x, y, z)
+    if orientation == "axial":
+        return axial_layout(x, y, z)
+    if orientation == "coronal":
+        return coronal_layout(x, y, z)
+    else:
+        raise ValueError(
+            "{} is not recognised as an anatomical layout. orientation values "
+            "should be one of 'sagittal', 'axial' or 'coronal'.".format(orientation))
