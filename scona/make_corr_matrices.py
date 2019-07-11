@@ -28,6 +28,30 @@ def get_non_numeric_cols(df):
     return non_numeric_cols
 
 
+def split_groups(df, group_var, shuffle=False):
+    '''
+    Separate a dataframe into different participant groups.
+    Parameters
+    ----------
+    df : :class:`pandas.DataFrame`
+    group_var : str
+        A string indexing a column of `df` which contains the group coding
+    shuffle : bool, optional
+        If True is passed split_groups will randomly assign each participant
+        a value from the original group_var column without replacement.
+
+    Returns
+    -------
+    dict
+        A dictionary mapping values of the group_var column to a
+        :class:`pandas.DataFrame`
+    '''
+    split_dict = {}
+    for value in set(df.loc[:, group_var].values):
+        split_dict[value] = df.loc[df[group_var] == value, :]
+    return split_dict
+
+
 def create_residuals_df(df, names, covars=[]):
     '''
     Calculate residuals of columns specified by names, correcting for the
