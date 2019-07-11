@@ -35,7 +35,8 @@ def split_groups(df, group_var, shuffle=False):
     ----------
     df : :class:`pandas.DataFrame`
     group_var : str
-        A string indexing a column of `df` which contains the group coding
+        A string indexing a column of `df` which describes the different
+        groups.
     shuffle : bool, optional
         If True is passed split_groups will randomly assign each participant
         a value from the original group_var column without replacement.
@@ -47,8 +48,18 @@ def split_groups(df, group_var, shuffle=False):
         :class:`pandas.DataFrame`
     '''
     split_dict = {}
+
+    # Loop over the unique values in the "group_var" column.
+    # These map to your two groups.
+    # Some examples include: 0 and 1, 'M' and 'F', or 'HC', 'SZ' etc.
     for value in set(df.loc[:, group_var].values):
+
+        # Create a subset of the rows in the data frame that are a member
+        # of each group as a new data frame. Assign that data frame
+        # as the value in the split_dict. Set the key to the value of
+        # group_var.
         split_dict[value] = df.loc[df[group_var] == value, :]
+
     return split_dict
 
 
