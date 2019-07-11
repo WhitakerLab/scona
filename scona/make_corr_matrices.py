@@ -49,8 +49,20 @@ def split_groups(df, group_var, shuffle=False):
     '''
     split_dict = {}
 
-    # Loop over the unique values in the "group_var" column.
-    # These map to your two groups.
+    # If shuffle is true, then create a new column at the end of the
+    # dataframe and fill it with a shuffled version of the group_var
+    # values.
+    if shuffle:
+        group_rand = "rand_{}".format(group_var)
+        df[group_rand] = np.random.permutation(df.loc[:, group_var].values)
+
+        # If shuffle is true we'll split the groups based on the "group_rand"
+        # column not the "group_var" column.
+        group_var = group_rand
+
+    # Loop over the unique values in the "group_var" (or its shuffled
+    # equivalent "group_rand") column. These values are used to identify
+    # membership of the groups.
     # Some examples include: 0 and 1, 'M' and 'F', or 'HC', 'SZ' etc.
     for value in set(df.loc[:, group_var].values):
 
@@ -59,6 +71,11 @@ def split_groups(df, group_var, shuffle=False):
         # as the value in the split_dict. Set the key to the value of
         # group_var.
         split_dict[value] = df.loc[df[group_var] == value, :]
+
+    # Delete the group_rand column, we don't need it any more and we don't
+    # want to confuse anyone!
+    if shuffle:
+        df.drop(columns=[group_rand])
 
     return split_dict
 
