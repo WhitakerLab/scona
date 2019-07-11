@@ -305,7 +305,7 @@ def plot_network_measures(brain_bundle, real_network, figure_name=None,
         plt.close(fig)
 
 
-def plot_degree_dist(G, binomial_graph=True, figure_name=None, color=None):
+def plot_degree_dist(G, binomial_graph=True, seed=10, figure_name=None, color=None):
 
     """
     This is a visualisation tool for plotting the degree distribution
@@ -318,6 +318,9 @@ def plot_degree_dist(G, binomial_graph=True, figure_name=None, color=None):
         BrainNetwork object
     binomial_graph : bool (optional, default=True)
         if "True" plot the degree distribution of an Erdos Renyi random graph.
+    seed : integer (default=10), random_state, or None
+        Seed for random number generator. In case it is needed to create random
+        Erdos Renyi Graph, set `seed` to None.
     figure_name : str, optional
         path to the file to store the created figure in (e.g. "/home/Desktop/name")
         or to store in the current directory include just a name ("fig_name");
@@ -343,7 +346,7 @@ def plot_degree_dist(G, binomial_graph=True, figure_name=None, color=None):
         warnings.warn("Please, provide a *color* parameter as a "
                       "python list object, e.g. [\"green\", \"pink\"]. "
                       "Right now the default colors will be used")
-        color = ["#00C9FF", "grey"]
+        color = [sns.color_palette()[0], "grey"]
 
     # set the seaborn style and context in the beginning!
     sns.set(style="white")
@@ -355,7 +358,7 @@ def plot_degree_dist(G, binomial_graph=True, figure_name=None, color=None):
     # calculate the Erdos Renyi graph from the main graph
     nodes = len(G.nodes())
     cost = G.number_of_edges() * 2.0 / (nodes*(nodes-1))    # probability for edge creation
-    G_ER = nx.erdos_renyi_graph(nodes, cost)
+    G_ER = nx.erdos_renyi_graph(nodes, cost, seed=seed)
 
     # calculate the degrees for the ER graph
     degrees_ER = np.array(list(dict(G_ER.degree()).values()))
