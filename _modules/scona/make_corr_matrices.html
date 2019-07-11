@@ -183,6 +183,30 @@
     <span class="k">return</span> <span class="n">non_numeric_cols</span></div>
 
 
+<div class="viewcode-block" id="split_groups"><a class="viewcode-back" href="../../scona.html#scona.make_corr_matrices.split_groups">[docs]</a><span class="k">def</span> <span class="nf">split_groups</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">group_var</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Separate a dataframe into different participant groups.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : :class:`pandas.DataFrame`</span>
+<span class="sd">    group_var : str</span>
+<span class="sd">        A string indexing a column of `df` which contains the group coding</span>
+<span class="sd">    shuffle : bool, optional</span>
+<span class="sd">        If True is passed split_groups will randomly assign each participant</span>
+<span class="sd">        a value from the original group_var column without replacement.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        A dictionary mapping values of the group_var column to a</span>
+<span class="sd">        :class:`pandas.DataFrame`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">split_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">group_var</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+        <span class="n">split_dict</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">group_var</span><span class="p">]</span> <span class="o">==</span> <span class="n">value</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="k">return</span> <span class="n">split_dict</span></div>
+
+
 <div class="viewcode-block" id="create_residuals_df"><a class="viewcode-back" href="../../scona.html#scona.make_corr_matrices.create_residuals_df">[docs]</a><span class="k">def</span> <span class="nf">create_residuals_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">covars</span><span class="o">=</span><span class="p">[]):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Calculate residuals of columns specified by names, correcting for the</span>
