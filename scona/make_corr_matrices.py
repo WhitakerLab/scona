@@ -35,7 +35,8 @@ def split_groups(df, group_var, shuffle=False):
     ----------
     df : :class:`pandas.DataFrame`
     group_var : str
-        A string indexing a column of `df` which contains the group coding
+        A string indexing a column of `df` which describes the different
+        groups.
     shuffle : bool, optional
         If True is passed split_groups will randomly assign each participant
         a value from the original group_var column without replacement.
