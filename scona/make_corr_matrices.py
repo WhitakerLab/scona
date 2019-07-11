@@ -53,6 +53,8 @@ def split_groups(df, group_var, shuffle=False):
             split_dict[value] = df.loc[df[group_var] == value, :]
         return split_dict
     elif shuffle is True:
+        # if shuffle is true, create a new dataframe, with a new column,
+        # identical to the group_var column, only randomly permuted.
         df = df.copy()
         group_rand = "rand_{}".format(group_var)
         df[group_rand] = np.random.permutation(df.loc[:, group_var].values)
