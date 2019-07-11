@@ -53,7 +53,7 @@ def split_groups(df, group_var, shuffle=False):
     # dataframe and fill it with a shuffled version of the group_var
     # values.
     if shuffle:
-        group_rand = "rand_{}".format(group_var)
+        group_rand = "{}_rand".format(group_var)
         df[group_rand] = np.random.permutation(df.loc[:, group_var].values)
 
         # If shuffle is true we'll split the groups based on the "group_rand"
@@ -70,7 +70,8 @@ def split_groups(df, group_var, shuffle=False):
         # of each group as a new data frame. Assign that data frame
         # as the value in the split_dict. Set the key to the value of
         # group_var.
-        split_dict[value] = df.loc[df[group_var] == value, :]
+        split_dict['{}_{}'.format(group_var,
+                                  value)] = df.loc[df[group_var] == value, :]
 
     # Delete the group_rand column, we don't need it any more and we don't
     # want to confuse anyone!
