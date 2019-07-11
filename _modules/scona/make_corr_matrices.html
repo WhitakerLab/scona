@@ -183,6 +183,59 @@
     <span class="k">return</span> <span class="n">non_numeric_cols</span></div>
 
 
+<div class="viewcode-block" id="split_groups"><a class="viewcode-back" href="../../scona.html#scona.make_corr_matrices.split_groups">[docs]</a><span class="k">def</span> <span class="nf">split_groups</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">group_var</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Separate a dataframe into different participant groups.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : :class:`pandas.DataFrame`</span>
+<span class="sd">    group_var : str</span>
+<span class="sd">        A string indexing a column of `df` which describes the different</span>
+<span class="sd">        groups.</span>
+<span class="sd">    shuffle : bool, optional</span>
+<span class="sd">        If True is passed split_groups will randomly assign each participant</span>
+<span class="sd">        a value from the original group_var column without replacement.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        A dictionary mapping values of the group_var column to a</span>
+<span class="sd">        :class:`pandas.DataFrame`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">split_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># If shuffle is true, then create a new column at the end of the</span>
+    <span class="c1"># dataframe and fill it with a shuffled version of the group_var</span>
+    <span class="c1"># values.</span>
+    <span class="k">if</span> <span class="n">shuffle</span><span class="p">:</span>
+        <span class="n">group_rand</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_rand&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">group_var</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">group_rand</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">group_var</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+        <span class="c1"># If shuffle is true we&#39;ll split the groups based on the &quot;group_rand&quot;</span>
+        <span class="c1"># column not the &quot;group_var&quot; column.</span>
+        <span class="n">group_var</span> <span class="o">=</span> <span class="n">group_rand</span>
+
+    <span class="c1"># Loop over the unique values in the &quot;group_var&quot; (or its shuffled</span>
+    <span class="c1"># equivalent &quot;group_rand&quot;) column. These values are used to identify</span>
+    <span class="c1"># membership of the groups.</span>
+    <span class="c1"># Some examples include: 0 and 1, &#39;M&#39; and &#39;F&#39;, or &#39;HC&#39;, &#39;SZ&#39; etc.</span>
+    <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">group_var</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+
+        <span class="c1"># Create a subset of the rows in the data frame that are a member</span>
+        <span class="c1"># of each group as a new data frame. Assign that data frame</span>
+        <span class="c1"># as the value in the split_dict. Set the key to the value of</span>
+        <span class="c1"># group_var.</span>
+        <span class="n">split_dict</span><span class="p">[</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">group_var</span><span class="p">,</span>
+                                  <span class="n">value</span><span class="p">)]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">group_var</span><span class="p">]</span> <span class="o">==</span> <span class="n">value</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="c1"># Delete the group_rand column, we don&#39;t need it any more and we don&#39;t</span>
+    <span class="c1"># want to confuse anyone!</span>
+    <span class="k">if</span> <span class="n">shuffle</span><span class="p">:</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">group_rand</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">split_dict</span></div>
+
+
 <div class="viewcode-block" id="create_residuals_df"><a class="viewcode-back" href="../../scona.html#scona.make_corr_matrices.create_residuals_df">[docs]</a><span class="k">def</span> <span class="nf">create_residuals_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">covars</span><span class="o">=</span><span class="p">[]):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Calculate residuals of columns specified by names, correcting for the</span>
@@ -215,16 +268,15 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># Raise TypeError if any of the relevant columns are nonnumeric</span>
     <span class="n">non_numeric_cols</span> <span class="o">=</span> <span class="n">get_non_numeric_cols</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">names</span><span class="o">+</span><span class="n">covars</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">non_numeric_cols</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">non_numeric_cols</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;DataFrame columns </span><span class="si">{}</span><span class="s1"> are non numeric&#39;</span>
                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">non_numeric_cols</span><span class="p">)))</span>
 
     <span class="c1"># Make a new data frame that will contain</span>
     <span class="c1"># the residuals for each column after correcting for</span>
     <span class="c1"># the covariates in covars</span>
-    <span class="n">df_res</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">names</span><span class="o">+</span><span class="n">covars</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">df_res</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">names</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-    <span class="c1"># Create your covariates array</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">covars</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">df</span><span class="p">[</span><span class="n">covars</span><span class="p">]])</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">covars</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -273,7 +325,7 @@
 
     <span class="c1"># Raise TypeError if any of the relevant columns are nonnumeric</span>
     <span class="n">non_numeric_cols</span> <span class="o">=</span> <span class="n">get_non_numeric_cols</span><span class="p">(</span><span class="n">df_res</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">non_numeric_cols</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">non_numeric_cols</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;DataFrame columns </span><span class="si">{}</span><span class="s1"> are non numeric&#39;</span>
                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">non_numeric_cols</span><span class="p">)))</span>
 
