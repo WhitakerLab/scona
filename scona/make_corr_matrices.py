@@ -67,9 +67,8 @@ def create_residuals_df(df, names, covars=[]):
     # Make a new data frame that will contain
     # the residuals for each column after correcting for
     # the covariates in covars
-    df_res = df[names+covars].copy()
+    df_res = df[names].copy()
 
-    # Create your covariates array
     if len(covars) > 1:
         x = np.vstack([df[covars]])
     elif len(covars) == 1:
