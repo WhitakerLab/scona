@@ -47,9 +47,16 @@ def split_groups(df, group_var, shuffle=False):
         :class:`pandas.DataFrame`
     '''
     split_dict = {}
-    for value in set(df.loc[:, group_var].values):
-        split_dict[value] = df.loc[df[group_var] == value, :]
-    return split_dict
+    if shuffle is False:
+        for value in set(df.loc[:, group_var].values):
+            split_dict[value] = df.loc[df[group_var] == value, :]
+        return split_dict
+    elif shuffle is True:
+        group_rand = "rand_{}".format(group_var)
+        df[group_rand] = np.random.permutation(df.loc[:, group_var].values)
+        for value in set(df.loc[:, group_rand].values):
+            split_dict[value] = df.loc[df[group_rand] == value, :]
+        return split_dict
 
 
 def create_residuals_df(df, names, covars=[]):
