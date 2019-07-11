@@ -222,9 +222,8 @@
     <span class="c1"># Make a new data frame that will contain</span>
     <span class="c1"># the residuals for each column after correcting for</span>
     <span class="c1"># the covariates in covars</span>
-    <span class="n">df_res</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">names</span><span class="o">+</span><span class="n">covars</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">df_res</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">names</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-    <span class="c1"># Create your covariates array</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">covars</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">df</span><span class="p">[</span><span class="n">covars</span><span class="p">]])</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">covars</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
