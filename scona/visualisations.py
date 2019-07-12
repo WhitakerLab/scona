@@ -6,8 +6,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from scona.helpers import save_fig
-
+from scona.visualisations_helpers import save_fig
+from scona.visualisations_helpers import df_sns_barplot
 
 def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
                    show_legend=True, x_max=None, y_max=None):
@@ -158,15 +158,16 @@ def plot_network_measures(brain_bundle, real_network, figure_name=None,
     ----------
     brain_bundle : :class:`GraphBundle`
         a python dictionary with BrainNetwork objects as values
-        (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and random graphs
+        (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and
+        random graphs
     real_network: str, required
         This is the name of the real Graph in GraphBundle.
-        While instantiating GraphBundle object we pass the real Graph and its name.
-        (e.g. bundleGraphs = scn.GraphBundle([H], ['Real Network'])).
-        To plot real network measures along with the random network values  it is
+        While instantiating GraphBundle object we pass the real Graph and its
+        name (e.g. bundleGraphs = scn.GraphBundle([H], ['Real Network'])).
+        To plot real network measures along with the random network values it is
         required to pass the name of the real network (e.g.'Real Network').
     figure_name : str, optional
-        path to the file to store the created figure in (e.g. "/home/Desktop/name")
+        path to the file to store the created figure in (e.g. "/home/Desktop/name") # noqa
         or to store in the current directory include just a name ("fig_name");
     color : list of 2 strings, optional
         where the 1st string is a color for real network measures and the 2nd
@@ -180,7 +181,8 @@ def plot_network_measures(brain_bundle, real_network, figure_name=None,
     ci: float or “sd” or None (optional, default=95)
         Size of confidence intervals to draw around estimated values. If “sd”,
         skip bootstrapping and draw the standard deviation of the observations.
-        If None, no bootstrapping will be performed, and error bars will not be drawn.
+        If None, no bootstrapping will be performed, and error bars will not be
+        drawn.
     Returns
     -------
         Plot the Figure and if figure_name provided, save it in a figure_name file.
@@ -195,74 +197,17 @@ def plot_network_measures(brain_bundle, real_network, figure_name=None,
     # this step will be skipped
     bundleGraphs_measures = brain_bundle.report_global_measures()
 
-    # get the names (types) of network measures in a sorted order
-    sorted_net_measures = sorted(bundleGraphs_measures.columns.values)
+    # build a new DataFrame required for seaborn.barplot
+    seaborn_data = df_sns_barplot(bundleGraphs_measures, real_network)
 
-    # set abbreviations for measures
-    abbreviation = {'assortativity': 'a', 'average_clustering': 'C',
-                    'average_shortest_path_length': 'L',
-                    'efficiency': 'E', 'modularity': 'M'}
-
-    ### Build a new dataframe for seaborn plotting
-
-    # set columns for our new dataframe
-    new_columns = ["measure", "value", "TypeNetwork"]
-
-    # set number of rows (indexes)
-    no_columns_old = len(bundleGraphs_measures.columns)
-    no_rows_old = len(bundleGraphs_measures.index)
-    total_rows = no_columns_old * no_rows_old
-
-    # set index for our new dataframe
-    index = [i for i in range(1, total_rows + 1)]
-
-    ## Build array to contain all data to futher use for creating dataframe
-
-    # store the values of real Graph in data_array
-    data_array = list()
-
-    for measure in bundleGraphs_measures.columns:
-        # check that the param - real_network - is correct, otherwise - error
-        try:
-            value = bundleGraphs_measures.loc[real_network, measure]  # value of each measure for Real_Network
-        except KeyError:
-            raise KeyError(
-                "The name of the real Graph you passed to the function - \"{}\", does not exist in GraphBundle. "
-                "Please provide a true name of real Graph (represented as a key in GraphBundle)".format(real_network))
-
-        measure_short = abbreviation[measure]         # get the abbreviation for measure and use this abbreviation
-        type_network = "Real Network"
-
-        tmp = [measure_short, value, type_network]
-
-        data_array.append(tmp)
-
-    # store the values of random Graphs
-
-    # create a new dataframe without Real Network
-    random_df = bundleGraphs_measures.drop(real_network)
-
-    # store the values of random Graphs in data_array
-    for measure in random_df.columns:
-        for rand_graph in random_df.index:
-            value = random_df[measure][rand_graph]
-            measure_short = abbreviation[measure]
-            type_network = "Random Network"
-
-            tmp = [measure_short, value, type_network]
-
-            data_array.append(tmp)
-
-    # finally create a new dataframe
-    NewDataFrame = pd.DataFrame(data=data_array, index=index, columns=new_columns)
-
-    # set the default colors of barsplot values if not provided
+    # set the default colors of barplot values if not provided
     if color is None:
         color = [sns.color_palette()[0], "lightgrey"]
-    elif len(color) == 1:              # in case only to plot only real values
+    elif len(color) == 1:            # in case we want to plot only real values
         color.append("lightgrey")
 
-    # if the user provided color not as a list of size 2 - show warning, use default colors
+    # if the user provided color not as a list of size 2 - show warning
+    # use default colors
     if not isinstance(color, list) and len(color) != 2:
         warnings.warn("Please, provide a *color* parameter as a "
                       "python list object, e.g. [\"green\", \"pink\"]. "
@@ -272,8 +217,9 @@ def plot_network_measures(brain_bundle, real_network, figure_name=None,
     # Create a figure
     fig, ax = plt.subplots(figsize=(8, 6))
 
+    # plot global measures with error bars
     ax = sns.barplot(x="measure", y="value", hue="TypeNetwork",
-                     data=NewDataFrame, palette=[color[0], color[1]], ci=ci)
+                     data=seaborn_data, palette=[color[0], color[1]], ci=ci)
 
     # make a line at y=0
     ax.axhline(0, linewidth=0.8, color='black')

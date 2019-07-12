@@ -2,10 +2,116 @@ import warnings
 import os
 
 import numpy as np
+import pandas as pd
 
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import seaborn as sns
+
+
+def df_sns_barplot(bundleGraphs_measures, real_network):
+    """
+    In order to plot barplot (with error bars) with the help of seaborn,
+    it is needed to pass a argument "data" - dataset for plotting.
+
+    This function restructures a DataFrame obtained from
+    `Graph.Bundle.report_global_measures` into an acceptable DataFrame for
+    seaborn.barplot.
+
+    Parameters
+    ----------
+    bundleGraphs_measures : :class:`pandas.DataFrame`
+        DataFrame with global measures for each Graph in GraphBundle.
+
+    real_network: str, required
+        This is the name of the real Graph in GraphBundle.
+        While instantiating GraphBundle object we pass the real Graph and its name.
+        (e.g. bundleGraphs = scn.GraphBundle([H], ['Real Network'])).
+        To plot real network measures along with the random network values  it is
+        required to pass the name of the real network (e.g.'Real Network').
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        Restructured DataFrame suitable for seaborn.barplot
+    """
+
+    # set abbreviations for measures
+    abbreviation = {'assortativity': 'a', 'average_clustering': 'C',
+                    'average_shortest_path_length': 'L',
+                    'efficiency': 'E', 'modularity': 'M'}
+
+    # set columns for our new DataFrame
+    new_columns = ["measure", "value", "TypeNetwork"]
+
+    # get the number of columns from the old DataFrame
+    no_columns_old = len(bundleGraphs_measures.columns)
+
+    # get the number of rows from the old DataFrame
+    no_rows_old = len(bundleGraphs_measures.index)
+
+    # set number of rows (indexes) in new DataFrame
+    total_rows = no_columns_old * no_rows_old
+
+    # set index for our new DataFrame
+    index = [i for i in range(1, total_rows + 1)]
+
+    # Build array to contain all data to futher use for creating new DataFrame
+
+    # store values of *Real Graph* in data_array - used to create new DataFrame
+    data_array = list()
+
+    for measure in bundleGraphs_measures.columns:
+        # check that the param - real_network - is correct, otherwise - error
+        try:
+            # for Real_Network get value of each measure
+            value = bundleGraphs_measures.loc[real_network, measure]
+        except KeyError:
+            raise KeyError(
+                "The name of the real Graph you passed to the function - \"{}\""
+                " does not exist in GraphBundle. Please provide a true name of "
+                "Real Graph (represented as a key in GraphBundle)".format(real_network))  # noqa
+
+        # get the abbreviation for measure and use this abbreviation
+        measure_short = abbreviation[measure]
+
+        type_network = "Real Network"
+
+        # create a temporary array to store measure - value of Real Network
+        tmp = [measure_short, value, type_network]
+
+        # add the record (measure - value - Real Graph) to the data_array
+        data_array.append(tmp)
+
+    # now store the measure and measure values of *Random Graphs* in data_array
+
+    # delete Real Graph from old DataFrame -
+    random_df = bundleGraphs_measures.drop(real_network)
+
+    # for each measure in measures
+    for measure in random_df.columns:
+
+        # for each graph in Random Graphs
+        for rand_graph in random_df.index:
+            # get the value of a measure for a random Graph
+            value = random_df[measure][rand_graph]
+
+            # get the abbreviation for measure and use this abbreviation
+            measure_short = abbreviation[measure]
+
+            type_network = "Random Network"
+
+            # create temporary array to store measure - value of Random Network
+            tmp = [measure_short, value, type_network]
+
+            # add record (measure - value - Random Graph) to the global array
+            data_array.append(tmp)
+
+    # finally create a new DataFrame
+    NewDataFrame = pd.DataFrame(data=data_array, index=index,
+                                    columns=new_columns)
+
+    return NewDataFrame
 
 
 def save_fig(figure, path_name):
