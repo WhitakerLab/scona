@@ -159,7 +159,7 @@ def plot_network_measures(brain_bundle, real_network, figure_name=None,
     brain_bundle : :class:`GraphBundle`
         a python dictionary with BrainNetwork objects as values
         (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and
-        random graphs
+        random graphs.
     real_network: str, required
         This is the name of the real Graph in GraphBundle.
         While instantiating GraphBundle object we pass the real Graph and its
@@ -192,13 +192,8 @@ def plot_network_measures(brain_bundle, real_network, figure_name=None,
     sns.set(style="white")
     sns.set_context("poster", font_scale=1)
 
-    # calculate network measures for each graph in brain_bundle
-    # if each graph in GraphBundle has already calculated global measures,
-    # this step will be skipped
-    bundleGraphs_measures = brain_bundle.report_global_measures()
-
     # build a new DataFrame required for seaborn.barplot
-    seaborn_data = df_sns_barplot(bundleGraphs_measures, real_network)
+    seaborn_data = df_sns_barplot(brain_bundle, real_network)
 
     # set the default colors of barplot values if not provided
     if color is None:

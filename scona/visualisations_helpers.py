@@ -9,7 +9,7 @@ import matplotlib as mpl
 import seaborn as sns
 
 
-def df_sns_barplot(bundleGraphs_measures, real_network):
+def df_sns_barplot(bundleGraphs, real_network):
     """
     In order to plot barplot (with error bars) with the help of seaborn,
     it is needed to pass a argument "data" - dataset for plotting.
@@ -20,8 +20,10 @@ def df_sns_barplot(bundleGraphs_measures, real_network):
 
     Parameters
     ----------
-    bundleGraphs_measures : :class:`pandas.DataFrame`
-        DataFrame with global measures for each Graph in GraphBundle.
+    bundleGraphs : :class:`GraphBundle`
+        a python dictionary with BrainNetwork objects as values
+        (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and
+        random graphs
 
     real_network: str, required
         This is the name of the real Graph in GraphBundle.
@@ -35,6 +37,11 @@ def df_sns_barplot(bundleGraphs_measures, real_network):
     :class:`pandas.DataFrame`
         Restructured DataFrame suitable for seaborn.barplot
     """
+
+    # calculate network measures for each graph in brain_bundle
+    # if each graph in GraphBundle has already calculated global measures,
+    # this step will be skipped
+    bundleGraphs_measures = bundleGraphs.report_global_measures()
 
     # set abbreviations for measures
     abbreviation = {'assortativity': 'a', 'average_clustering': 'C',
@@ -110,6 +117,36 @@ def df_sns_barplot(bundleGraphs_measures, real_network):
     # finally create a new DataFrame
     NewDataFrame = pd.DataFrame(data=data_array, index=index,
                                     columns=new_columns)
+
+    # include the small world coefficient into new DataFrame
+
+    # check that random graphs exist in GraphBundle
+    if len(bundleGraphs) > 1:
+        # get the small_world values for Real Graph
+        small_world = bundleGraphs.report_small_world(real_network)
+
+        # delete the comparison of the graph labelled real_network with itself
+        del small_world[real_network]
+
+        # create list of dictionaries to later append to the new DataFrame
+        df_small_world = []
+        for i in list(small_world.values()):
+            tmp = {'measure': 'sigma', 'value': i, 'TypeNetwork': 'Real Network'}
+
+            df_small_world.append(tmp)
+
+        # add small_world values of *real_network* to new DataFrame
+        NewDataFrame = NewDataFrame.append(df_small_world, ignore_index=True)
+
+        # bar for small_world measure of random graphs should be set exactly to 1   # noqa
+
+        # set constant value of small_world measure for random bar
+        rand_small_world = {'measure': 'sigma', 'value': 1,
+                                            'TypeNetwork': 'Random Network'}
+
+        # add constant value of small_world measure for random bar to new DataFrame # noqa
+        NewDataFrame = NewDataFrame.append(rand_small_world,
+                                                     ignore_index=True)
 
     return NewDataFrame
 
