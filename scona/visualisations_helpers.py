@@ -205,7 +205,7 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
     # Store pair (value, color) as a (key,value) in a dict
     colors_dict = {}
 
-    # If vmin or vmax not passed, calculate the min and max of the column (measure)
+    # If vmin or vmax not passed, calculate the min and max of the measure
     if vmin is None:
         vmin = min(df[measure].values)
     if vmax is None:
@@ -231,12 +231,13 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
         try:
             cmap = mpl.cm.get_cmap(cmap_name)
         except ValueError:
-            warnings.warn("ValueError: Colormap {} is not recognized. ". format(cmap_name) +
-                            "Default colormap jet will be used.")
-            cmap = mpl.cm.get_cmap("jet")
+            warnings.warn(
+                "ValueError: Colormap {} is not recognized. ". format(cmap_name)
+                + "Default colormap jet will be used.")
+            cmap = mpl.cm.get_cmap("tab10")
 
         for i, value in enumerate(sorted(set(df[measure]))):
-            colors_dict[value] = cmap((i+0.5)/num_color)
+            colors_dict[value] = cmap(i)
 
         # Option 2: If you've passed a sns_color_palette - use color_palette
         if sns_palette:
