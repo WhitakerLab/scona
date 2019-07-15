@@ -1,3 +1,8 @@
+# Ignore the figures directory that is created when you run
+# some of the tutorials. We don't want those outputs to be
+# brought up to the github repository.
+tutorials/figures
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

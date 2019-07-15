@@ -285,7 +285,7 @@ def calculate_nodal_measures(
     '''
     Calculate and store nodal measures as nodal attributes.
 
-    By default calculates:
+    By default `calculate_nodal_measures` calculates the following :
 
     * "degree" : int
     * "closeness" : float
@@ -296,7 +296,8 @@ def calculate_nodal_measures(
 
     Use `measure_list` to specify which of the default nodal attributes to
     calculate.
-    Use `additional_measures` to describe and calculate new measure definitions.
+    Use `additional_measures` to describe and calculate new measure
+    definitions.
 
     Parameters
     ----------
@@ -345,14 +346,11 @@ def calculate_nodal_measures(
 
     # ==== CALCULATE MEASURES ====================
 
-    def calc_nodal_measure(G, measure, method, force=False):
+    for measure, method in nodal_measure_dict.items():
         if (not nx.get_node_attributes(G, name=measure)) or force:
             nx.set_node_attributes(G,
                                    name=measure,
                                    values=method(G))
-
-    for measure, method in nodal_measure_dict.items():
-        calc_nodal_measure(G, measure, method, force=force)
 
 
 # ============= Global measures =============
@@ -451,6 +449,9 @@ def calculate_global_measures(G,
     `average_shortest_path_length`, `assortativity`, `modularity`, and
     `efficiency` of G.
 
+    Note: Global measures **will not** be calculated again if they have already been calculated.
+    So it is only needed to calculate them once and then they aren't calculated again.
+
     Parameters
     ----------
     G : :class:`networkx.Graph`
@@ -474,7 +475,7 @@ def calculate_global_measures(G,
     '''
     # ==== MEASURES ====================
     if existing_global_measures is not None:
-        global_measures = existing_global_measures
+        global_measures = existing_global_measures.copy()
     else:
         global_measures = {}
 

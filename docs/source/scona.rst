@@ -1,6 +1,8 @@
 scona package
 =============================
 
+.. _ref-subpackages-label:
+
 Subpackages
 -----------
 
@@ -57,6 +59,14 @@ scona.stats_functions module
 --------------------------------------------
 
 .. automodule:: scona.stats_functions
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+scona.visualisations module
+--------------------------------------------
+
+.. automodule:: scona.visualisations
     :members:
     :undoc-members:
     :show-inheritance:

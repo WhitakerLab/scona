@@ -40,6 +40,10 @@ from scona.make_graphs import *
 from scona.graph_measures import *
 from scona.classes import *
 
-import scona.wrappers
+from scona.wrappers import *
+
+from scona.helpers import *
+
 import scona.datasets
 from scona import *
+

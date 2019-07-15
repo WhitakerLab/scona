@@ -14,7 +14,7 @@ The [development guide](#development-guide) deals with the specifics of contribu
 
 ### Installing in editable mode
 
-Use `pip install -e git+https://github.com/WhitakerLab/scona.git` to install scona in editable mode. This means that the python install of scona will be kept up to date with any changes you make, including switching branches in git.
+Use `pip install -e git+https://github.com/WhitakerLab/scona.git#egg=scona` to install scona in editable mode. This means that the python install of scona will be kept up to date with any changes you make, including switching branches in git.
 
 ### Linting
 
@@ -22,6 +22,7 @@ scona uses the [PEP8 style guide](https://www.python.org/dev/peps/pep-0008/).
 You can use [flake8](http://flake8.pycqa.org/en/latest/) to lint code.
 We're quite a young project (at time of writing in January 2019) and so we aren't going to be super hardcore about your linting!
 Linting should make your life easier, but if you're not sure how to get started, or if this is a barrier to you contributing to `scona` then don't worry about it or [get in touch](CONTRIBUTING.md#how-to-get-in-touch) and we'll be happy to help you.
+Feel free also to correct unlinted code in scona when you come across it!:sparkles:
 
 ### Writing docstrings
 
