@@ -14,6 +14,7 @@ from scona.visualisations_helpers import setup_color_list
 from scona.visualisations_helpers import add_colorbar
 from scona.visualisations_helpers import anatomical_layout
 
+
 def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
                    show_legend=True, x_max=None, y_max=None):
     """
@@ -373,14 +374,14 @@ def plot_anatomical_network(G10, G02, measure="module", orientation="sagittal",
         A binary graph with 2% as many edges as the complete graph G
 
     measure: str, (optional, default="module")
-        A nodal measure of a Graph.
+        The name of a nodal measure.
 
     orientation : str, (optional, default="sagittal")
         The anatomical plane of the brain, i.g. sagittal, coronal, axial.
 
     node_list: list, optional
-        List of nodes to display. By default, all nodes of graph will be
-        displayed.
+        Draw only specified nodes (default G.nodes()). By default, all nodes
+        of graph will be displayed.
 
     node_shape : string
         The shape of the node.  Specification is as matplotlib.scatter marker,
@@ -404,6 +405,7 @@ def plot_anatomical_network(G10, G02, measure="module", orientation="sagittal",
         marker, one of 'so^>v<dph8' (default='s').
 
     edge_list : list of tuples, optional
+        Draw only specified edges(default=G.edges()).
         List of edges, where each edge is represented as a tuple, e.g. (0,1).
         Edges of a graph can be accessed by executing `Graph.edges()`.
 
@@ -412,21 +414,24 @@ def plot_anatomical_network(G10, G02, measure="module", orientation="sagittal",
         or a sequence of colors with the same length as edgelist.
 
     edge_width: float, or array of floats
-        Line width of edges (default=1.0)
+        Line width of edges (default=1.0).
 
-    cmap_name:
+    cmap : Matplotlib colormap
+       Colormap for mapping intensities of nodes (default=None).
 
     sns_palette: seaborn palette, (optional, default=None)
         Discrete color palette only for discrete data. List of colors defining
         a color palette (list of RGB tuples from seaborn color palettes).
 
-    continuous: str, (optional, default=False)
+    continuous: bool, (optional, default=False)
+        Indicate whether the data values are is discrete (False) or
+        continuous (True).
 
-    vmin :
-
-
-    vmax :
-
+    vmin,vmax : floats
+        Minimum and maximum for node colormap scaling (default=None).
+        Measure values will be normalized into the [vmin, vmax] interval.
+        If vmin or vmax is not given (None), they are initialized from
+        the minimum and maximum value respectively of the first input processed.
 
     figure_name : str, optional
         path to the file to store the created figure in (e.g. "/home/Desktop/name")   # noqa
@@ -434,12 +439,11 @@ def plot_anatomical_network(G10, G02, measure="module", orientation="sagittal",
 
     Returns
     -------
-        Plot the Figure and if figure_name provided, save it in a figure_name
-        file.
+        Plot the Figure, save it in a figure_name file, if figure_name is given.   # noqa
 
     """
 
-    # Set the seaborn context and style
+    # set seaborn context and style
     sns.set(style="white")
     sns.set_context("poster", font_scale=2)
 
@@ -448,7 +452,7 @@ def plot_anatomical_network(G10, G02, measure="module", orientation="sagittal",
         node_list = G10.nodes()
         node_list = sorted(node_list)
 
-    # store node:size_node as a dict
+    # store {node : size_node} as a dict
     node_size_list = dict()
 
     # handle different types of node_size (scalar or array)
@@ -489,7 +493,7 @@ def plot_anatomical_network(G10, G02, measure="module", orientation="sagittal",
                                       G10.node[node]['z'],
                                           orientation=orientation)
 
-    # We're going to figure out the best way to plot these nodes
+    # we're going to figure out the best way to plot these nodes
     # so that they're sensibly on top of each other
     sort_dict = {}
     sort_dict['axial'] = 'z'
@@ -501,20 +505,21 @@ def plot_anatomical_network(G10, G02, measure="module", orientation="sagittal",
     # this is the order of displaying nodes based on the orientation
     node_order = np.argsort(nodal_measures[sort_dict[orientation]].values)
 
-    # Now remove all the nodes that are not in the node_list
+    # now remove all the nodes that are not in the node_list
     node_order = [x for x in node_order if x in node_list]
 
     # get the color for each node based on the nodal measure
     if measure in nodal_measures.columns:
         colors_list = setup_color_list(df=nodal_measures, cmap_name=cmap_name,
                                        sns_palette=sns_palette, measure=measure,
-                                       continuous=continuous, vmin=vmin, vmax=vmax)
+                                       continuous=continuous, vmin=vmin, vmax=vmax)   # noqa
     else:
-        warnings.warn("Measure \"{}\" does not exist in the nodal attributes of Graph. "
-                      "The default color will be used for all nodes.".format(measure))
-        colors_list = ["blue"] * len(node_order)
+        warnings.warn(
+            "Measure \"{}\" does not exist in the nodal attributes of Graph. "
+            "The default color will be used for all nodes.".format(measure))
+        colors_list = ["mediumturquoise"] * len(node_order)
 
-    # Create figure
+    # define the size of a figure for each orientation
     fig_size_dict = {}
     fig_size_dict['axial'] = (9, 12)
     fig_size_dict['sagittal'] = (12, 9)
@@ -523,14 +528,13 @@ def plot_anatomical_network(G10, G02, measure="module", orientation="sagittal",
     # create the figure
     fig = plt.figure(figsize=fig_size_dict[orientation])
 
-    # Height rations of the rows and no space between brain plot and colorbar plot
+    # create grid for axes1 - brain_plotting, axes2 - colorbar
+    # num_rows=2, num_col=1, height rations of the rows (50,1) and no space
+    # between brain plot and colorbar plot
     grid = mpl.gridspec.GridSpec(nrows=2, ncols=1, height_ratios=[50, 1],
                                  hspace=0)
 
-    # left=0, right=1, bottom=0, top=1
-    grid.update(bottom=0.1, top=1)
-
-    # Add an axis to the big_fig
+    # Add an axis containing brain-plot to the figure
     ax_brain = plt.Subplot(fig, grid[0])
     fig.add_subplot(ax_brain)
 
@@ -544,9 +548,9 @@ def plot_anatomical_network(G10, G02, measure="module", orientation="sagittal",
                                nodelist=[node],
                                ax=ax_brain)
 
-    # get the graph's edges if not provided
+    # get the graph's edges if not given
     if edge_list is None:
-        # plot edges of Graph02 (thresholded at cost 2) - (nodes important, not edges)
+        # plot edges of G02 (thresholded at cost 2)-(nodes important, not edges)
         edge_list = list(G02.edges())
 
     # plot edges
@@ -557,16 +561,20 @@ def plot_anatomical_network(G10, G02, measure="module", orientation="sagittal",
                            width=edge_width,
                            ax=ax_brain)
 
-    # calculate vmin and vmax of data values if not passed
-    if vmin is None:
-        vmin = min(nodal_measures[measure].values)
-    if vmax is None:
-        vmax = max(nodal_measures[measure].values)
-
-    # add the colorbar to the plot if plotting continuous data
+    # if plotting continuous data, add the colorbar to the plot
     if continuous:
+
+        # calculate vmin and vmax of data values (if not given) for colorbar
+        if (vmin is None) and (measure in nodal_measures.columns):
+            vmin = min(nodal_measures[measure].values)
+        if (vmax is None) and (measure in nodal_measures.columns):
+            vmax = max(nodal_measures[measure].values)
+
         add_colorbar(fig, grid[1], cb_name=measure, cmap_name=cmap_name,
                      vmin=vmin, vmax=vmax)
+
+        # adjust the size of the grid (left=0, right=1, bottom=0, top=1)
+        grid.update(bottom=0.1, top=1)
 
     # remove all spines from plot
     sns.despine(top=True, right=True, left=True, bottom=True)
@@ -574,7 +582,7 @@ def plot_anatomical_network(G10, G02, measure="module", orientation="sagittal",
     # display the figure
     plt.show()
 
-    # save the figure if the location-to-save is provided
+    # save the figure if the location-to-save is given
     if figure_name:
         # use the helper-function from module helpers to save the figure
         save_fig(fig, figure_name)

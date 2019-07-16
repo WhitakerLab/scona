@@ -233,7 +233,7 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
         except ValueError:
             warnings.warn(
                 "ValueError: Colormap {} is not recognized. ". format(cmap_name)
-                + "Default colormap jet will be used.")
+                + "Default colormap tab10 will be used.")
             cmap = mpl.cm.get_cmap("tab10")
 
         for i, value in enumerate(sorted(set(df[measure]))):
