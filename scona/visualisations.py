@@ -5,9 +5,11 @@ import networkx as nx
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from nilearn import plotting
 
 from scona.visualisations_helpers import save_fig
 from scona.visualisations_helpers import df_sns_barplot
+from scona.visualisations_helpers import graph_to_nilearn_array
 
 def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
                    show_legend=True, x_max=None, y_max=None):
@@ -344,3 +346,45 @@ def plot_degree_dist(G, binomial_graph=True, seed=10, figure_name=None, color=No
         save_fig(fig, figure_name)
         # close the file after saving to a file
         plt.close(fig)
+
+
+def view_nodes_3d(
+        G,
+        node_size=5.,
+        node_color='black'):
+    """
+    Plot nodes of a BrainNetwork using
+    :func:`nilearn.plotting.view_markers()` tool.
+
+    Insert a 3d plot of markers in a brain into an HTML page.
+
+    Parameters
+    ----------
+    G : :class:`networkx.Graph`
+        G should have nodal locations in MNI space indexed by nodal
+        attribute "centroids"
+
+    node_size : float or array-like, optional (default=5.)
+        Size of the nodes showing the seeds in pixels.
+
+    node_colors : str or list of str (default 'black')
+        node_colour determines the colour given to each node.
+        If a single string is given, this string will be interpreted as a
+        a colour, and all nodes will be rendered in this colour.
+        If a list of colours is given, it must be the same length as the length
+        of nodes coordinates.
+    """
+
+    # get the nodes coordinates
+    a, node_coords, colour_list, z = graph_to_nilearn_array(G)
+
+    #
+    if isinstance(node_color, str):
+        node_color = [node_color for i in range(len(node_coords))]
+
+
+    # plot nodes
+    ConnectomeView = plotting.view_markers(node_coords, marker_color=node_color,
+                                           marker_size=node_size)
+
+    return ConnectomeView
