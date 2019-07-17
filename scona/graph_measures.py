@@ -422,6 +422,11 @@ def small_coefficient(G, R):
     '''
     Calculate the small coefficient of G relative to R.
 
+    Small coefficient is (G.average_clustering/R.average_clustering) /
+    (G.average_shortest_path_length / R.average_shortest_path_length) , where
+    average_clustering and average_shortest_path_length are a graph's global
+    measures.
+
     Parameters
     ----------
     G, R : :class:`networkx.Graph`
@@ -432,10 +437,11 @@ def small_coefficient(G, R):
     float
         The small coefficient of G relative to R
     '''
-    return small_world_sigma((nx.average_clustering(G),
-                              nx.average_shortest_path_length(G)),
-                             (nx.average_clustering(R),
-                              nx.average_shortest_path_length(R)))
+
+    return small_world_sigma((G.graph["global_measures"]["average_clustering"],
+                              G.graph["global_measures"]["average_shortest_path_length"]),  # noqa
+                             (R.graph["global_measures"]["average_clustering"],
+                              R.graph["global_measures"]["average_shortest_path_length"]))  # noqa
 
 
 # ============ Calculate Global Measures En Masse ================
