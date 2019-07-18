@@ -9,6 +9,7 @@ import seaborn as sns
 from scona.visualisations_helpers import save_fig
 from scona.visualisations_helpers import df_sns_barplot
 
+
 def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
                    show_legend=True, x_max=None, y_max=None):
     """
@@ -60,7 +61,12 @@ def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
     degree = rich_club_df.index.values
 
     # select the values of the 1st Graph in Graph Bundle - Real Graph
-    rc_real = np.array(rich_club_df[real_network])
+    try:
+        rc_real = np.array(rich_club_df[real_network])
+    except KeyError:
+        raise KeyError(
+            "Please check the name of the Real Graph in GraphBundle. There is"
+            " no graph keyed by name \"{}\"".format(real_network))
 
     # create a dataframe of random Graphs (exclude Real Graph)
     rand_df = rich_club_df.drop(real_network, axis=1)
@@ -91,7 +97,7 @@ def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
     elif len(color) == 1:              # in case only to plot only real values
         color.append("grey")
 
-    # if the user provided color not as a list of size 2 - show warning, use default colors
+    # if the given color not a list of size 2 - show warning, use default colors
     if not isinstance(color, list) and len(color) != 2:
         warnings.warn("Please, provide a *color* parameter as a "
                       "python list object, e.g. [\"green\", \"pink\"]. "
@@ -101,13 +107,13 @@ def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
     # plot the random rich club values of random graphs
     ax = sns.lineplot(x="Degree", y="Rich Club", data=new_rand_df,
                       err_style="band", ci=95, color=color[1],
-                      label="random rich-club coefficient")
+                      label="Random network", zorder=2)
 
     # plot the rich club values of real Graph
-    ax = sns.lineplot(x=degree, y=rc_real, label="rich-club coefficient",
+    ax = sns.lineplot(x=degree, y=rc_real, label="Real Network", zorder=1,
                       color=color[0])
 
-    # set the max values of x & y - axis if not provided
+    # set the max values of x & y - axis if not given
     if x_max is None:
         x_max = max(degree)
 

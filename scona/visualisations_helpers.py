@@ -27,7 +27,7 @@ def df_sns_barplot(bundleGraphs, real_network):
 
     real_network: str, required
         This is the name of the real Graph in GraphBundle.
-        While instantiating GraphBundle object we pass the real Graph and its name.
+        While instantiating GraphBundle object we pass the real Graph and its name.     # noqa
         (e.g. bundleGraphs = scn.GraphBundle([H], ['Real Network'])).
         To plot real network measures along with the random network values  it is
         required to pass the name of the real network (e.g.'Real Network').
@@ -82,7 +82,7 @@ def df_sns_barplot(bundleGraphs, real_network):
         # get the abbreviation for measure and use this abbreviation
         measure_short = abbreviation[measure]
 
-        type_network = "Real Network"
+        type_network = "Real network"
 
         # create a temporary array to store measure - value of Real Network
         tmp = [measure_short, value, type_network]
@@ -106,7 +106,7 @@ def df_sns_barplot(bundleGraphs, real_network):
             # get the abbreviation for measure and use this abbreviation
             measure_short = abbreviation[measure]
 
-            type_network = "Random Network"
+            type_network = "Random network"
 
             # create temporary array to store measure - value of Random Network
             tmp = [measure_short, value, type_network]
@@ -131,7 +131,7 @@ def df_sns_barplot(bundleGraphs, real_network):
         # create list of dictionaries to later append to the new DataFrame
         df_small_world = []
         for i in list(small_world.values()):
-            tmp = {'measure': 'sigma', 'value': i, 'TypeNetwork': 'Real Network'}
+            tmp = {'measure': 'sigma', 'value': i, 'TypeNetwork': 'Real network'}
 
             df_small_world.append(tmp)
 
@@ -142,7 +142,7 @@ def df_sns_barplot(bundleGraphs, real_network):
 
         # set constant value of small_world measure for random bar
         rand_small_world = {'measure': 'sigma', 'value': 1,
-                                            'TypeNetwork': 'Random Network'}
+                                            'TypeNetwork': 'Random network'}
 
         # add constant value of small_world measure for random bar to new DataFrame # noqa
         NewDataFrame = NewDataFrame.append(rand_small_world,
