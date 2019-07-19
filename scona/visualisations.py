@@ -522,8 +522,8 @@ def plot_anatomical_network(G10, G02, measure="module", orientation="sagittal",
     # define the size of a figure for each orientation
     fig_size_dict = {}
     fig_size_dict['axial'] = (9, 12)
-    fig_size_dict['sagittal'] = (12, 9)
-    fig_size_dict['coronal'] = (11, 9)
+    fig_size_dict['sagittal'] = (9, 8)
+    fig_size_dict['coronal'] = (10, 8)
 
     # create the figure
     fig = plt.figure(figsize=fig_size_dict[orientation])
@@ -546,6 +546,8 @@ def plot_anatomical_network(G10, G02, measure="module", orientation="sagittal",
                                node_size=node_size_list[node],
                                node_shape = node_shape_list[node],
                                nodelist=[node],
+                               edgecolors='black',
+                               linewidths=0.3,
                                ax=ax_brain)
 
     # get the graph's edges if not given
@@ -574,7 +576,7 @@ def plot_anatomical_network(G10, G02, measure="module", orientation="sagittal",
                      vmin=vmin, vmax=vmax)
 
         # adjust the size of the grid (left=0, right=1, bottom=0, top=1)
-        grid.update(bottom=0.1, top=1)
+        grid.update(bottom=0.1)
 
     # remove all spines from plot
     sns.despine(top=True, right=True, left=True, bottom=True)
