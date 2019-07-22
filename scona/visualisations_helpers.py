@@ -3,6 +3,7 @@ import os
 
 import numpy as np
 import pandas as pd
+import networkx as nx
 
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -402,8 +403,6 @@ def anatomical_layout(x, y, z, orientation="sagittal"):
 
 def graph_to_nilearn_array(
         G,
-        node_colour_att=None,
-        node_size_att=None,
         edge_attribute="weight"):
     """
     Derive from G (BrainNetwork Graph) the necessary inputs for the `nilearn`
@@ -416,21 +415,11 @@ def graph_to_nilearn_array(
     node_colour_att : str, optional
         index a nodal attribute to scale node colour by
 
-    node_size_att : str, optional
-        index a nodal attribute to scale node size by
-
-    edge_attribute : str (optional, default = 'weight')
-        The edge attribute that holds the numerical value used for the edge
-        weight. If an edge does not have that attribute, then the value 1 is
-        used instead.
-
     Returns
     -------
-    (adjacency_matrix, node_coords, node_colour_att, node_size_att)
+    (adjacency_matrix, node_coords)
         adjacency_matrix - represents the link strengths of the graph;
         node_coords - 3d coordinates of the graph nodes in world space;
-        node_colour_att - list of nodes colors if there is nodal attribute for it;        # noqa
-        node_size_att - list of nodes sizes if there is nodal attribute for it.
     """
 
     # make ordered nodes to produce ordered rows and columns in adjacency matrix
@@ -444,21 +433,7 @@ def graph_to_nilearn_array(
     try:
         node_coords = np.array([G._node[node]["centroids"] for node in node_order])       # noqa
     except KeyError:
-        raise ValueError("Graph does not contain nodal centroids")
+        raise TypeError("There are no centroids (nodes coordinates) in the "
+                        "Graph. Please initialise BrainNetwork with centroids.")
 
-    # create array to store color of each node if there is nodal attribure for colors     # noqa
-    if node_colour_att is not None:
-        try:
-            node_colour_att = [G._node[node][node_colour_att] for node in node_order]     # noqa
-        except KeyError:
-            raise ValueError(
-                "There is no nodal attribute - {}".format(node_size_att))
-
-    if node_size_att is not None:
-        try:
-            node_size_att = [G._node[node][node_size_att] for node in node_order]          # noqa
-        except KeyError:
-            raise ValueError(
-                "There is no nodal attribute - {}".format(node_size_att))
-
-    return adjacency_matrix, node_coords, node_colour_att, node_size_att
+    return adjacency_matrix, node_coords

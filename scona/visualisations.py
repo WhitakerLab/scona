@@ -10,6 +10,7 @@ from nilearn import plotting
 from scona.visualisations_helpers import save_fig
 from scona.visualisations_helpers import df_sns_barplot
 from scona.visualisations_helpers import graph_to_nilearn_array
+from scona.visualisations_helpers import setup_color_list
 
 def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
                    show_legend=True, x_max=None, y_max=None):
@@ -351,7 +352,11 @@ def plot_degree_dist(G, binomial_graph=True, seed=10, figure_name=None, color=No
 def view_nodes_3d(
         G,
         node_size=5.,
-        node_color='black'):
+        node_color='black',
+        measure=None,
+        cmap_name=None,
+        sns_palette=None,
+        continuous=False):
     """
     Plot nodes of a BrainNetwork using
     :func:`nilearn.plotting.view_markers()` tool.
@@ -367,21 +372,59 @@ def view_nodes_3d(
     node_size : float or array-like, optional (default=5.)
         Size of the nodes showing the seeds in pixels.
 
-    node_colors : str or list of str (default 'black')
+    node_color : str or list of str (default 'black')
         node_colour determines the colour given to each node.
         If a single string is given, this string will be interpreted as a
         a colour, and all nodes will be rendered in this colour.
         If a list of colours is given, it must be the same length as the length
         of nodes coordinates.
+
+    measure: str, (optional, default=None)
+        The name of a nodal measure.
+
+    cmap_name : Matplotlib colormap
+       Colormap for mapping intensities of nodes (default=None).
+
+    sns_palette: seaborn palette, (optional, default=None)
+        Discrete color palette only for discrete data. List of colors defining
+        a color palette (list of RGB tuples from seaborn color palettes).
+
+    continuous: bool, (optional, default=False)
+        Indicate whether the data values are is discrete (False) or
+        continuous (True).
+
+    Returns
+    -------
+    ConnectomeView : plot of the nodes.
+        It can be saved as an html page or rendered (transparently) by the
+        Jupyter notebook. Useful methods are :
+        - 'resize' to resize the plot displayed in a Jupyter notebook
+        - 'save_as_html' to save the plot to a file
+        - 'open_in_browser' to save the plot and open it in a web browser.
     """
 
     # get the nodes coordinates
-    a, node_coords, colour_list, z = graph_to_nilearn_array(G)
+    adj_matrix, node_coords = graph_to_nilearn_array(G)
 
-    #
+    # apply color to all nodes in Graph if node_color is string
     if isinstance(node_color, str):
-        node_color = [node_color for i in range(len(node_coords))]
+        node_color = [node_color for _ in range(len(node_coords))]
 
+    # report the attributes of each node in BrainNetwork Graph
+    nodal_measures = G.report_nodal_measures()
+
+    # get the color for each node based on the nodal measure
+    if measure:
+        if measure in nodal_measures.columns:
+            node_color = setup_color_list(df=nodal_measures, measure=measure,
+                                           cmap_name=cmap_name,
+                                           sns_palette=sns_palette,
+                                           continuous=continuous)
+        else:
+            warnings.warn(
+              "Measure \"{}\" does not exist in the nodal attributes of Graph. "
+              "The default color will be used for all nodes.".format(measure))
+            node_color = [node_color for _ in range(len(node_coords))]
 
     # plot nodes
     ConnectomeView = plotting.view_markers(node_coords, marker_color=node_color,
