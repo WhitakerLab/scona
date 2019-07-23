@@ -431,3 +431,67 @@ def view_nodes_3d(
                                            marker_size=node_size)
 
     return ConnectomeView
+
+
+def view_connectome_3d(
+        G,
+        edge_threshold=None,
+        edge_cmap="Spectral_r",
+        symmetric_cmap=True,
+        linewidth=6.,
+        node_size=3.):
+    """
+    Insert a 3d plot of a connectome into an HTML page.
+
+    Plot a BrainNetwork using :func:`nilearn.plotting.view_connectome()` tool.
+
+    Parameters
+    ----------
+    G : :class:`networkx.Graph`
+        G should have nodal locations in MNI space indexed by nodal
+        attribute "centroids".
+
+    edge_threshold : str, number or None, optional (default=None)
+        If None, no thresholding.
+        If it is a number only connections of amplitude greater
+        than threshold will be shown.
+        If it is a string it must finish with a percent sign,
+        e.g. "25.3%", and only connections of amplitude above the
+        given percentile will be shown.
+
+    edge_cmap : str or matplotlib colormap, optional
+
+    symmetric_cmap : bool, optional (default=True)
+        Make colormap symmetric (ranging from -vmax to vmax).
+
+    linewidth : float, optional (default=6.)
+        Width of the lines that show connections.
+
+    node_size : float, optional (default=3.)
+        Size of the markers showing the seeds in pixels.
+
+    Returns
+    -------
+    ConnectomeView : plot of the connectome.
+        It can be saved as an html page or rendered (transparently) by the
+        Jupyter notebook. Useful methods are :
+        - 'resize' to resize the plot displayed in a Jupyter notebook
+        - 'save_as_html' to save the plot to a file
+        - 'open_in_browser' to save the plot and open it in a web browser.
+
+    """
+
+    # get the nodes coordinates
+    adj_matrix, node_coords = graph_to_nilearn_array(G)
+
+
+    # plot nodes
+    ConnectomeView = plotting.view_connectome(adjacency_matrix=adj_matrix,
+                                              node_coords=node_coords,
+                                              edge_threshold=edge_threshold,
+                                              edge_cmap=edge_cmap,
+                                              symmetric_cmap=symmetric_cmap,
+                                              linewidth=linewidth,
+                                              node_size=node_size)
+
+    return ConnectomeView
