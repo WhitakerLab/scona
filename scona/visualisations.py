@@ -12,6 +12,7 @@ from scona.visualisations_helpers import df_sns_barplot
 from scona.visualisations_helpers import graph_to_nilearn_array
 from scona.visualisations_helpers import setup_color_list
 
+
 def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
                    show_legend=True, x_max=None, y_max=None):
     """
@@ -460,6 +461,7 @@ def view_connectome_3d(
         given percentile will be shown.
 
     edge_cmap : str or matplotlib colormap, optional
+        Colormap for displaying edges.
 
     symmetric_cmap : bool, optional (default=True)
         Make colormap symmetric (ranging from -vmax to vmax).
@@ -484,8 +486,7 @@ def view_connectome_3d(
     # get the nodes coordinates
     adj_matrix, node_coords = graph_to_nilearn_array(G)
 
-
-    # plot nodes
+    # plot connectome
     ConnectomeView = plotting.view_connectome(adjacency_matrix=adj_matrix,
                                               node_coords=node_coords,
                                               edge_threshold=edge_threshold,
