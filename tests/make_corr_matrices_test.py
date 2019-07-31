@@ -12,9 +12,9 @@ def subject_array():
 
 
 @pytest.fixture
-def subject_data():
+def subject_data(subject_array):
     columns = ['noggin_left', 'noggin_right', 'day of week', 'haircut']
-    data = subject_array()
+    data = subject_array
     return pd.DataFrame(data, columns=columns)
 
 
@@ -25,50 +25,50 @@ def subject_residuals():
     return pd.DataFrame(data, columns=columns)
 
 
-def test_non_numeric_cols():
-    df = subject_residuals()
+def test_non_numeric_cols(subject_residuals):
+    df = subject_residuals
     assert get_non_numeric_cols(df).size == 0
     df['hats'] = 'stetson'
     assert get_non_numeric_cols(df) == np.array(['hats'])
 
 
-def test_create_residuals_df_covars_plural():
+def test_create_residuals_df_covars_plural(subject_array, subject_data):
     names, covars = ['noggin_left', 'noggin_right'], ['day of week', 'haircut']
-    array_resids = [residuals(subject_array()[:, 2:].T,
-                    subject_array()[:, i]) for i in [0, 1]]
+    array_resids = [residuals(subject_array[:, 2:].T,
+                    subject_array[:, i]) for i in [0, 1]]
     np.testing.assert_almost_equal(
-        np.array(create_residuals_df(subject_data(), names, covars)[names]),
+        np.array(create_residuals_df(subject_data, names, covars)[names]),
         np.array(array_resids).T)
 
 
-def test_create_residuals_df_covars_singular():
+def test_create_residuals_df_covars_singular(subject_array, subject_data):
     names, covars = ['noggin_left', 'noggin_right'], ['day of week']
-    array_resids = [residuals(subject_array()[:, 2:3].T,
-                    subject_array()[:, i]) for i in [0, 1]]
+    array_resids = [residuals(subject_array[:, 2:3].T,
+                    subject_array[:, i]) for i in [0, 1]]
     np.testing.assert_almost_equal(
-        np.array(create_residuals_df(subject_data(), names, covars)[names]),
+        np.array(create_residuals_df(subject_data, names, covars)[names]),
         np.array(array_resids).T)
 
 
-def test_create_residuals_df_covars_none():
+def test_create_residuals_df_covars_none(subject_array, subject_data):
     names, covars = ['noggin_left', 'noggin_right'], []
-    array_resids = [residuals(subject_array()[:, 2:2].T, subject_array()[:, i])
+    array_resids = [residuals(subject_array[:, 2:2].T, subject_array[:, i])
                     for i in [0, 1]]
     np.testing.assert_almost_equal(
-        np.array(create_residuals_df(subject_data(), names, covars)[names]),
+        np.array(create_residuals_df(subject_data, names, covars)[names]),
         np.array(array_resids).T)
 
 
-def test_create_corrmat_pearson():
-    df_res = subject_residuals()
+def test_create_corrmat_pearson(subject_residuals):
+    df_res = subject_residuals
     names = ['noggin_left', 'noggin_right']
     np.testing.assert_almost_equal(
         np.array(create_corrmat(df_res, names)),
         np.array([[1, -0.5], [-0.5, 1]]))
 
 
-def test_create_corrmat_spearman():
-    df_res = subject_residuals()
+def test_create_corrmat_spearman(subject_residuals):
+    df_res = subject_residuals
     names = ['noggin_left', 'noggin_right']
     np.testing.assert_almost_equal(
         np.array(create_corrmat(df_res, names, method='spearman')),

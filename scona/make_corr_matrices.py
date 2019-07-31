@@ -60,7 +60,7 @@ def create_residuals_df(df, names, covars=[]):
     '''
     # Raise TypeError if any of the relevant columns are nonnumeric
     non_numeric_cols = get_non_numeric_cols(df[names+covars])
-    if non_numeric_cols:
+    if non_numeric_cols.size > 0:
         raise TypeError('DataFrame columns {} are non numeric'
                         .format(', '.join(non_numeric_cols)))
 
@@ -117,7 +117,7 @@ def create_corrmat(df_res, names=None, method='pearson'):
 
     # Raise TypeError if any of the relevant columns are nonnumeric
     non_numeric_cols = get_non_numeric_cols(df_res)
-    if non_numeric_cols:
+    if non_numeric_cols.size > 0:
         raise TypeError('DataFrame columns {} are non numeric'
                         .format(', '.join(non_numeric_cols)))
 
