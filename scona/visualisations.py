@@ -391,7 +391,7 @@ def view_nodes_3d(
         a color palette (list of RGB tuples from seaborn color palettes).
 
     continuous: bool, (optional, default=False)
-        Indicate whether the data values are is discrete (False) or
+        Indicate whether the data values are discrete (False) or
         continuous (True).
 
     Returns
@@ -483,7 +483,7 @@ def view_connectome_3d(
 
     """
 
-    # get the nodes coordinates
+    # get the adjacency matrix and nodes coordinates
     adj_matrix, node_coords = graph_to_nilearn_array(G)
 
     # plot connectome

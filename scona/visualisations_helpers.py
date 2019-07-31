@@ -412,8 +412,10 @@ def graph_to_nilearn_array(
         G should have nodal locations in MNI space indexed by nodal
         attribute "centroids"
 
-    node_colour_att : str, optional
-        index a nodal attribute to scale node colour by
+    edge_attribute : string or None optional (default = 'weight')
+        The edge attribute that holds the numerical value used for the edge
+        weight. If an edge does not have that attribute, then the value 1 is
+        used instead.
 
     Returns
     -------
@@ -425,8 +427,8 @@ def graph_to_nilearn_array(
     # make ordered nodes to produce ordered rows and columns in adjacency matrix
     node_order = sorted(list(G.nodes()))
 
-    # return the graph adjacency matrix as a NumPy matrix
-    adjacency_matrix = nx.convert_matrix.to_numpy_matrix(G, nodelist=node_order,
+    # returns the graph adjacency matrix as a NumPy array
+    adjacency_matrix = nx.convert_matrix.to_numpy_array(G, nodelist=node_order,
                                                          weight=edge_attribute)
 
     # store nodes coordinates in NumPy array if nodal coordinates exist
