@@ -10,7 +10,7 @@ from scona.visualisations_helpers import save_fig
 from scona.visualisations_helpers import df_sns_barplot
 
 
-def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
+def plot_rich_club(brain_bundle, original_network, figure_name=None, color=None,
                    show_legend=True, x_max=None, y_max=None):
     """
     This is a visualisation tool for plotting the rich club values per degree
@@ -22,12 +22,13 @@ def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
     brain_bundle : `GraphBundle` object
         a python dictionary with BrainNetwork objects as values
         (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and random graphs
-    real_network: str, required
-        This is the name of the real Graph in GraphBundle.
-        While instantiating GraphBundle object we pass the real Graph and its name.
-        (e.g. bundleGraphs = scn.GraphBundle([H], ['Real Network'])).
-        To plot rich club values along with the rich club values from randomed graphs
-        it is required to pass the name of the real network (e.g.'Real Network').
+    original_network: str, required
+        This should index the particular network in `brain_bundle` that you want
+        the figure to highlight. A distribution of all the other networks in
+        `brain_bundle` will be rendered for comparison.
+        To plot rich club values along with the rich club values from
+        randomed graphs it is required to pass the name of the initial network,
+        the proper network, the one you got from the mri data.
     figure_name : str, optional
         path to the file to store the created figure in (e.g. "/home/Desktop/name")
         or to store in the current directory include just a name ("fig_name");
@@ -62,14 +63,15 @@ def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
 
     # select the values of the 1st Graph in Graph Bundle - Real Graph
     try:
-        rc_real = np.array(rich_club_df[real_network])
+        rc_real = np.array(rich_club_df[original_network])
     except KeyError:
         raise KeyError(
-            "Please check the name of the Real Graph in GraphBundle. There is"
-            " no graph keyed by name \"{}\"".format(real_network))
+            "Please check the name of the initial Graph (the proper network, "
+            "the one you got from the mri data) in GraphBundle. There is"
+            " no graph keyed by name \"{}\"".format(original_network))
 
     # create a dataframe of random Graphs (exclude Real Graph)
-    rand_df = rich_club_df.drop(real_network, axis=1)
+    rand_df = rich_club_df.drop(original_network, axis=1)
 
     # re-organize rand_df dataframe in a suitable way
     # so that there is one column for the degrees data, one for rich club values
@@ -154,7 +156,7 @@ def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
         plt.close(fig)
 
 
-def plot_network_measures(brain_bundle, real_network, figure_name=None,
+def plot_network_measures(brain_bundle, original_network, figure_name=None,
                           color=None, ci=95, show_legend=True):
     """
     This is a visualisation tool for plotting network measures values
@@ -166,12 +168,13 @@ def plot_network_measures(brain_bundle, real_network, figure_name=None,
         a python dictionary with BrainNetwork objects as values
         (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and
         random graphs.
-    real_network: str, required
-        This is the name of the real Graph in GraphBundle.
-        While instantiating GraphBundle object we pass the real Graph and its
-        name (e.g. bundleGraphs = scn.GraphBundle([H], ['Real Network'])).
+    original_network: str, required
+        This should index the particular network in `brain_bundle` that you want
+        the figure to highlight. A distribution of all the other networks in
+        `brain_bundle` will be rendered for comparison.
         To plot real network measures along with the random network values it is
-        required to pass the name of the real network (e.g.'Real Network').
+        required to pass the name of the initial network, the proper network,
+        the one you got from the mri data.
     figure_name : str, optional
         path to the file to store the created figure in (e.g. "/home/Desktop/name") # noqa
         or to store in the current directory include just a name ("fig_name");
@@ -199,7 +202,7 @@ def plot_network_measures(brain_bundle, real_network, figure_name=None,
     sns.set_context("poster", font_scale=1)
 
     # build a new DataFrame required for seaborn.barplot
-    seaborn_data = df_sns_barplot(brain_bundle, real_network)
+    seaborn_data = df_sns_barplot(brain_bundle, original_network)
 
     # set the default colors of barplot values if not provided
     if color is None:

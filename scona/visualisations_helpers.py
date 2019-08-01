@@ -9,7 +9,7 @@ import matplotlib as mpl
 import seaborn as sns
 
 
-def df_sns_barplot(bundleGraphs, real_network):
+def df_sns_barplot(bundleGraphs, original_network):
     """
     In order to plot barplot (with error bars) with the help of seaborn,
     it is needed to pass a argument "data" - dataset for plotting.
@@ -25,7 +25,7 @@ def df_sns_barplot(bundleGraphs, real_network):
         (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and
         random graphs
 
-    real_network: str, required
+    original_network: str, required
         This is the name of the real Graph in GraphBundle.
         While instantiating GraphBundle object we pass the real Graph and its name.     # noqa
         (e.g. bundleGraphs = scn.GraphBundle([H], ['Real Network'])).
@@ -69,15 +69,15 @@ def df_sns_barplot(bundleGraphs, real_network):
     data_array = list()
 
     for measure in bundleGraphs_measures.columns:
-        # check that the param - real_network - is correct, otherwise - error
+        # check that the param - original_network - is correct, otherwise -error
         try:
-            # for Real_Network get value of each measure
-            value = bundleGraphs_measures.loc[real_network, measure]
+            # for original_network get value of each measure
+            value = bundleGraphs_measures.loc[original_network, measure]
         except KeyError:
             raise KeyError(
-                "The name of the real Graph you passed to the function - \"{}\""
+                "The name of the initial Graph you passed to the function - \"{}\""              # noqa
                 " does not exist in GraphBundle. Please provide a true name of "
-                "Real Graph (represented as a key in GraphBundle)".format(real_network))  # noqa
+                "initial Graph (represented as a key in GraphBundle)".format(original_network))  # noqa
 
         # get the abbreviation for measure and use this abbreviation
         measure_short = abbreviation[measure]
@@ -93,7 +93,7 @@ def df_sns_barplot(bundleGraphs, real_network):
     # now store the measure and measure values of *Random Graphs* in data_array
 
     # delete Real Graph from old DataFrame -
-    random_df = bundleGraphs_measures.drop(real_network)
+    random_df = bundleGraphs_measures.drop(original_network)
 
     # for each measure in measures
     for measure in random_df.columns:
@@ -123,10 +123,10 @@ def df_sns_barplot(bundleGraphs, real_network):
     # check that random graphs exist in GraphBundle
     if len(bundleGraphs) > 1:
         # get the small_world values for Real Graph
-        small_world = bundleGraphs.report_small_world(real_network)
+        small_world = bundleGraphs.report_small_world(original_network)
 
-        # delete the comparison of the graph labelled real_network with itself
-        del small_world[real_network]
+        # delete the comparison of the graph labelled original_network with itself
+        del small_world[original_network]
 
         # create list of dictionaries to later append to the new DataFrame
         df_small_world = []
@@ -135,7 +135,7 @@ def df_sns_barplot(bundleGraphs, real_network):
 
             df_small_world.append(tmp)
 
-        # add small_world values of *real_network* to new DataFrame
+        # add small_world values of *original_network* to new DataFrame
         NewDataFrame = NewDataFrame.append(df_small_world, ignore_index=True)
 
         # bar for small_world measure of random graphs should be set exactly to 1   # noqa
