@@ -125,7 +125,7 @@ def df_sns_barplot(bundleGraphs, original_network):
         # get the small_world values for Real Graph
         small_world = bundleGraphs.report_small_world(original_network)
 
-        # delete the comparison of the graph labelled original_network with itself
+        # delete the comparison of the graph labelled original_network with itself  # noqa
         del small_world[original_network]
 
         # create list of dictionaries to later append to the new DataFrame
@@ -182,7 +182,7 @@ def save_fig(figure, path_name):
                           "We will create this directory for you "
                           "and store the figure there.\n"
                           "This warning is just to make sure that you aren't "
-                          "surprised by a new directory appearing!".format(dir_path))
+                          "surprised by a new directory appearing!".format(dir_path))    # noqa
 
             # Make the directory
             dir_create = os.path.dirname(path_name)
@@ -191,8 +191,8 @@ def save_fig(figure, path_name):
         warnings.warn('The file name you gave us "{}" ends with \"/\". '
                       "That is a directory rather than a file name."
                       "Please run the command again with the name of the file,"
-                      "for example: '/home/dir1/myfile.png'"
-                      "or to save the file in the current directory you can just pass 'myfile.png'".format(path_name))
+                      "e.g. '/home/dir1/myfile.png' or to save the file in the "
+                      "current directory you can just pass 'myfile.png'".format(path_name))     # noqa
         return
 
     # save the figure to the file
@@ -215,7 +215,7 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
         The name of the column in the df (pandas.DataFrame) that contains
         values intended to be mapped to colors.
 
-    cmap_name : str or Colormap instance
+    cmap_name : str or Colormap instance, (optional, default="tab10")
         The colormap used to map normalized data values to RGBA colors.
 
     sns_palette: seaborn palette, (optional, default=None)
@@ -242,7 +242,7 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
     # Store pair (value, color) as a (key,value) in a dict
     colors_dict = {}
 
-    # If vmin or vmax not passed, calculate the min and max of the column (measure)
+    # If vmin or vmax not passed, calculate the min and max of the column (measure)    # noqa
     if vmin is None:
         vmin = min(df[measure].values)
     if vmax is None:
@@ -268,9 +268,9 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
         try:
             cmap = mpl.cm.get_cmap(cmap_name)
         except ValueError:
-            warnings.warn("ValueError: Colormap {} is not recognized. ". format(cmap_name) +
-                            "Default colormap jet will be used.")
-            cmap = mpl.cm.get_cmap("jet")
+            warnings.warn("ValueError: Colormap {} is not recognized. ".format(cmap_name) +
+                            "Default colormap tab10 will be used.")
+            cmap = mpl.cm.get_cmap("tab10")
 
         for i, value in enumerate(sorted(set(df[measure]))):
             colors_dict[value] = cmap((i+0.5)/num_color)
@@ -434,4 +434,4 @@ def anatomical_layout(x, y, z, orientation="sagittal"):
     else:
         raise ValueError(
             "{} is not recognised as an anatomical layout. orientation values "
-            "should be one of 'sagittal', 'axial' or 'coronal'.".format(orientation))
+            "should be one of 'sagittal', 'axial' or 'coronal'.".format(orientation))    # noqa

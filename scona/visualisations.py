@@ -21,7 +21,8 @@ def plot_rich_club(brain_bundle, original_network, figure_name=None, color=None,
     ----------
     brain_bundle : `GraphBundle` object
         a python dictionary with BrainNetwork objects as values
-        (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and random graphs
+        (:class:`str`: :class:`BrainNetwork` pairs), contains original Graph
+        and random graphs.
     original_network: str, required
         This should index the particular network in `brain_bundle` that you want
         the figure to highlight. A distribution of all the other networks in
@@ -47,7 +48,7 @@ def plot_rich_club(brain_bundle, original_network, figure_name=None, color=None,
 
     Returns
     -------
-        Plot the Figure and if figure_name provided, save it in a figure_name file.
+        Plot the Figure and if figure_name given, save it in a figure_name file.
 
     """
 
@@ -255,7 +256,8 @@ def plot_network_measures(brain_bundle, original_network, figure_name=None,
         plt.close(fig)
 
 
-def plot_degree_dist(G, binomial_graph=True, seed=10, figure_name=None, color=None):
+def plot_degree_dist(G, binomial_graph=True, seed=10, figure_name=None,
+                     color=None):
 
     """
     This is a visualisation tool for plotting the degree distribution
@@ -283,7 +285,7 @@ def plot_degree_dist(G, binomial_graph=True, seed=10, figure_name=None, color=No
 
     Returns
     -------
-        Plot the Figure and if figure_name provided, save it in a figure_name file.
+        Plot the Figure and if figure_name given, save it in a figure_name file.
 
     """
 
@@ -291,7 +293,7 @@ def plot_degree_dist(G, binomial_graph=True, seed=10, figure_name=None, color=No
     if color is None:
         color = [sns.color_palette()[0], "grey"]
 
-    # if the user provided color not as a list of size 2 - show warning, use default colors
+    # if the user provided color not as a list of size 2 - show warning, use default colors    # noqa
     if not isinstance(color, list) and len(color) == 2:
         warnings.warn("Please, provide a *color* parameter as a "
                       "python list object, e.g. [\"green\", \"pink\"]. "
@@ -307,7 +309,7 @@ def plot_degree_dist(G, binomial_graph=True, seed=10, figure_name=None, color=No
 
     # calculate the Erdos Renyi graph from the main graph
     nodes = len(G.nodes())
-    cost = G.number_of_edges() * 2.0 / (nodes*(nodes-1))    # probability for edge creation
+    cost = G.number_of_edges() * 2.0 / (nodes*(nodes-1))    # probability for edge creation    # noqa
     G_ER = nx.erdos_renyi_graph(nodes, cost, seed=seed)
 
     # calculate the degrees for the ER graph
@@ -323,7 +325,7 @@ def plot_degree_dist(G, binomial_graph=True, seed=10, figure_name=None, color=No
     if binomial_graph:
         ax = sns.kdeplot(degrees_ER, color=color[1])
 
-    # fix the x axis limits - without the gap between the 1st column and x = 0 - start from 1
+    # fix the x axis limits - without the gap between the 1st column and x = 0
     ax.set_xlim((1, max(degrees)))
 
     # set the number of bins to 5
