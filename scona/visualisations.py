@@ -496,3 +496,129 @@ def view_connectome_3d(
                                               node_size=node_size)
 
     return ConnectomeView
+
+
+def plot_connectome(
+        G,
+        node_color='auto', node_size=50,
+        edge_cmap=plt.cm.bwr,
+        edge_vmin=None, edge_vmax=None,
+        edge_threshold=None,
+        output_file=None, display_mode='ortho',
+        figure=None, axes=None, title=None,
+        annotate=True, black_bg=False,
+        alpha=0.7,
+        edge_kwargs=None, node_kwargs=None,
+        colorbar=False):
+    """
+    Plot connectome on top of the brain glass schematics.
+
+    The plotted image should be in MNI space for this function to work properly.
+
+    In the case of ‘l’ and ‘r’ directions (for hemispheric projections),
+    markers in the coordinate x == 0 are included in both hemispheres.
+
+    Plot a BrainNetwork using :func:`nilearn.plotting.plot_connectome()` tool.
+
+    Parameters
+    ----------
+    G : :class:`networkx.Graph`
+        G should have nodal locations in MNI space indexed by nodal
+        attribute "centroids".
+
+    node_color : color or sequence of colors, optional
+        color(s) of the nodes. If string is given, all nodes
+        are plotted with same color given in string.
+
+    node_size : scalar or array_like, optional (default=50)
+        size(s) of the nodes in points^2.
+
+    edge_cmap : colormap, optional (default="bwr")
+        colormap used for representing the strength of the edges.
+
+    edge_vmin : float, optional (default=None)
+
+    edge_vmax : float, optional (default=None)
+        If not None, either or both of these values will be used to
+        as the minimum and maximum values to color edges. If None are
+        supplied the maximum absolute value within the given threshold
+        will be used as minimum (multiplied by -1) and maximum
+        coloring levels.
+
+    edge_threshold : str or number, optional (default=None)
+        If it is a number only the edges with a value greater than
+        edge_threshold will be shown.
+        If it is a string it must finish with a percent sign,
+        e.g. "25.3%", and only the edges with a abs(value) above
+        the given percentile will be shown.
+
+    output_file : string, or None, optional (default=None)
+        The name of an image file to export the plot to. Valid extensions
+        are .png, .pdf, .svg. If output_file is not None, the plot
+        is saved to a file, and the display is closed.
+
+    display_mode : string, optional (default='ortho')
+        Choose the direction of the cuts: 'x' - sagittal, 'y' - coronal,
+        'z' - axial, 'l' - sagittal left hemisphere only,
+        'r' - sagittal right hemisphere only, 'ortho' - three cuts are
+        performed in orthogonal directions. Possible values are: 'ortho',
+        'x', 'y', 'z', 'xz', 'yx', 'yz', 'l', 'r', 'lr', 'lzr', 'lyr',
+        'lzry', 'lyrz'.
+
+    figure : integer or matplotlib figure, optional (default=None)
+        Matplotlib figure used or its number. If None is given, a
+        new figure is created.
+
+    axes : matplotlib axes or 4 tuple of float: (xmin, ymin, width, height),
+           optional (default=None)
+        The axes, or the coordinates, in matplotlib figure space,
+        of the axes used to display the plot. If None, the complete
+        figure is used.
+
+    title : string, optional (default=None)
+        The title displayed on the figure.
+
+    annotate : boolean, optional (default=True)
+        If annotate is True, positions and left/right annotation
+        are added to the plot.
+
+    black_bg : boolean, optional (default=False)
+        If True, the background of the image is set to be black. If
+        you wish to save figures with a black background, you
+        will need to pass "facecolor='k', edgecolor='k'"
+        to matplotlib.pyplot.savefig.
+
+    alpha : float between 0 and 1, optional (default=0.7)
+        Alpha transparency for the brain schematics.
+
+    edge_kwargs : dict, optional (default=None)
+        will be passed as kwargs for each edge matlotlib Line2D.
+
+    node_kwargs : dict, optional (default=None)
+        will be passed as kwargs to the plt.scatter call that plots all
+        the nodes in one go.
+
+    colorbar : bool, optional (default=False)
+        If True, display a colorbar on the right of the plots.
+        By default it is False.
+
+    """
+
+    # get the adjacency matrix and nodes coordinates
+    adj_matrix, node_coords = graph_to_nilearn_array(G)
+
+    # plot connectome
+    plotting.plot_connectome(adjacency_matrix=adj_matrix,
+                             node_coords=node_coords,
+                             node_color=node_color, node_size=node_size,
+                             edge_cmap=edge_cmap,
+                             edge_vmin=edge_vmin, edge_vmax=edge_vmax,
+                             edge_threshold=edge_threshold,
+                             output_file=output_file,
+                             display_mode=display_mode,
+                             figure=figure, axes=axes,
+                             title=title, annotate=annotate,
+                             alpha=alpha, black_bg=black_bg,
+                             edge_kwargs=edge_kwargs,
+                             node_kwargs=node_kwargs,
+                             colorbar=colorbar)
