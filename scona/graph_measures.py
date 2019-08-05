@@ -418,7 +418,7 @@ def small_world_sigma(tupleG, tupleR):
     return ((Cg/Cr)/(Lg/Lr))
 
 
-def small_coefficient(G, R):
+def small_world_coefficient(G, R):
     '''
     Calculate the small coefficient of G relative to R.
 
