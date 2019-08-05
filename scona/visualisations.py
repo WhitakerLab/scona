@@ -6,7 +6,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from scona.helpers import save_fig
+from scona.visualisations_helpers import save_fig
+from scona.visualisations_helpers import df_sns_barplot
 
 
 def plot_rich_club(brain_bundle, original_network, figure_name=None, color=None,
@@ -20,26 +21,23 @@ def plot_rich_club(brain_bundle, original_network, figure_name=None, color=None,
     ----------
     brain_bundle : `GraphBundle` object
         a python dictionary with BrainNetwork objects as values
-        (:class:`str`: :class:`BrainNetwork` pairs), contains the original
-        Graph and random graphs.
+        (:class:`str`: :class:`BrainNetwork` pairs), contains original Graph
+        and random graphs.
     original_network: str, required
-        This is the name of the original Graph in GraphBundle.
-        While instantiating the GraphBundle object we pass the original Graph
-        and its name.
-        (e.g. bundleGraphs = scn.GraphBundle([H], ['Original Network'])).
-        To plot rich club values along with the rich club values from randomed
-        graphs it is required to pass the name of the original network
-        (e.g.'Original Network').
+        This should index the particular network in `brain_bundle` that you
+        want the figure to highlight. A distribution of all the other networks
+        in `brain_bundle` will be rendered for comparison.
     figure_name : str, optional
         path to the file to store the created figure in
         (e.g. "/home/Desktop/name") or to store in the current directory
         include just a name ("fig_name");
     color : list of 2 strings, optional
-        where the 1st string is a color for rich club values and 2nd - for random
-        rich club values. You can specify the color using an html hex string
-        (e.g. color =["#06209c","#c1b8b1"]) or you can pass an (r, g, b) tuple,
-        where each of r, g, b are in the range [0,1]. Finally, legal html names
-        for colors, like "red", "black" and so on are supported.
+        where the 1st string is a color for rich club values and 2nd - for
+        random rich club values. You can specify the color using an html hex
+        string (e.g. color =["#06209c","#c1b8b1"]) or you can pass an
+        (r, g, b) tuple, where each of r, g, b are in the range [0,1].
+        Legal html names for colors, like "red", "black" and so on are also
+        supported.
     show_legend: bool (optional, default=True)
         if True - show legend, otherwise - do not display legend.
     x_max : int, optional
@@ -49,7 +47,7 @@ def plot_rich_club(brain_bundle, original_network, figure_name=None, color=None,
 
     Returns
     -------
-        Plot the Figure and if figure_name provided, save it in a figure_name file.
+        Plot the Figure and if figure_name given, save it in a figure_name file.
 
     """
 
@@ -63,10 +61,16 @@ def plot_rich_club(brain_bundle, original_network, figure_name=None, color=None,
     # get the degrees
     degree = rich_club_df.index.values
 
-    # select the values of the 1st Graph in Graph Bundle - the original graph
-    rc_orig = np.array(rich_club_df[original_network])
+    # select the values of the 1st Graph in Graph Bundle - Real Graph
+    try:
+        rc_real = np.array(rich_club_df[original_network])
+    except KeyError:
+        raise KeyError(
+            "Please check the name of the initial Graph (the proper network, "
+            "the one you got from the mri data) in GraphBundle. There is"
+            " no graph keyed by name \"{}\"".format(original_network))
 
-    # create a dataframe of random Graphs (exclude original Graph)
+    # create a dataframe of random Graphs (exclude Real Graph)
     rand_df = rich_club_df.drop(original_network, axis=1)
 
     # re-organize rand_df dataframe in a suitable way
@@ -95,8 +99,8 @@ def plot_rich_club(brain_bundle, original_network, figure_name=None, color=None,
     elif len(color) == 1:              # if you only want to plot the original
         color.append("grey")           # network (no random networks)
 
-    # if the user provided color not as a list of size 2 - show warning,
-    # use default colors
+    # if the user provided color not as a list of size 2 - show a warning
+    # and then carry on but using the default colors
     if not isinstance(color, list) and len(color) != 2:
         warnings.warn("Please, provide a *color* parameter as a "
                       "python list object, e.g. [\"green\", \"pink\"]. "
@@ -106,13 +110,13 @@ def plot_rich_club(brain_bundle, original_network, figure_name=None, color=None,
     # plot the random rich club values of random graphs
     ax = sns.lineplot(x="Degree", y="Rich Club", data=new_rand_df,
                       err_style="band", ci=95, color=color[1],
-                      label="random rich-club coefficient")
+                      label="Random network", zorder=2)
 
-    # plot the rich club values of original Graph
-    ax = sns.lineplot(x=degree, y=rc_orig, label="rich-club coefficient",
+    # plot the rich club values of real Graph
+    ax = sns.lineplot(x=degree, y=rc_real, label="Original Network", zorder=1,
                       color=color[0])
 
-    # set the max values of x & y - axis if not provided
+    # set the max values of x & y - axis if not given
     if x_max is None:
         x_max = max(degree)
 
@@ -163,20 +167,16 @@ def plot_network_measures(brain_bundle, original_network, figure_name=None,
     ----------
     brain_bundle : :class:`GraphBundle`
         a python dictionary with BrainNetwork objects as values
-        (:class:`str`: :class:`BrainNetwork` pairs), contains original Graph
-        and random graphs
+        (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and
+        random graphs.
     original_network: str, required
-        This is the name of the original Graph in GraphBundle.
-        While instantiating GraphBundle object we pass the original Graph and
-        its name.
-        (e.g. bundleGraphs = scn.GraphBundle([H], ['Original Network'])).
-        To plot original network measures along with the random network values
-        it is required to pass the name of the original network
-        (e.g.'Original Network').
+        This should index the particular network in `brain_bundle` that you want
+        the figure to highlight. A distribution of all the other networks in
+        `brain_bundle` will be rendered for comparison.
     figure_name : str, optional
         path to the file to store the created figure in
-        (e.g. "/home/Desktop/name")
-        or to store in the current directory include just a name ("fig_name");
+        (e.g. "/home/Desktop/name") or to store in the current directory
+        include just a name ("fig_name").
     color : list of 2 strings, optional
         where the 1st string is a color for original network measures and the
         2nd is for the values from the random graphs.
@@ -189,7 +189,8 @@ def plot_network_measures(brain_bundle, original_network, figure_name=None,
     ci: float or “sd” or None (optional, default=95)
         Size of confidence intervals to draw around estimated values. If “sd”,
         skip bootstrapping and draw the standard deviation of the observations.
-        If None, no bootstrapping will be performed, and error bars will not be drawn.
+        If None, no bootstrapping will be performed, and error bars will not be
+        drawn.
     Returns
     -------
         Plot the Figure and if figure_name provided, save it in a figure_name file.
@@ -199,82 +200,17 @@ def plot_network_measures(brain_bundle, original_network, figure_name=None,
     sns.set(style="white")
     sns.set_context("poster", font_scale=1)
 
-    # calculate network measures for each graph in brain_bundle
-    # if each graph in GraphBundle has already calculated global measures,
-    # this step will be skipped
-    bundleGraphs_measures = brain_bundle.report_global_measures()
+    # build a new DataFrame required for seaborn.barplot
+    seaborn_data = df_sns_barplot(brain_bundle, original_network)
 
-    # get the names (types) of network measures in a sorted order
-    sorted_net_measures = sorted(bundleGraphs_measures.columns.values)
-
-    # set abbreviations for measures
-    abbreviation = {'assortativity': 'a', 'average_clustering': 'C',
-                    'average_shortest_path_length': 'L',
-                    'efficiency': 'E', 'modularity': 'M'}
-
-    ### Build a new dataframe for seaborn plotting
-
-    # set columns for our new dataframe
-    new_columns = ["measure", "value", "TypeNetwork"]
-
-    # set number of rows (indexes)
-    no_columns_old = len(bundleGraphs_measures.columns)
-    no_rows_old = len(bundleGraphs_measures.index)
-    total_rows = no_columns_old * no_rows_old
-
-    # set index for our new dataframe
-    index = [i for i in range(1, total_rows + 1)]
-
-    ## Build array to contain all data to futher use for creating dataframe
-
-    # store the values of original Graph in data_array
-    data_array = list()
-
-    for measure in bundleGraphs_measures.columns:
-        # check that the param - original_network - is in bundleGraphs_measures
-        # otherwise pass an error
-        try:
-            # Get the value of each measure for original_network
-            value = bundleGraphs_measures.loc[original_network, measure]
-        except KeyError:
-            raise KeyError(
-                "The name of the original graph you passed to the function - \"{}\", does not exist in GraphBundle. " # noqa
-                "Please provide a true name of the original graph (represented as a key in GraphBundle)".format(original_network)) # noqa
-
-        # Get the abbreviation for the measure
-        measure_short = abbreviation[measure]
-        type_network = "Original Network"
-
-        tmp = [measure_short, value, type_network]
-
-        data_array.append(tmp)
-
-    # store the values of random Graphs
-
-    # create a new dataframe without the original Network
-    random_df = bundleGraphs_measures.drop(original_network)
-
-    # store the values of random Graphs in data_array
-    for measure in random_df.columns:
-        for rand_graph in random_df.index:
-            value = random_df[measure][rand_graph]
-            measure_short = abbreviation[measure]
-            type_network = "Random Network"
-
-            tmp = [measure_short, value, type_network]
-
-            data_array.append(tmp)
-
-    # finally create a new dataframe
-    NewDataFrame = pd.DataFrame(data=data_array, index=index, columns=new_columns)
-
-    # set the default colors of barsplot values if not provided
+    # set the default colors of barplot values if not provided
     if color is None:
         color = [sns.color_palette()[0], "lightgrey"]
-    elif len(color) == 1:              # if you only want to plot the original
-        color.append("grey")           # network (no random networks)
+    elif len(color) == 1:            # in case we want to plot only real values
+        color.append("lightgrey")
 
-    # if the user provided color not as a list of size 2 - show warning, use default colors
+    # if the user provided color not as a list of size 2 - show warning
+    # use default colors
     if not isinstance(color, list) and len(color) != 2:
         warnings.warn("Please, provide a *color* parameter as a "
                       "python list object, e.g. [\"green\", \"pink\"]. "
@@ -284,8 +220,9 @@ def plot_network_measures(brain_bundle, original_network, figure_name=None,
     # Create a figure
     fig, ax = plt.subplots(figsize=(8, 6))
 
+    # plot global measures with error bars
     ax = sns.barplot(x="measure", y="value", hue="TypeNetwork",
-                     data=NewDataFrame, palette=[color[0], color[1]], ci=ci)
+                     data=seaborn_data, palette=[color[0], color[1]], ci=ci)
 
     # make a line at y=0
     ax.axhline(0, linewidth=0.8, color='black')
@@ -317,7 +254,8 @@ def plot_network_measures(brain_bundle, original_network, figure_name=None,
         plt.close(fig)
 
 
-def plot_degree_dist(G, binomial_graph=True, figure_name=None, color=None):
+def plot_degree_dist(G, binomial_graph=True, seed=10, figure_name=None,
+                     color=None):
 
     """
     This is a visualisation tool for plotting the degree distribution
@@ -330,6 +268,9 @@ def plot_degree_dist(G, binomial_graph=True, figure_name=None, color=None):
         BrainNetwork object
     binomial_graph : bool (optional, default=True)
         if "True" plot the degree distribution of an Erdos Renyi random graph.
+    seed : integer (default=10), random_state, or None
+        Seed for random number generator. In case it is needed to create random
+        Erdos Renyi Graph, set `seed` to None.
     figure_name : str, optional
         path to the file to store the created figure in (e.g. "/home/Desktop/name")
         or to store in the current directory include just a name ("fig_name");
@@ -342,7 +283,7 @@ def plot_degree_dist(G, binomial_graph=True, figure_name=None, color=None):
 
     Returns
     -------
-        Plot the Figure and if figure_name provided, save it in a figure_name file.
+        Plot the Figure and if figure_name given, save it in a figure_name file.
 
     """
 
@@ -350,12 +291,12 @@ def plot_degree_dist(G, binomial_graph=True, figure_name=None, color=None):
     if color is None:
         color = [sns.color_palette()[0], "grey"]
 
-    # if the user provided color not as a list of size 2 - show warning, use default colors
+    # if the user provided color not as a list of size 2 - show warning, use default colors    # noqa
     if not isinstance(color, list) and len(color) == 2:
         warnings.warn("Please, provide a *color* parameter as a "
                       "python list object, e.g. [\"green\", \"pink\"]. "
                       "Right now the default colors will be used")
-        color = ["#00C9FF", "grey"]
+        color = [sns.color_palette()[0], "grey"]
 
     # set the seaborn style and context in the beginning!
     sns.set(style="white")
@@ -366,8 +307,8 @@ def plot_degree_dist(G, binomial_graph=True, figure_name=None, color=None):
 
     # calculate the Erdos Renyi graph from the main graph
     nodes = len(G.nodes())
-    cost = G.number_of_edges() * 2.0 / (nodes*(nodes-1))    # probability for edge creation
-    G_ER = nx.erdos_renyi_graph(nodes, cost)
+    cost = G.number_of_edges() * 2.0 / (nodes*(nodes-1))    # probability for edge creation    # noqa
+    G_ER = nx.erdos_renyi_graph(nodes, cost, seed=seed)
 
     # calculate the degrees for the ER graph
     degrees_ER = np.array(list(dict(G_ER.degree()).values()))
@@ -382,7 +323,7 @@ def plot_degree_dist(G, binomial_graph=True, figure_name=None, color=None):
     if binomial_graph:
         ax = sns.kdeplot(degrees_ER, color=color[1])
 
-    # fix the x axis limits - without the gap between the 1st column and x = 0 - start from 1
+    # fix the x axis limits - without the gap between the 1st column and x = 0
     ax.set_xlim((1, max(degrees)))
 
     # set the number of bins to 5

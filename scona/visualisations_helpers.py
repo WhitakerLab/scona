@@ -2,10 +2,152 @@ import warnings
 import os
 
 import numpy as np
+import pandas as pd
 
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import seaborn as sns
+
+
+def df_sns_barplot(bundleGraphs, original_network):
+    """
+    In order to plot barplot (with error bars) with the help of seaborn,
+    it is needed to pass a argument "data" - dataset for plotting.
+
+    This function restructures a DataFrame obtained from
+    `Graph.Bundle.report_global_measures` into an acceptable DataFrame for
+    seaborn.barplot.
+
+    Parameters
+    ----------
+    bundleGraphs : :class:`GraphBundle`
+        a python dictionary with BrainNetwork objects as values
+        (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and
+        random graphs
+
+    original_network: str, required
+        This is the name of the initial Graph in GraphBundle. It should index
+        the particular network in `brain_bundle` that you want the figure
+        to highlight. A distribution of all the other networks in
+        `brain_bundle` will be rendered for comparison.
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        Restructured DataFrame suitable for seaborn.barplot
+    """
+
+    # calculate network measures for each graph in brain_bundle
+    # if each graph in GraphBundle has already calculated global measures,
+    # this step will be skipped
+    bundleGraphs_measures = bundleGraphs.report_global_measures()
+
+    # set abbreviations for measures
+    abbreviation = {'assortativity': 'a', 'average_clustering': 'C',
+                    'average_shortest_path_length': 'L',
+                    'efficiency': 'E', 'modularity': 'M'}
+
+    # set columns for our new DataFrame
+    new_columns = ["measure", "value", "TypeNetwork"]
+
+    # get the number of columns from the old DataFrame
+    no_columns_old = len(bundleGraphs_measures.columns)
+
+    # get the number of rows from the old DataFrame
+    no_rows_old = len(bundleGraphs_measures.index)
+
+    # set number of rows (indexes) in new DataFrame
+    total_rows = no_columns_old * no_rows_old
+
+    # set index for our new DataFrame
+    index = [i for i in range(1, total_rows + 1)]
+
+    # Build array to contain all data to futher use for creating new DataFrame
+
+    # store values of *Real Graph* in data_array - used to create new DataFrame
+    data_array = list()
+
+    for measure in bundleGraphs_measures.columns:
+        # check that the param - original_network - is correct, otherwise -error
+        try:
+            # for original_network get value of each measure
+            value = bundleGraphs_measures.loc[original_network, measure]
+        except KeyError:
+            raise KeyError(
+                "The name of the initial Graph you passed to the function - \"{}\""              # noqa
+                " does not exist in GraphBundle. Please provide a true name of "
+                "initial Graph (represented as a key in GraphBundle)".format(original_network))  # noqa
+
+        # get the abbreviation for measure and use this abbreviation
+        measure_short = abbreviation[measure]
+
+        type_network = "Real network"
+
+        # create a temporary array to store measure - value of Real Network
+        tmp = [measure_short, value, type_network]
+
+        # add the record (measure - value - Real Graph) to the data_array
+        data_array.append(tmp)
+
+    # now store the measure and measure values of *Random Graphs* in data_array
+
+    # delete Real Graph from old DataFrame -
+    random_df = bundleGraphs_measures.drop(original_network)
+
+    # for each measure in measures
+    for measure in random_df.columns:
+
+        # for each graph in Random Graphs
+        for rand_graph in random_df.index:
+            # get the value of a measure for a random Graph
+            value = random_df[measure][rand_graph]
+
+            # get the abbreviation for measure and use this abbreviation
+            measure_short = abbreviation[measure]
+
+            type_network = "Random network"
+
+            # create temporary array to store measure - value of Random Network
+            tmp = [measure_short, value, type_network]
+
+            # add record (measure - value - Random Graph) to the global array
+            data_array.append(tmp)
+
+    # finally create a new DataFrame
+    NewDataFrame = pd.DataFrame(data=data_array, index=index,
+                                    columns=new_columns)
+
+    # include the small world coefficient into new DataFrame
+
+    # check that random graphs exist in GraphBundle
+    if len(bundleGraphs) > 1:
+        # get the small_world values for Real Graph
+        small_world = bundleGraphs.report_small_world(original_network)
+
+        # delete the comparison of the graph labelled original_network with itself  # noqa
+        del small_world[original_network]
+
+        # create list of dictionaries to later append to the new DataFrame
+        df_small_world = []
+        for i in list(small_world.values()):
+            tmp = {'measure': 'sigma', 'value': i, 'TypeNetwork': 'Real network'}
+
+            df_small_world.append(tmp)
+
+        # add small_world values of *original_network* to new DataFrame
+        NewDataFrame = NewDataFrame.append(df_small_world, ignore_index=True)
+
+        # bar for small_world measure of random graphs should be set exactly to 1   # noqa
+
+        # set constant value of small_world measure for random bar
+        rand_small_world = {'measure': 'sigma', 'value': 1,
+                                            'TypeNetwork': 'Random network'}
+
+        # add constant value of small_world measure for random bar to new DataFrame # noqa
+        NewDataFrame = NewDataFrame.append(rand_small_world,
+                                                     ignore_index=True)
+
+    return NewDataFrame
 
 
 def save_fig(figure, path_name):
@@ -39,7 +181,7 @@ def save_fig(figure, path_name):
                           "We will create this directory for you "
                           "and store the figure there.\n"
                           "This warning is just to make sure that you aren't "
-                          "surprised by a new directory appearing!".format(dir_path))
+                          "surprised by a new directory appearing!".format(dir_path))    # noqa
 
             # Make the directory
             dir_create = os.path.dirname(path_name)
@@ -48,8 +190,8 @@ def save_fig(figure, path_name):
         warnings.warn('The file name you gave us "{}" ends with \"/\". '
                       "That is a directory rather than a file name."
                       "Please run the command again with the name of the file,"
-                      "for example: '/home/dir1/myfile.png'"
-                      "or to save the file in the current directory you can just pass 'myfile.png'".format(path_name))
+                      "e.g. '/home/dir1/myfile.png' or to save the file in the "
+                      "current directory you can just pass 'myfile.png'".format(path_name))     # noqa
         return
 
     # save the figure to the file
@@ -72,7 +214,7 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
         The name of the column in the df (pandas.DataFrame) that contains
         values intended to be mapped to colors.
 
-    cmap_name : str or Colormap instance
+    cmap_name : str or Colormap instance, (optional, default="tab10")
         The colormap used to map normalized data values to RGBA colors.
 
     sns_palette: seaborn palette, (optional, default=None)
@@ -99,7 +241,7 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
     # Store pair (value, color) as a (key,value) in a dict
     colors_dict = {}
 
-    # If vmin or vmax not passed, calculate the min and max of the column (measure)
+    # If vmin or vmax not passed, calculate the min and max of the column (measure)    # noqa
     if vmin is None:
         vmin = min(df[measure].values)
     if vmax is None:
@@ -125,9 +267,9 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
         try:
             cmap = mpl.cm.get_cmap(cmap_name)
         except ValueError:
-            warnings.warn("ValueError: Colormap {} is not recognized. ". format(cmap_name) +
-                            "Default colormap jet will be used.")
-            cmap = mpl.cm.get_cmap("jet")
+            warnings.warn("ValueError: Colormap {} is not recognized. ".format(cmap_name) +
+                            "Default colormap tab10 will be used.")
+            cmap = mpl.cm.get_cmap("tab10")
 
         for i, value in enumerate(sorted(set(df[measure]))):
             colors_dict[value] = cmap((i+0.5)/num_color)
@@ -291,4 +433,4 @@ def anatomical_layout(x, y, z, orientation="sagittal"):
     else:
         raise ValueError(
             "{} is not recognised as an anatomical layout. orientation values "
-            "should be one of 'sagittal', 'axial' or 'coronal'.".format(orientation))
+            "should be one of 'sagittal', 'axial' or 'coronal'.".format(orientation))    # noqa

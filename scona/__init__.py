@@ -42,7 +42,7 @@ from scona.classes import *
 
 from scona.wrappers import *
 
-from scona.helpers import *
+from scona.visualisations_helpers import *
 
 import scona.datasets
 from scona import *
