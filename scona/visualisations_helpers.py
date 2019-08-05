@@ -26,11 +26,10 @@ def df_sns_barplot(bundleGraphs, original_network):
         random graphs
 
     original_network: str, required
-        This is the name of the real Graph in GraphBundle.
-        While instantiating GraphBundle object we pass the real Graph and its name.     # noqa
-        (e.g. bundleGraphs = scn.GraphBundle([H], ['Real Network'])).
-        To plot real network measures along with the random network values  it is
-        required to pass the name of the real network (e.g.'Real Network').
+        This is the name of the initial Graph in GraphBundle. It should index
+        the particular network in `brain_bundle` that you want the figure
+        to highlight. A distribution of all the other networks in
+        `brain_bundle` will be rendered for comparison.
 
     Returns
     -------

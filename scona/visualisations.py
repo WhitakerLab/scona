@@ -27,9 +27,6 @@ def plot_rich_club(brain_bundle, original_network, figure_name=None, color=None,
         This should index the particular network in `brain_bundle` that you want
         the figure to highlight. A distribution of all the other networks in
         `brain_bundle` will be rendered for comparison.
-        To plot rich club values along with the rich club values from
-        randomed graphs it is required to pass the name of the initial network,
-        the proper network, the one you got from the mri data.
     figure_name : str, optional
         path to the file to store the created figure in (e.g. "/home/Desktop/name")
         or to store in the current directory include just a name ("fig_name");
@@ -173,9 +170,6 @@ def plot_network_measures(brain_bundle, original_network, figure_name=None,
         This should index the particular network in `brain_bundle` that you want
         the figure to highlight. A distribution of all the other networks in
         `brain_bundle` will be rendered for comparison.
-        To plot real network measures along with the random network values it is
-        required to pass the name of the initial network, the proper network,
-        the one you got from the mri data.
     figure_name : str, optional
         path to the file to store the created figure in (e.g. "/home/Desktop/name") # noqa
         or to store in the current directory include just a name ("fig_name");
