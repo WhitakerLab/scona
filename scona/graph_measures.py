@@ -418,9 +418,9 @@ def small_world_sigma(tupleG, tupleR):
     return ((Cg/Cr)/(Lg/Lr))
 
 
-def small_coefficient(G, R):
+def small_world_coefficient(G, R):
     '''
-    Calculate the small coefficient of G relative to R.
+    Calculate the small world coefficient of G relative to R.
 
     Parameters
     ----------
@@ -430,7 +430,7 @@ def small_coefficient(G, R):
     Returns
     -------
     float
-        The small coefficient of G relative to R
+        The small world coefficient of G relative to R
     '''
     return small_world_sigma((nx.average_clustering(G),
                               nx.average_shortest_path_length(G)),
