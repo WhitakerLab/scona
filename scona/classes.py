@@ -489,7 +489,8 @@ class GraphBundle(dict):
     Essentially it's a python dictionary with BrainNetwork objects as values
     (:class:`str`: :class:`BrainNetwork` pairs).
 
-    Mainly used to create random graphs for comparison with your real network data.
+    Mainly used to create random graphs for comparison with your original
+    network data.
 
     Parameters
     ----------

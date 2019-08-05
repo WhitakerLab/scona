@@ -9,7 +9,7 @@ import seaborn as sns
 from scona.helpers import save_fig
 
 
-def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
+def plot_rich_club(brain_bundle, original_network, figure_name=None, color=None,
                    show_legend=True, x_max=None, y_max=None):
     """
     This is a visualisation tool for plotting the rich club values per degree
@@ -20,16 +20,20 @@ def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
     ----------
     brain_bundle : `GraphBundle` object
         a python dictionary with BrainNetwork objects as values
-        (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and random graphs
-    real_network: str, required
-        This is the name of the real Graph in GraphBundle.
-        While instantiating GraphBundle object we pass the real Graph and its name.
-        (e.g. bundleGraphs = scn.GraphBundle([H], ['Real Network'])).
-        To plot rich club values along with the rich club values from randomed graphs
-        it is required to pass the name of the real network (e.g.'Real Network').
+        (:class:`str`: :class:`BrainNetwork` pairs), contains the original
+        Graph and random graphs.
+    original_network: str, required
+        This is the name of the original Graph in GraphBundle.
+        While instantiating the GraphBundle object we pass the original Graph
+        and its name.
+        (e.g. bundleGraphs = scn.GraphBundle([H], ['Original Network'])).
+        To plot rich club values along with the rich club values from randomed
+        graphs it is required to pass the name of the original network
+        (e.g.'Original Network').
     figure_name : str, optional
-        path to the file to store the created figure in (e.g. "/home/Desktop/name")
-        or to store in the current directory include just a name ("fig_name");
+        path to the file to store the created figure in
+        (e.g. "/home/Desktop/name") or to store in the current directory
+        include just a name ("fig_name");
     color : list of 2 strings, optional
         where the 1st string is a color for rich club values and 2nd - for random
         rich club values. You can specify the color using an html hex string
@@ -59,11 +63,11 @@ def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
     # get the degrees
     degree = rich_club_df.index.values
 
-    # select the values of the 1st Graph in Graph Bundle - Real Graph
-    rc_real = np.array(rich_club_df[real_network])
+    # select the values of the 1st Graph in Graph Bundle - the original graph
+    rc_orig = np.array(rich_club_df[original_network])
 
-    # create a dataframe of random Graphs (exclude Real Graph)
-    rand_df = rich_club_df.drop(real_network, axis=1)
+    # create a dataframe of random Graphs (exclude original Graph)
+    rand_df = rich_club_df.drop(original_network, axis=1)
 
     # re-organize rand_df dataframe in a suitable way
     # so that there is one column for the degrees data, one for rich club values
@@ -88,10 +92,11 @@ def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
     # set the default colors of plotted values if not provided
     if color is None:
         color = ["#00C9FF", "grey"]
-    elif len(color) == 1:              # in case only to plot only real values
-        color.append("grey")
+    elif len(color) == 1:              # if you only want to plot the original
+        color.append("grey")           # network (no random networks)
 
-    # if the user provided color not as a list of size 2 - show warning, use default colors
+    # if the user provided color not as a list of size 2 - show warning,
+    # use default colors
     if not isinstance(color, list) and len(color) != 2:
         warnings.warn("Please, provide a *color* parameter as a "
                       "python list object, e.g. [\"green\", \"pink\"]. "
@@ -103,8 +108,8 @@ def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
                       err_style="band", ci=95, color=color[1],
                       label="random rich-club coefficient")
 
-    # plot the rich club values of real Graph
-    ax = sns.lineplot(x=degree, y=rc_real, label="rich-club coefficient",
+    # plot the rich club values of original Graph
+    ax = sns.lineplot(x=degree, y=rc_orig, label="rich-club coefficient",
                       color=color[0])
 
     # set the max values of x & y - axis if not provided
@@ -112,7 +117,7 @@ def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
         x_max = max(degree)
 
     if y_max is None:
-        y_max = max(rc_real) + 0.1   # let y-axis be longer -> looks better
+        y_max = max(rc_orig) + 0.1   # let y-axis be longer -> looks better
 
     # set the x and y axis limits
     ax.set_xlim((0, x_max))
@@ -148,7 +153,7 @@ def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
         plt.close(fig)
 
 
-def plot_network_measures(brain_bundle, real_network, figure_name=None,
+def plot_network_measures(brain_bundle, original_network, figure_name=None,
                           color=None, ci=95, show_legend=True):
     """
     This is a visualisation tool for plotting network measures values
@@ -158,19 +163,23 @@ def plot_network_measures(brain_bundle, real_network, figure_name=None,
     ----------
     brain_bundle : :class:`GraphBundle`
         a python dictionary with BrainNetwork objects as values
-        (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and random graphs
-    real_network: str, required
-        This is the name of the real Graph in GraphBundle.
-        While instantiating GraphBundle object we pass the real Graph and its name.
-        (e.g. bundleGraphs = scn.GraphBundle([H], ['Real Network'])).
-        To plot real network measures along with the random network values  it is
-        required to pass the name of the real network (e.g.'Real Network').
+        (:class:`str`: :class:`BrainNetwork` pairs), contains original Graph
+        and random graphs
+    original_network: str, required
+        This is the name of the original Graph in GraphBundle.
+        While instantiating GraphBundle object we pass the original Graph and
+        its name.
+        (e.g. bundleGraphs = scn.GraphBundle([H], ['Original Network'])).
+        To plot original network measures along with the random network values
+        it is required to pass the name of the original network
+        (e.g.'Original Network').
     figure_name : str, optional
-        path to the file to store the created figure in (e.g. "/home/Desktop/name")
+        path to the file to store the created figure in
+        (e.g. "/home/Desktop/name")
         or to store in the current directory include just a name ("fig_name");
     color : list of 2 strings, optional
-        where the 1st string is a color for real network measures and the 2nd
-        - for measures values of random graphs.
+        where the 1st string is a color for original network measures and the
+        2nd is for the values from the random graphs.
         You can specify the color using an html hex string
         (e.g. color =["#06209c","#c1b8b1"]) or you can pass an (r, g, b) tuple,
         where each of r, g, b are in the range [0,1]. Finally, legal html names
@@ -218,20 +227,23 @@ def plot_network_measures(brain_bundle, real_network, figure_name=None,
 
     ## Build array to contain all data to futher use for creating dataframe
 
-    # store the values of real Graph in data_array
+    # store the values of original Graph in data_array
     data_array = list()
 
     for measure in bundleGraphs_measures.columns:
-        # check that the param - real_network - is correct, otherwise - error
+        # check that the param - original_network - is in bundleGraphs_measures
+        # otherwise pass an error
         try:
-            value = bundleGraphs_measures.loc[real_network, measure]  # value of each measure for Real_Network
+            # Get the value of each measure for original_network
+            value = bundleGraphs_measures.loc[original_network, measure]
         except KeyError:
             raise KeyError(
-                "The name of the real Graph you passed to the function - \"{}\", does not exist in GraphBundle. "
-                "Please provide a true name of real Graph (represented as a key in GraphBundle)".format(real_network))
+                "The name of the original graph you passed to the function - \"{}\", does not exist in GraphBundle. " # noqa
+                "Please provide a true name of the original graph (represented as a key in GraphBundle)".format(original_network)) # noqa
 
-        measure_short = abbreviation[measure]         # get the abbreviation for measure and use this abbreviation
-        type_network = "Real Network"
+        # Get the abbreviation for the measure
+        measure_short = abbreviation[measure]
+        type_network = "Original Network"
 
         tmp = [measure_short, value, type_network]
 
@@ -239,8 +251,8 @@ def plot_network_measures(brain_bundle, real_network, figure_name=None,
 
     # store the values of random Graphs
 
-    # create a new dataframe without Real Network
-    random_df = bundleGraphs_measures.drop(real_network)
+    # create a new dataframe without the original Network
+    random_df = bundleGraphs_measures.drop(original_network)
 
     # store the values of random Graphs in data_array
     for measure in random_df.columns:
@@ -259,8 +271,8 @@ def plot_network_measures(brain_bundle, real_network, figure_name=None,
     # set the default colors of barsplot values if not provided
     if color is None:
         color = [sns.color_palette()[0], "lightgrey"]
-    elif len(color) == 1:              # in case only to plot only real values
-        color.append("lightgrey")
+    elif len(color) == 1:              # if you only want to plot the original
+        color.append("grey")           # network (no random networks)
 
     # if the user provided color not as a list of size 2 - show warning, use default colors
     if not isinstance(color, list) and len(color) != 2:
