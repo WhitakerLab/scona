@@ -501,14 +501,11 @@
 
     <span class="c1"># ==== CALCULATE MEASURES ====================</span>
 
-    <span class="k">def</span> <span class="nf">calc_nodal_measure</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">measure</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">measure</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">nodal_measure_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">nx</span><span class="o">.</span><span class="n">get_node_attributes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">measure</span><span class="p">))</span> <span class="ow">or</span> <span class="n">force</span><span class="p">:</span>
             <span class="n">nx</span><span class="o">.</span><span class="n">set_node_attributes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
                                    <span class="n">name</span><span class="o">=</span><span class="n">measure</span><span class="p">,</span>
-                                   <span class="n">values</span><span class="o">=</span><span class="n">method</span><span class="p">(</span><span class="n">G</span><span class="p">))</span>
-
-    <span class="k">for</span> <span class="n">measure</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">nodal_measure_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">calc_nodal_measure</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">measure</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="n">force</span><span class="p">)</span></div>
+                                   <span class="n">values</span><span class="o">=</span><span class="n">method</span><span class="p">(</span><span class="n">G</span><span class="p">))</span></div>
 
 
 <span class="c1"># ============= Global measures =============</span>
@@ -576,9 +573,14 @@
     <span class="k">return</span> <span class="p">((</span><span class="n">Cg</span><span class="o">/</span><span class="n">Cr</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">Lg</span><span class="o">/</span><span class="n">Lr</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="small_coefficient"><a class="viewcode-back" href="../../scona.html#scona.graph_measures.small_coefficient">[docs]</a><span class="k">def</span> <span class="nf">small_coefficient</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">R</span><span class="p">):</span>
+<div class="viewcode-block" id="small_world_coefficient"><a class="viewcode-back" href="../../scona.html#scona.graph_measures.small_world_coefficient">[docs]</a><span class="k">def</span> <span class="nf">small_world_coefficient</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">R</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Calculate the small coefficient of G relative to R.</span>
+<span class="sd">    Calculate the small world coefficient of G relative to R.</span>
+
+<span class="sd">    Small coefficient is (G.average_clustering/R.average_clustering) /</span>
+<span class="sd">    (G.average_shortest_path_length / R.average_shortest_path_length) , where</span>
+<span class="sd">    average_clustering and average_shortest_path_length are a graph&#39;s global</span>
+<span class="sd">    measures.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -588,12 +590,32 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
-<span class="sd">        The small coefficient of G relative to R</span>
+<span class="sd">        The small world coefficient of G relative to R</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">return</span> <span class="n">small_world_sigma</span><span class="p">((</span><span class="n">nx</span><span class="o">.</span><span class="n">average_clustering</span><span class="p">(</span><span class="n">G</span><span class="p">),</span>
-                              <span class="n">nx</span><span class="o">.</span><span class="n">average_shortest_path_length</span><span class="p">(</span><span class="n">G</span><span class="p">)),</span>
-                             <span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">average_clustering</span><span class="p">(</span><span class="n">R</span><span class="p">),</span>
-                              <span class="n">nx</span><span class="o">.</span><span class="n">average_shortest_path_length</span><span class="p">(</span><span class="n">R</span><span class="p">)))</span></div>
+
+    <span class="c1"># check if required global measures exist (already calculated)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">Cg</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s2">&quot;global_measures&quot;</span><span class="p">][</span><span class="s2">&quot;average_clustering&quot;</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">Cg</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">average_clustering</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">Lg</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s2">&quot;global_measures&quot;</span><span class="p">][</span><span class="s2">&quot;average_shortest_path_length&quot;</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">Lg</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">average_shortest_path_length</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">Cr</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s2">&quot;global_measures&quot;</span><span class="p">][</span><span class="s2">&quot;average_clustering&quot;</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">Cr</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">average_clustering</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">Lr</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s2">&quot;global_measures&quot;</span><span class="p">][</span><span class="s2">&quot;average_shortest_path_length&quot;</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">Lr</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">average_shortest_path_length</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">small_world_sigma</span><span class="p">((</span><span class="n">Cg</span><span class="p">,</span><span class="n">Lg</span><span class="p">),</span> <span class="p">(</span><span class="n">Cr</span><span class="p">,</span><span class="n">Lr</span><span class="p">))</span></div>
 
 
 <span class="c1"># ============ Calculate Global Measures En Masse ================</span>
@@ -606,6 +628,9 @@
 <span class="sd">    Calculate global measures `average_clustering`,</span>
 <span class="sd">    `average_shortest_path_length`, `assortativity`, `modularity`, and</span>
 <span class="sd">    `efficiency` of G.</span>
+
+<span class="sd">    Note: Global measures **will not** be calculated again if they have already been calculated.</span>
+<span class="sd">    So it is only needed to calculate them once and then they aren&#39;t calculated again.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

@@ -836,6 +836,8 @@ first maps nodes to modules and the second maps modules to nodes.</p>
 <dd><p>Calculate global measures <cite>average_clustering</cite>,
 <cite>average_shortest_path_length</cite>, <cite>assortativity</cite>, <cite>modularity</cite>, and
 <cite>efficiency</cite> of G.</p>
+<p>Note: Global measures <strong>will not</strong> be calculated again if they have already been calculated.
+So it is only needed to calculate them once and then they aren’t calculated again.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -966,15 +968,19 @@ from v to other nodes in G.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="scona.graph_measures.small_coefficient">
-<code class="sig-prename descclassname">scona.graph_measures.</code><code class="sig-name descname">small_coefficient</code><span class="sig-paren">(</span><em class="sig-param">G</em>, <em class="sig-param">R</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/graph_measures.html#small_coefficient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.graph_measures.small_coefficient" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the small coefficient of G relative to R.</p>
+<dt id="scona.graph_measures.small_world_coefficient">
+<code class="sig-prename descclassname">scona.graph_measures.</code><code class="sig-name descname">small_world_coefficient</code><span class="sig-paren">(</span><em class="sig-param">G</em>, <em class="sig-param">R</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/graph_measures.html#small_world_coefficient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.graph_measures.small_world_coefficient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the small world coefficient of G relative to R.</p>
+<p>Small coefficient is (G.average_clustering/R.average_clustering) /
+(G.average_shortest_path_length / R.average_shortest_path_length) , where
+average_clustering and average_shortest_path_length are a graph’s global
+measures.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>R</strong> (<em>G</em><em>,</em>) – A binary graph</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The small coefficient of G relative to R</p>
+<dd class="field-even"><p>The small world coefficient of G relative to R</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a></p>
@@ -1402,8 +1408,13 @@ cause output graph to be disconnected</p></li>
 <dt id="scona.classes.GraphBundle">
 <em class="property">class </em><code class="sig-prename descclassname">scona.classes.</code><code class="sig-name descname">GraphBundle</code><span class="sig-paren">(</span><em class="sig-param">graph_list</em>, <em class="sig-param">name_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
-<p>GraphBundle is a subclass of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> containing
-<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>: <a class="reference internal" href="#scona.classes.BrainNetwork" title="scona.classes.BrainNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrainNetwork</span></code></a> pairs.</p>
+<p>The GraphBundle class (after instantiating - object) is the scona way to
+handle across-network comparisons.
+What is it?
+Essentially it’s a python dictionary with BrainNetwork objects as values
+(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>: <a class="reference internal" href="#scona.classes.BrainNetwork" title="scona.classes.BrainNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrainNetwork</span></code></a> pairs).</p>
+<p>Mainly used to create random graphs for comparison with your original
+network data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1526,6 +1537,8 @@ vertex sets”</p>
 <code class="sig-name descname">report_global_measures</code><span class="sig-paren">(</span><em class="sig-param">as_dict=False</em>, <em class="sig-param">partition=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle.report_global_measures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle.report_global_measures" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate global_measures for each BrainNetwork object and report as a
 <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.25.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or nested dict.</p>
+<p>Note: Global measures <strong>will not</strong> be calculated again if they have already been calculated.
+So it is only needed to calculate them once and then they aren’t calculated again.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1573,7 +1586,7 @@ pass False to return a <a class="reference external" href="https://pandas.pydata
 <dl class="method">
 <dt id="scona.classes.GraphBundle.report_small_world">
 <code class="sig-name descname">report_small_world</code><span class="sig-paren">(</span><em class="sig-param">gname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle.report_small_world"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle.report_small_world" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the small coefficient of <cite>gname</cite> relative to each other
+<dd><p>Calculate the small world coefficient of <cite>gname</cite> relative to each other
 graph in GraphBundle.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1589,7 +1602,7 @@ coefficient of graph “gname” relative to graph “x”.</p>
 </dl>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">small_coefficient()</span></code></p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">small_world_coefficient()</span></code></p>
 </div>
 </dd></dl>
 
@@ -1630,6 +1643,119 @@ Uses <a class="reference external" href="https://docs.scipy.org/doc/numpy/refere
 <dd><p>Describe the independent and shared explanatory
 variance of two (possibly correlated) variables on
 the dependent variable (y)</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scona.visualisations">
+<span id="scona-visualisations-module"></span><h2>scona.visualisations module<a class="headerlink" href="#module-scona.visualisations" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scona.visualisations.plot_degree_dist">
+<code class="sig-prename descclassname">scona.visualisations.</code><code class="sig-name descname">plot_degree_dist</code><span class="sig-paren">(</span><em class="sig-param">G</em>, <em class="sig-param">binomial_graph=True</em>, <em class="sig-param">seed=10</em>, <em class="sig-param">figure_name=None</em>, <em class="sig-param">color=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/visualisations.html#plot_degree_dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.visualisations.plot_degree_dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a visualisation tool for plotting the degree distribution
+along with the degree distribution of an Erdos Renyi random graph
+that has the same number of nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – BrainNetwork object</p></li>
+<li><p><strong>binomial_graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em> (</em><em>optional</em><em>, </em><em>default=True</em><em>)</em>) – if “True” plot the degree distribution of an Erdos Renyi random graph.</p></li>
+<li><p><strong>seed</strong> (<em>integer</em><em> (</em><em>default=10</em><em>)</em><em>, </em><em>random_state</em><em>, or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a>) – Seed for random number generator. In case it is needed to create random
+Erdos Renyi Graph, set <cite>seed</cite> to None.</p></li>
+<li><p><strong>figure_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – path to the file to store the created figure in (e.g. “/home/Desktop/name”)
+or to store in the current directory include just a name (“fig_name”);</p></li>
+<li><p><strong>color</strong> (<em>list of 2 strings</em><em>, </em><em>optional</em>) – where the 1st string is a color for rich club values and 2nd - for random
+rich club values. You can specify the color using an html hex string
+(e.g. color =[“#06209c”,”#c1b8b1”]) or you can pass an (r, g, b) tuple,
+where each of r, g, b are in the range [0,1]. Finally, legal html names
+for colors, like “red”, “black” and so on are supported.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Plot the Figure and if figure_name given, save it in a figure_name file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.visualisations.plot_network_measures">
+<code class="sig-prename descclassname">scona.visualisations.</code><code class="sig-name descname">plot_network_measures</code><span class="sig-paren">(</span><em class="sig-param">brain_bundle</em>, <em class="sig-param">original_network</em>, <em class="sig-param">figure_name=None</em>, <em class="sig-param">color=None</em>, <em class="sig-param">ci=95</em>, <em class="sig-param">show_legend=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/visualisations.html#plot_network_measures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.visualisations.plot_network_measures" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a visualisation tool for plotting network measures values
+along with the random network values created from a random networks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>brain_bundle</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">GraphBundle</span></code>) – a python dictionary with BrainNetwork objects as values
+(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>: <code class="xref py py-class docutils literal notranslate"><span class="pre">BrainNetwork</span></code> pairs), contains real Graph and
+random graphs.</p></li>
+<li><p><strong>original_network</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>required</em>) – This should index the particular network in <cite>brain_bundle</cite> that you
+want the figure to highlight. A distribution of all the other networks
+in <cite>brain_bundle</cite> will be rendered for comparison.</p></li>
+<li><p><strong>figure_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – path to the file to store the created figure in
+(e.g. “/home/Desktop/name”) or to store in the current directory
+include just a name (“fig_name”).</p></li>
+<li><p><strong>color</strong> (<em>list of 2 strings</em><em>, </em><em>optional</em>) – where the 1st string is a color for original network measures and the
+2nd is for the values from the random graphs.
+You can specify the color using an html hex string
+(e.g. color =[“#06209c”,”#c1b8b1”]) or you can pass an (r, g, b) tuple,
+where each of r, g, b are in the range [0,1]. Finally, legal html names
+for colors, like “red”, “black” and so on are supported.</p></li>
+<li><p><strong>show_legend</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em> (</em><em>optional</em><em>, </em><em>default=True</em><em>)</em>) – if True - show legend, otherwise - do not display legend.</p></li>
+<li><p><strong>ci</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em> or </em><em>“sd”</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a><em> (</em><em>optional</em><em>, </em><em>default=95</em><em>)</em>) – Size of confidence intervals to draw around estimated values. If “sd”,
+skip bootstrapping and draw the standard deviation of the observations.
+If None, no bootstrapping will be performed, and error bars will not be
+drawn.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>Plot the Figure and if figure_name provided, save it in a figure_name</em></p></li>
+<li><p><em>file.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scona.visualisations.plot_rich_club">
+<code class="sig-prename descclassname">scona.visualisations.</code><code class="sig-name descname">plot_rich_club</code><span class="sig-paren">(</span><em class="sig-param">brain_bundle</em>, <em class="sig-param">original_network</em>, <em class="sig-param">figure_name=None</em>, <em class="sig-param">color=None</em>, <em class="sig-param">show_legend=True</em>, <em class="sig-param">x_max=None</em>, <em class="sig-param">y_max=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/visualisations.html#plot_rich_club"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.visualisations.plot_rich_club" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a visualisation tool for plotting the rich club values per degree
+along with the random rich club values created from a random networks
+with a preserved degree distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>brain_bundle</strong> (<cite>GraphBundle</cite> object) – a python dictionary with BrainNetwork objects as values
+(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>: <code class="xref py py-class docutils literal notranslate"><span class="pre">BrainNetwork</span></code> pairs), contains original Graph
+and random graphs.</p></li>
+<li><p><strong>original_network</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>required</em>) – This should index the particular network in <cite>brain_bundle</cite> that you
+want the figure to highlight. A distribution of all the other networks
+in <cite>brain_bundle</cite> will be rendered for comparison.</p></li>
+<li><p><strong>figure_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – path to the file to store the created figure in
+(e.g. “/home/Desktop/name”) or to store in the current directory
+include just a name (“fig_name”);</p></li>
+<li><p><strong>color</strong> (<em>list of 2 strings</em><em>, </em><em>optional</em>) – where the 1st string is a color for rich club values and 2nd - for
+random rich club values. You can specify the color using an html hex
+string (e.g. color =[“#06209c”,”#c1b8b1”]) or you can pass an
+(r, g, b) tuple, where each of r, g, b are in the range [0,1].
+Legal html names for colors, like “red”, “black” and so on are also
+supported.</p></li>
+<li><p><strong>show_legend</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em> (</em><em>optional</em><em>, </em><em>default=True</em><em>)</em>) – if True - show legend, otherwise - do not display legend.</p></li>
+<li><p><strong>x_max</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – the max length of the x-axis of the plot</p></li>
+<li><p><strong>y_max</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – the max length of the y-axis of the plot</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>Plot the figure and if figure_name is given then save the image</em></p></li>
+<li><p><em>in a file named according to the figure_name variable.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
