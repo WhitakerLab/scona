@@ -7,11 +7,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 from scona.visualisations_helpers import save_fig
-from scona.visualisations_helpers import df_sns_barplot
+from scona.visualisations_helpers import create_df_sns_barplot
 
 
-def plot_rich_club(brain_bundle, original_network, figure_name=None, color=None,
-                   show_legend=True, x_max=None, y_max=None):
+def plot_rich_club(brain_bundle, original_network, figure_name=None,
+                   color=None, show_legend=True, x_max=None, y_max=None):
     """
     This is a visualisation tool for plotting the rich club values per degree
     along with the random rich club values created from a random networks
@@ -47,7 +47,8 @@ def plot_rich_club(brain_bundle, original_network, figure_name=None, color=None,
 
     Returns
     -------
-        Plot the Figure and if figure_name given, save it in a figure_name file.
+        Plot the figure and if figure_name is given then save the image
+        in a file named according to the figure_name variable.
 
     """
 
@@ -63,7 +64,7 @@ def plot_rich_club(brain_bundle, original_network, figure_name=None, color=None,
 
     # select the values of the 1st Graph in Graph Bundle - Real Graph
     try:
-        rc_real = np.array(rich_club_df[original_network])
+        rc_orig = np.array(rich_club_df[original_network])
     except KeyError:
         raise KeyError(
             "Please check the name of the initial Graph (the proper network, "
@@ -74,8 +75,8 @@ def plot_rich_club(brain_bundle, original_network, figure_name=None, color=None,
     rand_df = rich_club_df.drop(original_network, axis=1)
 
     # re-organize rand_df dataframe in a suitable way
-    # so that there is one column for the degrees data, one for rich club values
-    # required for seaborn plotting with error bars
+    # so that there is one column for the degrees data, one for rich club
+    # values required for seaborn plotting with error bars
 
     # create array to store the degrees
     rand_degree = []
@@ -107,14 +108,14 @@ def plot_rich_club(brain_bundle, original_network, figure_name=None, color=None,
                       "Right now the default colors will be used")
         color = ["#00C9FF", "grey"]
 
+    # plot the rich club values of real Graph
+    ax = sns.lineplot(x=degree, y=rc_orig, label="Observed network", zorder=1,
+                      color=color[0])
+
     # plot the random rich club values of random graphs
     ax = sns.lineplot(x="Degree", y="Rich Club", data=new_rand_df,
                       err_style="band", ci=95, color=color[1],
                       label="Random network", zorder=2)
-
-    # plot the rich club values of real Graph
-    ax = sns.lineplot(x=degree, y=rc_real, label="Original Network", zorder=1,
-                      color=color[0])
 
     # set the max values of x & y - axis if not given
     if x_max is None:
@@ -170,9 +171,9 @@ def plot_network_measures(brain_bundle, original_network, figure_name=None,
         (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and
         random graphs.
     original_network: str, required
-        This should index the particular network in `brain_bundle` that you want
-        the figure to highlight. A distribution of all the other networks in
-        `brain_bundle` will be rendered for comparison.
+        This should index the particular network in `brain_bundle` that you
+        want the figure to highlight. A distribution of all the other networks
+        in `brain_bundle` will be rendered for comparison.
     figure_name : str, optional
         path to the file to store the created figure in
         (e.g. "/home/Desktop/name") or to store in the current directory
@@ -193,7 +194,8 @@ def plot_network_measures(brain_bundle, original_network, figure_name=None,
         drawn.
     Returns
     -------
-        Plot the Figure and if figure_name provided, save it in a figure_name file.
+        Plot the Figure and if figure_name provided, save it in a figure_name
+        file.
     """
 
     # set the seaborn style and context in the beginning!
@@ -201,7 +203,7 @@ def plot_network_measures(brain_bundle, original_network, figure_name=None,
     sns.set_context("poster", font_scale=1)
 
     # build a new DataFrame required for seaborn.barplot
-    seaborn_data = df_sns_barplot(brain_bundle, original_network)
+    seaborn_data = create_df_sns_barplot(brain_bundle, original_network)
 
     # set the default colors of barplot values if not provided
     if color is None:
