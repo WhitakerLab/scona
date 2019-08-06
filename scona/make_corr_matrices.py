@@ -60,16 +60,15 @@ def create_residuals_df(df, names, covars=[]):
     '''
     # Raise TypeError if any of the relevant columns are nonnumeric
     non_numeric_cols = get_non_numeric_cols(df[names+covars])
-    if non_numeric_cols:
+    if non_numeric_cols.size > 0:
         raise TypeError('DataFrame columns {} are non numeric'
                         .format(', '.join(non_numeric_cols)))
 
     # Make a new data frame that will contain
     # the residuals for each column after correcting for
     # the covariates in covars
-    df_res = df[names+covars].copy()
+    df_res = df[names].copy()
 
-    # Create your covariates array
     if len(covars) > 1:
         x = np.vstack([df[covars]])
     elif len(covars) == 1:
@@ -118,7 +117,7 @@ def create_corrmat(df_res, names=None, method='pearson'):
 
     # Raise TypeError if any of the relevant columns are nonnumeric
     non_numeric_cols = get_non_numeric_cols(df_res)
-    if non_numeric_cols:
+    if non_numeric_cols.size > 0:
         raise TypeError('DataFrame columns {} are non numeric'
                         .format(', '.join(non_numeric_cols)))
 
