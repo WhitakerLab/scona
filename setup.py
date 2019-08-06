@@ -10,7 +10,7 @@ install_requires = [
    "networkx>=2.2",
    "seaborn",
    "forceatlas2",
-   "nilearn==0.5.0a0"]
+   "nilearn==0.5.2"]
 
 
 if __name__ == '__main__':
