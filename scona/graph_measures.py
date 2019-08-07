@@ -418,9 +418,9 @@ def small_world_sigma(tupleG, tupleR):
     return ((Cg/Cr)/(Lg/Lr))
 
 
-def small_coefficient(G, R):
+def small_world_coefficient(G, R):
     '''
-    Calculate the small coefficient of G relative to R.
+    Calculate the small world coefficient of G relative to R.
 
     Small coefficient is (G.average_clustering/R.average_clustering) /
     (G.average_shortest_path_length / R.average_shortest_path_length) , where
@@ -435,7 +435,7 @@ def small_coefficient(G, R):
     Returns
     -------
     float
-        The small coefficient of G relative to R
+        The small world coefficient of G relative to R
     '''
 
     # check if required global measures exist (already calculated)
