@@ -968,15 +968,19 @@ from v to other nodes in G.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="scona.graph_measures.small_coefficient">
-<code class="sig-prename descclassname">scona.graph_measures.</code><code class="sig-name descname">small_coefficient</code><span class="sig-paren">(</span><em class="sig-param">G</em>, <em class="sig-param">R</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/graph_measures.html#small_coefficient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.graph_measures.small_coefficient" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the small coefficient of G relative to R.</p>
+<dt id="scona.graph_measures.small_world_coefficient">
+<code class="sig-prename descclassname">scona.graph_measures.</code><code class="sig-name descname">small_world_coefficient</code><span class="sig-paren">(</span><em class="sig-param">G</em>, <em class="sig-param">R</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/graph_measures.html#small_world_coefficient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.graph_measures.small_world_coefficient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the small world coefficient of G relative to R.</p>
+<p>Small coefficient is (G.average_clustering/R.average_clustering) /
+(G.average_shortest_path_length / R.average_shortest_path_length) , where
+average_clustering and average_shortest_path_length are a graph’s global
+measures.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>R</strong> (<em>G</em><em>,</em>) – A binary graph</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The small coefficient of G relative to R</p>
+<dd class="field-even"><p>The small world coefficient of G relative to R</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a></p>
@@ -1409,7 +1413,8 @@ handle across-network comparisons.
 What is it?
 Essentially it’s a python dictionary with BrainNetwork objects as values
 (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>: <a class="reference internal" href="#scona.classes.BrainNetwork" title="scona.classes.BrainNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrainNetwork</span></code></a> pairs).</p>
-<p>Mainly used to create random graphs for comparison with your real network data.</p>
+<p>Mainly used to create random graphs for comparison with your original
+network data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1581,7 +1586,7 @@ pass False to return a <a class="reference external" href="https://pandas.pydata
 <dl class="method">
 <dt id="scona.classes.GraphBundle.report_small_world">
 <code class="sig-name descname">report_small_world</code><span class="sig-paren">(</span><em class="sig-param">gname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/classes.html#GraphBundle.report_small_world"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.classes.GraphBundle.report_small_world" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the small coefficient of <cite>gname</cite> relative to each other
+<dd><p>Calculate the small world coefficient of <cite>gname</cite> relative to each other
 graph in GraphBundle.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1597,7 +1602,7 @@ coefficient of graph “gname” relative to graph “x”.</p>
 </dl>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">small_coefficient()</span></code></p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">small_world_coefficient()</span></code></p>
 </div>
 </dd></dl>
 
@@ -1644,68 +1649,6 @@ the dependent variable (y)</p>
 <div class="section" id="module-scona.visualisations">
 <span id="scona-visualisations-module"></span><h2>scona.visualisations module<a class="headerlink" href="#module-scona.visualisations" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="scona.visualisations.plot_connectome">
-<code class="sig-prename descclassname">scona.visualisations.</code><code class="sig-name descname">plot_connectome</code><span class="sig-paren">(</span><em class="sig-param">G</em>, <em class="sig-param">node_color='auto'</em>, <em class="sig-param">node_size=50</em>, <em class="sig-param">edge_cmap=&lt;matplotlib.colors.LinearSegmentedColormap object&gt;</em>, <em class="sig-param">edge_vmin=None</em>, <em class="sig-param">edge_vmax=None</em>, <em class="sig-param">edge_threshold=None</em>, <em class="sig-param">output_file=None</em>, <em class="sig-param">display_mode='ortho'</em>, <em class="sig-param">figure=None</em>, <em class="sig-param">axes=None</em>, <em class="sig-param">title=None</em>, <em class="sig-param">annotate=True</em>, <em class="sig-param">black_bg=False</em>, <em class="sig-param">alpha=0.7</em>, <em class="sig-param">edge_kwargs=None</em>, <em class="sig-param">node_kwargs=None</em>, <em class="sig-param">colorbar=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/visualisations.html#plot_connectome"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.visualisations.plot_connectome" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot connectome on top of the brain glass schematics.</p>
-<p>The plotted image should be in MNI space for this function to work
-properly.</p>
-<p>In the case of ‘l’ and ‘r’ directions (for hemispheric projections),
-markers in the coordinate x == 0 are included in both hemispheres.</p>
-<p>Plot a BrainNetwork using <code class="xref py py-func docutils literal notranslate"><span class="pre">nilearn.plotting.plot_connectome()</span></code> tool.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – G should have nodal locations in MNI space indexed by nodal
-attribute “centroids”.</p></li>
-<li><p><strong>node_color</strong> (<em>color</em><em> or </em><em>sequence of colors</em><em>, </em><em>optional</em>) – color(s) of the nodes. If string is given, all nodes
-are plotted with same color given in string.</p></li>
-<li><p><strong>node_size</strong> (<em>scalar</em><em> or </em><em>array_like</em><em>, </em><em>optional</em><em> (</em><em>default=50</em><em>)</em>) – size(s) of the nodes in points^2.</p></li>
-<li><p><strong>edge_cmap</strong> (<em>colormap</em><em>, </em><em>optional</em><em> (</em><em>default=&quot;bwr&quot;</em><em>)</em>) – colormap used for representing the strength of the edges.</p></li>
-<li><p><strong>edge_vmin</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – </p></li>
-<li><p><strong>edge_vmax</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – If not None, either or both of these values will be used to
-as the minimum and maximum values to color edges. If None are
-supplied the maximum absolute value within the given threshold
-will be used as minimum (multiplied by -1) and maximum
-coloring levels.</p></li>
-<li><p><strong>edge_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>number</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – If it is a number only the edges with a value greater than
-edge_threshold will be shown.
-If it is a string it must finish with a percent sign,
-e.g. “25.3%”, and only the edges with a abs(value) above
-the given percentile will be shown.</p></li>
-<li><p><strong>output_file</strong> (<em>string</em><em>, or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – The name of an image file to export the plot to. Valid extensions
-are .png, .pdf, .svg. If output_file is not None, the plot
-is saved to a file, and the display is closed.</p></li>
-<li><p><strong>display_mode</strong> (<em>string</em><em>, </em><em>optional</em><em> (</em><em>default='ortho'</em><em>)</em>) – Choose the direction of the cuts: ‘x’ - sagittal, ‘y’ - coronal,
-‘z’ - axial, ‘l’ - sagittal left hemisphere only,
-‘r’ - sagittal right hemisphere only, ‘ortho’ - three cuts are
-performed in orthogonal directions. Possible values are: ‘ortho’,
-‘x’, ‘y’, ‘z’, ‘xz’, ‘yx’, ‘yz’, ‘l’, ‘r’, ‘lr’, ‘lzr’, ‘lyr’,
-‘lzry’, ‘lyrz’.</p></li>
-<li><p><strong>figure</strong> (<em>integer</em><em> or </em><em>matplotlib figure</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Matplotlib figure used or its number. If None is given, a
-new figure is created.</p></li>
-<li><p><strong>axes</strong> (<em>matplotlib axes</em><em> or </em><em>4 tuple of float:</em><em> (</em><em>xmin</em><em>, </em><em>ymin</em><em>, </em><em>width</em><em>, </em><em>height</em><em>)</em><em>,</em>) – optional (default=None)
-The axes, or the coordinates, in matplotlib figure space,
-of the axes used to display the plot. If None, the complete
-figure is used.</p></li>
-<li><p><strong>title</strong> (<em>string</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – The title displayed on the figure.</p></li>
-<li><p><strong>annotate</strong> (<em>boolean</em><em>, </em><em>optional</em><em> (</em><em>default=True</em><em>)</em>) – If annotate is True, positions and left/right annotation
-are added to the plot.</p></li>
-<li><p><strong>black_bg</strong> (<em>boolean</em><em>, </em><em>optional</em><em> (</em><em>default=False</em><em>)</em>) – If True, the background of the image is set to be black. If
-you wish to save figures with a black background, you
-will need to pass “facecolor=’k’, edgecolor=’k’”
-to matplotlib.pyplot.savefig.</p></li>
-<li><p><strong>alpha</strong> (<em>float between 0 and 1</em><em>, </em><em>optional</em><em> (</em><em>default=0.7</em><em>)</em>) – Alpha transparency for the brain schematics.</p></li>
-<li><p><strong>edge_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – will be passed as kwargs for each edge matlotlib Line2D.</p></li>
-<li><p><strong>node_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – will be passed as kwargs to the plt.scatter call that plots all
-the nodes in one go.</p></li>
-<li><p><strong>colorbar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=False</em><em>)</em>) – If True, display a colorbar on the right of the plots.
-By default it is False.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
 <dt id="scona.visualisations.plot_degree_dist">
 <code class="sig-prename descclassname">scona.visualisations.</code><code class="sig-name descname">plot_degree_dist</code><span class="sig-paren">(</span><em class="sig-param">G</em>, <em class="sig-param">binomial_graph=True</em>, <em class="sig-param">seed=10</em>, <em class="sig-param">figure_name=None</em>, <em class="sig-param">color=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/visualisations.html#plot_degree_dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.visualisations.plot_degree_dist" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is a visualisation tool for plotting the degree distribution
@@ -1718,30 +1661,27 @@ that has the same number of nodes.</p>
 <li><p><strong>binomial_graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em> (</em><em>optional</em><em>, </em><em>default=True</em><em>)</em>) – if “True” plot the degree distribution of an Erdos Renyi random graph.</p></li>
 <li><p><strong>seed</strong> (<em>integer</em><em> (</em><em>default=10</em><em>)</em><em>, </em><em>random_state</em><em>, or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a>) – Seed for random number generator. In case it is needed to create random
 Erdos Renyi Graph, set <cite>seed</cite> to None.</p></li>
-<li><p><strong>figure_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – path to the file to store the created figure in
-(e.g. “/home/Desktop/name”) or to store in the current directory
-include just a name (“fig_name”);</p></li>
-<li><p><strong>color</strong> (<em>list of 2 strings</em><em>, </em><em>optional</em>) – where the 1st string is a color for rich club values and 2nd - for
-random rich club values. You can specify the color using an html hex
-string (e.g. color =[“#06209c”,”#c1b8b1”]) or you can pass an
-(r, g, b) tuple, where each of r, g, b are in the range [0,1].
-Finally, legal html names for colors, like “red”, “black” and so on
-are supported.</p></li>
+<li><p><strong>figure_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – path to the file to store the created figure in (e.g. “/home/Desktop/name”)
+or to store in the current directory include just a name (“fig_name”);</p></li>
+<li><p><strong>color</strong> (<em>list of 2 strings</em><em>, </em><em>optional</em>) – where the 1st string is a color for rich club values and 2nd - for random
+rich club values. You can specify the color using an html hex string
+(e.g. color =[“#06209c”,”#c1b8b1”]) or you can pass an (r, g, b) tuple,
+where each of r, g, b are in the range [0,1]. Finally, legal html names
+for colors, like “red”, “black” and so on are supported.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><em>Plot the Figure and if figure_name provided, save it in a figure_name</em></p></li>
-<li><p><em>file.</em></p></li>
-</ul>
-</p>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Plot the Figure and if figure_name given, save it in a figure_name file.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="scona.visualisations.plot_network_measures">
-<code class="sig-prename descclassname">scona.visualisations.</code><code class="sig-name descname">plot_network_measures</code><span class="sig-paren">(</span><em class="sig-param">brain_bundle</em>, <em class="sig-param">real_network</em>, <em class="sig-param">figure_name=None</em>, <em class="sig-param">color=None</em>, <em class="sig-param">ci=95</em>, <em class="sig-param">show_legend=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/visualisations.html#plot_network_measures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.visualisations.plot_network_measures" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">scona.visualisations.</code><code class="sig-name descname">plot_network_measures</code><span class="sig-paren">(</span><em class="sig-param">brain_bundle</em>, <em class="sig-param">original_network</em>, <em class="sig-param">figure_name=None</em>, <em class="sig-param">color=None</em>, <em class="sig-param">ci=95</em>, <em class="sig-param">show_legend=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/visualisations.html#plot_network_measures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.visualisations.plot_network_measures" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is a visualisation tool for plotting network measures values
 along with the random network values created from a random networks.</p>
 <dl class="field-list simple">
@@ -1749,16 +1689,15 @@ along with the random network values created from a random networks.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>brain_bundle</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">GraphBundle</span></code>) – a python dictionary with BrainNetwork objects as values
 (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>: <code class="xref py py-class docutils literal notranslate"><span class="pre">BrainNetwork</span></code> pairs), contains real Graph and
-random graphs</p></li>
-<li><p><strong>real_network</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>required</em>) – This is the name of the real Graph in GraphBundle.
-While instantiating GraphBundle object we pass the real Graph and its
-name (e.g. bundleGraphs = scn.GraphBundle([H], [‘Real Network’])).
-To plot real network measures along with the random network values it is
-required to pass the name of the real network (e.g.’Real Network’).</p></li>
-<li><p><strong>figure_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – path to the file to store the created figure in (e.g. “/home/Desktop/name”) # noqa
-or to store in the current directory include just a name (“fig_name”);</p></li>
-<li><p><strong>color</strong> (<em>list of 2 strings</em><em>, </em><em>optional</em>) – where the 1st string is a color for real network measures and the 2nd
-- for measures values of random graphs.
+random graphs.</p></li>
+<li><p><strong>original_network</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>required</em>) – This should index the particular network in <cite>brain_bundle</cite> that you
+want the figure to highlight. A distribution of all the other networks
+in <cite>brain_bundle</cite> will be rendered for comparison.</p></li>
+<li><p><strong>figure_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – path to the file to store the created figure in
+(e.g. “/home/Desktop/name”) or to store in the current directory
+include just a name (“fig_name”).</p></li>
+<li><p><strong>color</strong> (<em>list of 2 strings</em><em>, </em><em>optional</em>) – where the 1st string is a color for original network measures and the
+2nd is for the values from the random graphs.
 You can specify the color using an html hex string
 (e.g. color =[“#06209c”,”#c1b8b1”]) or you can pass an (r, g, b) tuple,
 where each of r, g, b are in the range [0,1]. Finally, legal html names
@@ -1771,47 +1710,6 @@ drawn.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Plot the Figure and if figure_name provided, save it in a figure_name file.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="scona.visualisations.plot_rich_club">
-<code class="sig-prename descclassname">scona.visualisations.</code><code class="sig-name descname">plot_rich_club</code><span class="sig-paren">(</span><em class="sig-param">brain_bundle</em>, <em class="sig-param">real_network</em>, <em class="sig-param">figure_name=None</em>, <em class="sig-param">color=None</em>, <em class="sig-param">show_legend=True</em>, <em class="sig-param">x_max=None</em>, <em class="sig-param">y_max=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/visualisations.html#plot_rich_club"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.visualisations.plot_rich_club" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is a visualisation tool for plotting the rich club values per degree
-along with the random rich club values created from a random networks
-with a preserved degree distribution.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>brain_bundle</strong> (<cite>GraphBundle</cite> object) – a python dictionary with BrainNetwork objects as values
-(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>: <code class="xref py py-class docutils literal notranslate"><span class="pre">BrainNetwork</span></code> pairs), contains real Graph and
-random graphs</p></li>
-<li><p><strong>real_network</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>required</em>) – This is the name of the real Graph in GraphBundle.
-While instantiating GraphBundle object we pass the real Graph and
-its name. (e.g. bundleGraphs = scn.GraphBundle([H], [‘Real Network’])).
-To plot rich club values along with the rich club values from random
-graphs it is required to pass the name of the real network
-(e.g.’Real Network’).</p></li>
-<li><p><strong>figure_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – path to the file to store the created figure in
-(e.g. “/home/Desktop/name”) or to store in the current directory
-include just a name (“fig_name”);</p></li>
-<li><p><strong>color</strong> (<em>list of 2 strings</em><em>, </em><em>optional</em>) – where the 1st string is a color for rich club values and 2nd - for
-random rich club values. You can specify the color using an html hex
-string (e.g. color =[“#06209c”,”#c1b8b1”]) or you can pass an
-(r, g, b) tuple, where each of r, g, b are in the range [0,1].
-Finally, legal html names for colors, like “red”, “black” and so on are
-supported.</p></li>
-<li><p><strong>show_legend</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em> (</em><em>optional</em><em>, </em><em>default=True</em><em>)</em>) – if True - show legend, otherwise - do not display legend.</p></li>
-<li><p><strong>x_max</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – the max length of the x-axis of the plot</p></li>
-<li><p><strong>y_max</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – the max length of the y-axis of the plot</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><em>Plot the Figure and if figure_name provided, save it in a figure_name</em></p></li>
 <li><p><em>file.</em></p></li>
@@ -1822,78 +1720,40 @@ supported.</p></li>
 </dd></dl>
 
 <dl class="function">
-<dt id="scona.visualisations.view_connectome_3d">
-<code class="sig-prename descclassname">scona.visualisations.</code><code class="sig-name descname">view_connectome_3d</code><span class="sig-paren">(</span><em class="sig-param">G</em>, <em class="sig-param">edge_threshold=None</em>, <em class="sig-param">edge_cmap='Spectral_r'</em>, <em class="sig-param">symmetric_cmap=True</em>, <em class="sig-param">linewidth=6.0</em>, <em class="sig-param">node_size=3.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/visualisations.html#view_connectome_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.visualisations.view_connectome_3d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Insert a 3d plot of a connectome into an HTML page.</p>
-<p>Plot a BrainNetwork using <code class="xref py py-func docutils literal notranslate"><span class="pre">nilearn.plotting.view_connectome()</span></code> tool.</p>
+<dt id="scona.visualisations.plot_rich_club">
+<code class="sig-prename descclassname">scona.visualisations.</code><code class="sig-name descname">plot_rich_club</code><span class="sig-paren">(</span><em class="sig-param">brain_bundle</em>, <em class="sig-param">original_network</em>, <em class="sig-param">figure_name=None</em>, <em class="sig-param">color=None</em>, <em class="sig-param">show_legend=True</em>, <em class="sig-param">x_max=None</em>, <em class="sig-param">y_max=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/visualisations.html#plot_rich_club"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.visualisations.plot_rich_club" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a visualisation tool for plotting the rich club values per degree
+along with the random rich club values created from a random networks
+with a preserved degree distribution.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – G should have nodal locations in MNI space indexed by nodal
-attribute “centroids”.</p></li>
-<li><p><strong>edge_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>number</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – If None, no thresholding.
-If it is a number only connections of amplitude greater
-than threshold will be shown.
-If it is a string it must finish with a percent sign,
-e.g. “25.3%”, and only connections of amplitude above the
-given percentile will be shown.</p></li>
-<li><p><strong>edge_cmap</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>matplotlib colormap</em><em>, </em><em>optional</em>) – Colormap for displaying edges.</p></li>
-<li><p><strong>symmetric_cmap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=True</em><em>)</em>) – Make colormap symmetric (ranging from -vmax to vmax).</p></li>
-<li><p><strong>linewidth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=6.</em><em>)</em>) – Width of the lines that show connections.</p></li>
-<li><p><strong>node_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=3.</em><em>)</em>) – Size of the markers showing the seeds in pixels.</p></li>
+<li><p><strong>brain_bundle</strong> (<cite>GraphBundle</cite> object) – a python dictionary with BrainNetwork objects as values
+(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>: <code class="xref py py-class docutils literal notranslate"><span class="pre">BrainNetwork</span></code> pairs), contains original Graph
+and random graphs.</p></li>
+<li><p><strong>original_network</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>required</em>) – This should index the particular network in <cite>brain_bundle</cite> that you
+want the figure to highlight. A distribution of all the other networks
+in <cite>brain_bundle</cite> will be rendered for comparison.</p></li>
+<li><p><strong>figure_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – path to the file to store the created figure in
+(e.g. “/home/Desktop/name”) or to store in the current directory
+include just a name (“fig_name”);</p></li>
+<li><p><strong>color</strong> (<em>list of 2 strings</em><em>, </em><em>optional</em>) – where the 1st string is a color for rich club values and 2nd - for
+random rich club values. You can specify the color using an html hex
+string (e.g. color =[“#06209c”,”#c1b8b1”]) or you can pass an
+(r, g, b) tuple, where each of r, g, b are in the range [0,1].
+Legal html names for colors, like “red”, “black” and so on are also
+supported.</p></li>
+<li><p><strong>show_legend</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em> (</em><em>optional</em><em>, </em><em>default=True</em><em>)</em>) – if True - show legend, otherwise - do not display legend.</p></li>
+<li><p><strong>x_max</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – the max length of the x-axis of the plot</p></li>
+<li><p><strong>y_max</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>optional</em>) – the max length of the y-axis of the plot</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>ConnectomeView</strong> – It can be saved as an html page or rendered (transparently) by the
-Jupyter notebook. Useful methods are :
-- ‘resize’ to resize the plot displayed in a Jupyter notebook
-- ‘save_as_html’ to save the plot to a file
-- ‘open_in_browser’ to save the plot and open it in a web browser.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>plot of the connectome.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="scona.visualisations.view_nodes_3d">
-<code class="sig-prename descclassname">scona.visualisations.</code><code class="sig-name descname">view_nodes_3d</code><span class="sig-paren">(</span><em class="sig-param">G</em>, <em class="sig-param">node_size=5.0</em>, <em class="sig-param">node_color='black'</em>, <em class="sig-param">measure=None</em>, <em class="sig-param">cmap_name=None</em>, <em class="sig-param">sns_palette=None</em>, <em class="sig-param">continuous=False</em>, <em class="sig-param">vmin=None</em>, <em class="sig-param">vmax=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/visualisations.html#view_nodes_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.visualisations.view_nodes_3d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot nodes of a BrainNetwork using
-<code class="xref py py-func docutils literal notranslate"><span class="pre">nilearn.plotting.view_markers()</span></code> tool.</p>
-<p>Insert a 3d plot of markers in a brain into an HTML page.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – G should have nodal locations in MNI space indexed by nodal
-attribute “centroids”</p></li>
-<li><p><strong>node_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em> or </em><em>array-like</em><em>, </em><em>optional</em><em> (</em><em>default=5.</em><em>)</em>) – Size of the nodes showing the seeds in pixels.</p></li>
-<li><p><strong>node_color</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>list of str</em><em> (</em><em>default 'black'</em><em>)</em>) – node_colour determines the colour given to each node.
-If a single string is given, this string will be interpreted as a
-a colour, and all nodes will be rendered in this colour.
-If a list of colours is given, it must be the same length as the length
-of nodes coordinates.</p></li>
-<li><p><strong>measure</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>(</em><em>optional</em><em>, </em><em>default=None</em><em>)</em>) – The name of a nodal measure.</p></li>
-<li><p><strong>cmap_name</strong> (<em>Matplotlib colormap</em>) – Colormap for mapping intensities of nodes (default=None).</p></li>
-<li><p><strong>sns_palette</strong> (<em>seaborn palette</em><em>, </em><em>(</em><em>optional</em><em>, </em><em>default=None</em><em>)</em>) – Discrete color palette only for discrete data. List of colors defining
-a color palette (list of RGB tuples from seaborn color palettes).</p></li>
-<li><p><strong>continuous</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>(</em><em>optional</em><em>, </em><em>default=False</em><em>)</em>) – Indicate whether the data values are discrete (False) or
-continuous (True).</p></li>
-<li><p><strong>vmin</strong> (<em>scalar</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a><em>, </em><em>optional</em>) – The minimum value used in colormapping <em>data</em>. If <em>None</em> the minimum
-value in <em>data</em> is used.</p></li>
-<li><p><strong>vmax</strong> (<em>scalar</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a><em>, </em><em>optional</em>) – The maximum value used in colormapping <em>data</em>. If <em>None</em> the maximum
-value in <em>data</em> is used.</p></li>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>Plot the figure and if figure_name is given then save the image</em></p></li>
+<li><p><em>in a file named according to the figure_name variable.</em></p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>ConnectomeView</strong> – It can be saved as an html page or rendered (transparently) by the
-Jupyter notebook. Useful methods are :
-- ‘resize’ to resize the plot displayed in a Jupyter notebook
-- ‘save_as_html’ to save the plot to a file
-- ‘open_in_browser’ to save the plot and open it in a web browser.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>plot of the nodes.</p>
+</p>
 </dd>
 </dl>
 </dd></dl>
