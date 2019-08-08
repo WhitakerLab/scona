@@ -26,10 +26,10 @@ def df_sns_barplot(bundleGraphs_measures, real_network):
 
     real_network: str, required
         This is the name of the real Graph in GraphBundle.
-        While instantiating GraphBundle object we pass the real Graph and its name.
-        (e.g. bundleGraphs = scn.GraphBundle([H], ['Real Network'])).
-        To plot real network measures along with the random network values  it is
-        required to pass the name of the real network (e.g.'Real Network').
+        While instantiating GraphBundle object we pass the real Graph and its
+        name (e.g. bundleGraphs = scn.GraphBundle([H], ['Real Network'])).
+        To plot real network measures along with the random network values it
+        is required to pass the name of the real network (e.g.'Real Network').
 
     Returns
     -------
@@ -69,9 +69,10 @@ def df_sns_barplot(bundleGraphs_measures, real_network):
             value = bundleGraphs_measures.loc[real_network, measure]
         except KeyError:
             raise KeyError(
-                "The name of the real Graph you passed to the function - \"{}\""
-                " does not exist in GraphBundle. Please provide a true name of "
-                "Real Graph (represented as a key in GraphBundle)".format(real_network))  # noqa
+                "The name of the graph you passed to the function: \"{}\" "
+                "does not exist in GraphBundle. Please provide a true name "
+                "of Real Graph (represented as a key in "
+                "GraphBundle)".format(real_network))
 
         # get the abbreviation for measure and use this abbreviation
         measure_short = abbreviation[measure]
@@ -110,7 +111,7 @@ def df_sns_barplot(bundleGraphs_measures, real_network):
 
     # finally create a new DataFrame
     NewDataFrame = pd.DataFrame(data=data_array, index=index,
-                                    columns=new_columns)
+                                columns=new_columns)
 
     return NewDataFrame
 
@@ -146,7 +147,8 @@ def save_fig(figure, path_name):
                           "We will create this directory for you "
                           "and store the figure there.\n"
                           "This warning is just to make sure that you aren't "
-                          "surprised by a new directory appearing!".format(dir_path))
+                          "surprised by a new directory "
+                          "appearing!".format(dir_path))
 
             # Make the directory
             dir_create = os.path.dirname(path_name)
@@ -156,7 +158,8 @@ def save_fig(figure, path_name):
                       "That is a directory rather than a file name."
                       "Please run the command again with the name of the file,"
                       "for example: '/home/dir1/myfile.png'"
-                      "or to save the file in the current directory you can just pass 'myfile.png'".format(path_name))
+                      "or to save the file in the current directory you "
+                      "can just pass 'myfile.png'".format(path_name))
         return
 
     # save the figure to the file
@@ -206,7 +209,8 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
     # Store pair (value, color) as a (key,value) in a dict
     colors_dict = {}
 
-    # If vmin or vmax not passed, calculate the min and max of the column (measure)
+    # If vmin or vmax not passed, calculate the min and max
+    # values of the column (measure)
     if vmin is None:
         vmin = min(df[measure].values)
     if vmax is None:
@@ -224,7 +228,7 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
         scalarMap = mpl.cm.ScalarMappable(norm=norm, cmap=cmap_name)
 
         # Map normalized data values to RGBA colors
-        colors_list = [ scalarMap.to_rgba(x) for x in df[measure] ]
+        colors_list = [scalarMap.to_rgba(x) for x in df[measure]]
 
     # For discrete data
     else:
@@ -232,8 +236,8 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
         try:
             cmap = mpl.cm.get_cmap(cmap_name)
         except ValueError:
-            warnings.warn("ValueError: Colormap {} is not recognized. ". format(cmap_name) +
-                            "Default colormap jet will be used.")
+            warnings.warn("ValueError: Colormap {} is not recognized.\n"
+                          "Default (jet) will be used.".format(cmap_name))
             cmap = mpl.cm.get_cmap("jet")
 
         for i, value in enumerate(sorted(set(df[measure]))):
@@ -247,7 +251,7 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
                 colors_dict[value] = color_palette[i]
 
         # Make a list of colors for each node in df based on the measure
-        colors_list = [ colors_dict[value] for value in df[measure].values ]
+        colors_list = [colors_dict[value] for value in df[measure].values]
 
     return colors_list
 
@@ -265,7 +269,8 @@ def add_colorbar(fig, grid, cb_name, cmap_name, vmin=0, vmax=1):
         Grid spec location to add colormap.
 
     cb_name: str, (optional, default=None)
-        The label for the colorbar. Name of data values this colorbar represents.
+        The label for the colorbar.
+        Name of data values this colorbar represents.
 
     cmap_name : str or Colormap instance
         Name of the colormap
@@ -292,7 +297,8 @@ def add_colorbar(fig, grid, cb_name, cmap_name, vmin=0, vmax=1):
     # set ticks (min, median, max) for colorbar
     ticks = [vmin, (vmin + vmax)/2, vmax]
 
-    # put a colorbar in a specified axes, and make colorbar for a given colormap
+    # put a colorbar in a specified axes,
+    # and make colorbar for a given colormap
     cb = mpl.colorbar.ColorbarBase(ax_cbar, cmap=cmap_name,
                                    norm=norm,
                                    ticks=ticks,
@@ -372,8 +378,8 @@ def coronal_layout(x, y, z):
 
 def anatomical_layout(x, y, z, orientation="sagittal"):
     """
-    This function extracts the required coordinates of a node based on the given
-     anatomical layout.
+    This function extracts the required coordinates of a node based on the
+    given anatomical layout.
 
     Parameters
     ----------
@@ -398,7 +404,8 @@ def anatomical_layout(x, y, z, orientation="sagittal"):
     else:
         raise ValueError(
             "{} is not recognised as an anatomical layout. orientation values "
-            "should be one of 'sagittal', 'axial' or 'coronal'.".format(orientation))
+            "should be one of 'sagittal', 'axial' or "
+            "'coronal'.".format(orientation))
 
 
 def graph_to_nilearn_array(
@@ -424,18 +431,20 @@ def graph_to_nilearn_array(
         node_coords - 3d coordinates of the graph nodes in world space;
     """
 
-    # make ordered nodes to produce ordered rows and columns in adjacency matrix
+    # make ordered nodes to produce ordered rows and columns
+    # in adjacency matrix
     node_order = sorted(list(G.nodes()))
 
     # returns the graph adjacency matrix as a NumPy array
     adjacency_matrix = nx.convert_matrix.to_numpy_array(G, nodelist=node_order,
-                                                         weight=edge_attribute)
+                                                        weight=edge_attribute)
 
     # store nodes coordinates in NumPy array if nodal coordinates exist
     try:
         node_coords = np.array([G._node[node]["centroids"] for node in node_order])       # noqa
     except KeyError:
         raise TypeError("There are no centroids (nodes coordinates) in the "
-                        "Graph. Please initialise BrainNetwork with centroids.")
+                        "Graph. Please initialise BrainNetwork "
+                        "with the centroids.")
 
     return adjacency_matrix, node_coords
