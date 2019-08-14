@@ -618,9 +618,9 @@
 
 <div class="viewcode-block" id="view_connectome_3d"><a class="viewcode-back" href="../../scona.html#scona.visualisations.view_connectome_3d">[docs]</a><span class="k">def</span> <span class="nf">view_connectome_3d</span><span class="p">(</span>
         <span class="n">G</span><span class="p">,</span>
-        <span class="n">edge_threshold</span><span class="o">=</span><span class="s2">&quot;2%&quot;</span><span class="p">,</span>
+        <span class="n">edge_threshold</span><span class="o">=</span><span class="s2">&quot;98%&quot;</span><span class="p">,</span>
         <span class="n">edge_cmap</span><span class="o">=</span><span class="s2">&quot;Spectral_r&quot;</span><span class="p">,</span>
-        <span class="n">symmetric_cmap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">symmetric_cmap</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">linewidth</span><span class="o">=</span><span class="mf">6.</span><span class="p">,</span>
         <span class="n">node_size</span><span class="o">=</span><span class="mf">3.</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -634,18 +634,19 @@
 <span class="sd">        G should have nodal locations in MNI space indexed by nodal</span>
 <span class="sd">        attribute &quot;centroids&quot;.</span>
 
-<span class="sd">    edge_threshold : str, number or None, optional (default=&quot;2%&quot;)</span>
+<span class="sd">    edge_threshold : str, number or None, optional (default=&quot;98%&quot;)</span>
 <span class="sd">        If None, no thresholding.</span>
 <span class="sd">        If it is a number only connections of amplitude greater</span>
 <span class="sd">        than threshold will be shown.</span>
 <span class="sd">        If it is a string it must finish with a percent sign,</span>
-<span class="sd">        e.g. &quot;25.3%&quot;, and only connections of amplitude above the</span>
-<span class="sd">        given percentile will be shown.</span>
+<span class="sd">        e.g. &quot;98%&quot;, and only connections of amplitude above the</span>
+<span class="sd">        given percentile will be shown (so &quot;98%&quot; shows the top &quot;2%&quot;</span>
+<span class="sd">        of connections).</span>
 
 <span class="sd">    edge_cmap : str or matplotlib colormap, optional</span>
 <span class="sd">        Colormap for displaying edges.</span>
 
-<span class="sd">    symmetric_cmap : bool, optional (default=True)</span>
+<span class="sd">    symmetric_cmap : bool, optional (default=False)</span>
 <span class="sd">        Make colormap symmetric (ranging from -vmax to vmax).</span>
 
 <span class="sd">    linewidth : float, optional (default=6.)</span>
@@ -667,6 +668,12 @@
 
     <span class="c1"># get the adjacency matrix and nodes coordinates</span>
     <span class="n">adj_matrix</span><span class="p">,</span> <span class="n">node_coords</span> <span class="o">=</span> <span class="n">graph_to_nilearn_array</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+    <span class="c1"># Figure out if you need to set some of the negative weights to zero</span>
+    <span class="c1"># This is useful if you&#39;re thresholding to only show the highest weighted</span>
+    <span class="c1"># edges and want to see the non symmetric colourmap.</span>
+
+    <span class="c1">##### TODO!!</span>
 
     <span class="c1"># plot connectome</span>
     <span class="n">ConnectomeView</span> <span class="o">=</span> <span class="n">plotting</span><span class="o">.</span><span class="n">view_connectome</span><span class="p">(</span><span class="n">adjacency_matrix</span><span class="o">=</span><span class="n">adj_matrix</span><span class="p">,</span>

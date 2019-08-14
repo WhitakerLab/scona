@@ -1823,7 +1823,7 @@ supported.</p></li>
 
 <dl class="function">
 <dt id="scona.visualisations.view_connectome_3d">
-<code class="sig-prename descclassname">scona.visualisations.</code><code class="sig-name descname">view_connectome_3d</code><span class="sig-paren">(</span><em class="sig-param">G</em>, <em class="sig-param">edge_threshold='2%'</em>, <em class="sig-param">edge_cmap='Spectral_r'</em>, <em class="sig-param">symmetric_cmap=True</em>, <em class="sig-param">linewidth=6.0</em>, <em class="sig-param">node_size=3.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/visualisations.html#view_connectome_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.visualisations.view_connectome_3d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">scona.visualisations.</code><code class="sig-name descname">view_connectome_3d</code><span class="sig-paren">(</span><em class="sig-param">G</em>, <em class="sig-param">edge_threshold='98%'</em>, <em class="sig-param">edge_cmap='Spectral_r'</em>, <em class="sig-param">symmetric_cmap=False</em>, <em class="sig-param">linewidth=6.0</em>, <em class="sig-param">node_size=3.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scona/visualisations.html#view_connectome_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scona.visualisations.view_connectome_3d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Insert a 3d plot of a connectome into an HTML page.</p>
 <p>Plot a BrainNetwork using <code class="xref py py-func docutils literal notranslate"><span class="pre">nilearn.plotting.view_connectome()</span></code> tool.</p>
 <dl class="field-list simple">
@@ -1831,14 +1831,15 @@ supported.</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – G should have nodal locations in MNI space indexed by nodal
 attribute “centroids”.</p></li>
-<li><p><strong>edge_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>number</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a><em>, </em><em>optional</em><em> (</em><em>default=&quot;2%&quot;</em><em>)</em>) – If None, no thresholding.
+<li><p><strong>edge_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>number</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a><em>, </em><em>optional</em><em> (</em><em>default=&quot;98%&quot;</em><em>)</em>) – If None, no thresholding.
 If it is a number only connections of amplitude greater
 than threshold will be shown.
 If it is a string it must finish with a percent sign,
-e.g. “25.3%”, and only connections of amplitude above the
-given percentile will be shown.</p></li>
+e.g. “98%”, and only connections of amplitude above the
+given percentile will be shown (so “98%” shows the top “2%”
+of connections).</p></li>
 <li><p><strong>edge_cmap</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>matplotlib colormap</em><em>, </em><em>optional</em>) – Colormap for displaying edges.</p></li>
-<li><p><strong>symmetric_cmap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=True</em><em>)</em>) – Make colormap symmetric (ranging from -vmax to vmax).</p></li>
+<li><p><strong>symmetric_cmap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=False</em><em>)</em>) – Make colormap symmetric (ranging from -vmax to vmax).</p></li>
 <li><p><strong>linewidth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=6.</em><em>)</em>) – Width of the lines that show connections.</p></li>
 <li><p><strong>node_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=3.</em><em>)</em>) – Size of the markers showing the seeds in pixels.</p></li>
 </ul>
