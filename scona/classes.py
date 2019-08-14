@@ -8,7 +8,7 @@ from scona.make_graphs import assign_node_names, \
     is_anatomical_match
 from scona.graph_measures import assign_interhem, \
     calculate_nodal_measures, assign_nodal_distance, \
-    calc_nodal_partition, calculate_global_measures, small_coefficient
+    calc_nodal_partition, calculate_global_measures, small_world_coefficient
 
 
 class BrainNetwork(nx.classes.graph.Graph):
@@ -483,8 +483,14 @@ class BrainNetwork(nx.classes.graph.Graph):
 
 class GraphBundle(dict):
     '''
-    GraphBundle is a subclass of :class:`dict` containing
-    :class:`str`: :class:`BrainNetwork` pairs.
+    The GraphBundle class (after instantiating - object) is the scona way to
+    handle across-network comparisons.
+    What is it?
+    Essentially it's a python dictionary with BrainNetwork objects as values
+    (:class:`str`: :class:`BrainNetwork` pairs).
+
+    Mainly used to create random graphs for comparison with your original
+    network data.
 
     Parameters
     ----------
@@ -552,6 +558,9 @@ class GraphBundle(dict):
         '''
         Calculate global_measures for each BrainNetwork object and report as a
         :class:`pandas.DataFrame` or nested dict.
+
+        Note: Global measures **will not** be calculated again if they have already been calculated.
+        So it is only needed to calculate them once and then they aren't calculated again.
 
         Parameters
         ----------
@@ -646,7 +655,7 @@ class GraphBundle(dict):
 
     def report_small_world(self, gname):
         '''
-        Calculate the small coefficient of `gname` relative to each other
+        Calculate the small world coefficient of `gname` relative to each other
         graph in GraphBundle.
 
         Parameters
@@ -662,10 +671,10 @@ class GraphBundle(dict):
 
         See Also
         --------
-        :func:`small_coefficient`
+        :func:`small_world_coefficient`
         '''
         small_world_dict = self.apply(
-            lambda x: small_coefficient(self[gname], x))
+            lambda x: small_world_coefficient(self[gname], x))
         return small_world_dict
 
     def nodal_matches(self):

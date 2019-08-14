@@ -346,14 +346,11 @@ def calculate_nodal_measures(
 
     # ==== CALCULATE MEASURES ====================
 
-    def calc_nodal_measure(G, measure, method, force=False):
+    for measure, method in nodal_measure_dict.items():
         if (not nx.get_node_attributes(G, name=measure)) or force:
             nx.set_node_attributes(G,
                                    name=measure,
                                    values=method(G))
-
-    for measure, method in nodal_measure_dict.items():
-        calc_nodal_measure(G, measure, method, force=force)
 
 
 # ============= Global measures =============
@@ -421,9 +418,14 @@ def small_world_sigma(tupleG, tupleR):
     return ((Cg/Cr)/(Lg/Lr))
 
 
-def small_coefficient(G, R):
+def small_world_coefficient(G, R):
     '''
-    Calculate the small coefficient of G relative to R.
+    Calculate the small world coefficient of G relative to R.
+
+    Small coefficient is (G.average_clustering/R.average_clustering) /
+    (G.average_shortest_path_length / R.average_shortest_path_length) , where
+    average_clustering and average_shortest_path_length are a graph's global
+    measures.
 
     Parameters
     ----------
@@ -433,12 +435,32 @@ def small_coefficient(G, R):
     Returns
     -------
     float
-        The small coefficient of G relative to R
+        The small world coefficient of G relative to R
     '''
-    return small_world_sigma((nx.average_clustering(G),
-                              nx.average_shortest_path_length(G)),
-                             (nx.average_clustering(R),
-                              nx.average_shortest_path_length(R)))
+
+    # check if required global measures exist (already calculated)
+
+    try:
+        Cg = G.graph["global_measures"]["average_clustering"]
+    except KeyError:
+        Cg = nx.average_clustering(G)
+
+    try:
+        Lg = G.graph["global_measures"]["average_shortest_path_length"]
+    except KeyError:
+        Lg = nx.average_shortest_path_length(G)
+
+    try:
+        Cr = R.graph["global_measures"]["average_clustering"]
+    except KeyError:
+        Cr = nx.average_clustering(R)
+
+    try:
+        Lr = R.graph["global_measures"]["average_shortest_path_length"]
+    except KeyError:
+        Lr = nx.average_shortest_path_length(R)
+
+    return small_world_sigma((Cg,Lg), (Cr,Lr))
 
 
 # ============ Calculate Global Measures En Masse ================
@@ -451,6 +473,9 @@ def calculate_global_measures(G,
     Calculate global measures `average_clustering`,
     `average_shortest_path_length`, `assortativity`, `modularity`, and
     `efficiency` of G.
+
+    Note: Global measures **will not** be calculated again if they have already been calculated.
+    So it is only needed to calculate them once and then they aren't calculated again.
 
     Parameters
     ----------
