@@ -463,7 +463,7 @@ def view_nodes_3d(
 
 def view_connectome_3d(
         G,
-        edge_threshold=None,
+        edge_threshold="2%",
         edge_cmap="Spectral_r",
         symmetric_cmap=True,
         linewidth=6.,
@@ -479,7 +479,7 @@ def view_connectome_3d(
         G should have nodal locations in MNI space indexed by nodal
         attribute "centroids".
 
-    edge_threshold : str, number or None, optional (default=None)
+    edge_threshold : str, number or None, optional (default="2%")
         If None, no thresholding.
         If it is a number only connections of amplitude greater
         than threshold will be shown.
