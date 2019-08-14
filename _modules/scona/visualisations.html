@@ -160,13 +160,16 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">nilearn</span> <span class="k">import</span> <span class="n">plotting</span>
 
 <span class="kn">from</span> <span class="nn">scona.visualisations_helpers</span> <span class="k">import</span> <span class="n">save_fig</span>
-<span class="kn">from</span> <span class="nn">scona.visualisations_helpers</span> <span class="k">import</span> <span class="n">create_df_sns_barplot</span>
+<span class="kn">from</span> <span class="nn">scona.visualisations_helpers</span> <span class="k">import</span> <span class="n">df_sns_barplot</span>
+<span class="kn">from</span> <span class="nn">scona.visualisations_helpers</span> <span class="k">import</span> <span class="n">graph_to_nilearn_array</span>
+<span class="kn">from</span> <span class="nn">scona.visualisations_helpers</span> <span class="k">import</span> <span class="n">setup_color_list</span>
 
 
-<div class="viewcode-block" id="plot_rich_club"><a class="viewcode-back" href="../../scona.html#scona.visualisations.plot_rich_club">[docs]</a><span class="k">def</span> <span class="nf">plot_rich_club</span><span class="p">(</span><span class="n">brain_bundle</span><span class="p">,</span> <span class="n">original_network</span><span class="p">,</span> <span class="n">figure_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">x_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_rich_club"><a class="viewcode-back" href="../../scona.html#scona.visualisations.plot_rich_club">[docs]</a><span class="k">def</span> <span class="nf">plot_rich_club</span><span class="p">(</span><span class="n">brain_bundle</span><span class="p">,</span> <span class="n">real_network</span><span class="p">,</span> <span class="n">figure_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">x_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This is a visualisation tool for plotting the rich club values per degree</span>
 <span class="sd">    along with the random rich club values created from a random networks</span>
@@ -176,12 +179,15 @@
 <span class="sd">    ----------</span>
 <span class="sd">    brain_bundle : `GraphBundle` object</span>
 <span class="sd">        a python dictionary with BrainNetwork objects as values</span>
-<span class="sd">        (:class:`str`: :class:`BrainNetwork` pairs), contains original Graph</span>
-<span class="sd">        and random graphs.</span>
-<span class="sd">    original_network: str, required</span>
-<span class="sd">        This should index the particular network in `brain_bundle` that you</span>
-<span class="sd">        want the figure to highlight. A distribution of all the other networks</span>
-<span class="sd">        in `brain_bundle` will be rendered for comparison.</span>
+<span class="sd">        (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and</span>
+<span class="sd">        random graphs</span>
+<span class="sd">    real_network: str, required</span>
+<span class="sd">        This is the name of the real Graph in GraphBundle.</span>
+<span class="sd">        While instantiating GraphBundle object we pass the real Graph and</span>
+<span class="sd">        its name. (e.g. bundleGraphs = scn.GraphBundle([H], [&#39;Real Network&#39;])).</span>
+<span class="sd">        To plot rich club values along with the rich club values from random</span>
+<span class="sd">        graphs it is required to pass the name of the real network</span>
+<span class="sd">        (e.g.&#39;Real Network&#39;).</span>
 <span class="sd">    figure_name : str, optional</span>
 <span class="sd">        path to the file to store the created figure in</span>
 <span class="sd">        (e.g. &quot;/home/Desktop/name&quot;) or to store in the current directory</span>
@@ -191,7 +197,7 @@
 <span class="sd">        random rich club values. You can specify the color using an html hex</span>
 <span class="sd">        string (e.g. color =[&quot;#06209c&quot;,&quot;#c1b8b1&quot;]) or you can pass an</span>
 <span class="sd">        (r, g, b) tuple, where each of r, g, b are in the range [0,1].</span>
-<span class="sd">        Legal html names for colors, like &quot;red&quot;, &quot;black&quot; and so on are also</span>
+<span class="sd">        Finally, legal html names for colors, like &quot;red&quot;, &quot;black&quot; and so on are</span>
 <span class="sd">        supported.</span>
 <span class="sd">    show_legend: bool (optional, default=True)</span>
 <span class="sd">        if True - show legend, otherwise - do not display legend.</span>
@@ -202,8 +208,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">        Plot the figure and if figure_name is given then save the image</span>
-<span class="sd">        in a file named according to the figure_name variable.</span>
+<span class="sd">        Plot the Figure and if figure_name provided, save it in a figure_name</span>
+<span class="sd">        file.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -218,20 +224,15 @@
     <span class="n">degree</span> <span class="o">=</span> <span class="n">rich_club_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
 
     <span class="c1"># select the values of the 1st Graph in Graph Bundle - Real Graph</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">rc_orig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rich_club_df</span><span class="p">[</span><span class="n">original_network</span><span class="p">])</span>
-    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
-            <span class="s2">&quot;Please check the name of the initial Graph (the proper network, &quot;</span>
-            <span class="s2">&quot;the one you got from the mri data) in GraphBundle. There is&quot;</span>
-            <span class="s2">&quot; no graph keyed by name </span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">original_network</span><span class="p">))</span>
+    <span class="n">rc_real</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rich_club_df</span><span class="p">[</span><span class="n">real_network</span><span class="p">])</span>
 
     <span class="c1"># create a dataframe of random Graphs (exclude Real Graph)</span>
-    <span class="n">rand_df</span> <span class="o">=</span> <span class="n">rich_club_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">original_network</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">rand_df</span> <span class="o">=</span> <span class="n">rich_club_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">real_network</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="c1"># re-organize rand_df dataframe in a suitable way</span>
-    <span class="c1"># so that there is one column for the degrees data, one for rich club</span>
-    <span class="c1"># values required for seaborn plotting with error bars</span>
+    <span class="c1"># so that there is one column for the degrees data,</span>
+    <span class="c1"># one for rich club values</span>
+    <span class="c1"># required for seaborn plotting with error bars</span>
 
     <span class="c1"># create array to store the degrees</span>
     <span class="n">rand_degree</span> <span class="o">=</span> <span class="p">[]</span>
@@ -252,32 +253,32 @@
     <span class="c1"># set the default colors of plotted values if not provided</span>
     <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;#00C9FF&quot;</span><span class="p">,</span> <span class="s2">&quot;grey&quot;</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">color</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>              <span class="c1"># if you only want to plot the original</span>
-        <span class="n">color</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>           <span class="c1"># network (no random networks)</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">color</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>              <span class="c1"># in case only to plot only real values</span>
+        <span class="n">color</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
 
-    <span class="c1"># if the user provided color not as a list of size 2 - show a warning</span>
-    <span class="c1"># and then carry on but using the default colors</span>
+    <span class="c1"># if the user provided color not as a list of size 2</span>
+    <span class="c1"># show warning, use default colors</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">color</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Please, provide a *color* parameter as a &quot;</span>
                       <span class="s2">&quot;python list object, e.g. [</span><span class="se">\&quot;</span><span class="s2">green</span><span class="se">\&quot;</span><span class="s2">, </span><span class="se">\&quot;</span><span class="s2">pink</span><span class="se">\&quot;</span><span class="s2">]. &quot;</span>
                       <span class="s2">&quot;Right now the default colors will be used&quot;</span><span class="p">)</span>
         <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;#00C9FF&quot;</span><span class="p">,</span> <span class="s2">&quot;grey&quot;</span><span class="p">]</span>
 
-    <span class="c1"># plot the rich club values of real Graph</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">degree</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">rc_orig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Observed network&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                      <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-
     <span class="c1"># plot the random rich club values of random graphs</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;Degree&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Rich Club&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">new_rand_df</span><span class="p">,</span>
                       <span class="n">err_style</span><span class="o">=</span><span class="s2">&quot;band&quot;</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="mi">95</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                      <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Random network&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                      <span class="n">label</span><span class="o">=</span><span class="s2">&quot;random rich-club coefficient&quot;</span><span class="p">)</span>
 
-    <span class="c1"># set the max values of x &amp; y - axis if not given</span>
+    <span class="c1"># plot the rich club values of real Graph</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">degree</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">rc_real</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;rich-club coefficient&quot;</span><span class="p">,</span>
+                      <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># set the max values of x &amp; y - axis if not provided</span>
     <span class="k">if</span> <span class="n">x_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">x_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">degree</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">y_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">y_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">rc_orig</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.1</span>   <span class="c1"># let y-axis be longer -&gt; looks better</span>
+        <span class="n">y_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">rc_real</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.1</span>   <span class="c1"># let y-axis be longer -&gt; looks better</span>
 
     <span class="c1"># set the x and y axis limits</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_max</span><span class="p">))</span>
@@ -313,7 +314,7 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="plot_network_measures"><a class="viewcode-back" href="../../scona.html#scona.visualisations.plot_network_measures">[docs]</a><span class="k">def</span> <span class="nf">plot_network_measures</span><span class="p">(</span><span class="n">brain_bundle</span><span class="p">,</span> <span class="n">original_network</span><span class="p">,</span> <span class="n">figure_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_network_measures"><a class="viewcode-back" href="../../scona.html#scona.visualisations.plot_network_measures">[docs]</a><span class="k">def</span> <span class="nf">plot_network_measures</span><span class="p">(</span><span class="n">brain_bundle</span><span class="p">,</span> <span class="n">real_network</span><span class="p">,</span> <span class="n">figure_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                           <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ci</span><span class="o">=</span><span class="mi">95</span><span class="p">,</span> <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This is a visualisation tool for plotting network measures values</span>
@@ -324,18 +325,19 @@
 <span class="sd">    brain_bundle : :class:`GraphBundle`</span>
 <span class="sd">        a python dictionary with BrainNetwork objects as values</span>
 <span class="sd">        (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and</span>
-<span class="sd">        random graphs.</span>
-<span class="sd">    original_network: str, required</span>
-<span class="sd">        This should index the particular network in `brain_bundle` that you</span>
-<span class="sd">        want the figure to highlight. A distribution of all the other networks</span>
-<span class="sd">        in `brain_bundle` will be rendered for comparison.</span>
+<span class="sd">        random graphs</span>
+<span class="sd">    real_network: str, required</span>
+<span class="sd">        This is the name of the real Graph in GraphBundle.</span>
+<span class="sd">        While instantiating GraphBundle object we pass the real Graph and its</span>
+<span class="sd">        name (e.g. bundleGraphs = scn.GraphBundle([H], [&#39;Real Network&#39;])).</span>
+<span class="sd">        To plot real network measures along with the random network values it is</span>
+<span class="sd">        required to pass the name of the real network (e.g.&#39;Real Network&#39;).</span>
 <span class="sd">    figure_name : str, optional</span>
-<span class="sd">        path to the file to store the created figure in</span>
-<span class="sd">        (e.g. &quot;/home/Desktop/name&quot;) or to store in the current directory</span>
-<span class="sd">        include just a name (&quot;fig_name&quot;).</span>
+<span class="sd">        path to the file to store the created figure in (e.g. &quot;/home/Desktop/name&quot;) # noqa</span>
+<span class="sd">        or to store in the current directory include just a name (&quot;fig_name&quot;);</span>
 <span class="sd">    color : list of 2 strings, optional</span>
-<span class="sd">        where the 1st string is a color for original network measures and the</span>
-<span class="sd">        2nd is for the values from the random graphs.</span>
+<span class="sd">        where the 1st string is a color for real network measures and the 2nd</span>
+<span class="sd">        - for measures values of random graphs.</span>
 <span class="sd">        You can specify the color using an html hex string</span>
 <span class="sd">        (e.g. color =[&quot;#06209c&quot;,&quot;#c1b8b1&quot;]) or you can pass an (r, g, b) tuple,</span>
 <span class="sd">        where each of r, g, b are in the range [0,1]. Finally, legal html names</span>
@@ -349,16 +351,20 @@
 <span class="sd">        drawn.</span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">        Plot the Figure and if figure_name provided, save it in a figure_name</span>
-<span class="sd">        file.</span>
+<span class="sd">        Plot the Figure and if figure_name provided, save it in a figure_name file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># set the seaborn style and context in the beginning!</span>
     <span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
     <span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;poster&quot;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
+    <span class="c1"># calculate network measures for each graph in brain_bundle</span>
+    <span class="c1"># if each graph in GraphBundle has already calculated global measures,</span>
+    <span class="c1"># this step will be skipped</span>
+    <span class="n">bundleGraphs_measures</span> <span class="o">=</span> <span class="n">brain_bundle</span><span class="o">.</span><span class="n">report_global_measures</span><span class="p">()</span>
+
     <span class="c1"># build a new DataFrame required for seaborn.barplot</span>
-    <span class="n">seaborn_data</span> <span class="o">=</span> <span class="n">create_df_sns_barplot</span><span class="p">(</span><span class="n">brain_bundle</span><span class="p">,</span> <span class="n">original_network</span><span class="p">)</span>
+    <span class="n">seaborn_data</span> <span class="o">=</span> <span class="n">df_sns_barplot</span><span class="p">(</span><span class="n">bundleGraphs_measures</span><span class="p">,</span> <span class="n">real_network</span><span class="p">)</span>
 
     <span class="c1"># set the default colors of barplot values if not provided</span>
     <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -411,8 +417,8 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="plot_degree_dist"><a class="viewcode-back" href="../../scona.html#scona.visualisations.plot_degree_dist">[docs]</a><span class="k">def</span> <span class="nf">plot_degree_dist</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">binomial_graph</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">figure_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                     <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_degree_dist"><a class="viewcode-back" href="../../scona.html#scona.visualisations.plot_degree_dist">[docs]</a><span class="k">def</span> <span class="nf">plot_degree_dist</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">binomial_graph</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                     <span class="n">figure_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This is a visualisation tool for plotting the degree distribution</span>
@@ -429,18 +435,21 @@
 <span class="sd">        Seed for random number generator. In case it is needed to create random</span>
 <span class="sd">        Erdos Renyi Graph, set `seed` to None.</span>
 <span class="sd">    figure_name : str, optional</span>
-<span class="sd">        path to the file to store the created figure in (e.g. &quot;/home/Desktop/name&quot;)</span>
-<span class="sd">        or to store in the current directory include just a name (&quot;fig_name&quot;);</span>
+<span class="sd">        path to the file to store the created figure in</span>
+<span class="sd">        (e.g. &quot;/home/Desktop/name&quot;) or to store in the current directory</span>
+<span class="sd">        include just a name (&quot;fig_name&quot;);</span>
 <span class="sd">    color : list of 2 strings, optional</span>
-<span class="sd">        where the 1st string is a color for rich club values and 2nd - for random</span>
-<span class="sd">        rich club values. You can specify the color using an html hex string</span>
-<span class="sd">        (e.g. color =[&quot;#06209c&quot;,&quot;#c1b8b1&quot;]) or you can pass an (r, g, b) tuple,</span>
-<span class="sd">        where each of r, g, b are in the range [0,1]. Finally, legal html names</span>
-<span class="sd">        for colors, like &quot;red&quot;, &quot;black&quot; and so on are supported.</span>
+<span class="sd">        where the 1st string is a color for rich club values and 2nd - for</span>
+<span class="sd">        random rich club values. You can specify the color using an html hex</span>
+<span class="sd">        string (e.g. color =[&quot;#06209c&quot;,&quot;#c1b8b1&quot;]) or you can pass an</span>
+<span class="sd">        (r, g, b) tuple, where each of r, g, b are in the range [0,1].</span>
+<span class="sd">        Finally, legal html names for colors, like &quot;red&quot;, &quot;black&quot; and so on</span>
+<span class="sd">        are supported.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">        Plot the Figure and if figure_name given, save it in a figure_name file.</span>
+<span class="sd">        Plot the Figure and if figure_name provided, save it in a figure_name</span>
+<span class="sd">        file.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -448,7 +457,8 @@
     <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;grey&quot;</span><span class="p">]</span>
 
-    <span class="c1"># if the user provided color not as a list of size 2 - show warning, use default colors    # noqa</span>
+    <span class="c1"># if the user provided color not as a list of size 2</span>
+    <span class="c1"># show warning, use default colors</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">color</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Please, provide a *color* parameter as a &quot;</span>
                       <span class="s2">&quot;python list object, e.g. [</span><span class="se">\&quot;</span><span class="s2">green</span><span class="se">\&quot;</span><span class="s2">, </span><span class="se">\&quot;</span><span class="s2">pink</span><span class="se">\&quot;</span><span class="s2">]. &quot;</span>
@@ -464,7 +474,8 @@
 
     <span class="c1"># calculate the Erdos Renyi graph from the main graph</span>
     <span class="n">nodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
-    <span class="n">cost</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">number_of_edges</span><span class="p">()</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">nodes</span><span class="o">*</span><span class="p">(</span><span class="n">nodes</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>    <span class="c1"># probability for edge creation    # noqa</span>
+    <span class="c1"># set the cost as the probability for edge creation</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">number_of_edges</span><span class="p">()</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">nodes</span><span class="o">*</span><span class="p">(</span><span class="n">nodes</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
     <span class="n">G_ER</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">erdos_renyi_graph</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
 
     <span class="c1"># calculate the degrees for the ER graph</span>
@@ -480,7 +491,8 @@
     <span class="k">if</span> <span class="n">binomial_graph</span><span class="p">:</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">degrees_ER</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
-    <span class="c1"># fix the x axis limits - without the gap between the 1st column and x = 0</span>
+    <span class="c1"># fix the x axis limits without the gap between the 1st column and x = 0</span>
+    <span class="c1"># start from 1</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">degrees</span><span class="p">)))</span>
 
     <span class="c1"># set the number of bins to 5</span>
@@ -505,6 +517,301 @@
         <span class="n">save_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">figure_name</span><span class="p">)</span>
         <span class="c1"># close the file after saving to a file</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="view_nodes_3d"><a class="viewcode-back" href="../../scona.html#scona.visualisations.view_nodes_3d">[docs]</a><span class="k">def</span> <span class="nf">view_nodes_3d</span><span class="p">(</span>
+        <span class="n">G</span><span class="p">,</span>
+        <span class="n">node_size</span><span class="o">=</span><span class="mf">5.</span><span class="p">,</span>
+        <span class="n">node_color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+        <span class="n">measure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">cmap_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">sns_palette</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">continuous</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">vmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">vmax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot nodes of a BrainNetwork using</span>
+<span class="sd">    :func:`nilearn.plotting.view_markers()` tool.</span>
+
+<span class="sd">    Insert a 3d plot of markers in a brain into an HTML page.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">        G should have nodal locations in MNI space indexed by nodal</span>
+<span class="sd">        attribute &quot;centroids&quot;</span>
+
+<span class="sd">    node_size : float or array-like, optional (default=5.)</span>
+<span class="sd">        Size of the nodes showing the seeds in pixels.</span>
+
+<span class="sd">    node_color : str or list of str (default &#39;black&#39;)</span>
+<span class="sd">        node_colour determines the colour given to each node.</span>
+<span class="sd">        If a single string is given, this string will be interpreted as a</span>
+<span class="sd">        a colour, and all nodes will be rendered in this colour.</span>
+<span class="sd">        If a list of colours is given, it must be the same length as the length</span>
+<span class="sd">        of nodes coordinates.</span>
+
+<span class="sd">    measure: str, (optional, default=None)</span>
+<span class="sd">        The name of a nodal measure.</span>
+
+<span class="sd">    cmap_name : Matplotlib colormap</span>
+<span class="sd">       Colormap for mapping intensities of nodes (default=None).</span>
+
+<span class="sd">    sns_palette: seaborn palette, (optional, default=None)</span>
+<span class="sd">        Discrete color palette only for discrete data. List of colors defining</span>
+<span class="sd">        a color palette (list of RGB tuples from seaborn color palettes).</span>
+
+<span class="sd">    continuous: bool, (optional, default=False)</span>
+<span class="sd">        Indicate whether the data values are discrete (False) or</span>
+<span class="sd">        continuous (True).</span>
+
+<span class="sd">    vmin : scalar or None, optional</span>
+<span class="sd">        The minimum value used in colormapping *data*. If *None* the minimum</span>
+<span class="sd">        value in *data* is used.</span>
+
+<span class="sd">    vmax : scalar or None, optional</span>
+<span class="sd">        The maximum value used in colormapping *data*. If *None* the maximum</span>
+<span class="sd">        value in *data* is used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ConnectomeView : plot of the nodes.</span>
+<span class="sd">        It can be saved as an html page or rendered (transparently) by the</span>
+<span class="sd">        Jupyter notebook. Useful methods are :</span>
+<span class="sd">        - &#39;resize&#39; to resize the plot displayed in a Jupyter notebook</span>
+<span class="sd">        - &#39;save_as_html&#39; to save the plot to a file</span>
+<span class="sd">        - &#39;open_in_browser&#39; to save the plot and open it in a web browser.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># get the nodes coordinates</span>
+    <span class="n">adj_matrix</span><span class="p">,</span> <span class="n">node_coords</span> <span class="o">=</span> <span class="n">graph_to_nilearn_array</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+    <span class="c1"># apply color to all nodes in Graph if node_color is string</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node_color</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">node_color</span> <span class="o">=</span> <span class="p">[</span><span class="n">node_color</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">node_coords</span><span class="p">))]</span>
+
+    <span class="c1"># report the attributes of each node in BrainNetwork Graph</span>
+    <span class="n">nodal_measures</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">report_nodal_measures</span><span class="p">()</span>
+
+    <span class="c1"># get the color for each node based on the nodal measure</span>
+    <span class="k">if</span> <span class="n">measure</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">nodal_measures</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">node_color</span> <span class="o">=</span> <span class="n">setup_color_list</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">nodal_measures</span><span class="p">,</span> <span class="n">measure</span><span class="o">=</span><span class="n">measure</span><span class="p">,</span>
+                                          <span class="n">cmap_name</span><span class="o">=</span><span class="n">cmap_name</span><span class="p">,</span>
+                                          <span class="n">sns_palette</span><span class="o">=</span><span class="n">sns_palette</span><span class="p">,</span>
+                                          <span class="n">continuous</span><span class="o">=</span><span class="n">continuous</span><span class="p">,</span>
+                                          <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span>
+                                          <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+              <span class="s2">&quot;Measure </span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2"> does not exist in nodal attributes of graph. &quot;</span>
+              <span class="s2">&quot;The default color will be used for all nodes.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">measure</span><span class="p">))</span>
+            <span class="n">node_color</span> <span class="o">=</span> <span class="p">[</span><span class="n">node_color</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">node_coords</span><span class="p">))]</span>
+
+    <span class="c1"># plot nodes</span>
+    <span class="n">ConnectomeView</span> <span class="o">=</span> <span class="n">plotting</span><span class="o">.</span><span class="n">view_markers</span><span class="p">(</span><span class="n">node_coords</span><span class="p">,</span>
+                                           <span class="n">marker_color</span><span class="o">=</span><span class="n">node_color</span><span class="p">,</span>
+                                           <span class="n">marker_size</span><span class="o">=</span><span class="n">node_size</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ConnectomeView</span></div>
+
+
+<div class="viewcode-block" id="view_connectome_3d"><a class="viewcode-back" href="../../scona.html#scona.visualisations.view_connectome_3d">[docs]</a><span class="k">def</span> <span class="nf">view_connectome_3d</span><span class="p">(</span>
+        <span class="n">G</span><span class="p">,</span>
+        <span class="n">edge_threshold</span><span class="o">=</span><span class="s2">&quot;2%&quot;</span><span class="p">,</span>
+        <span class="n">edge_cmap</span><span class="o">=</span><span class="s2">&quot;Spectral_r&quot;</span><span class="p">,</span>
+        <span class="n">symmetric_cmap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mf">6.</span><span class="p">,</span>
+        <span class="n">node_size</span><span class="o">=</span><span class="mf">3.</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Insert a 3d plot of a connectome into an HTML page.</span>
+
+<span class="sd">    Plot a BrainNetwork using :func:`nilearn.plotting.view_connectome()` tool.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">        G should have nodal locations in MNI space indexed by nodal</span>
+<span class="sd">        attribute &quot;centroids&quot;.</span>
+
+<span class="sd">    edge_threshold : str, number or None, optional (default=&quot;2%&quot;)</span>
+<span class="sd">        If None, no thresholding.</span>
+<span class="sd">        If it is a number only connections of amplitude greater</span>
+<span class="sd">        than threshold will be shown.</span>
+<span class="sd">        If it is a string it must finish with a percent sign,</span>
+<span class="sd">        e.g. &quot;25.3%&quot;, and only connections of amplitude above the</span>
+<span class="sd">        given percentile will be shown.</span>
+
+<span class="sd">    edge_cmap : str or matplotlib colormap, optional</span>
+<span class="sd">        Colormap for displaying edges.</span>
+
+<span class="sd">    symmetric_cmap : bool, optional (default=True)</span>
+<span class="sd">        Make colormap symmetric (ranging from -vmax to vmax).</span>
+
+<span class="sd">    linewidth : float, optional (default=6.)</span>
+<span class="sd">        Width of the lines that show connections.</span>
+
+<span class="sd">    node_size : float, optional (default=3.)</span>
+<span class="sd">        Size of the markers showing the seeds in pixels.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ConnectomeView : plot of the connectome.</span>
+<span class="sd">        It can be saved as an html page or rendered (transparently) by the</span>
+<span class="sd">        Jupyter notebook. Useful methods are :</span>
+<span class="sd">        - &#39;resize&#39; to resize the plot displayed in a Jupyter notebook</span>
+<span class="sd">        - &#39;save_as_html&#39; to save the plot to a file</span>
+<span class="sd">        - &#39;open_in_browser&#39; to save the plot and open it in a web browser.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># get the adjacency matrix and nodes coordinates</span>
+    <span class="n">adj_matrix</span><span class="p">,</span> <span class="n">node_coords</span> <span class="o">=</span> <span class="n">graph_to_nilearn_array</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+    <span class="c1"># plot connectome</span>
+    <span class="n">ConnectomeView</span> <span class="o">=</span> <span class="n">plotting</span><span class="o">.</span><span class="n">view_connectome</span><span class="p">(</span><span class="n">adjacency_matrix</span><span class="o">=</span><span class="n">adj_matrix</span><span class="p">,</span>
+                                              <span class="n">node_coords</span><span class="o">=</span><span class="n">node_coords</span><span class="p">,</span>
+                                              <span class="n">edge_threshold</span><span class="o">=</span><span class="n">edge_threshold</span><span class="p">,</span>
+                                              <span class="n">edge_cmap</span><span class="o">=</span><span class="n">edge_cmap</span><span class="p">,</span>
+                                              <span class="n">symmetric_cmap</span><span class="o">=</span><span class="n">symmetric_cmap</span><span class="p">,</span>
+                                              <span class="n">linewidth</span><span class="o">=</span><span class="n">linewidth</span><span class="p">,</span>
+                                              <span class="n">node_size</span><span class="o">=</span><span class="n">node_size</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ConnectomeView</span></div>
+
+
+<div class="viewcode-block" id="plot_connectome"><a class="viewcode-back" href="../../scona.html#scona.visualisations.plot_connectome">[docs]</a><span class="k">def</span> <span class="nf">plot_connectome</span><span class="p">(</span>
+        <span class="n">G</span><span class="p">,</span>
+        <span class="n">node_color</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="n">edge_cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">bwr</span><span class="p">,</span>
+        <span class="n">edge_vmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edge_vmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">edge_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">output_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">display_mode</span><span class="o">=</span><span class="s1">&#39;ortho&#39;</span><span class="p">,</span>
+        <span class="n">figure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">annotate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">black_bg</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+        <span class="n">edge_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">node_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">colorbar</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot connectome on top of the brain glass schematics.</span>
+
+<span class="sd">    The plotted image should be in MNI space for this function to work</span>
+<span class="sd">    properly.</span>
+
+<span class="sd">    In the case of ‘l’ and ‘r’ directions (for hemispheric projections),</span>
+<span class="sd">    markers in the coordinate x == 0 are included in both hemispheres.</span>
+
+<span class="sd">    Plot a BrainNetwork using :func:`nilearn.plotting.plot_connectome()` tool.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
+<span class="sd">        G should have nodal locations in MNI space indexed by nodal</span>
+<span class="sd">        attribute &quot;centroids&quot;.</span>
+
+<span class="sd">    node_color : color or sequence of colors, optional</span>
+<span class="sd">        color(s) of the nodes. If string is given, all nodes</span>
+<span class="sd">        are plotted with same color given in string.</span>
+
+<span class="sd">    node_size : scalar or array_like, optional (default=50)</span>
+<span class="sd">        size(s) of the nodes in points^2.</span>
+
+<span class="sd">    edge_cmap : colormap, optional (default=&quot;bwr&quot;)</span>
+<span class="sd">        colormap used for representing the strength of the edges.</span>
+
+<span class="sd">    edge_vmin : float, optional (default=None)</span>
+
+<span class="sd">    edge_vmax : float, optional (default=None)</span>
+<span class="sd">        If not None, either or both of these values will be used to</span>
+<span class="sd">        as the minimum and maximum values to color edges. If None are</span>
+<span class="sd">        supplied the maximum absolute value within the given threshold</span>
+<span class="sd">        will be used as minimum (multiplied by -1) and maximum</span>
+<span class="sd">        coloring levels.</span>
+
+<span class="sd">    edge_threshold : str or number, optional (default=None)</span>
+<span class="sd">        If it is a number only the edges with a value greater than</span>
+<span class="sd">        edge_threshold will be shown.</span>
+<span class="sd">        If it is a string it must finish with a percent sign,</span>
+<span class="sd">        e.g. &quot;25.3%&quot;, and only the edges with a abs(value) above</span>
+<span class="sd">        the given percentile will be shown.</span>
+
+<span class="sd">    output_file : string, or None, optional (default=None)</span>
+<span class="sd">        The name of an image file to export the plot to. Valid extensions</span>
+<span class="sd">        are .png, .pdf, .svg. If output_file is not None, the plot</span>
+<span class="sd">        is saved to a file, and the display is closed.</span>
+
+<span class="sd">    display_mode : string, optional (default=&#39;ortho&#39;)</span>
+<span class="sd">        Choose the direction of the cuts: &#39;x&#39; - sagittal, &#39;y&#39; - coronal,</span>
+<span class="sd">        &#39;z&#39; - axial, &#39;l&#39; - sagittal left hemisphere only,</span>
+<span class="sd">        &#39;r&#39; - sagittal right hemisphere only, &#39;ortho&#39; - three cuts are</span>
+<span class="sd">        performed in orthogonal directions. Possible values are: &#39;ortho&#39;,</span>
+<span class="sd">        &#39;x&#39;, &#39;y&#39;, &#39;z&#39;, &#39;xz&#39;, &#39;yx&#39;, &#39;yz&#39;, &#39;l&#39;, &#39;r&#39;, &#39;lr&#39;, &#39;lzr&#39;, &#39;lyr&#39;,</span>
+<span class="sd">        &#39;lzry&#39;, &#39;lyrz&#39;.</span>
+
+<span class="sd">    figure : integer or matplotlib figure, optional (default=None)</span>
+<span class="sd">        Matplotlib figure used or its number. If None is given, a</span>
+<span class="sd">        new figure is created.</span>
+
+<span class="sd">    axes : matplotlib axes or 4 tuple of float: (xmin, ymin, width, height),</span>
+<span class="sd">           optional (default=None)</span>
+<span class="sd">        The axes, or the coordinates, in matplotlib figure space,</span>
+<span class="sd">        of the axes used to display the plot. If None, the complete</span>
+<span class="sd">        figure is used.</span>
+
+<span class="sd">    title : string, optional (default=None)</span>
+<span class="sd">        The title displayed on the figure.</span>
+
+<span class="sd">    annotate : boolean, optional (default=True)</span>
+<span class="sd">        If annotate is True, positions and left/right annotation</span>
+<span class="sd">        are added to the plot.</span>
+
+<span class="sd">    black_bg : boolean, optional (default=False)</span>
+<span class="sd">        If True, the background of the image is set to be black. If</span>
+<span class="sd">        you wish to save figures with a black background, you</span>
+<span class="sd">        will need to pass &quot;facecolor=&#39;k&#39;, edgecolor=&#39;k&#39;&quot;</span>
+<span class="sd">        to matplotlib.pyplot.savefig.</span>
+
+<span class="sd">    alpha : float between 0 and 1, optional (default=0.7)</span>
+<span class="sd">        Alpha transparency for the brain schematics.</span>
+
+<span class="sd">    edge_kwargs : dict, optional (default=None)</span>
+<span class="sd">        will be passed as kwargs for each edge matlotlib Line2D.</span>
+
+<span class="sd">    node_kwargs : dict, optional (default=None)</span>
+<span class="sd">        will be passed as kwargs to the plt.scatter call that plots all</span>
+<span class="sd">        the nodes in one go.</span>
+
+<span class="sd">    colorbar : bool, optional (default=False)</span>
+<span class="sd">        If True, display a colorbar on the right of the plots.</span>
+<span class="sd">        By default it is False.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># get the adjacency matrix and nodes coordinates</span>
+    <span class="n">adj_matrix</span><span class="p">,</span> <span class="n">node_coords</span> <span class="o">=</span> <span class="n">graph_to_nilearn_array</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+    <span class="c1"># plot connectome</span>
+    <span class="n">display</span> <span class="o">=</span> <span class="n">plotting</span><span class="o">.</span><span class="n">plot_connectome</span><span class="p">(</span><span class="n">adjacency_matrix</span><span class="o">=</span><span class="n">adj_matrix</span><span class="p">,</span>
+                                       <span class="n">node_coords</span><span class="o">=</span><span class="n">node_coords</span><span class="p">,</span>
+                                       <span class="n">node_color</span><span class="o">=</span><span class="n">node_color</span><span class="p">,</span>
+                                       <span class="n">node_size</span><span class="o">=</span><span class="n">node_size</span><span class="p">,</span>
+                                       <span class="n">edge_cmap</span><span class="o">=</span><span class="n">edge_cmap</span><span class="p">,</span>
+                                       <span class="n">edge_vmin</span><span class="o">=</span><span class="n">edge_vmin</span><span class="p">,</span>
+                                       <span class="n">edge_vmax</span><span class="o">=</span><span class="n">edge_vmax</span><span class="p">,</span>
+                                       <span class="n">edge_threshold</span><span class="o">=</span><span class="n">edge_threshold</span><span class="p">,</span>
+                                       <span class="n">output_file</span><span class="o">=</span><span class="n">output_file</span><span class="p">,</span>
+                                       <span class="n">display_mode</span><span class="o">=</span><span class="n">display_mode</span><span class="p">,</span>
+                                       <span class="n">figure</span><span class="o">=</span><span class="n">figure</span><span class="p">,</span>
+                                       <span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span>
+                                       <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                                       <span class="n">annotate</span><span class="o">=</span><span class="n">annotate</span><span class="p">,</span>
+                                       <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
+                                       <span class="n">black_bg</span><span class="o">=</span><span class="n">black_bg</span><span class="p">,</span>
+                                       <span class="n">edge_kwargs</span><span class="o">=</span><span class="n">edge_kwargs</span><span class="p">,</span>
+                                       <span class="n">node_kwargs</span><span class="o">=</span><span class="n">node_kwargs</span><span class="p">,</span>
+                                       <span class="n">colorbar</span><span class="o">=</span><span class="n">colorbar</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">display</span></div>
 </pre></div>
 
            </div>

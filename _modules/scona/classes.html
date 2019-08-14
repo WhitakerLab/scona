@@ -163,7 +163,7 @@
     <span class="n">is_anatomical_match</span>
 <span class="kn">from</span> <span class="nn">scona.graph_measures</span> <span class="k">import</span> <span class="n">assign_interhem</span><span class="p">,</span> \
     <span class="n">calculate_nodal_measures</span><span class="p">,</span> <span class="n">assign_nodal_distance</span><span class="p">,</span> \
-    <span class="n">calc_nodal_partition</span><span class="p">,</span> <span class="n">calculate_global_measures</span><span class="p">,</span> <span class="n">small_world_coefficient</span>
+    <span class="n">calc_nodal_partition</span><span class="p">,</span> <span class="n">calculate_global_measures</span><span class="p">,</span> <span class="n">small_coefficient</span>
 
 
 <div class="viewcode-block" id="BrainNetwork"><a class="viewcode-back" href="../../scona.html#scona.classes.BrainNetwork">[docs]</a><span class="k">class</span> <span class="nc">BrainNetwork</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">Graph</span><span class="p">):</span>
@@ -644,8 +644,7 @@
 <span class="sd">    Essentially it&#39;s a python dictionary with BrainNetwork objects as values</span>
 <span class="sd">    (:class:`str`: :class:`BrainNetwork` pairs).</span>
 
-<span class="sd">    Mainly used to create random graphs for comparison with your original</span>
-<span class="sd">    network data.</span>
+<span class="sd">    Mainly used to create random graphs for comparison with your real network data.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -810,7 +809,7 @@
 
 <div class="viewcode-block" id="GraphBundle.report_small_world"><a class="viewcode-back" href="../../scona.html#scona.classes.GraphBundle.report_small_world">[docs]</a>    <span class="k">def</span> <span class="nf">report_small_world</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gname</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Calculate the small world coefficient of `gname` relative to each other</span>
+<span class="sd">        Calculate the small coefficient of `gname` relative to each other</span>
 <span class="sd">        graph in GraphBundle.</span>
 
 <span class="sd">        Parameters</span>
@@ -826,10 +825,10 @@
 
 <span class="sd">        See Also</span>
 <span class="sd">        --------</span>
-<span class="sd">        :func:`small_world_coefficient`</span>
+<span class="sd">        :func:`small_coefficient`</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">small_world_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">small_world_coefficient</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">gname</span><span class="p">],</span> <span class="n">x</span><span class="p">))</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">small_coefficient</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">gname</span><span class="p">],</span> <span class="n">x</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">small_world_dict</span></div>
 
 <div class="viewcode-block" id="GraphBundle.nodal_matches"><a class="viewcode-back" href="../../scona.html#scona.classes.GraphBundle.nodal_matches">[docs]</a>    <span class="k">def</span> <span class="nf">nodal_matches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
