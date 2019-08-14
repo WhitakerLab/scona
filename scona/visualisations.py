@@ -463,9 +463,9 @@ def view_nodes_3d(
 
 def view_connectome_3d(
         G,
-        edge_threshold="2%",
+        edge_threshold="98%",
         edge_cmap="Spectral_r",
-        symmetric_cmap=True,
+        symmetric_cmap=False,
         linewidth=6.,
         node_size=3.):
     """
@@ -479,18 +479,19 @@ def view_connectome_3d(
         G should have nodal locations in MNI space indexed by nodal
         attribute "centroids".
 
-    edge_threshold : str, number or None, optional (default="2%")
+    edge_threshold : str, number or None, optional (default="98%")
         If None, no thresholding.
         If it is a number only connections of amplitude greater
         than threshold will be shown.
         If it is a string it must finish with a percent sign,
-        e.g. "25.3%", and only connections of amplitude above the
-        given percentile will be shown.
+        e.g. "98%", and only connections of amplitude above the
+        given percentile will be shown (so "98%" shows the top "2%"
+        of connections).
 
     edge_cmap : str or matplotlib colormap, optional
         Colormap for displaying edges.
 
-    symmetric_cmap : bool, optional (default=True)
+    symmetric_cmap : bool, optional (default=False)
         Make colormap symmetric (ranging from -vmax to vmax).
 
     linewidth : float, optional (default=6.)
@@ -512,6 +513,12 @@ def view_connectome_3d(
 
     # get the adjacency matrix and nodes coordinates
     adj_matrix, node_coords = graph_to_nilearn_array(G)
+
+    # Figure out if you need to set some of the negative weights to zero
+    # This is useful if you're thresholding to only show the highest weighted
+    # edges and want to see the non symmetric colourmap.
+
+    ##### TODO!!
 
     # plot connectome
     ConnectomeView = plotting.view_connectome(adjacency_matrix=adj_matrix,
