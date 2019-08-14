@@ -1831,13 +1831,12 @@ supported.</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>G</strong> (<a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code></a>) – G should have nodal locations in MNI space indexed by nodal
 attribute “centroids”.</p></li>
-<li><p><strong>edge_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>number</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a><em>, </em><em>optional</em><em> (</em><em>default=&quot;98%&quot;</em><em>)</em>) – If None, no thresholding.
+<li><p><strong>edge_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>number</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a><em>, </em><em>optional</em><em> (</em><em>default=&quot;2%&quot;</em><em>)</em>) – If None, no thresholding.
 If it is a number only connections of amplitude greater
 than threshold will be shown.
 If it is a string it must finish with a percent sign,
-e.g. “98%”, and only connections of amplitude above the
-given percentile will be shown (so “98%” shows the top “2%”
-of connections).</p></li>
+e.g. “25.3%”, and only connections of amplitude above the
+given percentile will be shown.</p></li>
 <li><p><strong>edge_cmap</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>matplotlib colormap</em><em>, </em><em>optional</em>) – Colormap for displaying edges.</p></li>
 <li><p><strong>symmetric_cmap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=False</em><em>)</em>) – Make colormap symmetric (ranging from -vmax to vmax).</p></li>
 <li><p><strong>linewidth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><em>optional</em><em> (</em><em>default=6.</em><em>)</em>) – Width of the lines that show connections.</p></li>
