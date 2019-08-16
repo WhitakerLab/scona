@@ -14,7 +14,14 @@ The [development guide](#development-guide) deals with the specifics of contribu
 
 ### Installing in editable mode
 
-Use `pip install -e git+https://github.com/WhitakerLab/scona.git#egg=scona` to install scona in editable mode. This means that the python install of scona will be kept up to date with any changes you make, including switching branches in git.
+The command `pip install -e git+https://github.com/WhitakerLab/scona.git#egg=scona` should install scona in editable mode.
+This means that the python install of `scona` will be kept up to date with any changes you make, including switching branches in git.
+
+Kirstie has had some difficulty with using this installation step with `jupyter lab` on windows (it works fine in a notebook server or ipython terminal).
+The work around was to run `python setup.py develop` from the `scona` root directory.
+
+Please open an issue if you're having any similar challenges with getting started!
+We really want you to be able to contribute and installing the package is a necessary first step :sparkles:
 
 ### Linting
 

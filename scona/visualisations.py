@@ -24,22 +24,26 @@ def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
     ----------
     brain_bundle : `GraphBundle` object
         a python dictionary with BrainNetwork objects as values
-        (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and random graphs
+        (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and
+        random graphs
     real_network: str, required
         This is the name of the real Graph in GraphBundle.
-        While instantiating GraphBundle object we pass the real Graph and its name.
-        (e.g. bundleGraphs = scn.GraphBundle([H], ['Real Network'])).
-        To plot rich club values along with the rich club values from randomed graphs
-        it is required to pass the name of the real network (e.g.'Real Network').
+        While instantiating GraphBundle object we pass the real Graph and
+        its name. (e.g. bundleGraphs = scn.GraphBundle([H], ['Real Network'])).
+        To plot rich club values along with the rich club values from random
+        graphs it is required to pass the name of the real network
+        (e.g.'Real Network').
     figure_name : str, optional
-        path to the file to store the created figure in (e.g. "/home/Desktop/name")
-        or to store in the current directory include just a name ("fig_name");
+        path to the file to store the created figure in
+        (e.g. "/home/Desktop/name") or to store in the current directory
+        include just a name ("fig_name");
     color : list of 2 strings, optional
-        where the 1st string is a color for rich club values and 2nd - for random
-        rich club values. You can specify the color using an html hex string
-        (e.g. color =["#06209c","#c1b8b1"]) or you can pass an (r, g, b) tuple,
-        where each of r, g, b are in the range [0,1]. Finally, legal html names
-        for colors, like "red", "black" and so on are supported.
+        where the 1st string is a color for rich club values and 2nd - for
+        random rich club values. You can specify the color using an html hex
+        string (e.g. color =["#06209c","#c1b8b1"]) or you can pass an
+        (r, g, b) tuple, where each of r, g, b are in the range [0,1].
+        Finally, legal html names for colors, like "red", "black" and so on are
+        supported.
     show_legend: bool (optional, default=True)
         if True - show legend, otherwise - do not display legend.
     x_max : int, optional
@@ -49,7 +53,8 @@ def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
 
     Returns
     -------
-        Plot the Figure and if figure_name provided, save it in a figure_name file.
+        Plot the Figure and if figure_name provided, save it in a figure_name
+        file.
 
     """
 
@@ -70,7 +75,8 @@ def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
     rand_df = rich_club_df.drop(real_network, axis=1)
 
     # re-organize rand_df dataframe in a suitable way
-    # so that there is one column for the degrees data, one for rich club values
+    # so that there is one column for the degrees data,
+    # one for rich club values
     # required for seaborn plotting with error bars
 
     # create array to store the degrees
@@ -95,7 +101,8 @@ def plot_rich_club(brain_bundle, real_network, figure_name=None, color=None,
     elif len(color) == 1:              # in case only to plot only real values
         color.append("grey")
 
-    # if the user provided color not as a list of size 2 - show warning, use default colors
+    # if the user provided color not as a list of size 2
+    # show warning, use default colors
     if not isinstance(color, list) and len(color) != 2:
         warnings.warn("Please, provide a *color* parameter as a "
                       "python list object, e.g. [\"green\", \"pink\"]. "
@@ -255,7 +262,8 @@ def plot_network_measures(brain_bundle, real_network, figure_name=None,
         plt.close(fig)
 
 
-def plot_degree_dist(G, binomial_graph=True, seed=10, figure_name=None, color=None):
+def plot_degree_dist(G, binomial_graph=True, seed=10,
+                     figure_name=None, color=None):
 
     """
     This is a visualisation tool for plotting the degree distribution
@@ -272,18 +280,21 @@ def plot_degree_dist(G, binomial_graph=True, seed=10, figure_name=None, color=No
         Seed for random number generator. In case it is needed to create random
         Erdos Renyi Graph, set `seed` to None.
     figure_name : str, optional
-        path to the file to store the created figure in (e.g. "/home/Desktop/name")
-        or to store in the current directory include just a name ("fig_name");
+        path to the file to store the created figure in
+        (e.g. "/home/Desktop/name") or to store in the current directory
+        include just a name ("fig_name");
     color : list of 2 strings, optional
-        where the 1st string is a color for rich club values and 2nd - for random
-        rich club values. You can specify the color using an html hex string
-        (e.g. color =["#06209c","#c1b8b1"]) or you can pass an (r, g, b) tuple,
-        where each of r, g, b are in the range [0,1]. Finally, legal html names
-        for colors, like "red", "black" and so on are supported.
+        where the 1st string is a color for rich club values and 2nd - for
+        random rich club values. You can specify the color using an html hex
+        string (e.g. color =["#06209c","#c1b8b1"]) or you can pass an
+        (r, g, b) tuple, where each of r, g, b are in the range [0,1].
+        Finally, legal html names for colors, like "red", "black" and so on
+        are supported.
 
     Returns
     -------
-        Plot the Figure and if figure_name provided, save it in a figure_name file.
+        Plot the Figure and if figure_name provided, save it in a figure_name
+        file.
 
     """
 
@@ -291,7 +302,8 @@ def plot_degree_dist(G, binomial_graph=True, seed=10, figure_name=None, color=No
     if color is None:
         color = [sns.color_palette()[0], "grey"]
 
-    # if the user provided color not as a list of size 2 - show warning, use default colors
+    # if the user provided color not as a list of size 2
+    # show warning, use default colors
     if not isinstance(color, list) and len(color) == 2:
         warnings.warn("Please, provide a *color* parameter as a "
                       "python list object, e.g. [\"green\", \"pink\"]. "
@@ -307,7 +319,8 @@ def plot_degree_dist(G, binomial_graph=True, seed=10, figure_name=None, color=No
 
     # calculate the Erdos Renyi graph from the main graph
     nodes = len(G.nodes())
-    cost = G.number_of_edges() * 2.0 / (nodes*(nodes-1))    # probability for edge creation
+    # set the cost as the probability for edge creation
+    cost = G.number_of_edges() * 2.0 / (nodes*(nodes-1))
     G_ER = nx.erdos_renyi_graph(nodes, cost, seed=seed)
 
     # calculate the degrees for the ER graph
@@ -323,7 +336,8 @@ def plot_degree_dist(G, binomial_graph=True, seed=10, figure_name=None, color=No
     if binomial_graph:
         ax = sns.kdeplot(degrees_ER, color=color[1])
 
-    # fix the x axis limits - without the gap between the 1st column and x = 0 - start from 1
+    # fix the x axis limits without the gap between the 1st column and x = 0
+    # start from 1
     ax.set_xlim((1, max(degrees)))
 
     # set the number of bins to 5
@@ -357,7 +371,9 @@ def view_nodes_3d(
         measure=None,
         cmap_name=None,
         sns_palette=None,
-        continuous=False):
+        continuous=False,
+        vmin=None,
+        vmax=None):
     """
     Plot nodes of a BrainNetwork using
     :func:`nilearn.plotting.view_markers()` tool.
@@ -394,6 +410,14 @@ def view_nodes_3d(
         Indicate whether the data values are discrete (False) or
         continuous (True).
 
+    vmin : scalar or None, optional
+        The minimum value used in colormapping *data*. If *None* the minimum
+        value in *data* is used.
+
+    vmax : scalar or None, optional
+        The maximum value used in colormapping *data*. If *None* the maximum
+        value in *data* is used.
+
     Returns
     -------
     ConnectomeView : plot of the nodes.
@@ -418,17 +442,20 @@ def view_nodes_3d(
     if measure:
         if measure in nodal_measures.columns:
             node_color = setup_color_list(df=nodal_measures, measure=measure,
-                                           cmap_name=cmap_name,
-                                           sns_palette=sns_palette,
-                                           continuous=continuous)
+                                          cmap_name=cmap_name,
+                                          sns_palette=sns_palette,
+                                          continuous=continuous,
+                                          vmin=vmin,
+                                          vmax=vmax)
         else:
             warnings.warn(
-              "Measure \"{}\" does not exist in the nodal attributes of Graph. "
+              "Measure \"{}\" does not exist in nodal attributes of graph. "
               "The default color will be used for all nodes.".format(measure))
             node_color = [node_color for _ in range(len(node_coords))]
 
     # plot nodes
-    ConnectomeView = plotting.view_markers(node_coords, marker_color=node_color,
+    ConnectomeView = plotting.view_markers(node_coords,
+                                           marker_color=node_color,
                                            marker_size=node_size)
 
     return ConnectomeView
@@ -436,9 +463,9 @@ def view_nodes_3d(
 
 def view_connectome_3d(
         G,
-        edge_threshold=None,
+        edge_threshold="98%",
         edge_cmap="Spectral_r",
-        symmetric_cmap=True,
+        symmetric_cmap=False,
         linewidth=6.,
         node_size=3.):
     """
@@ -452,7 +479,7 @@ def view_connectome_3d(
         G should have nodal locations in MNI space indexed by nodal
         attribute "centroids".
 
-    edge_threshold : str, number or None, optional (default=None)
+    edge_threshold : str, number or None, optional (default="2%")
         If None, no thresholding.
         If it is a number only connections of amplitude greater
         than threshold will be shown.
@@ -463,7 +490,7 @@ def view_connectome_3d(
     edge_cmap : str or matplotlib colormap, optional
         Colormap for displaying edges.
 
-    symmetric_cmap : bool, optional (default=True)
+    symmetric_cmap : bool, optional (default=False)
         Make colormap symmetric (ranging from -vmax to vmax).
 
     linewidth : float, optional (default=6.)
@@ -513,7 +540,8 @@ def plot_connectome(
     """
     Plot connectome on top of the brain glass schematics.
 
-    The plotted image should be in MNI space for this function to work properly.
+    The plotted image should be in MNI space for this function to work
+    properly.
 
     In the case of ‘l’ and ‘r’ directions (for hemispheric projections),
     markers in the coordinate x == 0 are included in both hemispheres.
@@ -608,17 +636,24 @@ def plot_connectome(
     adj_matrix, node_coords = graph_to_nilearn_array(G)
 
     # plot connectome
-    plotting.plot_connectome(adjacency_matrix=adj_matrix,
-                             node_coords=node_coords,
-                             node_color=node_color, node_size=node_size,
-                             edge_cmap=edge_cmap,
-                             edge_vmin=edge_vmin, edge_vmax=edge_vmax,
-                             edge_threshold=edge_threshold,
-                             output_file=output_file,
-                             display_mode=display_mode,
-                             figure=figure, axes=axes,
-                             title=title, annotate=annotate,
-                             alpha=alpha, black_bg=black_bg,
-                             edge_kwargs=edge_kwargs,
-                             node_kwargs=node_kwargs,
-                             colorbar=colorbar)
+    display = plotting.plot_connectome(adjacency_matrix=adj_matrix,
+                                       node_coords=node_coords,
+                                       node_color=node_color,
+                                       node_size=node_size,
+                                       edge_cmap=edge_cmap,
+                                       edge_vmin=edge_vmin,
+                                       edge_vmax=edge_vmax,
+                                       edge_threshold=edge_threshold,
+                                       output_file=output_file,
+                                       display_mode=display_mode,
+                                       figure=figure,
+                                       axes=axes,
+                                       title=title,
+                                       annotate=annotate,
+                                       alpha=alpha,
+                                       black_bg=black_bg,
+                                       edge_kwargs=edge_kwargs,
+                                       node_kwargs=node_kwargs,
+                                       colorbar=colorbar)
+
+    return display
