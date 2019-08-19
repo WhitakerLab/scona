@@ -134,15 +134,15 @@ class SmallWorlds(unittest.TestCase):
         self.watts_strogatz_random_2 = nx.watts_strogatz_graph(6, 4, 0.5)
 
     def test_watts_strogatz_1_no_small_world(self):
-        assert (gm.small_coefficient(
+        assert (gm.small_world_coefficient(
                 self.watts_strogatz_1, self.watts_strogatz_2)
                 == 0)
-        assert (gm.small_coefficient(
+        assert (gm.small_world_coefficient(
                 self.watts_strogatz_1, self.watts_strogatz_random_2)
                 == 0)
 
     def test_randomising_watts_strogatz_increases_small_worldness(self):
-        assert (gm.small_coefficient(
+        assert (gm.small_world_coefficient(
                 self.watts_strogatz_random_2, self.watts_strogatz_2)
                 > 1)
 

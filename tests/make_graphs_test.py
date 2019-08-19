@@ -16,9 +16,9 @@ def symmetric_df_1():
 
 def simple_weighted_graph():
     G = nx.Graph()
-    G.add_path([1, 2], weight=2)
-    G.add_path([1, 0], weight=3)
-    G.add_path([2, 0], weight=5)
+    nx.add_path(G, [1, 2], weight=2)
+    nx.add_path(G, [1, 0], weight=3)
+    nx.add_path(G, [2, 0], weight=5)
     return G
 
 
@@ -272,7 +272,7 @@ class RandomGraphs(unittest.TestCase):
         cls.lattice_rand = mkg.random_graph(cls.lattice)
         cls.lattice_list = mkg.get_random_graphs(cls.lattice, n=5)
         G = nx.Graph()
-        G.add_path([0, 1, 2])
+        nx.add_path(G, [0, 1, 2])
         cls.short_path = G
 
     def test_random_graph_type(self):

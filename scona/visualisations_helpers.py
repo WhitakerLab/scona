@@ -9,7 +9,7 @@ import matplotlib as mpl
 import seaborn as sns
 
 
-def df_sns_barplot(bundleGraphs, original_network):
+def create_df_sns_barplot(bundleGraphs, original_network):
     """
     In order to plot barplot (with error bars) with the help of seaborn,
     it is needed to pass a argument "data" - dataset for plotting.
@@ -43,9 +43,11 @@ def df_sns_barplot(bundleGraphs, original_network):
     bundleGraphs_measures = bundleGraphs.report_global_measures()
 
     # set abbreviations for measures
-    abbreviation = {'assortativity': 'a', 'average_clustering': 'C',
+    abbreviation = {'assortativity': 'a',
+                    'average_clustering': 'C',
                     'average_shortest_path_length': 'L',
-                    'efficiency': 'E', 'modularity': 'M'}
+                    'efficiency': 'E',
+                    'modularity': 'M'}
 
     # set columns for our new DataFrame
     new_columns = ["measure", "value", "TypeNetwork"]
@@ -68,7 +70,8 @@ def df_sns_barplot(bundleGraphs, original_network):
     data_array = list()
 
     for measure in bundleGraphs_measures.columns:
-        # check that the param - original_network - is correct, otherwise -error
+        # check that the param - original_network - is correct,
+        # otherwise pass an error
         try:
             # for original_network get value of each measure
             value = bundleGraphs_measures.loc[original_network, measure]
@@ -81,7 +84,7 @@ def df_sns_barplot(bundleGraphs, original_network):
         # get the abbreviation for measure and use this abbreviation
         measure_short = abbreviation[measure]
 
-        type_network = "Real network"
+        type_network = "Observed network"
 
         # create a temporary array to store measure - value of Real Network
         tmp = [measure_short, value, type_network]
@@ -115,7 +118,7 @@ def df_sns_barplot(bundleGraphs, original_network):
 
     # finally create a new DataFrame
     NewDataFrame = pd.DataFrame(data=data_array, index=index,
-                                    columns=new_columns)
+                                columns=new_columns)
 
     # include the small world coefficient into new DataFrame
 
@@ -130,7 +133,9 @@ def df_sns_barplot(bundleGraphs, original_network):
         # create list of dictionaries to later append to the new DataFrame
         df_small_world = []
         for i in list(small_world.values()):
-            tmp = {'measure': 'sigma', 'value': i, 'TypeNetwork': 'Real network'}
+            tmp = {'measure': 'sigma',
+                   'value': i,
+                   'TypeNetwork': 'Observed network'}
 
             df_small_world.append(tmp)
 
@@ -140,12 +145,13 @@ def df_sns_barplot(bundleGraphs, original_network):
         # bar for small_world measure of random graphs should be set exactly to 1   # noqa
 
         # set constant value of small_world measure for random bar
-        rand_small_world = {'measure': 'sigma', 'value': 1,
-                                            'TypeNetwork': 'Random network'}
+        rand_small_world = {'measure': 'sigma',
+                            'value': 1,
+                            'TypeNetwork': 'Random network'}
 
         # add constant value of small_world measure for random bar to new DataFrame # noqa
         NewDataFrame = NewDataFrame.append(rand_small_world,
-                                                     ignore_index=True)
+                                           ignore_index=True)
 
     return NewDataFrame
 
