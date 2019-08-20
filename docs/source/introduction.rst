@@ -16,7 +16,7 @@ Installing scona
 
 You can install scona directly from the GitHub repository::
 
-    pip install git+https://github.com/WhitakerLab/scona.git
+    pip install -e git+https://github.com/WhitakerLab/scona.git#egg=scona
 
 If you want to edit scona it's recommended that you pass the ``-e`` flag to ``pip`` to install the package editably.
 
