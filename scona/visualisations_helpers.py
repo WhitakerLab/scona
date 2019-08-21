@@ -10,7 +10,7 @@ import matplotlib as mpl
 import seaborn as sns
 
 
-def df_sns_barplot(bundleGraphs_measures, real_network):
+def create_df_sns_barplot(bundleGraphs, original_network):
     """
     In order to plot barplot (with error bars) with the help of seaborn,
     it is needed to pass a argument "data" - dataset for plotting.
@@ -21,15 +21,16 @@ def df_sns_barplot(bundleGraphs_measures, real_network):
 
     Parameters
     ----------
-    bundleGraphs_measures : :class:`pandas.DataFrame`
-        DataFrame with global measures for each Graph in GraphBundle.
+    bundleGraphs : :class:`GraphBundle`
+        a python dictionary with BrainNetwork objects as values
+        (:class:`str`: :class:`BrainNetwork` pairs), contains real Graph and
+        random graphs
 
-    real_network: str, required
-        This is the name of the real Graph in GraphBundle.
-        While instantiating GraphBundle object we pass the real Graph and its
-        name (e.g. bundleGraphs = scn.GraphBundle([H], ['Real Network'])).
-        To plot real network measures along with the random network values it
-        is required to pass the name of the real network (e.g.'Real Network').
+    original_network: str, required
+        This is the name of the initial Graph in GraphBundle. It should index
+        the particular network in `brain_bundle` that you want the figure
+        to highlight. A distribution of all the other networks in
+        `brain_bundle` will be rendered for comparison.
 
     Returns
     -------
@@ -37,10 +38,17 @@ def df_sns_barplot(bundleGraphs_measures, real_network):
         Restructured DataFrame suitable for seaborn.barplot
     """
 
+    # calculate network measures for each graph in brain_bundle
+    # if each graph in GraphBundle has already calculated global measures,
+    # this step will be skipped
+    bundleGraphs_measures = bundleGraphs.report_global_measures()
+
     # set abbreviations for measures
-    abbreviation = {'assortativity': 'a', 'average_clustering': 'C',
+    abbreviation = {'assortativity': 'a',
+                    'average_clustering': 'C',
                     'average_shortest_path_length': 'L',
-                    'efficiency': 'E', 'modularity': 'M'}
+                    'efficiency': 'E',
+                    'modularity': 'M'}
 
     # set columns for our new DataFrame
     new_columns = ["measure", "value", "TypeNetwork"]
@@ -63,21 +71,21 @@ def df_sns_barplot(bundleGraphs_measures, real_network):
     data_array = list()
 
     for measure in bundleGraphs_measures.columns:
-        # check that the param - real_network - is correct, otherwise - error
+        # check that the param - original_network - is correct,
+        # otherwise pass an error
         try:
-            # for Real_Network get value of each measure
-            value = bundleGraphs_measures.loc[real_network, measure]
+            # for original_network get value of each measure
+            value = bundleGraphs_measures.loc[original_network, measure]
         except KeyError:
             raise KeyError(
-                "The name of the graph you passed to the function: \"{}\" "
-                "does not exist in GraphBundle. Please provide a true name "
-                "of Real Graph (represented as a key in "
-                "GraphBundle)".format(real_network))
+                "The name of the initial Graph you passed to the function - \"{}\""              # noqa
+                " does not exist in GraphBundle. Please provide a true name of "
+                "initial Graph (represented as a key in GraphBundle)".format(original_network))  # noqa
 
         # get the abbreviation for measure and use this abbreviation
         measure_short = abbreviation[measure]
 
-        type_network = "Real Network"
+        type_network = "Observed network"
 
         # create a temporary array to store measure - value of Real Network
         tmp = [measure_short, value, type_network]
@@ -88,7 +96,7 @@ def df_sns_barplot(bundleGraphs_measures, real_network):
     # now store the measure and measure values of *Random Graphs* in data_array
 
     # delete Real Graph from old DataFrame -
-    random_df = bundleGraphs_measures.drop(real_network)
+    random_df = bundleGraphs_measures.drop(original_network)
 
     # for each measure in measures
     for measure in random_df.columns:
@@ -101,7 +109,7 @@ def df_sns_barplot(bundleGraphs_measures, real_network):
             # get the abbreviation for measure and use this abbreviation
             measure_short = abbreviation[measure]
 
-            type_network = "Random Network"
+            type_network = "Random network"
 
             # create temporary array to store measure - value of Random Network
             tmp = [measure_short, value, type_network]
@@ -112,6 +120,39 @@ def df_sns_barplot(bundleGraphs_measures, real_network):
     # finally create a new DataFrame
     NewDataFrame = pd.DataFrame(data=data_array, index=index,
                                 columns=new_columns)
+
+    # include the small world coefficient into new DataFrame
+
+    # check that random graphs exist in GraphBundle
+    if len(bundleGraphs) > 1:
+        # get the small_world values for Real Graph
+        small_world = bundleGraphs.report_small_world(original_network)
+
+        # delete the comparison of the graph labelled original_network with itself  # noqa
+        del small_world[original_network]
+
+        # create list of dictionaries to later append to the new DataFrame
+        df_small_world = []
+        for i in list(small_world.values()):
+            tmp = {'measure': 'sigma',
+                   'value': i,
+                   'TypeNetwork': 'Observed network'}
+
+            df_small_world.append(tmp)
+
+        # add small_world values of *original_network* to new DataFrame
+        NewDataFrame = NewDataFrame.append(df_small_world, ignore_index=True)
+
+        # bar for small_world measure of random graphs should be set exactly to 1   # noqa
+
+        # set constant value of small_world measure for random bar
+        rand_small_world = {'measure': 'sigma',
+                            'value': 1,
+                            'TypeNetwork': 'Random network'}
+
+        # add constant value of small_world measure for random bar to new DataFrame # noqa
+        NewDataFrame = NewDataFrame.append(rand_small_world,
+                                           ignore_index=True)
 
     return NewDataFrame
 
@@ -157,9 +198,8 @@ def save_fig(figure, path_name):
         warnings.warn('The file name you gave us "{}" ends with \"/\". '
                       "That is a directory rather than a file name."
                       "Please run the command again with the name of the file,"
-                      "for example: '/home/dir1/myfile.png'"
-                      "or to save the file in the current directory you "
-                      "can just pass 'myfile.png'".format(path_name))
+                      "e.g. '/home/dir1/myfile.png' or to save the file in the "
+                      "current directory you can just pass 'myfile.png'".format(path_name))     # noqa
         return
 
     # save the figure to the file
@@ -182,7 +222,7 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
         The name of the column in the df (pandas.DataFrame) that contains
         values intended to be mapped to colors.
 
-    cmap_name : str or Colormap instance
+    cmap_name : str or Colormap instance, (optional, default="tab10")
         The colormap used to map normalized data values to RGBA colors.
 
     sns_palette: seaborn palette, (optional, default=None)
@@ -228,7 +268,7 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
         scalarMap = mpl.cm.ScalarMappable(norm=norm, cmap=cmap_name)
 
         # Map normalized data values to RGBA colors
-        colors_list = [scalarMap.to_rgba(x) for x in df[measure]]
+        colors_list = [ scalarMap.to_rgba(x) for x in df[measure] ]
 
     # For discrete data
     else:
@@ -236,9 +276,9 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
         try:
             cmap = mpl.cm.get_cmap(cmap_name)
         except ValueError:
-            warnings.warn("ValueError: Colormap {} is not recognized.\n"
-                          "Default (jet) will be used.".format(cmap_name))
-            cmap = mpl.cm.get_cmap("jet")
+            warnings.warn("ValueError: Colormap {} is not recognized. ".format(cmap_name) +
+                            "Default colormap tab10 will be used.")
+            cmap = mpl.cm.get_cmap("tab10")
 
         for i, value in enumerate(sorted(set(df[measure]))):
             colors_dict[value] = cmap((i+0.5)/num_color)
@@ -251,7 +291,7 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
                 colors_dict[value] = color_palette[i]
 
         # Make a list of colors for each node in df based on the measure
-        colors_list = [colors_dict[value] for value in df[measure].values]
+        colors_list = [ colors_dict[value] for value in df[measure].values ]
 
     return colors_list
 
