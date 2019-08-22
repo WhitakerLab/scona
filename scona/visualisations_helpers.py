@@ -440,3 +440,49 @@ def anatomical_layout(x, y, z, orientation="sagittal"):
         raise ValueError(
             "{} is not recognised as an anatomical layout. orientation values "
             "should be one of 'sagittal', 'axial' or 'coronal'.".format(orientation))    # noqa
+
+
+def get_anatomical_layouts(G):
+    """
+    This function extracts the required coordinates of a node based on the given
+     anatomical layout.
+
+    Parameters
+    ----------
+
+    G : :class:`networkx.Graph`
+        G should have nodal locations in MNI space indexed by nodal
+        attribute "centroids".
+
+    Returns
+    -------
+    axial_dict, sagittal_dict, coronal_dict dictionaries
+        Returns three dictionaries containing appropriate pairs of coordinates
+        for axial, sagittal and coronal slices.
+    """
+
+    # create empty dictionaries to store corresponding coordinates
+    axial_dict = {}
+    sagittal_dict = {}
+    coronal_dict = {}
+
+    # check if graph has centroids
+    if G.graph["centroids"] == False:
+        raise ValueError("The given BrainNetwork Graph does not have centroids")
+
+    for node in G.nodes:
+        # get x coordinate
+        x_coord = G.node[node]["x"]
+
+        # get y coordinate
+        y_coord = G.node[node]["y"]
+
+        # get z coordinate
+        z_coord = G.node[node]["z"]
+
+        # store appropriate pairs of coordinates for sagittal, coronal and axial
+        axial_dict[node] = axial_layout(x_coord, y_coord, z_coord)
+        sagittal_dict[node] = sagittal_layout(x_coord, y_coord, z_coord)
+        coronal_dict[node] = coronal_layout(x_coord, y_coord, z_coord)
+
+    return axial_dict, sagittal_dict, coronal_dict
