@@ -573,7 +573,7 @@ vert ————- create vertical box plots (rather than horizontal)</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – path to a csv file.
-Read in as a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.25.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> unless <code class="docutils literal notranslate"><span class="pre">data_as_df=False</span></code></p></li>
+Read in as a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.25.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> unless <code class="docutils literal notranslate"><span class="pre">data_as_df=False</span></code></p></li>
 <li><p><strong>names_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – path to a text file containing names of brain regions. Read in as list.</p></li>
 <li><p><strong>covars_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – a text file containing a list of covariates to correct for. Read in as
 list.</p></li>
@@ -589,7 +589,7 @@ in the ith line of names_file. Read in as list.</p></li>
 <dd class="field-even"><p><cite>data, names, covars, centroids</cite></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.25.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>, list, list or None, list or None</p>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.25.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>, list, list or None, list or None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -601,7 +601,7 @@ in the ith line of names_file. Read in as list.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>df</strong> (<a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.25.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – A dataframe of measures to write out</p></li>
+<li><p><strong>df</strong> (<a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.25.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a>) – A dataframe of measures to write out</p></li>
 <li><p><strong>name</strong> (<em>output_dir</em><em>,</em>) – The output and filename to write out to. Creates output_dir if it does
 not exist</p></li>
 <li><p><strong>first_columns</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>, </em><em>optional</em>) – There may be columns you want to be saved on the left hand side of the
@@ -635,7 +635,7 @@ will be the same as the original but with _LowRes appended</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>corr_mat</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.25.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.array</span></code>) – <p>corr_mat could be:</p>
+<li><p><strong>corr_mat</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.25.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.array</span></code>) – <p>corr_mat could be:</p>
 <ul>
 <li><p>a string object - Path to the File, containing the matrix; <code class="docutils literal notranslate"><span class="pre">Note</span></code> loading the corr_mat from file is only possible if all data values are float (or integers). Please do not include column or row labels in the file.</p></li>
 <li><p>or a pandas.DataFrame object to represent a correlation matrix;</p></li>
