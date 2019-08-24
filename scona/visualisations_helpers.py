@@ -3,6 +3,7 @@ import os
 
 import numpy as np
 import pandas as pd
+import networkx as nx
 
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -187,7 +188,8 @@ def save_fig(figure, path_name):
                           "We will create this directory for you "
                           "and store the figure there.\n"
                           "This warning is just to make sure that you aren't "
-                          "surprised by a new directory appearing!".format(dir_path))    # noqa
+                          "surprised by a new directory "
+                          "appearing!".format(dir_path))
 
             # Make the directory
             dir_create = os.path.dirname(path_name)
@@ -247,7 +249,8 @@ def setup_color_list(df, cmap_name='tab10', sns_palette=None, measure='module',
     # Store pair (value, color) as a (key,value) in a dict
     colors_dict = {}
 
-    # If vmin or vmax not passed, calculate the min and max of the column (measure)    # noqa
+    # If vmin or vmax not passed, calculate the min and max
+    # values of the column (measure)
     if vmin is None:
         vmin = min(df[measure].values)
     if vmax is None:
@@ -306,7 +309,8 @@ def add_colorbar(fig, grid, cb_name, cmap_name, vmin=0, vmax=1):
         Grid spec location to add colormap.
 
     cb_name: str, (optional, default=None)
-        The label for the colorbar. Name of data values this colorbar represents.
+        The label for the colorbar.
+        Name of data values this colorbar represents.
 
     cmap_name : str or Colormap instance
         Name of the colormap
@@ -333,7 +337,8 @@ def add_colorbar(fig, grid, cb_name, cmap_name, vmin=0, vmax=1):
     # set ticks (min, median, max) for colorbar
     ticks = [vmin, (vmin + vmax)/2, vmax]
 
-    # put a colorbar in a specified axes, and make colorbar for a given colormap
+    # put a colorbar in a specified axes,
+    # and make colorbar for a given colormap
     cb = mpl.colorbar.ColorbarBase(ax_cbar, cmap=cmap_name,
                                    norm=norm,
                                    ticks=ticks,
@@ -413,8 +418,8 @@ def coronal_layout(x, y, z):
 
 def anatomical_layout(x, y, z, orientation="sagittal"):
     """
-    This function extracts the required coordinates of a node based on the given
-     anatomical layout.
+    This function extracts the required coordinates of a node based on the
+    given anatomical layout.
 
     Parameters
     ----------
@@ -439,7 +444,50 @@ def anatomical_layout(x, y, z, orientation="sagittal"):
     else:
         raise ValueError(
             "{} is not recognised as an anatomical layout. orientation values "
-            "should be one of 'sagittal', 'axial' or 'coronal'.".format(orientation))    # noqa
+            "should be one of 'sagittal', 'axial' or "
+            "'coronal'.".format(orientation))
+
+
+def graph_to_nilearn_array(
+        G,
+        edge_attribute="weight"):
+    """
+    Derive from G (BrainNetwork Graph) the necessary inputs for the `nilearn`
+    graph plotting functions.
+
+    G : :class:`networkx.Graph`
+        G should have nodal locations in MNI space indexed by nodal
+        attribute "centroids"
+
+    edge_attribute : string or None optional (default = 'weight')
+        The edge attribute that holds the numerical value used for the edge
+        weight. If an edge does not have that attribute, then the value 1 is
+        used instead.
+
+    Returns
+    -------
+    (adjacency_matrix, node_coords)
+        adjacency_matrix - represents the link strengths of the graph;
+        node_coords - 3d coordinates of the graph nodes in world space;
+    """
+
+    # make ordered nodes to produce ordered rows and columns
+    # in adjacency matrix
+    node_order = sorted(list(G.nodes()))
+
+    # returns the graph adjacency matrix as a NumPy array
+    adjacency_matrix = nx.convert_matrix.to_numpy_array(G, nodelist=node_order,
+                                                        weight=edge_attribute)
+
+    # store nodes coordinates in NumPy array if nodal coordinates exist
+    try:
+        node_coords = np.array([G._node[node]["centroids"] for node in node_order])       # noqa
+    except KeyError:
+        raise TypeError("There are no centroids (nodes coordinates) in the "
+                        "Graph. Please initialise BrainNetwork "
+                        "with the centroids.")
+
+    return adjacency_matrix, node_coords
 
 
 def get_anatomical_layouts(G):
