@@ -12,6 +12,8 @@ Subpackages
     scona.wrappers
     scona.datasets
 
+**Note**: These subpackages (scona.wrappers, scona.scripts, scona.datasets) are represented as a set of features that will be incorporated into scona package. You **should not** open or/and use the code inside these packages, because the code inside **is not supported** and this part is in the alpha development phase.
+
 Module contents
 ---------------
 
