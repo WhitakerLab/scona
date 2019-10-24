@@ -35,18 +35,25 @@ def split_groups(df, group_var, shuffle=False):
     ----------
     df : :class:`pandas.DataFrame`
     group_var : str
-        A string indexing a column of `df` which describes the different
-        groups.
+        A string indexing a column of `df` which contains the group coding
+        of each participant
     shuffle : bool, optional
         If True is passed split_groups will randomly assign each participant
-        a value from the original group_var column without replacement.
+        to a group from the original group_var column, preserving the size
+        of the original groups. 
+        This is achieved by drawing values from the group_var column without
+        replacement. This does not modify the dataframe `df`.
 
     Returns
     -------
     dict
         A dictionary mapping values of the group_var column to a
-        :class:`pandas.DataFrame`
+        :class:`pandas.DataFrame` of correspondingly coded participants.
     '''
+    if group_var not in df.columns:
+        raise ValueError(
+            "The group_var argument '{}' does not index a column in this
+            dataframe.")
     split_dict = {}
     if shuffle is False:
         for value in set(df.loc[:, group_var].values):
@@ -172,13 +179,13 @@ def corrmat_from_regionalmeasures(
     Parameters
     ----------
     regional_measures : :class:`pandas.DataFrame`
-        a pandas data frame with subjects as rows, and columns including
+        a pandas DataFrame with subjects as rows, and columns including
         brain regions and covariates. Should be numeric for the columns in
         names and covars_list
     names : list
         a list of the brain regions you wish to correlate
     covars: list
-        covars is a list of covariates (as df column headings)
+        covars is a list of covariates (as DataFrame column headings)
         to correct for before correlating the regions.
     methods : string
         the method of correlation passed to :func:`pandas.DataFrame.corr`
