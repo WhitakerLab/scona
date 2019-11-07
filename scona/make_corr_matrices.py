@@ -31,6 +31,7 @@ def get_non_numeric_cols(df):
 def split_groups(df, group_var, shuffle=False):
     '''
     Separate a dataframe into different participant groups.
+
     Parameters
     ----------
     df : :class:`pandas.DataFrame`
