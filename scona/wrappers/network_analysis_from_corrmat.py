@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import os
-import scona as scn
+import scona
 from scona.scripts.useful_functions import read_in_data, \
     write_out_measures
 from scona.wrappers.parsers import network_analysis_from_corrmat_parser
@@ -30,7 +30,7 @@ def network_analysis_from_corrmat(corr_mat_file,
     corrmat = os.path.basename(corr_mat_file).strip('.txt')
 
     # Initialise graph
-    B = scn.BrainNetwork(
+    B = scona.BrainNetwork(
         network=M,
         parcellation=names,
         centroids=centroids)
@@ -53,7 +53,7 @@ def network_analysis_from_corrmat(corr_mat_file,
 
     # Create setup for comparing real_graph against random graphs
     # name your graph G after the corrmat it was created from
-    bundle = scn.GraphBundle([G], [corrmat])
+    bundle = scona.GraphBundle([G], [corrmat])
     # Get the global measures
     # (note that this takes a bit of time because you're generating random
     # graphs)
@@ -76,9 +76,7 @@ def network_analysis_from_corrmat(corr_mat_file,
     write_out_measures(
         rc_df, output_dir, rc_name, first_columns=['degree', corrmat])
 
-
-if __name__ == "__main__":
-
+def main():
     # Read in the command line arguments
     arg = network_analysis_from_corrmat_parser.parse_args()
 
@@ -91,7 +89,8 @@ if __name__ == "__main__":
                                 cost=arg.cost,
                                 n_rand=arg.n_rand,
                                 edge_swap_seed=arg.seed)
+    
+if __name__ == "__main__":
+    main()
 
-# =============================================================================
-# Wooo! All done :)
-# =============================================================================
+

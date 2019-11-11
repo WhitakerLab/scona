@@ -46,9 +46,7 @@ def corrmat_from_regionalmeasures(regional_measures_file,
     # Save the matrix
     mcm.save_mat(M, output_name)
 
-
-if __name__ == "__main__":
-
+def main():
     # Read in the command line arguments
     arg = corrmat_from_regionalmeasures_parser.parse_args()
 
@@ -60,6 +58,6 @@ if __name__ == "__main__":
         covars_file=arg.covars_file,
         method=arg.method)
 
-# ============================================================================
-# Wooo! All done :)
-# ============================================================================
+    
+if __name__ == "__main__":
+    main()
