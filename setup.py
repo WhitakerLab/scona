@@ -23,4 +23,8 @@ if __name__ == '__main__':
         install_requires=install_requires,
         tests_require=['pytest', 'unittest'],
         test_suite='py.test',
+        scripts=[
+            'wrappers/corrmat_from_regionalmeasures',
+            'wrappers/network_analysis_from_corrmat',
+            'wrappers/scona'],
     )

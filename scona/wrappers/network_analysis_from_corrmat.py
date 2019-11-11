@@ -1,103 +1,10 @@
 #!/usr/bin/env python
 
-# =============================================================================
-# Created by Kirstie Whitaker
-# at Neurohackweek 2016 in Seattle, September 2016
-# Contact: kw401@cam.ac.uk
-# =============================================================================
-
-# =============================================================================
-# IMPORTS
-# =============================================================================
 import os
-import argparse
-import textwrap
-
 import scona as scn
 from scona.scripts.useful_functions import read_in_data, \
     write_out_measures
-
-# =============================================================================
-# FUNCTIONS
-# =============================================================================
-
-
-def setup_argparser():
-    '''
-    Code to read in arguments from the command line
-    Also allows you to change some settings
-    '''
-    # Build a basic parser.
-    help_text = (('Generate a graph as a fixed cost from a non-thresholded\n')
-                 + ('matrix and return global and nodal measures.'))
-
-    sign_off = 'Author: Kirstie Whitaker <kw401@cam.ac.uk>'
-
-    parser = argparse.ArgumentParser(
-        description=help_text,
-        epilog=sign_off,
-        formatter_class=argparse.RawTextHelpFormatter)
-
-    # Now add the arguments
-    parser.add_argument(
-        dest='corr_mat_file',
-        type=str,
-        metavar='corr_mat_file',
-        help=textwrap.dedent(('Text file (tab or space delimited) that \
-contains the unthresholded\n') + ('matrix with no column or row labels.')))
-
-    parser.add_argument(
-        dest='names_file',
-        type=str,
-        metavar='names_file',
-        help=textwrap.dedent(('Text file that contains the names of each \
-region, in the same\n') + ('order as the correlation matrix. One region \
-name on each line.')))
-
-    parser.add_argument(
-        dest='centroids_file',
-        type=str,
-        metavar='centroids_file',
-        help=textwrap.dedent(('Text file that contains the x, y, z \
-coordinates of each region,\n') + ('in the same order as the correlation \
-matrix. One set of three\n') + ('coordinates, tab or space delimited, on each \
-line.')))
-
-    parser.add_argument(
-        dest='output_dir',
-        type=str,
-        metavar='output_dir',
-        help=textwrap.dedent(('Location in which to save global and nodal \
-measures.')))
-
-    parser.add_argument(
-        '-c', '--cost',
-        type=float,
-        metavar='cost',
-        help=textwrap.dedent(('Cost at which to threshold the matrix.\n') +
-                             ('  Default: 10.0')),
-        default=10.0)
-
-    parser.add_argument(
-        '-n', '--n_rand',
-        type=int,
-        metavar='n_rand',
-        help=textwrap.dedent(('Number of random graphs to generate to compare \
-with real network.\n') + ('  Default: 1000')),
-        default=1000)
-
-    parser.add_argument(
-        '-s', '--seed', '--random_seed',
-        type=int,
-        metavar='seed',
-        help=textwrap.dedent(('Set a random seed to pass to the random graph \
-creator.\n') + ('  Default: None')),
-        default=None)
-
-    arguments = parser.parse_args()
-
-    return arguments, parser
-
+from scona.wrappers.parsers import network_analysis_from_corrmat_parser
 
 def network_analysis_from_corrmat(corr_mat_file,
                                   names_file,
@@ -173,7 +80,7 @@ def network_analysis_from_corrmat(corr_mat_file,
 if __name__ == "__main__":
 
     # Read in the command line arguments
-    arg, parser = setup_argparser()
+    arg = network_analysis_from_corrmat_parser.parse_args()
 
     # Now run the main function :)
     network_analysis_from_corrmat(
