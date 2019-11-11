@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-PACKAGES = find_packages()
 
 install_requires = [
    "pandas",
@@ -17,14 +16,15 @@ if __name__ == '__main__':
     setup(
         name='scona',
         version='0.1dev',
-        packages=PACKAGES,
+        packages=find_packages(),
         package_data={'': ['*.txt', '*.csv']},
         license='MIT license',
         install_requires=install_requires,
         tests_require=['pytest', 'unittest'],
         test_suite='py.test',
-        scripts=[
-            'wrappers/corrmat_from_regionalmeasures',
-            'wrappers/network_analysis_from_corrmat',
-            'wrappers/scona'],
-    )
+        entry_points={
+            'console_scripts' : [
+                'scona = scona.wrappers.scona:main',
+                'corrmat_from_regionalmeasures = scona.wrappers.corrmat_from_regionalmeasures:main',
+                'network_analysis_from_corrmat = scona.wrappers.network_analysis_from_corrmat:main']},
+        )
