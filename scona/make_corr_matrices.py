@@ -55,10 +55,11 @@ def split_groups(df, group_var, shuffle=False):
             "The group_var argument '{}' does not index a column in this
             dataframe.")
     split_dict = {}
+
     if shuffle is False:
         for value in set(df.loc[:, group_var].values):
             split_dict[value] = df.loc[df[group_var] == value, :]
-        return split_dict
+
     elif shuffle is True:
         # if shuffle is true, create a new dataframe, with a new column,
         # identical to the group_var column, only randomly permuted.
@@ -67,7 +68,10 @@ def split_groups(df, group_var, shuffle=False):
         df[group_rand] = np.random.permutation(df.loc[:, group_var].values)
         for value in set(df.loc[:, group_rand].values):
             split_dict[value] = df.loc[df[group_rand] == value, :]
-        return split_dict
+        # and clean up by deleting the new column
+        del df[group_rand]
+        
+    return split_dict
 
 
 def create_residuals_df(df, names, covars=[]):
