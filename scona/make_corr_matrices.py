@@ -31,7 +31,6 @@ def get_non_numeric_cols(df):
 def split_groups(df, group_var, shuffle=False):
     '''
     Separate a dataframe into different participant groups.
-
     Parameters
     ----------
     df : :class:`pandas.DataFrame`
@@ -59,6 +58,7 @@ def split_groups(df, group_var, shuffle=False):
     if shuffle:
         # we randomly shuffle the group codings of participants by
         # inserting a new column
+        df = df.copy()
         group_rand = "rand_{}".format(group_var)
         df[group_rand] = np.random.permutation(df.loc[:, group_var].values)
         for value in set(df.loc[:, group_rand].values):
