@@ -52,8 +52,7 @@ def split_groups(df, group_var, shuffle=False):
     '''
     if group_var not in df.columns:
         raise ValueError(
-            "The group_var argument '{}' does not index a column in this
-            dataframe.")
+            "The group_var argument '{}' does not index a column in this dataframe.")
     split_dict = {}
     if shuffle:
         # we randomly shuffle the group codings of participants by
