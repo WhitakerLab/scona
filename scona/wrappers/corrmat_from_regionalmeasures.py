@@ -9,107 +9,10 @@
 # ============================================================================
 # IMPORTS
 # ============================================================================
-import argparse
-import textwrap
 
 import scona.make_corr_matrices as mcm
 from scona.scripts.useful_functions import read_in_data
-
-
-def setup_argparser():
-    # Build a basic parser.
-    help_text = (('Generate a structural correlation \
-    matrix from an input csv file,\n') + ('a list of \
-    region names and (optional) covariates.'))
-
-    sign_off = 'Author: Kirstie Whitaker <kw401@cam.ac.uk>'
-
-    parser = argparse.ArgumentParser(
-        description=help_text,
-        epilog=sign_off,
-        formatter_class=argparse.RawTextHelpFormatter)
-
-    # Now add the arguments
-    parser.add_argument(
-        dest='regional_measures_file',
-        type=str,
-        metavar='regional_measures_file',
-        help=textwrap.dedent(
-            ('A CSV file containing regional values for each participant.\
-\n') +
-            ('Column labels should include the region names or covariate \
-variable\n') +
-            ('names. All participants in the file will be correlated over\n')))
-
-    parser.add_argument(
-        dest='names_file',
-        type=str,
-        metavar='names_file',
-        help=textwrap.dedent(('Text file that contains the names of each \
-region to be included\n') + ('in the correlation matrix. One region name \
-on each line.')))
-
-    parser.add_argument(
-        dest='output_name',
-        type=str,
-        metavar='output_name',
-        help=textwrap.dedent(
-            ('File name of the output correlation matrix.\n') +
-            ('If the output directory does not yet exist it will be \
-created.\n') +
-            ('If an argument is passed to `--group_by`, output names \
-will have the appropriate group coding appended to them'
-        ))
-
-    parser.add_argument(
-        'covariates',
-        type=list,
-        metavar='covariates',
-        help=textwrap.dedent(
-            ('List of variables that should be covaried for before \
-the creation\n') +
-            ('of the correlation matrix. Overrides `--covars_file` \
-argument below\n') +
-            ('Default: None')),
-        default=None)
-
-    parser.add_argument(
-        '--covars_file',
-        type=str,
-        metavar='covars_file',
-        help=textwrap.dedent(
-            ('Text file that contains the names of variables that \
-should be\n') +
-            ('covaried for each regional measure before the creation \
-of the\n') +
-            ('correlation matrix. One variable name on each line.\n') +
-            ('  Default: None')),
-        default=None)
-
-    parser.add_argument(
-        '--corr_method',
-        type=str,
-        metavar='method',
-        help=textwrap.dedent(
-            ('Flag submitted to pandas.DataFrame.corr().\n') +
-            ('options are "pearson", "spearman", "kendall"')),
-        default='pearson')
-
-    parser.add_argument(
-        '--group_by',
-        type=str,
-        metavar='group_var',
-        help=textwrap.dedent(
-            ('This variable can be used to specify a column in \
-`regional_measures_file`\n') +
-            ('containing the group coding. A correlation matrix will be produced for each patient group.\n') +
-            ('  Default: None')),
-        default=None)
-    
-    arguments = parser.parse_args()
-
-    return arguments, parser
-
+from scona.wrappers.parsers import corrmat_from_regionalmeasures_parser
 
 def corrmat_from_regionalmeasures(regional_measures_file,
                                   output_name=None,
@@ -208,11 +111,9 @@ def corrmat_from_regionalmeasures(regional_measures_file,
         return matrix_by_group
             
 
-
-if __name__ == "__main__":
-
+def main():
     # Read in the command line arguments
-    arg, parser = setup_argparser()
+    arg = corrmat_from_regionalmeasures_parser.parse_args()
 
     # Now run the main function :)
     corrmat_from_regionalmeasures(
@@ -224,6 +125,6 @@ if __name__ == "__main__":
         method=arg.method,
         group_var=arg.group_var)
 
-# ============================================================================
-# Wooo! All done :)
-# ============================================================================
+    
+if __name__ == "__main__":
+    main()
