@@ -25,8 +25,8 @@ def recreate_correlation_matrix_fixture(folder):
     corrmat_path = os.path.join(folder, 'corrmat_file.txt')
     scn.wrappers.corrmat_from_regionalmeasures(
         regionalmeasures,
-        names,
-        corrmat_path)
+        names_file=names,
+        output_name=corrmat_path)
 
 
 def recreate_network_analysis_fixture(folder, corrmat_path):

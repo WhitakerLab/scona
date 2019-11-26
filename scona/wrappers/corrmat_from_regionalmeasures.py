@@ -73,15 +73,17 @@ def corrmat_from_regionalmeasures(regional_measures_file,
         A correlation matrix, or a dictionary of group codings mapping to
         correlation matrices. 
     '''
-    if names is None and names_file is None:
-        raise Exception(
-            "You must pass the names of brain regions you want to examine.\n"
-            + "Use either the `names_list` or the `names_file` argument.")
-    # Read in the data
-    df, names, covars_list, *a = read_in_data(
-        regional_measures_file,
-        names_file,
-        covars_file=covars_file)
+    if names_list is None:
+        if names_file is None:
+            raise Exception(
+                "You must pass the names of brain regions you want to examine.\n"
+                + "Use either the `names_list` or the `names_file` argument.")
+        else:
+            # Read in the data
+            df, names_list, covars_list, *a = read_in_data(
+                regional_measures_file,
+                names_file,
+                covars_file=covars_file)
 
     if covariates is not None:
         covars_list=covariates
@@ -89,7 +91,7 @@ def corrmat_from_regionalmeasures(regional_measures_file,
     if group_var is None:
         # create correlation matrix
         M = mcm.corrmat_from_regionalmeasures(
-            df, names, covars=covars_list, method=method)
+            df, names_list, covars=covars_list, method=method)
         if output_name is not None:
             # Save the matrix
             mcm.save_mat(M, output_name)
@@ -103,7 +105,7 @@ def corrmat_from_regionalmeasures(regional_measures_file,
         for group_code, group_df in df_by_group:
             # create correlation matrix
             M = mcm.corrmat_from_regionalmeasures(
-            group_df, names, covars=covars_list, method=method)
+            group_df, names_list, covars=covars_list, method=method)
             if output_name is not None:
                 # Save the matrix
                 mcm.save_mat(M, output_name+str(group_code))
