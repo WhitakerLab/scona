@@ -16,7 +16,7 @@ from scona.wrappers.parsers import corrmat_from_regionalmeasures_parser
 
 def corrmat_from_regionalmeasures(regional_measures_file,
                                   names_file,
-                                  output_name,
+                                  output_name=None,
                                   covars_file=None,
                                   method='pearson'):
     '''
@@ -44,7 +44,11 @@ def corrmat_from_regionalmeasures(regional_measures_file,
         df, names, covars=covars_list, method=method)
 
     # Save the matrix
-    mcm.save_mat(M, output_name)
+    if output_name is not None:
+        mcm.save_mat(M, output_name)
+
+    return M
+    
 
 def main():
     # Read in the command line arguments
@@ -54,7 +58,7 @@ def main():
     corrmat_from_regionalmeasures(
         arg.regional_measures_file,
         arg.names_file,
-        arg.output_name,
+        output_name=arg.output_name,
         covars_file=arg.covars_file,
         method=arg.method)
 

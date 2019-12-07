@@ -27,13 +27,14 @@ region to be included\n') + ('in the correlation matrix. One region name \
 on each line.')))
 
 corrmat_parser.add_argument(
-    dest='output_name',
+    '--output_name',
     type=str,
     metavar='output_name',
     help=textwrap.dedent(
-        ('File name of the output correlation matrix.\n') +
+        ('Pass a file name to save the output correlation matrix.\n') +
         ('If the output directory does not yet exist it will be \
-        created.')))
+        created.')),
+    default=None)
 
 corrmat_parser.add_argument(
     '--covars_file',
@@ -57,16 +58,17 @@ corrmat_parser.add_argument(
         ('options are "pearson", "spearman", "kendall"')),
     default='pearson')
 
-networkanalysis_parser = argparse.ArgumentParser(add_help=False)
+networkanalysis_or_scona_parser = argparse.ArgumentParser(add_help=False)
+networkanalysis_only_parser = argparse.ArgumentParser(add_help=False)
 
-networkanalysis_parser.add_argument(
+networkanalysis_only_parser.add_argument(
     dest='corr_mat_file',
     type=str,
     metavar='corr_mat_file',
     help=textwrap.dedent(('Text file (tab or space delimited) that \
     contains the unthresholded\n') + ('matrix with no column or row labels.')))
 
-networkanalysis_parser.add_argument(
+networkanalysis_only_parser.add_argument(
     dest='names_file',
     type=str,
     metavar='names_file',
@@ -74,7 +76,7 @@ networkanalysis_parser.add_argument(
     region, in the same\n') + ('order as the correlation matrix. One region \
     name on each line.')))
 
-networkanalysis_parser.add_argument(
+networkanalysis_or_scona_parser.add_argument(
     dest='centroids_file',
     type=str,
     metavar='centroids_file',
@@ -83,14 +85,14 @@ networkanalysis_parser.add_argument(
     matrix. One set of three\n') + ('coordinates, tab or space delimited, on each \
     line.')))
 
-networkanalysis_parser.add_argument(
+networkanalysis_or_scona_parser.add_argument(
     dest='output_dir',
     type=str,
     metavar='output_dir',
     help=textwrap.dedent(('Location in which to save global and nodal \
     measures.')))
 
-networkanalysis_parser.add_argument(
+networkanalysis_or_scona_parser.add_argument(
     '-c', '--cost',
     type=float,
     metavar='cost',
@@ -98,7 +100,7 @@ networkanalysis_parser.add_argument(
     ('  Default: 10.0')),
     default=10.0)
 
-networkanalysis_parser.add_argument(
+networkanalysis_or_scona_parser.add_argument(
     '-n', '--n_rand',
     type=int,
     metavar='n_rand',
@@ -106,7 +108,7 @@ networkanalysis_parser.add_argument(
     with real network.\n') + ('  Default: 1000')),
     default=1000)
 
-networkanalysis_parser.add_argument(
+networkanalysis_or_scona_parser.add_argument(
     '-s', '--seed', '--random_seed',
     type=int,
     metavar='seed',
@@ -124,12 +126,12 @@ corrmat_from_regionalmeasures_parser=argparse.ArgumentParser(
     formatter_class=argparse.RawTextHelpFormatter)
 
 network_analysis_from_corrmat_parser=argparse.ArgumentParser(
-    parents=[networkanalysis_parser],
+    parents=[networkanalysis_or_scona_parser, networkanalysis_only_parser],
     description=(('Generate a graph as a fixed cost from a non-thresholded\n')
                  + ('matrix and return global and nodal measures.')),
     formatter_class=argparse.RawTextHelpFormatter)
 
 scona_parser = argparse.ArgumentParser(
-    parents=[corrmat_parser, networkanalysis_parser],
+    parents=[corrmat_parser, networkanalysis_or_scona_parser],
     description="generate network analysis from regional measures.",
     formatter_class=argparse.RawTextHelpFormatter)
