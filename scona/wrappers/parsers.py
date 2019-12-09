@@ -11,7 +11,7 @@ corrmat_parser.add_argument(
     type=str,
     metavar='regional_measures_file',
     help=textwrap.dedent(
-        ('CSV file that contains regional values for each participant.\
+        ('Relative path to CSV file reporting regional values for each participant.\
         \n') +
         ('Column labels should be the region names or covariate \
         variable\n') +
@@ -22,7 +22,7 @@ corrmat_parser.add_argument(
     dest='names_file',
     type=str,
     metavar='names_file',
-    help=textwrap.dedent(('Text file that contains the names of each \
+    help=textwrap.dedent(('Relative path to text file that contains the names of each \
 region to be included\n') + ('in the correlation matrix. One region name \
 on each line.')))
 
@@ -31,7 +31,7 @@ corrmat_parser.add_argument(
     type=str,
     metavar='output_name',
     help=textwrap.dedent(
-        ('Pass a file name to save the output correlation matrix.\n') +
+        ('Pass a (relative) file name to save the output correlation matrix.\n') +
         ('If the output directory does not yet exist it will be \
         created.')),
     default=None)
@@ -45,7 +45,8 @@ corrmat_parser.add_argument(
         should be\n') +
         ('covaried for each regional measure before the creation \
         of the\n') +
-        ('correlation matrix. One variable name on each line.\n') +
+        ('correlation matrix. One variable name on each line. \
+        Relative path.\n') +
         ('  Default: None')),
     default=None)
 
@@ -65,7 +66,7 @@ networkanalysis_only_parser.add_argument(
     dest='corr_mat_file',
     type=str,
     metavar='corr_mat_file',
-    help=textwrap.dedent(('Text file (tab or space delimited) that \
+    help=textwrap.dedent(('Relative path to text file (tab or space delimited) that \
     contains the unthresholded\n') + ('matrix with no column or row labels.')))
 
 networkanalysis_only_parser.add_argument(
@@ -80,7 +81,7 @@ networkanalysis_or_scona_parser.add_argument(
     dest='centroids_file',
     type=str,
     metavar='centroids_file',
-    help=textwrap.dedent(('Text file that contains the x, y, z \
+    help=textwrap.dedent(('Relative path to text file that contains the x, y, z \
     coordinates of each region,\n') + ('in the same order as the correlation \
     matrix. One set of three\n') + ('coordinates, tab or space delimited, on each \
     line.')))
@@ -89,7 +90,7 @@ networkanalysis_or_scona_parser.add_argument(
     dest='output_dir',
     type=str,
     metavar='output_dir',
-    help=textwrap.dedent(('Location in which to save global and nodal \
+    help=textwrap.dedent(('Relative path to a directory in which to save global and nodal \
     measures.')))
 
 networkanalysis_or_scona_parser.add_argument(

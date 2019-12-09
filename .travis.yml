@@ -14,7 +14,13 @@ install:
 script:
   - python3 -m pytest -v --ignore=tests/regression_test.py
 # temporarily ignore regression tests while we investigate why they are failing
-  - cd docs
+
+# check cli installation
+scona -h
+corrmat_from_regionalmeasures -h
+network_analysis_from_corrmat -h
+
+- cd docs
   - make html
   - touch .nojekyll
 after_success:

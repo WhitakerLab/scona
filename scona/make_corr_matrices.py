@@ -176,7 +176,7 @@ def save_mat(M, name):
     # exists, and make it if it does not
     dirname = os.path.dirname(name)
 
-    if not os.path.isdir(dirname):
+    if not os.path.isdir(dirname) and dirname != "":
         os.makedirs(dirname)
 
     # Save the matrix as a text file
