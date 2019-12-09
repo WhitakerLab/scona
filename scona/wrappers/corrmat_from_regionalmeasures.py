@@ -68,15 +68,17 @@ def corrmat_from_regionalmeasures(regional_measures_file,
         A correlation matrix, or a dictionary of group codings mapping to
         correlation matrices. 
     '''
-    if names is None and names_file is None:
-        raise Exception(
-            "You must pass the names of brain regions you want to examine.\n"
-            + "Use either the `names_list` or the `names_file` argument.")
-    # Read in the data
-    df, names, covars_list, *a = read_in_data(
-        regional_measures_file,
-        names_file,
-        covars_file=covars_file)
+    if names_list is None:
+        if names_file is None:
+            raise Exception(
+                "You must pass the names of brain regions you want to examine.\n"
+                + "Use either the `names_list` or the `names_file` argument.")
+        else:
+            # Read in the data
+            df, names, covars_list, *a = read_in_data(
+                regional_measures_file,
+                names_file,
+                covars_file=covars_file)
 
     if group_var is None:
         # create correlation matrix
