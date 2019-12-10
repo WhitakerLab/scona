@@ -188,10 +188,10 @@ def corrmat_from_regionalmeasures(
         names and covars_list
     names : list
         a list of the brain regions you wish to correlate
-    covars: list
+    covars: list, optional
         covars is a list of covariates (as DataFrame column headings)
         to correct for before correlating the regions.
-    methods : string
+    methods : string, optional
         the method of correlation passed to :func:`pandas.DataFrame.corr`
 
     Returns
@@ -207,6 +207,51 @@ def corrmat_from_regionalmeasures(
 
     return M
 
+def corrmat_by_group(
+        regional_measures,
+        names,
+        group_var,
+        covars=None,
+        method='pearson',
+        group_var):
+    '''
+    Separate `regional_measures` rows by their `group_var` value. 
+    Create a dictionary mapping each value of the `group_var` column
+    to a correlation matrix.
+
+    Parameters
+    ----------
+    regional_measures : :class:`pandas.DataFrame`
+        a pandas DataFrame with subjects as rows, and columns representing
+        brain regions, covariates and group codings. Should be numeric for
+        the columns in names and covars_list.
+    names : list
+        a list of the brain regions you wish to correlate
+    group_var : str
+        a string indexing a column in regional_measure containing the
+        group coding data.
+    covars: list, optional
+        covars is a list of covariates (as DataFrame column headings)
+        to correct for before correlating the regions.
+    methods : string, optional
+        the method of correlation passed to :func:`pandas.DataFrame.corr`
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        A correlation matrix with rows and columns keyed by `names`
+    '''
+    # split dataframe by group coding
+    df_by_group = split_groups(regional_measures, group_var)
+    
+    matrix_by_group=dict()
+    # iterate over groups to create correlation matrices
+    for group_code, group_df in df_by_group:
+        M = mcm.corrmat_from_regionalmeasures(
+            group_df, names, covars=covars_list, method=method)
+        matrix_by_group[group_code] = M
+
+    return matrix_by_group
 
 def save_mat(M, name):
     '''

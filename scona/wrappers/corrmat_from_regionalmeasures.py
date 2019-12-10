@@ -65,20 +65,14 @@ def corrmat_from_regionalmeasures(regional_measures_file,
     Returns
     -------
     :class:`pandas.DataFrame or dict
-        A correlation matrix, or a dictionary of group codings mapping to
+        A correlation matrix, or, if a group_var is passed, a dictionary of group codings mapping to
         correlation matrices. 
     '''
-    if names_list is None:
-        if names_file is None:
-            raise Exception(
-                "You must pass the names of brain regions you want to examine.\n"
-                + "Use either the `names_list` or the `names_file` argument.")
-        else:
-            # Read in the data
-            df, names, covars_list, *a = read_in_data(
-                regional_measures_file,
-                names_file,
-                covars_file=covars_file)
+    # Read in the data
+    df, names, covars_list, *a = read_in_data(
+        regional_measures_file,
+        names_file,
+        covars_file=covars_file)
 
     if group_var is None:
         # create correlation matrix
@@ -90,23 +84,18 @@ def corrmat_from_regionalmeasures(regional_measures_file,
         return M
 
     else:
-        # split dataframe by group coding
-        df_by_group = split_groups(df, group_var)
-        matrix_by_group=dict()
-        # iterate over groups
-        for group_code, group_df in df_by_group:
-            # create correlation matrix
-            M = mcm.corrmat_from_regionalmeasures(
-            group_df, names, covars=covars_list, method=method)
-            if output_name is not None:
-                # Save the matrix
+        # create matrices
+        matrix_by_group = corrmat_by_group(
+            df,
+            names,
+            group_var,
+            covars=covars_list,
+            method=method)
+        # if necessary write out matrices
+        if output_name is not None:
+            for group_code, M in matrix_by_group:
                 mcm.save_mat(M, output_name+str(group_code))
-            matrix_by_group[group_code] = M
         return matrix_by_group
-            
-
-
-    return M
     
 
 def main():

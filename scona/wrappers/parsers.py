@@ -5,6 +5,22 @@ import textwrap
 # Set up parent arg parsers
 
 corrmat_parser = argparse.ArgumentParser(add_help=False)
+corrmat_only_parser = argparse.ArgumentParser(add_help=False)
+networkanalysis_or_scona_parser = argparse.ArgumentParser(add_help=False)
+networkanalysis_only_parser = argparse.ArgumentParser(add_help=False)
+scona_only_parser = argparse.ArgumentParser(add_help=False)
+
+# Fill parent parsers
+
+corrmat_only_parser.add_argument(
+    '--group_var',
+    type=str,
+    metavar=group_var,
+    help=textwrap.dedent(
+        ("If a group_var is passed correlation matrices will be constructed per \
+        participant group, as indexed by the group_var column in the \
+regional measures file")),
+    default=None)
 
 corrmat_parser.add_argument(
     dest='regional_measures_file',
@@ -59,15 +75,12 @@ corrmat_parser.add_argument(
         ('options are "pearson", "spearman", "kendall"')),
     default='pearson')
 
-networkanalysis_or_scona_parser = argparse.ArgumentParser(add_help=False)
-networkanalysis_only_parser = argparse.ArgumentParser(add_help=False)
-
 networkanalysis_only_parser.add_argument(
     dest='corr_mat_file',
     type=str,
     metavar='corr_mat_file',
     help=textwrap.dedent(('Relative path to text file (tab or space delimited) that \
-    contains the unthresholded\n') + ('matrix with no column or row labels.')))
+    contains the unthresholded\n') + ('correlation matrix with no column or row labels.')))
 
 networkanalysis_only_parser.add_argument(
     dest='names_file',
@@ -117,10 +130,21 @@ networkanalysis_or_scona_parser.add_argument(
     creator.\n') + ('  Default: None')),
     default=None)
 
+scona_only_parser.add_argument(
+    '--group_var',
+    type=str,
+    metavar=group_var,
+    help=textwrap.dedent(
+        ("If a group_var is passed networks will be constructed per \
+        participant group, as indexed by the group_var column in the \
+regional measures file")),
+    default=None)
+
+
 # Build specific parsers
 
 corrmat_from_regionalmeasures_parser=argparse.ArgumentParser(
-    parents=[corrmat_parser],
+    parents=[corrmat_parser, corrmat_only_parser],
     description=(('Generate a structural correlation \
     matrix from an input csv file,\n') + ('a list of \
     region names and (optional) covariates.')),
@@ -133,6 +157,6 @@ network_analysis_from_corrmat_parser=argparse.ArgumentParser(
     formatter_class=argparse.RawTextHelpFormatter)
 
 scona_parser = argparse.ArgumentParser(
-    parents=[corrmat_parser, networkanalysis_or_scona_parser],
+    parents=[corrmat_parser, networkanalysis_or_scona_parser, scona_only_parser],
     description="generate network analysis from regional measures.",
     formatter_class=argparse.RawTextHelpFormatter)
