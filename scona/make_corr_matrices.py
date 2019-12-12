@@ -28,11 +28,11 @@ def get_non_numeric_cols(df):
     return non_numeric_cols
 
 
-def generate_windows(df, window_var, window_size, shuffle=False):
+def generate_windows(df, window_var, window_size, shuffle=False, seed=None):
     if window_var not in get_non_numeric_columns(df):
         raise TypeError("`window_var` must index a numeric column")
     if shuffle:
-        sorted_df = df.sample(frac=1)
+        sorted_df = df.sample(frac=1, random_state=seed)
     else:
         sorted_df = df.sort_values(by=[window_var])
     moving_window_df = {}
@@ -41,7 +41,7 @@ def generate_windows(df, window_var, window_size, shuffle=False):
     return moving_window_df
     
 
-def split_groups(df, group_var, shuffle=False):
+def split_groups(df, group_var, shuffle=False, seed=None):
     '''
     Separate a dataframe into different participant groups.
 
@@ -76,6 +76,8 @@ def split_groups(df, group_var, shuffle=False):
     elif shuffle is True:
         # if shuffle is true, create a new dataframe, with a new column,
         # identical to the group_var column, only randomly permuted.
+        if seed is not None:
+            np.random.seed(seed)
         df = df.copy()
         group_rand = "rand_{}".format(group_var)
         df[group_rand] = np.random.permutation(df.loc[:, group_var].values)
@@ -226,7 +228,8 @@ def corrmat_by_group(
         group_var,
         covars=None,
         method='pearson',
-        shuffle=False):
+        shuffle=False,
+        seed=None):
     '''
     Separate `regional_measures` rows by their `group_var` value. 
     Create a dictionary mapping each value of the `group_var` column
@@ -258,7 +261,8 @@ def corrmat_by_group(
         A correlation matrix with rows and columns keyed by `names`
     '''
     # split dataframe by group coding
-    df_by_group = split_groups(regional_measures, group_var, shuffle=shuffle)
+    df_by_group = split_groups(
+        regional_measures, group_var, shuffle=shuffle, seed=seed)
     
     matrix_by_group=dict()
     # iterate over groups to create correlation matrices
@@ -276,7 +280,8 @@ def corrmat_by_window(
         window_size,
         covars=None,
         method='pearson',
-        shuffle=False):
+        shuffle=False,
+        seed=None):
     '''
     Bin `regional_measures` rows by their value in `window_var` column. 
     Return 
@@ -311,7 +316,7 @@ def corrmat_by_window(
     '''
     # create moving window of dataframe
     df_by_window = generate_windows(
-        regional_measures, window_var, window_size, shuffle=shuffle)
+        regional_measures, window_var, window_size, shuffle=shuffle, seed=seed)
 
     # iterate over windows to create correlation matrices
     matrix_by_window = {}

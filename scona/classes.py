@@ -64,10 +64,8 @@ class BrainNetwork(nx.classes.graph.Graph):
 
         # ===== Give anatomical labels to nodes ======
         if parcellation is not None:
-            # assign parcellation names to nodes
             self.set_parcellation(parcellation)
         if centroids is not None:
-            # assign centroids to nodes
             self.set_centroids(centroids)
         # Tell BrainNetwork class which attributes to consider "anatomical"
         # and therefore preserve when copying or creating new graphs
@@ -82,6 +80,7 @@ class BrainNetwork(nx.classes.graph.Graph):
             regional_measures,
             names,
             covars=None,
+            centroids=None,
             method='pearson'):
         '''
         Create a weighted graph by calculating the correlation of
@@ -101,6 +100,10 @@ class BrainNetwork(nx.classes.graph.Graph):
             to correct for before correlating the regions.
         methods : string, optional
             the method of correlation passed to :func:`pandas.DataFrame.corr`
+        parcellation : list of str, optional
+            A list of node names, passed to :func:`BrainNetwork.set_parcellation`
+        centroids : list of tuple, optional
+            A list of node centroids, passed to :func:`BrainNetwork.set_centroids`
 
         Returns
         -------
@@ -115,7 +118,9 @@ class BrainNetwork(nx.classes.graph.Graph):
             names,
             covars=covars,
             method=method)
-        return cls(array)
+        return cls(network=array,
+                   centroids=centroids,
+                   parcellation=parcellation)
 
     def threshold(self, cost, mst=True):
         '''
@@ -526,14 +531,10 @@ class BrainNetwork(nx.classes.graph.Graph):
 
 class GraphBundle(dict):
     '''
-    The GraphBundle class (after instantiating - object) is the scona way to
-    handle across-network comparisons.
-    What is it?
-    Essentially it's a python dictionary with BrainNetwork objects as values
-    (:class:`str`: :class:`BrainNetwork` pairs).
-
-    Mainly used to create random graphs for comparison with your original
-    network data.
+    In structural covariance analysis, we frequently find ourselves working
+    with large numbers of networks in parallel. `scona` handles this using
+    the :class:`GraphBundle` class. This is a wrapper on a dictionary class
+    with a few useful tools added.
 
     Parameters
     ----------
@@ -548,7 +549,11 @@ class GraphBundle(dict):
     Example
     -------
     '''
-    def __init__(self, graph_dict=None, graph_list=None, name_list=None):
+    def __init__(self,
+                 graph_dict=None,
+                 graph_list=None,
+                 name_list=None):
+
         dict.__init__(self)
         if graph_dict is not None:
             self.add_graphs(graph_dict)
@@ -592,7 +597,8 @@ class GraphBundle(dict):
         groupby=None,
         windowby=None,
         window_size=10,
-        shuffle=False):
+        seed=None, 
+        shuffle=False ):
         '''
         Create a weighted graph by calculating the correlation of
         `names` columns over the rows of `regional_measures` after
@@ -641,7 +647,8 @@ class GraphBundle(dict):
                 groupby,
                 covars=covars,
                 method=method,
-                shuffle=shuffle)
+                shuffle=shuffle,
+                seed=seed)
             return cls(graph_dict=array_dict)
 
         elif windowby is not None:
@@ -652,7 +659,8 @@ class GraphBundle(dict):
                 window_size,
                 covars=covars,
                 method=method,
-                shuffle=shuffle)
+                shuffle=shuffle,
+                seed=seed)
             return cls(graph_dict=array_dict)
 
         else:
@@ -664,26 +672,71 @@ class GraphBundle(dict):
                     method=method
                     )]
             return cls(graph_list=array_list)
-        
 
     def apply(self, graph_function):
         '''
-        Apply a user defined function to each network in a :class:`GraphBundle`.
+        Apply graph_function to each :class:`BrainNetwork` in
+        :class:`GraphBundle`, modifying :class:`GraphBundle` in place.
 
         Parameters
         ----------
         graph_function : :class:`types.FunctionType`
-            Function defined on a :class:`BrainNetwork` object
+            Function accepting a :class:`BrainNetwork` object
+        '''
+        for name, graph in self.items():
+            self[name] = graph_function(graph)
+
+    def threshold(self, cost, mst=True):
+        '''
+        Create binary graphs by thresholding each weighted BrainNetwork in 
+        self by applying :func:`BrainNetwork.threshold`. 
+
+        Parameters
+        ----------
+        cost : float
+            A number between 0 and 100. The resulting graph will have the
+            ``cost*n/100`` highest weighted edges from G, where
+            ``n`` is the number of edges in G.
+        mst : bool, optional
+            If ``False``, skip creation of minimum spanning tree. This may
+            cause output graph to be disconnected
+
+        Raises
+        ------
+        Exception
+            If it is impossible to create a minimum_spanning_tree at the given
+            cost
+
+        See Also
+        --------
+        :func:`BrainNetwork.threshold`
+        '''
+        self.apply(lambda x : x.threshold(cost=cost, mst=mst))
+
+    def evaluate(self, graph_function):
+        '''
+        Evaluate a function over each network in :class:`GraphBundle`.
+
+        Parameters
+        ----------
+        graph_function : :class:`types.FunctionType`
+            Function accepting a :class:`BrainNetwork` object
+
+        Returns
+        -------
+        dict
+            dictionary mapping network name to graph_function(network)
+            for each network in GraphBundle.
 
         Example
         -------
         To calculate and return the degree for each network in a
-        :class:`GraphBundle` pass this following expression to `apply`
+        :class:`GraphBundle` pass this following expression to `evaluate`
         as the `graph_function`.
 
         .. code-block:: python
             get_degree = lambda x: x.calculate_nodal_measures(measure_list=["degree"])
-            brain_bundle.apply(graph_function=get_degree)
+            brain_bundle.evaluate(graph_function=get_degree)
         '''
         global_dict = {}
         for name, graph in self.items():
@@ -714,8 +767,8 @@ class GraphBundle(dict):
         --------
         :func:`BrainNetwork.calculate_global_measures`
         '''
-        self.apply(lambda x: x.calculate_global_measures())
-        global_dict = self.apply(lambda x: x.graph['global_measures'])
+        self.evaluate(lambda x: x.calculate_global_measures())
+        global_dict = self.evaluate(lambda x: x.graph['global_measures'])
         if as_dict:
             return global_dict
         else:
@@ -740,7 +793,7 @@ class GraphBundle(dict):
         --------
         :func:`BrainNetwork.rich_club`
         '''
-        rc_dict = self.apply(lambda x: x.rich_club())
+        rc_dict = self.evaluate(lambda x: x.rich_club())
         if as_dict:
             return rc_dict
         else:
@@ -809,7 +862,7 @@ class GraphBundle(dict):
         --------
         :func:`small_world_coefficient`
         '''
-        small_world_dict = self.apply(
+        small_world_dict = self.evaluate(
             lambda x: small_world_coefficient(self[gname], x))
         return small_world_dict
 
@@ -861,44 +914,3 @@ class GraphBundle(dict):
                     nodal_keys=nodal_keys,
                     graph_keys=graph_keys)
                  for G in self.values()])
-
-
-def brain_network_from_regional_measures(
-        self,
-        regional_measures,
-        names,
-        covars=None,
-        method='pearson'):
-    '''
-    Create a weighted graph by calculating the correlation of
-    `names` columns over the rows of `regional_measures` after
-    correcting for covariance with the columns in `covars`.
-
-    Parameters
-    ----------
-    regional_measures : :class:`pandas.DataFrame`
-        a pandas DataFrame with subjects as rows, and columns including
-        brain regions and covariates. Should be numeric for the columns in
-        names and covars_list
-    names : list
-        a list of the brain regions you wish to correlate
-    covars: list, optional
-        covars is a list of covariates (as DataFrame column headings)
-        to correct for before correlating the regions.
-    methods : string, optional
-        the method of correlation passed to :func:`pandas.DataFrame.corr`
-
-    Returns
-    -------
-    :class:`BrainNetwork`
-
-    See Also
-    --------
-    :func:`corrmat_from_regionalmeasures`
-    '''
-    return BrainNetwork(
-        corrmat_from_regionalmeasures(
-            regional_measures,
-            names,
-            covars=covars,
-            method=method))

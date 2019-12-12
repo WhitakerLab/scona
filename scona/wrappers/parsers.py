@@ -1,10 +1,7 @@
 import os
 import argparse
 import textwrap
-
-from scona.wrappers.corrmat_from_regionalmeasures import corrmat_from_regionalmeasures
-from scona.wrappers.network_analysis_from_corrmat import network_analysis_from_corrmat
-from scona.wrappers.scona import standard_analysis, groupwise_analysis, movingwindow_analysis
+from scona.wrappers.scona import standard_analysis, groupwise_analysis, movingwindow_analysis, corrmat_from_regionalmeasures, network_analysis_from_corrmat
 
 
 # Set up parent arg parsers
