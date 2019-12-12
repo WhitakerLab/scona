@@ -39,8 +39,11 @@ from scona.make_corr_matrices import *
 from scona.make_graphs import *
 from scona.graph_measures import *
 from scona.classes import *
+from scona.analyses import *
 
 from scona.wrappers import *
+
+from scona.visualisations_helpers import *
 
 import scona.datasets
 from scona import *

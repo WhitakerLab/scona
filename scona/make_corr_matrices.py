@@ -28,6 +28,67 @@ def get_non_numeric_cols(df):
     return non_numeric_cols
 
 
+def generate_windows(df, window_var, window_size, shuffle=False, seed=None):
+    if window_var not in get_non_numeric_columns(df):
+        raise TypeError("`window_var` must index a numeric column")
+    if shuffle:
+        sorted_df = df.sample(frac=1, random_state=seed)
+    else:
+        sorted_df = df.sort_values(by=[window_var])
+    moving_window_df = {}
+    for t in range(df.shape[0] - window_size + 1):
+        moving_window_df[t] = df.truncate(before=t, after=window_size+t-1)
+    return moving_window_df
+    
+
+def split_groups(df, group_var, shuffle=False, seed=None):
+    '''
+    Separate a dataframe into different participant groups.
+
+    Parameters
+    ----------
+    df : :class:`pandas.DataFrame`
+    group_var : str
+        A string indexing a column of `df` which contains the group coding
+        of each participant
+    shuffle : bool, optional
+        If True is passed split_groups will randomly assign each participant
+        to a group from the original group_var column, preserving the size
+        of the original groups. 
+        This is achieved by drawing values from the group_var column without
+        replacement. This does not modify the dataframe `df`.
+
+    Returns
+    -------
+    dict
+        A dictionary mapping values of the group_var column to a
+        :class:`pandas.DataFrame` of correspondingly coded participants.
+    '''
+    if group_var not in df.columns:
+        raise ValueError(
+            "The group_var argument '{}' does not index a column in this dataframe.")
+    split_dict = {}
+
+    if shuffle is False:
+        for value in set(df.loc[:, group_var].values):
+            split_dict[value] = df.loc[df[group_var] == value, :]
+
+    elif shuffle is True:
+        # if shuffle is true, create a new dataframe, with a new column,
+        # identical to the group_var column, only randomly permuted.
+        if seed is not None:
+            np.random.seed(seed)
+        df = df.copy()
+        group_rand = "rand_{}".format(group_var)
+        df[group_rand] = np.random.permutation(df.loc[:, group_var].values)
+        for value in set(df.loc[:, group_rand].values):
+            split_dict[value] = df.loc[df[group_rand] == value, :]
+        # and clean up by deleting the new column
+        del df[group_rand]
+        
+    return split_dict
+
+
 def create_residuals_df(df, names, covars=[]):
     '''
     Calculate residuals of columns specified by names, correcting for the
@@ -67,9 +128,8 @@ def create_residuals_df(df, names, covars=[]):
     # Make a new data frame that will contain
     # the residuals for each column after correcting for
     # the covariates in covars
-    df_res = df[names+covars].copy()
+    df_res = df[names].copy()
 
-    # Create your covariates array
     if len(covars) > 1:
         x = np.vstack([df[covars]])
     elif len(covars) == 1:
@@ -138,16 +198,16 @@ def corrmat_from_regionalmeasures(
     Parameters
     ----------
     regional_measures : :class:`pandas.DataFrame`
-        a pandas data frame with subjects as rows, and columns including
-        brain regions and covariates. Should be numeric for the columns in
-        names and covars_list
+        a pandas DataFrame with individual brain scans as rows, and 
+        columns including brain regions and covariates. The columns in
+        names and covars_list should be numeric.
     names : list
-        a list of the brain regions you wish to correlate
-    covars: list
-        covars is a list of covariates (as df column headings)
-        to correct for before correlating the regions.
-    methods : string
-        the method of correlation passed to :func:`pandas.DataFrame.corr`
+        a list of the brain regions whose correlation you want to measure
+    covars: list, optional
+        covars is a list of covariates (as DataFrame column headings)
+        to correct for before correlating brain regions.
+    method : string, optional
+        the method of correlation passed to :func:`pandas.DataFramecorr`
 
     Returns
     -------
@@ -162,6 +222,110 @@ def corrmat_from_regionalmeasures(
 
     return M
 
+def corrmat_by_group(
+        regional_measures,
+        names,
+        group_var,
+        covars=None,
+        method='pearson',
+        shuffle=False,
+        seed=None):
+    '''
+    Separate `regional_measures` rows by their `group_var` value. 
+    Create a dictionary mapping each value of the `group_var` column
+    to a correlation matrix.
+
+    Parameters
+    ----------
+    regional_measures : :class:`pandas.DataFrame`
+        a pandas DataFrame with subjects as rows, and columns representing
+        brain regions, covariates and group codings. Should be numeric for
+        the columns in names and covars_list.
+    names : list
+        a list of the brain regions you wish to correlate
+    group_var : str
+        a string indexing a column in regional_measure containing the
+        group coding data.
+    covars: list, optional
+        covars is a list of covariates (as DataFrame column headings)
+        to correct for before correlating the regions.
+    methods : string, optional
+        the method of correlation passed to :func:`pandas.DataFrame.corr`
+    shuffle : bool, optional
+        if True, a random permutation of the group_var column will be
+        used to assign group codings.
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        A correlation matrix with rows and columns keyed by `names`
+    '''
+    # split dataframe by group coding
+    df_by_group = split_groups(
+        regional_measures, group_var, shuffle=shuffle, seed=seed)
+    
+    matrix_by_group=dict()
+    # iterate over groups to create correlation matrices
+    for group_code, group_df in df_by_group:
+        M = mcm.corrmat_from_regionalmeasures(
+            group_df, names, covars=covars_list, method=method)
+        matrix_by_group[group_code] = M
+
+    return matrix_by_group
+
+def corrmat_by_window(
+        regional_measures,
+        names,
+        window_var,
+        window_size,
+        covars=None,
+        method='pearson',
+        shuffle=False,
+        seed=None):
+    '''
+    Bin `regional_measures` rows by their value in `window_var` column. 
+    Return 
+    Create a correlation matrix of the rows selected by...
+
+    Parameters
+    ----------
+    regional_measures : :class:`pandas.DataFrame`
+        a pandas DataFrame with subjects as rows, and columns representing
+        brain regions, covariates and group codings. Should be numeric for
+        the columns in names and covars_list.
+    names : list
+        a list of the brain regions you wish to correlate
+    window_var : str
+        a string indexing a column in regional_measures by which to
+        bin rows
+    window_size : int
+        the number of rows to include in each window
+    covars: list, optional
+        covars is a list of covariates (as DataFrame column headings)
+        to correct for before correlating the regions.
+    methods : string, optional
+        the method of correlation passed to :func:`pandas.DataFrame.corr`
+    shuffle : bool, optional
+        if True, a random permutation of the group_var column will be
+        used to assign group codings.
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        A correlation matrix with rows and columns keyed by `names`
+    '''
+    # create moving window of dataframe
+    df_by_window = generate_windows(
+        regional_measures, window_var, window_size, shuffle=shuffle, seed=seed)
+
+    # iterate over windows to create correlation matrices
+    matrix_by_window = {}
+    for t, window in moving_window_df:
+        M = mcm.corrmat_from_regionalmeasures(
+            window, names, covars=covars_list, method=method)
+        matrix_by_window[t] = M
+
+    return matrix_by_window
 
 def save_mat(M, name):
     '''
@@ -177,7 +341,7 @@ def save_mat(M, name):
     # exists, and make it if it does not
     dirname = os.path.dirname(name)
 
-    if not os.path.isdir(dirname):
+    if not os.path.isdir(dirname) and dirname != "":
         os.makedirs(dirname)
 
     # Save the matrix as a text file

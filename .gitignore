@@ -1,3 +1,8 @@
+# Ignore the figures directory that is created when you run
+# some of the tutorials. We don't want those outputs to be
+# brought up to the github repository.
+tutorials/figures
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -108,3 +113,7 @@ docs/source/_build/
 # stick around. Either way we don't want them in the main
 # repository so lets ignore the directory.
 temporary_test_fixtures/
+
+# ignore the src folder which appears on Kirstie's windows
+# machine (we're not sure wehre it came from!)
+src/

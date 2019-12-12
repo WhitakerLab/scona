@@ -10,19 +10,17 @@ Welcome to the `scona` GitHub repository! :sparkles:
 
 * [Get started](#get-started)
 * [What are we doing?](#what-are-we-doing)
-    * [Why do we need another package?](#why-do-we-need-another-package)
-    * [Who is scona built for?](#who-is-scona-built-for)
+  * [Why do we need another package?](#why-do-we-need-another-package)
+  * [Who is scona built for?](#who-is-scona-built-for)
 * [Get involved](#get-involved)
 
 ## Get Started
 
-If you don't want to bother reading the whole of this page, here are three places you can get your hands dirty and explore `scona`:
+If you don't want to bother reading the whole of this page, here are three ways to get your hands dirty and explore `scona`:
 
-* To install `scona` as a python package with pip
+* Install `scona` as a python package with pip
 
-```
-pip install git+https://github.com/WhitakerLab/scona.git#egg=scona
-```
+   `pip install -e git+https://github.com/WhitakerLab/scona.git#egg=scona`
 
 * Check out our [tutorial](tutorials/tutorial.ipynb) for examples of basic functionality.
   Or run it interactively [in Binder](https://mybinder.org/v2/gh/whitakerlab/scona/master?filepath=tutorials%2Ftutorial.ipynb).

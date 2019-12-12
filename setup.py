@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-PACKAGES = find_packages()
 
 install_requires = [
    "pandas",
@@ -10,17 +9,20 @@ install_requires = [
    "networkx>=2.2",
    "seaborn",
    "forceatlas2",
-   "nilearn==0.5.0a0"]
+   "nilearn==0.5.2"]
 
 
 if __name__ == '__main__':
     setup(
         name='scona',
         version='0.1dev',
-        packages=PACKAGES,
+        packages=find_packages(),
         package_data={'': ['*.txt', '*.csv']},
         license='MIT license',
         install_requires=install_requires,
         tests_require=['pytest', 'unittest'],
         test_suite='py.test',
-    )
+        entry_points={
+            'console_scripts' : [
+                'scona = scona.wrappers.parsers:main']},
+        )
