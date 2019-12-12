@@ -357,7 +357,7 @@ def threshold_graph(G, cost, mst=True):
 
     See Also
     --------
-    :func:`scona.BrainNetwork.threshold`
+    :func:`scona.WeightedBrainNetwork.threshold`
     '''
     # Weights scaled by -1 as minimum_spanning_tree minimises weight
     H = scale_weights(anatomical_copy(G))
@@ -400,6 +400,10 @@ def threshold_graph(G, cost, mst=True):
         germ.add_edges_from(H_edges_sorted_not_germ[:n_edges])
     # binarise edge weights
     nx.set_edge_attributes(germ, name='weight', values=1)
+    # preserve edge weights under the attribute "correlation weighting"
+    nx.set_edge_attributes(germ,
+                           name="correlation weighting",
+                           values=nx.get_edge_attributes(G, name="weight"))
     # And return the updated germ as your graph
     return germ
 

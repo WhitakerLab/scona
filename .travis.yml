@@ -12,9 +12,12 @@ install:
   - pip install -q -r requirements.txt
   - pip install sphinx sphinx sphinxcontrib-napoleon sphinx_rtd_theme
 script:
-  - python3 -m pytest -v --ignore=tests/regression_test.py
-# temporarily ignore regression tests while we investigate why they are failing
-  - cd docs
+  - python3 -m pytest -v
+
+# check cli installation
+scona -h
+
+- cd docs
   - make html
   - touch .nojekyll
 after_success:
