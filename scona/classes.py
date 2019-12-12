@@ -9,6 +9,8 @@ from scona.make_graphs import assign_node_names, \
 from scona.graph_measures import assign_interhem, \
     calculate_nodal_measures, assign_nodal_distance, \
     calc_nodal_partition, calculate_global_measures, small_world_coefficient
+from scona.make_corr_matrices import corrmat_from_regionalmeasures,\
+    corrmat_by_group
 
 
 class BrainNetwork(nx.classes.graph.Graph):
@@ -73,6 +75,47 @@ class BrainNetwork(nx.classes.graph.Graph):
         self.anatomical_graph_attributes = anatomical_graph_attributes()
         # intialise global measures as an empty dict
         self.graph['global_measures'] = {}
+
+    @classmethod
+    def from_regional_measures(
+            cls,
+            regional_measures,
+            names,
+            covars=None,
+            method='pearson'):
+        '''
+        Create a weighted graph by calculating the correlation of
+        `names` columns over the rows of `regional_measures` after
+        correcting for covariance with the columns in `covars`.
+
+        Parameters
+        ----------
+        regional_measures : :class:`pandas.DataFrame`
+            a pandas DataFrame with subjects as rows, and columns including
+            brain regions and covariates. Should be numeric for the columns in
+            names and covars_list
+        names : list
+            a list of the brain regions you wish to correlate
+        covars: list, optional
+            covars is a list of covariates (as DataFrame column headings)
+            to correct for before correlating the regions.
+        methods : string, optional
+            the method of correlation passed to :func:`pandas.DataFrame.corr`
+
+        Returns
+        -------
+        :class:`BrainNetwork`
+
+        See Also
+        --------
+        :func:`corrmat_from_regionalmeasures`
+        '''
+        array = corrmat_from_regionalmeasures(
+            regional_measures,
+            names,
+            covars=covars,
+            method=method)
+        return cls(array)
 
     def threshold(self, cost, mst=True):
         '''
@@ -494,8 +537,9 @@ class GraphBundle(dict):
 
     Parameters
     ----------
-    graph_list : list of :class:`networkx.Graph`
-    name_list : list of str
+    graph_dict : dict with :class:`networkx.Graph` or array items, optional
+    graph_list : list of :class:`networkx.Graph` or array, optional
+    name_list : list of str, optional 
 
     See Also
     --------
@@ -504,31 +548,123 @@ class GraphBundle(dict):
     Example
     -------
     '''
-    def __init__(self, graph_list, name_list):
+    def __init__(self, graph_dict=None, graph_list=None, name_list=None):
         dict.__init__(self)
-        self.add_graphs(graph_list, name_list)
+        if graph_dict is not None:
+            self.add_graphs(graph_dict)
+        if names_list is not None:
+            self.add_graphs({n: g for n, g in zip(names_list, graph_list)})
+        elif graph_list is not None:
+            self.add_graphs(graph_list)
 
-    def add_graphs(self, graph_list, name_list=None):
+    def add_graphs(self, graphs):
         '''
-        Update dictionary with `graph_list : names_list` pairs.
+        Update dictionary with graphs. 
+        If a list is passed, an integer dictionary key will be chosen for
+        each network. If the items of `graphs` are not :class:`BrainNetwork`
+        objects, `add_graphs` will attempt to construct :class:`BrainNetwork`
+        objects from them.
 
         Parameters
         ----------
-        graph_list : list of :class:`networkx.Graph`
-        name_list : list of str, optional
+        graph: list or dict of :class:`networkx.Graph`
 
         See Also
         --------
         :class:`GraphBundle.create_random_graphs`
         '''
-        if name_list is None:
-            name_list = [len(self) + i for i in range(len(graph_list))]
-        elif len(name_list) != len(graph_list):
-            raise IndexError("name_list and graph_list must have equal length")
-        for graph in graph_list:
-            if not isinstance(graph, BrainNetwork):
-                graph = BrainNetwork(graph)
-        self.update({a: b for a, b in zip(name_list, graph_list)})
+        if isinstance(graphs, list):
+            graphs = {len(self) + i : g for i, g in enumerate(graph_list)}
+        elif not isinstance(graphs, dict):
+            raise InputError("`graphs` must be a list or dictionary")
+        for g in graphs:
+            if not isinstance(g, BrainNetwork):
+                g = BrainNetwork(g)
+        self.update(graphs)
+
+    @classmethod
+    def from_regional_measures(
+        cls,
+        regional_measures,
+        names,
+        covars=None,
+        method='pearson',
+        groupby=None,
+        windowby=None,
+        window_size=10,
+        shuffle=False):
+        '''
+        Create a weighted graph by calculating the correlation of
+        `names` columns over the rows of `regional_measures` after
+        correcting for covariance with the columns in `covars`.
+
+        Parameters
+        ----------
+        regional_measures : :class:`pandas.DataFrame`
+            a pandas DataFrame with subjects as rows, and columns including
+            brain regions and covariates. Should be numeric for the columns in
+            names and covars_list
+        names : list
+            a list of the brain regions you wish to correlate
+        covars: list, optional
+            covars is a list of covariates (as DataFrame column headings)
+            to correct for before correlating the regions.
+        method : string, optional
+            the method of correlation passed to :func:`pandas.DataFrame.corr`
+        groupby : string, optional
+            pass a string indexing a column (of regional_measures) to group
+            rows by
+        windowby : string, optional
+            pass a string indexing a column (of regional_measures) to bin
+            rows by
+        window_size : int, optional
+            if using windowby argument, specify how many participants per
+            window.
+        shuffle : bool, optional
+            if True, the windowby or groupby column will be randomly permuted
+            before grouping/binning.
+
+        Returns
+        -------
+        :class:`GraphBundle`
+
+        See Also
+        --------
+        :func:`corrmat_by_group`
+        :func:`corrmat_by_window`
+        :func:`corrmat_from_regionalmeasures`
+        '''
+        if groupby is not None:
+            array_dict = corrmat_by_group(
+                regional_measures,
+                names,
+                groupby,
+                covars=covars,
+                method=method,
+                shuffle=shuffle)
+            return cls(graph_dict=array_dict)
+
+        elif windowby is not None:
+            array_dict = corrmat_by_window(
+                regional_measures,
+                names,
+                windowby,
+                window_size,
+                covars=covars,
+                method=method,
+                shuffle=shuffle)
+            return cls(graph_dict=array_dict)
+
+        else:
+            array_list = [
+                corrmat_from_regionalmeasures(
+                    regional_measures,
+                    names,
+                    covars=covars,
+                    method=method
+                    )]
+            return cls(graph_list=array_list)
+        
 
     def apply(self, graph_function):
         '''
@@ -725,3 +861,44 @@ class GraphBundle(dict):
                     nodal_keys=nodal_keys,
                     graph_keys=graph_keys)
                  for G in self.values()])
+
+
+def brain_network_from_regional_measures(
+        self,
+        regional_measures,
+        names,
+        covars=None,
+        method='pearson'):
+    '''
+    Create a weighted graph by calculating the correlation of
+    `names` columns over the rows of `regional_measures` after
+    correcting for covariance with the columns in `covars`.
+
+    Parameters
+    ----------
+    regional_measures : :class:`pandas.DataFrame`
+        a pandas DataFrame with subjects as rows, and columns including
+        brain regions and covariates. Should be numeric for the columns in
+        names and covars_list
+    names : list
+        a list of the brain regions you wish to correlate
+    covars: list, optional
+        covars is a list of covariates (as DataFrame column headings)
+        to correct for before correlating the regions.
+    methods : string, optional
+        the method of correlation passed to :func:`pandas.DataFrame.corr`
+
+    Returns
+    -------
+    :class:`BrainNetwork`
+
+    See Also
+    --------
+    :func:`corrmat_from_regionalmeasures`
+    '''
+    return BrainNetwork(
+        corrmat_from_regionalmeasures(
+            regional_measures,
+            names,
+            covars=covars,
+            method=method))

@@ -28,6 +28,19 @@ def get_non_numeric_cols(df):
     return non_numeric_cols
 
 
+def generate_windows(df, window_var, window_size, shuffle=False):
+    if window_var not in get_non_numeric_columns(df):
+        raise TypeError("`window_var` must index a numeric column")
+    if shuffle:
+        sorted_df = df.sample(frac=1)
+    else:
+        sorted_df = df.sort_values(by=[window_var])
+    moving_window_df = {}
+    for t in range(df.shape[0] - window_size + 1):
+        moving_window_df[t] = df.truncate(before=t, after=window_size+t-1)
+    return moving_window_df
+    
+
 def split_groups(df, group_var, shuffle=False):
     '''
     Separate a dataframe into different participant groups.
@@ -191,8 +204,8 @@ def corrmat_from_regionalmeasures(
     covars: list, optional
         covars is a list of covariates (as DataFrame column headings)
         to correct for before correlating the regions.
-    methods : string, optional
-        the method of correlation passed to :func:`pandas.DataFrame.corr`
+    method : string, optional
+        the method of correlation passed to :func:`pandas.DataFramecorr`
 
     Returns
     -------
@@ -213,7 +226,7 @@ def corrmat_by_group(
         group_var,
         covars=None,
         method='pearson',
-        group_var):
+        shuffle=False):
     '''
     Separate `regional_measures` rows by their `group_var` value. 
     Create a dictionary mapping each value of the `group_var` column
@@ -235,6 +248,9 @@ def corrmat_by_group(
         to correct for before correlating the regions.
     methods : string, optional
         the method of correlation passed to :func:`pandas.DataFrame.corr`
+    shuffle : bool, optional
+        if True, a random permutation of the group_var column will be
+        used to assign group codings.
 
     Returns
     -------
@@ -242,7 +258,7 @@ def corrmat_by_group(
         A correlation matrix with rows and columns keyed by `names`
     '''
     # split dataframe by group coding
-    df_by_group = split_groups(regional_measures, group_var)
+    df_by_group = split_groups(regional_measures, group_var, shuffle=shuffle)
     
     matrix_by_group=dict()
     # iterate over groups to create correlation matrices
@@ -252,6 +268,59 @@ def corrmat_by_group(
         matrix_by_group[group_code] = M
 
     return matrix_by_group
+
+def corrmat_by_window(
+        regional_measures,
+        names,
+        window_var,
+        window_size,
+        covars=None,
+        method='pearson',
+        shuffle=False):
+    '''
+    Bin `regional_measures` rows by their value in `window_var` column. 
+    Return 
+    Create a correlation matrix of the rows selected by...
+
+    Parameters
+    ----------
+    regional_measures : :class:`pandas.DataFrame`
+        a pandas DataFrame with subjects as rows, and columns representing
+        brain regions, covariates and group codings. Should be numeric for
+        the columns in names and covars_list.
+    names : list
+        a list of the brain regions you wish to correlate
+    window_var : str
+        a string indexing a column in regional_measures by which to
+        bin rows
+    window_size : int
+        the number of rows to include in each window
+    covars: list, optional
+        covars is a list of covariates (as DataFrame column headings)
+        to correct for before correlating the regions.
+    methods : string, optional
+        the method of correlation passed to :func:`pandas.DataFrame.corr`
+    shuffle : bool, optional
+        if True, a random permutation of the group_var column will be
+        used to assign group codings.
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        A correlation matrix with rows and columns keyed by `names`
+    '''
+    # create moving window of dataframe
+    df_by_window = generate_windows(
+        regional_measures, window_var, window_size, shuffle=shuffle)
+
+    # iterate over windows to create correlation matrices
+    matrix_by_window = {}
+    for t, window in moving_window_df:
+        M = mcm.corrmat_from_regionalmeasures(
+            window, names, covars=covars_list, method=method)
+        matrix_by_window[t] = M
+
+    return matrix_by_window
 
 def save_mat(M, name):
     '''
