@@ -800,7 +800,7 @@ class GraphBundle(dict):
             return pd.DataFrame.from_dict(rc_dict)
 
     def create_random_graphs(
-            self, gname, n, Q=10, name_list=None, rname="_R", seed=None):
+            self, gname, n, up_to=True, swaps=10, name_list=None, rname="_R", seed=None):
         '''
         Create `n` edge swap randomisations of :class:`BrainNetwork` keyed by
         `gname`. These random graphs are added to GraphBundle.
@@ -811,7 +811,10 @@ class GraphBundle(dict):
             indexes a graph in GraphBundle
         n : int
             the number of random graphs to create
-        Q : int, optional
+        up_to : bool
+            if True, add enough random graphs to make the total number
+            of graphs in GraphBundle equal to n
+        swaps : int, optional
             constant to specify how many swaps to conduct for each edge in G
         name_list : list of str, optional
             a list of names to use for indexing the new random graphs in
@@ -830,6 +833,8 @@ class GraphBundle(dict):
         :func:`random_graph`
         :func:`BrainNetwork.add_graphs`
         '''
+        if up_to:
+            n = n - len(self)
         if name_list is None:
             # Choose r to be the smallest integer that is larger than all
             # integers already naming a random graph in brainnetwork
@@ -839,7 +844,7 @@ class GraphBundle(dict):
             name_list = [gname + rname + str(i)
                          for i in range(r+1, r+1+n)]
         self.add_graphs(
-            get_random_graphs(self[gname], n=n, seed=seed),
+            get_random_graphs(self[gname], n=n, seed=seed, Q=swaps),
             name_list=name_list)
 
     def report_small_world(self, gname):
