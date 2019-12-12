@@ -39,8 +39,8 @@ corrmat_parser.add_argument(
     help=textwrap.dedent('''
         Text file containing a list of covariates (as column headings
         from regional_measures_file) to be accounted for when calculating
-        correlation. One variable name on each line. Relative path.'''
-        ('  Default: None')),
+        correlation. One variable name on each line. Relative path.
+        Default: None'''),
     default=None)
 
 corrmat_parser.add_argument(
@@ -49,7 +49,7 @@ corrmat_parser.add_argument(
     metavar='method',
     help=textwrap.dedent('''
         Flag submitted to pandas.DataFrame.corr().
-        'options are "pearson", "spearman", "kendall"'''),
+        options are "pearson", "spearman", "kendall"'''),
     default='pearson')
 
 network_analysis_parser.add_argument(
@@ -142,7 +142,8 @@ corrmat_only_parser.set_defaults(func=corrmat_from_regionalmeasures)
 
 nafc_parser = subparsers.add_parser(
     'from_corrmat',
-    help=textwrap.dedent('''
+    help='perform standard scona analysis on an existing correlation matrix',
+    description=textwrap.dedent('''
     Run the standard scona network analysis on an existing corrmat_file,
     interpreted as a weighted graph. 
     This analysis thresholds corrmat at the desired cost to create a 
@@ -168,7 +169,7 @@ nafc_parser.add_argument(
     help=textwrap.dedent('''
     Relative path to text file (tab or space delimited) that
     contains the unthresholded correlation matrix with no 
-    column or row labels.''')
+    column or row labels.'''))
 
 nafc_parser.set_defaults(func=network_analysis_from_corrmat)
 
@@ -177,7 +178,8 @@ nafc_parser.set_defaults(func=network_analysis_from_corrmat)
 # =======================================================================
 simple_parser = subparsers.add_parser(
     'standard_analysis',
-    help=textwrap.dedent('''
+    help="perform standard scona analysis from regional_measures_file",
+    description=textwrap.dedent('''
     Create a structural covariance analysis network from 
     regional_measures_file and run the standard scona network analysis
     on it.
@@ -188,7 +190,7 @@ simple_parser = subparsers.add_parser(
     covariance with the columns listed in covars_file.
  
     scona thresholds the resulting matrix at the desired cost to create a 
-    binary network and calculates network measures, described further down.
+    binary network and calculates network measures, described...
 
     For the purposes of comparison this analysis also generates a number
     of random graphs via edge swapping (see :func:`networkx.double_edge_swap`)
@@ -199,7 +201,7 @@ simple_parser = subparsers.add_parser(
     * A dataframe reporting the nodal measures for the
     nodes of the structural covariance network.
     * A dataframe reporting the global measures of the
-    structural covariance network and random graphs,
+    structural covariance network and random graphs.
     * A dataframe reporting the rich club, at every
     degree, of each network.
     '''),
