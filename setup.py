@@ -24,7 +24,5 @@ if __name__ == '__main__':
         test_suite='py.test',
         entry_points={
             'console_scripts' : [
-                'scona = scona.wrappers.scona:main',
-                'corrmat_from_regionalmeasures = scona.wrappers.corrmat_from_regionalmeasures:main',
-                'network_analysis_from_corrmat = scona.wrappers.network_analysis_from_corrmat:main']},
+                'scona = scona.wrappers.parsers:main']},
         )

@@ -1,25 +1,8 @@
-#!/usr/bin/env python
-
-# ============================================================================
-# Created by Kirstie Whitaker
-# at Hot Numbers coffee shop on Trumpington Road in Cambridge, September 2016
-# Contact: kw401@cam.ac.uk
-# ============================================================================
-
-# ============================================================================
-# IMPORTS
-# ============================================================================
-
 import scona.make_corr_matrices as mcm
+import os
 from scona.scripts.useful_functions import read_in_data
-from scona.wrappers.parsers import corrmat_from_regionalmeasures_parser
 
-def corrmat_from_regionalmeasures(regional_measures_file,
-                                  names_file,
-                                  output_name=None,
-                                  covars_file=None,
-                                  method='pearson',
-                                  group_var=None):
+def corrmat_from_regionalmeasures(args):
     '''
     Read in regional measures, names and covariates files to compute
     and return a correlation matrix and write it to output_name.
@@ -70,47 +53,34 @@ def corrmat_from_regionalmeasures(regional_measures_file,
     '''
     # Read in the data
     df, names, covars_list, *a = read_in_data(
-        regional_measures_file,
-        names_file,
-        covars_file=covars_file)
+        args.regional_measures_file,
+        args.names_file,
+        covars_file=args.covars_file)
 
-    if group_var is None:
+    if args.group_var is None:
         # create correlation matrix
         M = mcm.corrmat_from_regionalmeasures(
-            df, names, covars=covars_list, method=method)
-        if output_name is not None:
+            df, names, covars=covars_list, method=args.method)
+        if args.output_name is not None:
             # Save the matrix
-            mcm.save_mat(M, output_name)
+            mcm.save_mat(
+                M,
+                os.path.join(args.output_dir, args.output_name))
         return M
 
     else:
         # create matrices
-        matrix_by_group = corrmat_by_group(
+        matrix_by_group = mcm.corrmat_by_group(
             df,
             names,
-            group_var,
+            args.group_var,
             covars=covars_list,
-            method=method)
+            method=args.method)
         # if necessary write out matrices
-        if output_name is not None:
+         if args.output_name is not None:
             for group_code, M in matrix_by_group:
-                mcm.save_mat(M, output_name+str(group_code))
+                mcm.save_mat(
+                    M,
+                    os.path.join(args.output_dir,
+                                 str(group_code)+args.output_name))
         return matrix_by_group
-    
-
-def main():
-    # Read in the command line arguments
-    arg = corrmat_from_regionalmeasures_parser.parse_args()
-
-    # Now run the main function :)
-    corrmat_from_regionalmeasures(
-        arg.regional_measures_file,
-        arg.names_file,
-        output_name=arg.output_name,
-        covars_file=arg.covars_file,
-        method=arg.method,
-        group_var=arg.group_var)
-
-    
-if __name__ == "__main__":
-    main()

@@ -2,25 +2,18 @@ import os
 import argparse
 import textwrap
 
+from scona.wrappers.corrmat_from_regionalmeasures import corrmat_from_regionalmeasures
+from scona.wrappers.network_analysis_from_corrmat import network_analysis_from_corrmat
+from scona.wrappers.scona import standard_analysis, groupwise_analysis, movingwindow_analysis
+
+
 # Set up parent arg parsers
 
 corrmat_parser = argparse.ArgumentParser(add_help=False)
-corrmat_only_parser = argparse.ArgumentParser(add_help=False)
-networkanalysis_or_scona_parser = argparse.ArgumentParser(add_help=False)
-networkanalysis_only_parser = argparse.ArgumentParser(add_help=False)
-scona_only_parser = argparse.ArgumentParser(add_help=False)
+network_analysis_parser = argparse.ArgumentParser(add_help=False)
+name_parser = argparse.ArgumentParser(add_help=False)
 
 # Fill parent parsers
-
-corrmat_only_parser.add_argument(
-    '--group_var',
-    type=str,
-    metavar=group_var,
-    help=textwrap.dedent(
-        ("If a group_var is passed correlation matrices will be constructed per \
-        participant group, as indexed by the group_var column in the \
-regional measures file")),
-    default=None)
 
 corrmat_parser.add_argument(
     dest='regional_measures_file',
@@ -34,13 +27,7 @@ corrmat_parser.add_argument(
         ('names. All participants in the file will be included in the\n') +
         ('correlation matrix.')))
 
-corrmat_parser.add_argument(
-    dest='names_file',
-    type=str,
-    metavar='names_file',
-    help=textwrap.dedent(('Relative path to text file that contains the names of each \
-region to be included\n') + ('in the correlation matrix. One region name \
-on each line.')))
+
 
 corrmat_parser.add_argument(
     '--output_name',
@@ -75,22 +62,7 @@ corrmat_parser.add_argument(
         ('options are "pearson", "spearman", "kendall"')),
     default='pearson')
 
-networkanalysis_only_parser.add_argument(
-    dest='corr_mat_file',
-    type=str,
-    metavar='corr_mat_file',
-    help=textwrap.dedent(('Relative path to text file (tab or space delimited) that \
-    contains the unthresholded\n') + ('correlation matrix with no column or row labels.')))
-
-networkanalysis_only_parser.add_argument(
-    dest='names_file',
-    type=str,
-    metavar='names_file',
-    help=textwrap.dedent(('Text file that contains the names of each \
-    region, in the same\n') + ('order as the correlation matrix. One region \
-    name on each line.')))
-
-networkanalysis_or_scona_parser.add_argument(
+network_analysis_parser.add_argument(
     dest='centroids_file',
     type=str,
     metavar='centroids_file',
@@ -99,14 +71,14 @@ networkanalysis_or_scona_parser.add_argument(
     matrix. One set of three\n') + ('coordinates, tab or space delimited, on each \
     line.')))
 
-networkanalysis_or_scona_parser.add_argument(
+network_analysis_parser.add_argument(
     dest='output_dir',
     type=str,
     metavar='output_dir',
     help=textwrap.dedent(('Relative path to a directory in which to save global and nodal \
     measures.')))
 
-networkanalysis_or_scona_parser.add_argument(
+network_analysis_parser.add_argument(
     '-c', '--cost',
     type=float,
     metavar='cost',
@@ -114,7 +86,7 @@ networkanalysis_or_scona_parser.add_argument(
     ('  Default: 10.0')),
     default=10.0)
 
-networkanalysis_or_scona_parser.add_argument(
+network_analysis_parser.add_argument(
     '-n', '--n_rand',
     type=int,
     metavar='n_rand',
@@ -122,41 +94,130 @@ networkanalysis_or_scona_parser.add_argument(
     with real network.\n') + ('  Default: 1000')),
     default=1000)
 
-networkanalysis_or_scona_parser.add_argument(
-    '-s', '--seed', '--random_seed',
+network_analysis_parser.add_argument(
+    '-s', '--seed',
     type=int,
     metavar='seed',
     help=textwrap.dedent(('Set a random seed to pass to the random graph \
     creator.\n') + ('  Default: None')),
     default=None)
 
-scona_only_parser.add_argument(
+name_parser.add_argument(
+    dest='names_file',
+    type=str,
+    metavar='names_file',
+    help=textwrap.dedent(('Text file that contains the names of each \
+    region, in the same\n') + ('order as the correlation matrix. One region \
+    name on each line.')))
+
+# Build specific parsers
+
+scona_parser = argparse.ArgumentParser(
+    description="generate network analysis from regional measures.",
+    formatter_class=argparse.RawTextHelpFormatter)
+
+subparsers = scona_parser.add_subparsers()
+
+# ============================================================================
+# subparser to generate correlation matrix
+#
+# calls scona.wrappers.corrmat_from_regionalmeasures.corrmat_from_regionalmeas
+# ures
+# ============================================================================
+corrmat_only_parser = subparsers.add_parser(
+    'corrmat',
+    help=('Generate a structural correlation \
+    matrix from an input csv file, a list of \
+    region names and (optional) covariates.'),
+    parents=[corrmat_parser, name_parser])
+
+corrmat_only_parser.add_argument(
     '--group_var',
     type=str,
-    metavar=group_var,
+    metavar='group_var',
     help=textwrap.dedent(
-        ("If a group_var is passed networks will be constructed per \
+        ("If a group_var is passed correlation matrices will be constructed per \
         participant group, as indexed by the group_var column in the \
 regional measures file")),
     default=None)
 
+corrmat_only_parser.set_defaults(func=corrmat_from_regionalmeasures)
 
-# Build specific parsers
+# ===================================================================
+# subparser to do network analysis from corrmat
+#
+# calls scona.wrappers.network_analysis_from_corrmat.network_analysis
+# _from_corrmat
+# ===================================================================
 
-corrmat_from_regionalmeasures_parser=argparse.ArgumentParser(
-    parents=[corrmat_parser, corrmat_only_parser],
-    description=(('Generate a structural correlation \
-    matrix from an input csv file,\n') + ('a list of \
-    region names and (optional) covariates.')),
-    formatter_class=argparse.RawTextHelpFormatter)
+nafc_parser = subparsers.add_parser(
+    'from_corrmat',
+    help='Generate a graph as a fixed cost from an \
+    existing correlation matrix and return global \
+    and nodal measures.',
+    parents=[network_analysis_parser, name_parser])
 
-network_analysis_from_corrmat_parser=argparse.ArgumentParser(
-    parents=[networkanalysis_or_scona_parser, networkanalysis_only_parser],
-    description=(('Generate a graph as a fixed cost from a non-thresholded\n')
-                 + ('matrix and return global and nodal measures.')),
-    formatter_class=argparse.RawTextHelpFormatter)
+nafc_parser.add_argument(
+    dest='corrmat_file',
+    type=str,
+    metavar='corrmat_file',
+    help=textwrap.dedent(('Relative path to text file (tab or space delimited) that \
+    contains the unthresholded\n') + ('correlation matrix with no column or row labels.')))
 
-scona_parser = argparse.ArgumentParser(
-    parents=[corrmat_parser, networkanalysis_or_scona_parser, scona_only_parser],
-    description="generate network analysis from regional measures.",
-    formatter_class=argparse.RawTextHelpFormatter)
+nafc_parser.set_defaults(func=network_analysis_from_corrmat)
+
+# =======================================================================
+# subparser to do full analysis
+# =======================================================================
+simple_parser = subparsers.add_parser(
+    'standard_analysis',
+    help='Standard analysis ...',
+    parents=[corrmat_parser,
+             network_analysis_parser,
+             name_parser])
+
+simple_parser.set_defaults(func=standard_analysis)
+# =======================================================================
+# subparser to do groupwise analysis
+# ======================================================================
+
+groupwise_parser = subparsers.add_parser(
+    'groupwise',
+    help='Perform a groupwise analysis on regional_measures_file',
+    parents=[corrmat_parser, network_analysis_parser, name_parser])
+
+groupwise_parser.add_argument(
+    dest='group_var',
+    type=str,
+    metavar='group_var',
+    help=textwrap.dedent(
+        ("Networks will be constructed per participant group, as\
+        indexed by the group_var column in the regional_measures_file")))
+
+groupwise_parser.add_argument(
+    '--n_shuffle',
+    type=int,
+    metavar='n_shuffle',
+    help=textwrap.dedent(("number of comparison networks to create\
+    by shuffling group_var column and repeating analysis")),
+    default=1000)
+
+groupwise_parser.set_defaults(func=groupwise_analysis)
+
+movingwindow_parser = subparsers.add_parser(
+    'movingwindow',
+    help='Perform a moving window analysis on regional_measures_file',
+    parents=[corrmat_parser, network_analysis_parser, name_parser])
+
+movingwindow_parser.add_argument(
+    dest='window_by',
+    type=str,
+    metavar='window_by',
+    help=textwrap.dedent(("a variable by which to window the participants.\
+    Must index a column in regional_measures_file.")))
+
+movingwindow_parser.set_defaults(func=movingwindow_analysis)
+
+        
+def main():
+    scona_parser.parse_args()

@@ -22,10 +22,11 @@ def critical_routine(output_dir):
     
     subprocess.run([
         "scona",
+        "standard_analysis",
         regionalmeasures,
-        names,
         centroids,
         output_dir,
+        names,
         "-s 2984",
         "-n 10",
         "--output_name",
@@ -102,8 +103,8 @@ def generate_regression_hashes(test_routine, folder):
     # create hash dictionary
     hash_dict = hash_folder(folder)
     # delete the folder created by test_routine
-    print('\ndeleting temporary files')
-    shutil.rmtree(os.path.join(os.getcwd(), folder))
+    # print('\ndeleting temporary files')
+    # shutil.rmtree(os.path.join(os.getcwd(), folder))
     # return hash dictionary
     return hash_dict, hash_identifier
 

@@ -1,38 +1,55 @@
 #!/usr/bin/env python
-
+import scona.make_corr_matrices as mcm
 from scona.wrappers.corrmat_from_regionalmeasures import corrmat_from_regionalmeasures
 from scona.wrappers.network_analysis_from_corrmat import network_analysis_from_corrmat
-from scona.wrappers.parsers import scona_parser
 
-def main():
-    arg = scona_parser.parse_args()
-    if arg.group_var is None:
-        M = corrmat_from_regionalmeasures(
-            arg.regional_measures_file,
-            arg.names_file,
-            covars_file=arg.covars_file,
-            output_name=arg.output_name,
-            method=arg.method)
+def standard_analysis(args):
+
+    M = corrmat_from_regionalmeasures(args)
+    
+    network_analysis_from_corrmat(args, corrmat=M)
+
+def groupwise_analysis(args):
+    # run for true group assignments
+    groupwise_bundle = GraphBundle(corrmat_from_regionalmeasures(args))
+    groupwise_bundle.report_global_measures
+    groupwise_bundle.report_rich_club
+
+    # Now run for random group assignments
+    df, names, covars_list, *a = read_in_data(
+        args.regional_measures_file,
+        args.names_file,
+        covars_file=args.covars_file)
+    shuffle_list = []
+    for i in range(args.n_shuffle):
+        shuffle_list.append(
+            GraphBundle.from_regional_measures(
+                df,
+                names,
+                groupby=group_var,
+                covars=covars_list,
+                method=args.method,
+                shuffle=True)))
         
-        network_analysis_from_corrmat(
-            arg.names_file,
-            arg.centroids_file,
-            arg.output_dir,
-            corrmat=M,
-            corrmat_file=arg.output_name,
-            cost=arg.cost,
-            n_rand=arg.n_rand,
-            edge_swap_seed=arg.seed)
-    else:
-        matrix_dict = corrmat_from_regionalmeasures(
-            arg.regional_measures_file,
-            arg.names_file,
-            covars_file=arg.covars_file,
-            output_name=arg.output_name,
-            method=arg.method,
-            group_var=arg.group_var)
+    
 
-        
+def movingwindow_analysis(args):
+    df, names, covars_list, *a = read_in_data(
+        args.regional_measures_file,
+        args.names_file,
+        covars_file=args.covars_file)
+    
+    moving_window_bundle = GraphBundle.from_regional_measures(
+        df, names, covars=covars_list, method=args.method,
+        windowby=args.window_var, window_size=args.window_size)
 
-if __name__ == "__main__":
-    main()
+    shuffle_list = []
+    for i in range(args.n_shuffle):
+        shuffle_list.append(
+            GraphBundle.from_regional_measures(
+                df, names, covars=covars_list, method=args.method,
+                windowby=args.window_var, window_size=args.window_size,
+                shuffle=True))
+
+    
+
