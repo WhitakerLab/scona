@@ -12,13 +12,10 @@ install:
   - pip install -q -r requirements.txt
   - pip install sphinx sphinx sphinxcontrib-napoleon sphinx_rtd_theme
 script:
-  - python3 -m pytest -v --ignore=tests/regression_test.py
-# temporarily ignore regression tests while we investigate why they are failing
+  - python3 -m pytest -v
 
 # check cli installation
 scona -h
-corrmat_from_regionalmeasures -h
-network_analysis_from_corrmat -h
 
 - cd docs
   - make html
