@@ -198,14 +198,14 @@ def corrmat_from_regionalmeasures(
     Parameters
     ----------
     regional_measures : :class:`pandas.DataFrame`
-        a pandas DataFrame with subjects as rows, and columns including
-        brain regions and covariates. Should be numeric for the columns in
-        names and covars_list
+        a pandas DataFrame with individual brain scans as rows, and 
+        columns including brain regions and covariates. The columns in
+        names and covars_list should be numeric.
     names : list
-        a list of the brain regions you wish to correlate
+        a list of the brain regions whose correlation you want to measure
     covars: list, optional
         covars is a list of covariates (as DataFrame column headings)
-        to correct for before correlating the regions.
+        to correct for before correlating brain regions.
     method : string, optional
         the method of correlation passed to :func:`pandas.DataFramecorr`
 

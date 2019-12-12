@@ -288,11 +288,20 @@ def calculate_nodal_measures(
     By default `calculate_nodal_measures` calculates the following :
 
     * "degree" : int
-    * "closeness" : float
+        the number of incident edges
     * "betweenness" : float
-    * "shortest_path_length" : float
+        the betweenness centrality of each node, see :func:`networkx.betweenness_centrality`
+    * "closeness" : float
+        the closeness centrality of each node, see :func:`networkx.closeness_centrality`
     * "clustering" : float
+        the clustering coefficient of each node, see :func:`networks.clustering`
     * "participation_coefficient" : float
+        the participation coefficient of nodes of G with 
+        communities defined by `partition`
+    * "shortest_path_length" : float
+      the average shortest path length for each node in G.
+      "length" in this case means the number of edges, and does
+      not consider euclidean distance.
 
     Use `measure_list` to specify which of the default nodal attributes to
     calculate.
@@ -470,9 +479,18 @@ def calculate_global_measures(G,
                               partition=None,
                               existing_global_measures=None):
     '''
-    Calculate global measures `average_clustering`,
-    `average_shortest_path_length`, `assortativity`, `modularity`, and
-    `efficiency` of G.
+    Calculate the following global measures
+
+    * "average_clustering" : float
+      see :func:`networkx.average_clustering`
+    * "average_shortest_path_length" : float
+      see :func:`networkx.average_shortest_path_length`
+    * "assortativity" : float
+      see :func:`networkx.degree_assortativity_coefficient`
+    * "modularity" : float
+      modularity of network under partition defined by "module"
+    * "efficiency" : float
+      see :func:`networkx.global_efficiency`
 
     Note: Global measures **will not** be calculated again if they have already been calculated.
     So it is only needed to calculate them once and then they aren't calculated again.
