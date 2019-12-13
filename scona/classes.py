@@ -11,6 +11,7 @@ from scona.graph_measures import assign_interhem, \
     calc_nodal_partition, calculate_global_measures, small_world_coefficient
 from scona.make_corr_matrices import corrmat_from_regionalmeasures,\
     corrmat_by_group
+from math import log10
 
 
 class BrainNetwork(nx.classes.graph.Graph):
@@ -832,7 +833,8 @@ class GraphBundle(dict):
             return pd.DataFrame.from_dict(rc_dict)
 
     def create_random_graphs(
-            self, gname, n, up_to=True, swaps=10, name_list=None, rname="_R", seed=None):
+            self, gname, n, up_to=True, swaps=10, name_list=None, rname="_R",
+            padding=None, seed=None):
         '''
         Create `n` edge swap randomisations of :class:`BrainNetwork` keyed by
         `gname`. These random graphs are added to GraphBundle.
@@ -855,6 +857,9 @@ class GraphBundle(dict):
             if ``name_list=None`` the new random graphs will be indexed
             according to the scheme ``gname + rname + r`` where `r` is some
             integer.
+        padding : int, optional
+            number of zeroes to pad names with. If None, this will be
+            assessed logarithmically
         seed : int, random_state or None (default)
             Indicator of random state to pass to
             :func:`networkx.double_edge_swap`
@@ -865,15 +870,17 @@ class GraphBundle(dict):
         :func:`random_graph`
         :func:`BrainNetwork.add_graphs`
         '''
+        if padding is None:
+            padding = floor(log10(n)) +1
         if up_to:
             n = n - len(self)
         if name_list is None:
             # Choose r to be the smallest integer that is larger than all
             # integers already naming a random graph in brainnetwork
             r = len(self)
-            while (gname + rname + str(r) not in self) and (r >= 0):
+            while (gname + rname + str(r).zfill(padding) not in self) and (r >= 0):
                 r -= 1
-            name_list = [gname + rname + str(i)
+            name_list = [gname + rname + str(i).zfill(padding)
                          for i in range(r+1, r+1+n)]
         self.add_graphs(
             get_random_graphs(self[gname], n=n, seed=seed, Q=swaps),
