@@ -14,8 +14,8 @@ install:
 script:
   - python3 -m pytest -v
 
-# check cli installation
-scona -h
+  # check cli installation
+  - scona -h
 
 - cd docs
   - make html
