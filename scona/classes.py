@@ -743,6 +743,38 @@ class GraphBundle(dict):
             global_dict[name] = graph_function(graph)
         return global_dict
 
+    def calculate_nodal_measures(self):
+        '''
+        Calculate nodal measures for each network in GraphBundle
+        
+        See Also
+        --------
+        :func:`BrainNetwork.calculate_nodal_measures`
+        '''
+        self.apply(lambda x: x.calculate_nodal_measures())
+
+    def report_nodal_measures(self, as_dict=False):
+        '''
+        Report nodal measures for each network in GraphBundle
+
+        Parameters
+        ----------
+        as_dict : bool, optional
+            Pass true to return each nodal measures report
+            as a dictionary
+        
+        Return
+        ------
+        dict
+            dictionary mapping each network to a :class:`pandas.DataFrame`
+            (or dict, if as_dict) of nodal measures
+        
+        See Also
+        --------
+        :func:`BrainNetwork.report_nodal_measures`
+        '''
+        return self.evaluate(lambda x: x.report_nodal_measures(as_dict=as_dict))
+    
     def report_global_measures(self, as_dict=False, partition=True):
         '''
         Calculate global_measures for each BrainNetwork object and report as a
@@ -847,14 +879,14 @@ class GraphBundle(dict):
             get_random_graphs(self[gname], n=n, seed=seed, Q=swaps),
             name_list=name_list)
 
-    def report_small_world(self, gname):
+    def report_small_world(self, name):
         '''
         Calculate the small world coefficient of `gname` relative to each other
         graph in GraphBundle.
 
         Parameters
         ----------
-        gname : str
+        name : str
             indexes a graph in GraphBundle
 
         Returns
@@ -868,7 +900,7 @@ class GraphBundle(dict):
         :func:`small_world_coefficient`
         '''
         small_world_dict = self.evaluate(
-            lambda x: small_world_coefficient(self[gname], x))
+            lambda x: small_world_coefficient(self[name], x))
         return small_world_dict
 
     def nodal_matches(self):
