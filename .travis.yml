@@ -17,7 +17,7 @@ script:
   # check cli installation
   - scona -h
 
-- cd docs
+  - cd docs
   - make html
   - touch .nojekyll
 after_success:
