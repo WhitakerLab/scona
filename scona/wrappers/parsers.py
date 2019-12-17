@@ -8,7 +8,7 @@ from scona.wrappers.scona import standard_analysis, groupwise_analysis, movingwi
 
 corrmat_parser = argparse.ArgumentParser(add_help=False)
 network_analysis_parser = argparse.ArgumentParser(add_help=False)
-name_parser = argparse.ArgumentParser(add_help=False)
+general_parser = argparse.ArgumentParser(add_help=False)
 
 # Fill parent parsers
 
@@ -63,14 +63,6 @@ network_analysis_parser.add_argument(
     tab or space delimited, on each line.'''))
 
 network_analysis_parser.add_argument(
-    dest='output_dir',
-    type=str,
-    metavar='output_dir',
-    help=textwrap.dedent('''
-    Relative path to a directory in which to save global and nodal 
-    measures.'''))
-
-network_analysis_parser.add_argument(
     '-c', '--cost',
     type=float,
     metavar='cost',
@@ -96,13 +88,22 @@ network_analysis_parser.add_argument(
     Default: None'''),
     default=None)
 
-name_parser.add_argument(
+general_parser.add_argument(
     dest='names_file',
     type=str,
     metavar='names_file',
     help=textwrap.dedent('''
     Text file listing the names of relevant brain regions. One region 
     name on each line.'''))
+
+general_parser.add_argument(
+    '--output_dir',
+    type=str,
+    metavar='output_dir',
+    help=textwrap.dedent('''
+    Relative path to a directory in which to save output 
+    measures.'''),
+    default=None)
 
 # Build specific parsers
 
@@ -120,7 +121,8 @@ subparsers = scona_parser.add_subparsers()
 # ============================================================================
 corrmat_only_parser = subparsers.add_parser(
     'corrmat',
-    help=(
+    help="create a correlation matrix from regional measures",
+    description=(textwrap.dedent(
     '''
     Read in regional measures, names and covariates files to compute
     and return a structural covariance matrix, or write it to 
@@ -128,8 +130,8 @@ corrmat_only_parser = subparsers.add_parser(
     The structural covariance matrix is the pairwise correlation of 
     the columns given in names_file over the rows of regional_measures,
     after correcting for covariance with the columns in covars_file.
-    '''),
-    parents=[corrmat_parser, name_parser])
+    ''')),
+    parents=[corrmat_parser, general_parser])
 
 corrmat_only_parser.set_defaults(func=corrmat_from_regionalmeasures)
 
@@ -160,7 +162,7 @@ nafc_parser = subparsers.add_parser(
     all random graphs
     * A dataframe reporting the rich club, at every
     degree, of corrmat and all random graphs'''),
-    parents=[network_analysis_parser, name_parser])
+    parents=[network_analysis_parser, general_parser])
 
 nafc_parser.add_argument(
     dest='corrmat_file',
@@ -207,7 +209,7 @@ simple_parser = subparsers.add_parser(
     '''),
     parents=[corrmat_parser,
              network_analysis_parser,
-             name_parser])
+             general_parser])
 
 simple_parser.set_defaults(func=standard_analysis)
 # =======================================================================
@@ -217,7 +219,7 @@ simple_parser.set_defaults(func=standard_analysis)
 groupwise_parser = subparsers.add_parser(
     'groupwise',
     help='Perform a groupwise analysis on regional_measures_file',
-    parents=[corrmat_parser, network_analysis_parser, name_parser])
+    parents=[corrmat_parser, network_analysis_parser, general_parser])
 
 groupwise_parser.add_argument(
     dest='group_var',
@@ -241,7 +243,7 @@ groupwise_parser.set_defaults(func=groupwise_analysis)
 movingwindow_parser = subparsers.add_parser(
     'movingwindow',
     help='Perform a moving window analysis on regional_measures_file',
-    parents=[corrmat_parser, network_analysis_parser, name_parser])
+    parents=[corrmat_parser, network_analysis_parser, general_parser])
 
 movingwindow_parser.add_argument(
     dest='window_by',
@@ -255,4 +257,6 @@ movingwindow_parser.set_defaults(func=movingwindow_analysis)
 
         
 def main():
-    scona_parser.parse_args()
+    args = scona_parser.parse_args()
+    args.func(args)
+    

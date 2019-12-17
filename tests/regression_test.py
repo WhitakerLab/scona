@@ -25,8 +25,9 @@ def critical_routine(output_dir):
         "standard_analysis",
         regionalmeasures,
         centroids,
-        output_dir,
         names,
+        "--output_dir",
+        output_dir,
         "-s 2984",
         "-n 10",
         "--output_name",
@@ -103,8 +104,8 @@ def generate_regression_hashes(test_routine, folder):
     # create hash dictionary
     hash_dict = hash_folder(folder)
     # delete the folder created by test_routine
-    # print('\ndeleting temporary files')
-    # shutil.rmtree(os.path.join(os.getcwd(), folder))
+    print('\ndeleting temporary files')
+    shutil.rmtree(os.path.join(os.getcwd(), folder))
     # return hash dictionary
     return hash_dict, hash_identifier
 
@@ -142,8 +143,8 @@ def test_old_hashes_against_new():
     print("loading old test fixtures")
     hash_dict_original = load_fixture(hash_label)
     
-    for key in hash_dict_new.keys():
-          print("testing regression on {} output".format(key))
+    for key in hash_dict_original.keys():
+          print("testing regression on {}".format(key))
           assert hash_dict_new[key] == hash_dict_original[key]
 
 

@@ -58,7 +58,7 @@ def network_analysis_from_matrix(
 
     Network Measures
     ================
-        Nodal Measures
+    Nodal Measures
     --------------
     * "degree" : int
         the number of incident edges
@@ -115,7 +115,6 @@ def network_analysis_from_matrix(
     degree >= k.
     See :func:`networkx.rich_club_coefficient`
     '''
-    
     # Initialise graph
     weighted_network = BrainNetwork(
         network=M,
@@ -130,7 +129,6 @@ def network_analysis_from_matrix(
     binary_network.partition()
     binary_network.calculate_spatial_measures()
     binary_network.calculate_nodal_measures()
-    
 
     # Create setup for comparing binary_network against random graphs
     # (note that this takes a bit of time because you're generating random
@@ -139,13 +137,13 @@ def network_analysis_from_matrix(
     bundle.create_random_graphs(name, n_rand, seed=seed)
     
     # Add the small world coefficient to global measures
-    small_world = bundle.report_small_world(network_name)
+    small_world = bundle.report_small_world(name)
 
     for gname, network in bundle.items():
         network.graph['global_measures'].update(
-            {"sw coeff against " + network_name: small_world[gname]})
+            {"sw coeff against " + name: small_world[gname]})
  
-    return bundle, binary_network.report_nodal_measures(), bundle.report_global_measures(), bundle.report_rich_club
+    return bundle, binary_network.report_nodal_measures(), bundle.report_global_measures(), bundle.report_rich_club()
 
 
 def standard_analysis(

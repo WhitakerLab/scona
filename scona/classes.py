@@ -11,7 +11,7 @@ from scona.graph_measures import assign_interhem, \
     calc_nodal_partition, calculate_global_measures, small_world_coefficient
 from scona.make_corr_matrices import corrmat_from_regionalmeasures,\
     corrmat_by_group
-from math import log10
+from math import log10, floor
 
 
 class BrainNetwork(nx.classes.graph.Graph):
@@ -53,14 +53,15 @@ class BrainNetwork(nx.classes.graph.Graph):
             if isinstance(network, nx.classes.graph.Graph):
                 # Copy graph
                 self.__dict__.update(network.__dict__)
-
             else:
                 # Create weighted graph from a dataframe or
                 # numpy array
-                if isinstance(network, pd.DataFrame):
+                if isinstance(network, pd.core.frame.DataFrame):
                     M = network.values
                 elif isinstance(network, np.ndarray):
                     M = network
+                else:
+                    raise TypeError("'network' argument must be an array or a networkx Graph object")
                 network = weighted_graph_from_matrix(M, create_using=self)
 
         # ===== Give anatomical labels to nodes ======
@@ -558,12 +559,11 @@ class GraphBundle(dict):
         dict.__init__(self)
         if graph_dict is not None:
             self.add_graphs(graph_dict)
-        if names_list is not None:
-            self.add_graphs({n: g for n, g in zip(names_list, graph_list)})
-        elif graph_list is not None:
-            self.add_graphs(graph_list)
 
-    def add_graphs(self, graphs):
+        elif graph_list is not None:
+            self.add_graphs(graph_list, name_list=name_list)
+
+    def add_graphs(self, graphs, name_list=None):
         '''
         Update dictionary with graphs. 
         If a list is passed, an integer dictionary key will be chosen for
@@ -579,14 +579,21 @@ class GraphBundle(dict):
         --------
         :class:`GraphBundle.create_random_graphs`
         '''
+
         if isinstance(graphs, list):
-            graphs = {len(self) + i : g for i, g in enumerate(graph_list)}
-        elif not isinstance(graphs, dict):
-            raise InputError("`graphs` must be a list or dictionary")
-        for g in graphs:
-            if not isinstance(g, BrainNetwork):
-                g = BrainNetwork(g)
-        self.update(graphs)
+            if name_list is not None:
+                self.add_graphs({n: g for n, g in zip(name_list, graphs)})
+            else:
+                self.add_graphs({len(self)+i : g for i, g in enumerate(graphs)})
+
+        elif isinstance(graphs, dict):
+            for k, g in graphs.items():
+                if not isinstance(g, BrainNetwork):
+                    graphs[k] = BrainNetwork(g)
+            self.update(graphs)
+
+        else:
+            raise InputError("`graphs` must be a list or dictionary")        
 
     @classmethod
     def from_regional_measures(

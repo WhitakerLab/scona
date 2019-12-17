@@ -29,10 +29,10 @@ def corrmat_from_regionalmeasures(args):
     M = mcm.corrmat_from_regionalmeasures(
         df, names, covars=covars_list, method=args.method)
     if args.output_name is not None:
+        mfile = os.path.join(args.output_dir, args.output_name)
+        print("saving correlation matrix to {}".format(mfile))
         # Save the matrix
-        mcm.save_mat(
-            M,
-            os.path.join(args.output_dir, args.output_name))
+        mcm.save_mat(M, mfile)
     return M
 
 
@@ -133,10 +133,10 @@ def network_analysis_from_corrmat(args, corrmat=None):
             centroids = None
 
     # if possible, name network after corrmat_file
-    if args.corrmat_file is None:
-        network_name = ""
-    else:
-        network_name = args.corrmat_file
+    network_name = ""
+    if hasattr(args, 'corrmat_file'):
+        if args.corrmat_file is not None:
+            network_name = args.corrmat_file
 
     # run standard analysis
     bundle, nodal_df, global_df, rc_df = scona.network_analysis_from_matrix(
