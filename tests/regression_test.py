@@ -130,7 +130,10 @@ def load_fixture(hash_identifier):
     """
     with open(os.path.join(os.path.dirname(__file__), ".fixture_hashes"), "r") as f:
         fixture_dict = json.load(f)
-        return fixture_dict.get(hash_identifier)
+        try:
+            return fixture_dict[hash_identifier]
+        except KeyError:
+            raise KeyError("no regression fixture found matching {}".format(hash_identifier))
 
 
 # --------------------------- Tests --------------------------------
