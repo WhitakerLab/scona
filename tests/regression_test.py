@@ -96,8 +96,8 @@ def generate_regression_hashes(test_routine, folder):
     # identify hashes when you will be creating more than one.
     # Here we will be recording the name of the function and the python
     # version during generation. As an example, if we were running
-    # critical_routine in python 3.6 we would get "critical_routine36"
-    hash_identifier = test_routine.__name__ + str(sys.version_info[0]) + str(sys.version_info[1])
+    # critical_routine in python 3.6 we would get "critical_routine3.6"
+    hash_identifier = test_routine.__name__ + ".".join([str(sys.version_info[0]), str(sys.version_info[1])])
     # Now we run test_routine
     print("generating hash {}".format(hash_identifier))
     test_routine(folder)
