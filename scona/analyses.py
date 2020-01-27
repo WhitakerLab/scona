@@ -243,7 +243,11 @@ def groupwise_analysis(
         covars=covars,
         method=method)
     groupwise_bundle.threshold(cost)
+    global_frames = [groupwise_bundle.report_global_measures()]
+    grouping_type = ["unshuffled"]
 
+    padding = floor(log10(args.n_shuffle)) +1
+    # run analysis on random groupings
     for i in range(args.n_shuffle):
         gb = GraphBundle.from_regional_measures(
             df,
@@ -254,18 +258,82 @@ def groupwise_analysis(
             shuffle=True,
             seed=seed)
         gb.threshold(cost)
-        gb.report_global_measures()
+        global_frames.append(gb.report_global_measures())
+        grouping_type.append(str(i).zfill(padding))
 
-def moving_window_analysis(
+
+    
+    gg_bundles = pd.concat(global_frames, keys=grouping_type)
+    gg_bundles.set_index(["group randomisation", "group"])
+
+    # split by grouping and write to file
+    #group_list = gg_bundles['group_var'].unique().tolist()
+    #for gv in group_list:
+    #    gg_bundles.xs(gv, level="group").to_csv(gv+"")
+        
+    for gv, gv_frame in gg_bundles.groupby(level="group"):
+        gv_frame.to_csv(gv+"")
+    
+
+def sliding_window_analysis(
         df,
         names,
         cost,
         window_var,
         window_size,
+        window_overlap,
         covars=None,
         method='pearson',
         seed=None):
+    '''
+    Create sliding window ...
+    see "Adolescent tuning of association cortex in human structural brain networks" by Frantisek Vasa et al.
 
+    Parameters
+    ----------
+    regional_measures : :class:`pandas.DataFrame`
+        a pandas DataFrame with individual brain scans as rows, and 
+        columns including brain regions and covariates. The columns in
+        names and covars_list should be numeric.
+    names : list
+        a list of the brain regions whose correlation you want to assess
+    window_var : str
+        the name of the column in regional_measures by which to rank
+        participants.
+    window_size : int or float
+        the size (number of subjects) of each sliding window. 
+        A decimal value between 0 and 1 will be interpreted as a 
+        proportion of the whole cohort. E.g if window_size is 0.1, and
+        the cohort is 100 subjects each window will contain 10 subjects.
+    window_overlap : int or float
+        the number of subjects in the overlap between two consecutive
+        windows. If window_overlap is a decimal between 0 and
+        1(not inclusive) then the intersection of two consecutive
+        windows will be window_overlap*(mean window size).
+    number_of_windows : int, optional
+        The number of windows you want to use for your analysis
+    odd_sized_bin : "last" or "first", optional
+        If it is not possible to construct equally sized windows,
+        choose either the last or the first window to have a 
+        different size to the others. Default "last".
+    covars : list, optional
+        covars is a list of covariates (as DataFrame column headings)
+        to correct for before correlating brain regions.
+    method : string, optional
+        the method of correlation passed to :func:`pandas.DataFramecorr`
+    cost : float
+        We construct a binary graph from the correlation matrix by 
+        restricting to the ``cost*n/100`` highest weighted edges, where
+        ``n`` is the number of edges.
+    seed : int, optional
+    centroids : list, optional
+        Anatomical locations to assign to the nodes of your graph.
+
+    Returns
+    -------
+
+    '''    
+    
     moving_window_bundle = GraphBundle.from_regional_measures(
         df, names, covars=covars, method=method,
         windowby=window_var, window_size=window_size)

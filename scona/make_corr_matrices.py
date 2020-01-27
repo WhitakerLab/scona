@@ -29,8 +29,41 @@ def get_non_numeric_cols(df):
 
 
 def generate_windows(df, window_var, window_size, shuffle=False, seed=None):
+    '''
+ Parameters
+    ----------
+    df : :class:`pandas.DataFrame`
+        a pandas DataFrame with individual brain scans as rows, and 
+        columns including brain regions and covariates. The columns in
+        names and covars_list should be numeric.
+    names : list
+        a list of the brain regions whose correlation you want to assess
+    window_var : str
+        the name of the column in df from which to
+        construct sliding windows.
+    window_size : int or float
+        the size (number of subjects) of each sliding window. 
+        A decimal value between 0 and 1 will be interpreted as a 
+        proportion of the whole cohort. E.g if window_size is 0.1, and
+        the cohort is 100 subjects each window will contain 10 subjects.
+    window_overlap : int or float
+        the number of subjects in the overlap between two consecutive
+        windows. If window_overlap is a decimal between 0 and
+        1(not inclusive) then the intersection of two consecutive
+        windows will be window_overlap*(size of first window).
+    odd_sized_bin : "last" or "first", optional
+        If it is not possible to construct equally sized windows,
+        choose either the last or the first window to have a 
+        different size to the others. Default "last".
+    '''
     if window_var not in get_non_numeric_columns(df):
         raise TypeError("`window_var` must index a numeric column")
+    # calculate window sizes and overlaps
+    if window_size <= 1:
+        window_size = window_size*len(df)
+    if window_overlap < 1:
+        window_overlap = window_overlap*window_size
+    
     if shuffle:
         sorted_df = df.sample(frac=1, random_state=seed)
     else:
