@@ -4,6 +4,9 @@ import pandas as pd
 import numpy as np
 import os
 
+def list_from_file(filename):
+    with open(filename) as f:
+        return [line.strip() for line in f]
 
 def read_in_data(
         data,
@@ -38,14 +41,13 @@ def read_in_data(
     :class:`pandas.DataFrame`, list, list or None, list or None
         `data, names, covars, centroids`
     '''
-    # Load names
-    with open(names_file) as f:
-        names = [line.strip() for line in f]
+
+    names = list_from_file(names_file)
+
 
     # Load covariates
     if covars_file is not None:
-        with open(covars_file) as f:
-            covars_list = [line.strip() for line in f]
+        covars_list = list_from_file(covars_file)
     else:
         covars_list = []
 
