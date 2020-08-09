@@ -53,7 +53,7 @@ def assign_node_names(G, parcellation):
     """
     # Assign anatomical names to the nodes
     for i, node in enumerate(G.nodes()):
-        G.nodes[i]['name'] = parcellation[i]
+        G.node[i]['name'] = parcellation[i]
     #
     G.graph['parcellation'] = True
     return G
@@ -81,10 +81,10 @@ def assign_node_centroids(G, centroids):
     """
     # Assign cartesian coordinates to the nodes
     for i, node in enumerate(G.nodes()):
-        G.nodes[i]['x'] = centroids[i][0]
-        G.nodes[i]['y'] = centroids[i][1]
-        G.nodes[i]['z'] = centroids[i][2]
-        G.nodes[i]['centroids'] = centroids[i]
+        G.node[i]['x'] = centroids[i][0]
+        G.node[i]['y'] = centroids[i][1]
+        G.node[i]['z'] = centroids[i][2]
+        G.node[i]['centroids'] = centroids[i]
     #
     G.graph['centroids'] = True
     return G
