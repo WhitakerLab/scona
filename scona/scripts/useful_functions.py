@@ -72,8 +72,7 @@ def write_out_measures(df, output_dir, name, first_columns=[]):
     df : :class:`pandas.DataFrame`
         A dataframe of measures to write out
     output_dir, name : str
-        The output and filename to write out to. Creates output_dir if it does
-        not exist
+        The output and filename to write out to.
     first_columns : list, optional
         There may be columns you want to be saved on the left hand side of the
         csv for readability. Columns will go left to right in the order
@@ -82,6 +81,7 @@ def write_out_measures(df, output_dir, name, first_columns=[]):
     '''
     # Make the output directory if it doesn't exist already
     if not os.path.isdir(output_dir):
+        raise FileNotFoundError("no such directory: {}", output_dir)
         os.makedirs(output_dir)
 
     output_f_name = os.path.join(output_dir, name)
