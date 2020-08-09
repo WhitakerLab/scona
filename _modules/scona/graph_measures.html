@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,27 +11,29 @@
   
 
   
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
@@ -48,7 +49,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> scona
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> scona
           
 
           
@@ -75,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -95,6 +97,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -133,7 +136,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../index.html">Module code</a> &raquo;</li>
         
@@ -338,15 +341,15 @@
 <span class="sd">    :class:`networkx.Graph`</span>
 <span class="sd">        G</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="k">import</span> <span class="n">distance</span>
+    <span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">distance</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">()):</span>
         <span class="c1"># Loop through the edges connecting to this node</span>
         <span class="c1"># Note that &quot;node1&quot; is equal to &quot;node&quot;</span>
         <span class="k">for</span> <span class="n">node1</span><span class="p">,</span> <span class="n">node2</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">nbunch</span><span class="o">=</span><span class="p">[</span><span class="n">node</span><span class="p">]):</span>
 
             <span class="c1"># Calculate the euclidean distance for this edge</span>
-            <span class="n">cent1</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node1</span><span class="p">][</span><span class="s1">&#39;centroids&#39;</span><span class="p">]</span>
-            <span class="n">cent2</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node2</span><span class="p">][</span><span class="s1">&#39;centroids&#39;</span><span class="p">]</span>
+            <span class="n">cent1</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node1</span><span class="p">][</span><span class="s1">&#39;centroids&#39;</span><span class="p">]</span>
+            <span class="n">cent2</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node2</span><span class="p">][</span><span class="s1">&#39;centroids&#39;</span><span class="p">]</span>
 
             <span class="n">dist</span> <span class="o">=</span> <span class="n">distance</span><span class="o">.</span><span class="n">euclidean</span><span class="p">(</span><span class="n">cent1</span><span class="p">,</span> <span class="n">cent2</span><span class="p">)</span>
 
@@ -358,8 +361,8 @@
         <span class="c1"># for all edges which connect to the node</span>
         <span class="n">euc_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">G</span><span class="o">.</span><span class="n">adj</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="n">n</span><span class="p">][</span><span class="s1">&#39;euclidean&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">nbunch</span><span class="o">=</span><span class="n">node</span><span class="p">)]</span>
 
-        <span class="n">G</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;average_dist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">euc_list</span><span class="p">)</span>
-        <span class="n">G</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;total_dist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">euc_list</span><span class="p">)</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;average_dist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">euc_list</span><span class="p">)</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;total_dist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">euc_list</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">G</span></div>
 
 
@@ -402,11 +405,11 @@
             <span class="c1"># Determine whether this edge is interhemispheric</span>
             <span class="c1"># by multiplying the x values.</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">x1</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node1</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span>
-                <span class="n">x2</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node2</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span>
+                <span class="n">x1</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node1</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span>
+                <span class="n">x2</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node2</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                <span class="n">x1</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node1</span><span class="p">][</span><span class="s1">&#39;centroids&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">x2</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node2</span><span class="p">][</span><span class="s1">&#39;centroids&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">x1</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node1</span><span class="p">][</span><span class="s1">&#39;centroids&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">x2</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node2</span><span class="p">][</span><span class="s1">&#39;centroids&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
             <span class="c1"># Determine whether this edge is interhemispheric</span>
             <span class="c1"># by multiplying the x values.</span>
@@ -418,14 +421,14 @@
         <span class="c1"># Assign the value &#39;L&#39; or &#39;R&#39; to the node to indicate</span>
         <span class="c1"># whether it is in the left or right hemisphere</span>
         <span class="c1"># (according to its x coordinate)</span>
-        <span class="n">G</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;hemisphere&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;L&#39;</span> <span class="k">if</span> <span class="n">x1</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="k">else</span> <span class="s1">&#39;R&#39;</span> <span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;hemisphere&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;L&#39;</span> <span class="k">if</span> <span class="n">x1</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="k">else</span> <span class="s1">&#39;R&#39;</span> <span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="c1"># Create an interhem nodal attribute by getting the average</span>
         <span class="c1"># of the interhem values for all edges which connect to the node</span>
         <span class="n">interhem_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">G</span><span class="o">.</span><span class="n">adj</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="n">n</span><span class="p">][</span><span class="s1">&#39;interhem&#39;</span><span class="p">]</span>
                          <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">nbunch</span><span class="o">=</span><span class="n">node</span><span class="p">)]</span>
-        <span class="n">G</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;interhem&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">interhem_list</span><span class="p">)</span>
-        <span class="n">G</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;interhem_proportion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">interhem_list</span><span class="p">)</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;interhem&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">interhem_list</span><span class="p">)</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;interhem_proportion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">interhem_list</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">G</span></div>
 
 
@@ -698,11 +701,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2018, Dr Kirstie Whitaker, Isla Staden
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -713,7 +724,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

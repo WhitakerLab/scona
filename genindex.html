@@ -1,9 +1,7 @@
 
 
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -13,27 +11,29 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -49,7 +49,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> scona
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> scona
           
 
           
@@ -76,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -96,6 +97,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -134,7 +136,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Index</li>
     
@@ -364,14 +366,49 @@
 </li>
       <li><a href="scona.scripts.html#scona.scripts.make_figures.make_combo_matrix">make_combo_matrix() (in module scona.scripts.make_figures)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="scona.scripts.html#scona.scripts.make_figures.make_combo_scatter">make_combo_scatter() (in module scona.scripts.make_figures)</a>
 </li>
       <li><a href="scona.scripts.html#scona.scripts.make_figures.make_figures">make_figures() (in module scona.scripts.make_figures)</a>
 </li>
       <li><a href="scona.scripts.html#scona.scripts.make_figures.mediation_figure">mediation_figure() (in module scona.scripts.make_figures)</a>
 </li>
+      <li>
+    module
+
+      <ul>
+        <li><a href="scona.html#module-scona">scona</a>
+</li>
+        <li><a href="scona.html#module-scona.classes">scona.classes</a>
+</li>
+        <li><a href="scona.datasets.html#module-scona.datasets">scona.datasets</a>
+</li>
+        <li><a href="scona.datasets.NSPN_WhitakerVertes_PNAS2016.html#module-scona.datasets.NSPN_WhitakerVertes_PNAS2016">scona.datasets.NSPN_WhitakerVertes_PNAS2016</a>
+</li>
+        <li><a href="scona.html#module-scona.graph_measures">scona.graph_measures</a>
+</li>
+        <li><a href="scona.html#module-scona.make_corr_matrices">scona.make_corr_matrices</a>
+</li>
+        <li><a href="scona.html#module-scona.make_graphs">scona.make_graphs</a>
+</li>
+        <li><a href="scona.scripts.html#module-scona.scripts">scona.scripts</a>
+</li>
+        <li><a href="scona.scripts.html#module-scona.scripts.make_figures">scona.scripts.make_figures</a>
+</li>
+        <li><a href="scona.scripts.html#module-scona.scripts.useful_functions">scona.scripts.useful_functions</a>
+</li>
+        <li><a href="scona.scripts.html#module-scona.scripts.visualisation_commands">scona.scripts.visualisation_commands</a>
+</li>
+        <li><a href="scona.html#module-scona.stats_functions">scona.stats_functions</a>
+</li>
+        <li><a href="scona.wrappers.html#module-scona.wrappers">scona.wrappers</a>
+</li>
+        <li><a href="scona.wrappers.html#module-scona.wrappers.corrmat_from_regionalmeasures">scona.wrappers.corrmat_from_regionalmeasures</a>
+</li>
+        <li><a href="scona.wrappers.html#module-scona.wrappers.network_analysis_from_corrmat">scona.wrappers.network_analysis_from_corrmat</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="scona.scripts.html#scona.scripts.make_figures.mt_degree_network_fig">mt_degree_network_fig() (in module scona.scripts.make_figures)</a>
 </li>
   </ul></td>
@@ -422,30 +459,16 @@
 </li>
       <li><a href="scona.scripts.html#scona.scripts.make_figures.plot_anatomical_network">plot_anatomical_network() (in module scona.scripts.make_figures)</a>
 </li>
-      <li><a href="scona.scripts.html#scona.scripts.make_figures.plot_circular_network">plot_circular_network() (in module scona.scripts.make_figures)</a>
-</li>
-      <li><a href="scona.html#scona.visualisations.plot_connectome">plot_connectome() (in module scona.visualisations)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="scona.scripts.html#scona.scripts.make_figures.plot_circular_network">plot_circular_network() (in module scona.scripts.make_figures)</a>
+</li>
       <li><a href="scona.scripts.html#scona.scripts.make_figures.plot_degree_dist">plot_degree_dist() (in module scona.scripts.make_figures)</a>
-
-      <ul>
-        <li><a href="scona.html#scona.visualisations.plot_degree_dist">(in module scona.visualisations)</a>
 </li>
-      </ul></li>
       <li><a href="scona.scripts.html#scona.scripts.make_figures.plot_network_measures">plot_network_measures() (in module scona.scripts.make_figures)</a>
-
-      <ul>
-        <li><a href="scona.html#scona.visualisations.plot_network_measures">(in module scona.visualisations)</a>
 </li>
-      </ul></li>
       <li><a href="scona.scripts.html#scona.scripts.make_figures.plot_rich_club">plot_rich_club() (in module scona.scripts.make_figures)</a>
-
-      <ul>
-        <li><a href="scona.html#scona.visualisations.plot_rich_club">(in module scona.visualisations)</a>
 </li>
-      </ul></li>
       <li><a href="scona.scripts.html#scona.scripts.make_figures.plot_sagittal_network">plot_sagittal_network() (in module scona.scripts.make_figures)</a>
 </li>
       <li><a href="scona.scripts.html#scona.scripts.make_figures.prepare_violin_movie">prepare_violin_movie() (in module scona.scripts.make_figures)</a>
@@ -502,40 +525,113 @@
 </li>
       <li><a href="scona.html#scona.make_graphs.scale_weights">scale_weights() (in module scona.make_graphs)</a>
 </li>
-      <li><a href="scona.html#module-scona">scona (module)</a>
+      <li>
+    scona
+
+      <ul>
+        <li><a href="scona.html#module-scona">module</a>
 </li>
-      <li><a href="scona.html#module-scona.classes">scona.classes (module)</a>
+      </ul></li>
+      <li>
+    scona.classes
+
+      <ul>
+        <li><a href="scona.html#module-scona.classes">module</a>
 </li>
-      <li><a href="scona.datasets.html#module-scona.datasets">scona.datasets (module)</a>
+      </ul></li>
+      <li>
+    scona.datasets
+
+      <ul>
+        <li><a href="scona.datasets.html#module-scona.datasets">module</a>
 </li>
-      <li><a href="scona.datasets.NSPN_WhitakerVertes_PNAS2016.html#module-scona.datasets.NSPN_WhitakerVertes_PNAS2016">scona.datasets.NSPN_WhitakerVertes_PNAS2016 (module)</a>
+      </ul></li>
+      <li>
+    scona.datasets.NSPN_WhitakerVertes_PNAS2016
+
+      <ul>
+        <li><a href="scona.datasets.NSPN_WhitakerVertes_PNAS2016.html#module-scona.datasets.NSPN_WhitakerVertes_PNAS2016">module</a>
 </li>
-      <li><a href="scona.html#module-scona.graph_measures">scona.graph_measures (module)</a>
+      </ul></li>
+      <li>
+    scona.graph_measures
+
+      <ul>
+        <li><a href="scona.html#module-scona.graph_measures">module</a>
 </li>
-      <li><a href="scona.html#module-scona.make_corr_matrices">scona.make_corr_matrices (module)</a>
+      </ul></li>
+      <li>
+    scona.make_corr_matrices
+
+      <ul>
+        <li><a href="scona.html#module-scona.make_corr_matrices">module</a>
 </li>
-      <li><a href="scona.html#module-scona.make_graphs">scona.make_graphs (module)</a>
+      </ul></li>
+      <li>
+    scona.make_graphs
+
+      <ul>
+        <li><a href="scona.html#module-scona.make_graphs">module</a>
 </li>
-      <li><a href="scona.scripts.html#module-scona.scripts">scona.scripts (module)</a>
+      </ul></li>
+      <li>
+    scona.scripts
+
+      <ul>
+        <li><a href="scona.scripts.html#module-scona.scripts">module</a>
 </li>
-      <li><a href="scona.scripts.html#module-scona.scripts.make_figures">scona.scripts.make_figures (module)</a>
+      </ul></li>
+      <li>
+    scona.scripts.make_figures
+
+      <ul>
+        <li><a href="scona.scripts.html#module-scona.scripts.make_figures">module</a>
 </li>
-      <li><a href="scona.scripts.html#module-scona.scripts.useful_functions">scona.scripts.useful_functions (module)</a>
+      </ul></li>
+      <li>
+    scona.scripts.useful_functions
+
+      <ul>
+        <li><a href="scona.scripts.html#module-scona.scripts.useful_functions">module</a>
 </li>
-      <li><a href="scona.scripts.html#module-scona.scripts.visualisation_commands">scona.scripts.visualisation_commands (module)</a>
-</li>
-      <li><a href="scona.html#module-scona.stats_functions">scona.stats_functions (module)</a>
-</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="scona.html#module-scona.visualisations">scona.visualisations (module)</a>
+      <li>
+    scona.scripts.visualisation_commands
+
+      <ul>
+        <li><a href="scona.scripts.html#module-scona.scripts.visualisation_commands">module</a>
 </li>
-      <li><a href="scona.wrappers.html#module-scona.wrappers">scona.wrappers (module)</a>
+      </ul></li>
+      <li>
+    scona.stats_functions
+
+      <ul>
+        <li><a href="scona.html#module-scona.stats_functions">module</a>
 </li>
-      <li><a href="scona.wrappers.html#module-scona.wrappers.corrmat_from_regionalmeasures">scona.wrappers.corrmat_from_regionalmeasures (module)</a>
+      </ul></li>
+      <li>
+    scona.wrappers
+
+      <ul>
+        <li><a href="scona.wrappers.html#module-scona.wrappers">module</a>
 </li>
-      <li><a href="scona.wrappers.html#module-scona.wrappers.network_analysis_from_corrmat">scona.wrappers.network_analysis_from_corrmat (module)</a>
+      </ul></li>
+      <li>
+    scona.wrappers.corrmat_from_regionalmeasures
+
+      <ul>
+        <li><a href="scona.wrappers.html#module-scona.wrappers.corrmat_from_regionalmeasures">module</a>
 </li>
+      </ul></li>
+      <li>
+    scona.wrappers.network_analysis_from_corrmat
+
+      <ul>
+        <li><a href="scona.wrappers.html#module-scona.wrappers.network_analysis_from_corrmat">module</a>
+</li>
+      </ul></li>
       <li><a href="scona.html#scona.classes.BrainNetwork.set_anatomical_graph_attributes">set_anatomical_graph_attributes() (scona.classes.BrainNetwork method)</a>
 </li>
       <li><a href="scona.html#scona.classes.BrainNetwork.set_anatomical_node_attributes">set_anatomical_node_attributes() (scona.classes.BrainNetwork method)</a>
@@ -580,16 +676,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="scona.html#scona.stats_functions.variance_partition">variance_partition() (in module scona.stats_functions)</a>
 </li>
-      <li><a href="scona.html#scona.visualisations.view_connectome_3d">view_connectome_3d() (in module scona.visualisations)</a>
-</li>
       <li><a href="scona.scripts.html#scona.scripts.visualisation_commands.view_corr_mat">view_corr_mat() (in module scona.scripts.visualisation_commands)</a>
 </li>
-      <li><a href="scona.html#scona.visualisations.view_nodes_3d">view_nodes_3d() (in module scona.visualisations)</a>
+      <li><a href="scona.scripts.html#scona.scripts.make_figures.violin_add_laminae">violin_add_laminae() (in module scona.scripts.make_figures)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="scona.scripts.html#scona.scripts.make_figures.violin_add_laminae">violin_add_laminae() (in module scona.scripts.make_figures)</a>
-</li>
       <li><a href="scona.scripts.html#scona.scripts.make_figures.violin_mt_depths">violin_mt_depths() (in module scona.scripts.make_figures)</a>
 </li>
       <li><a href="scona.scripts.html#scona.scripts.make_figures.von_economo_boxes">von_economo_boxes() (in module scona.scripts.make_figures)</a>
@@ -641,11 +733,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2018, Dr Kirstie Whitaker, Isla Staden
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -656,7 +756,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
