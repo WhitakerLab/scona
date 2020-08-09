@@ -190,8 +190,8 @@ def assign_nodal_distance(G):
         for node1, node2 in G.edges(nbunch=[node]):
 
             # Calculate the euclidean distance for this edge
-            cent1 = G.node[node1]['centroids']
-            cent2 = G.node[node2]['centroids']
+            cent1 = G.nodes[node1]['centroids']
+            cent2 = G.nodes[node2]['centroids']
 
             dist = distance.euclidean(cent1, cent2)
 
@@ -203,8 +203,8 @@ def assign_nodal_distance(G):
         # for all edges which connect to the node
         euc_list = [G.adj[m][n]['euclidean'] for m, n in G.edges(nbunch=node)]
 
-        G.node[node]['average_dist'] = np.mean(euc_list)
-        G.node[node]['total_dist'] = np.sum(euc_list)
+        G.nodes[node]['average_dist'] = np.mean(euc_list)
+        G.nodes[node]['total_dist'] = np.sum(euc_list)
     return G
 
 
@@ -247,11 +247,11 @@ def assign_interhem(G):
             # Determine whether this edge is interhemispheric
             # by multiplying the x values.
             try:
-                x1 = G.node[node1]['x']
-                x2 = G.node[node2]['x']
+                x1 = G.nodes[node1]['x']
+                x2 = G.nodes[node2]['x']
             except KeyError:
-                x1 = G.node[node1]['centroids'][0]
-                x2 = G.node[node2]['centroids'][0]
+                x1 = G.nodes[node1]['centroids'][0]
+                x2 = G.nodes[node2]['centroids'][0]
 
             # Determine whether this edge is interhemispheric
             # by multiplying the x values.
@@ -263,14 +263,14 @@ def assign_interhem(G):
         # Assign the value 'L' or 'R' to the node to indicate
         # whether it is in the left or right hemisphere
         # (according to its x coordinate)
-        G.node[node]['hemisphere'] = [ 'L' if x1 < 0.0 else 'R' ][0]
+        G.nodes[node]['hemisphere'] = [ 'L' if x1 < 0.0 else 'R' ][0]
 
         # Create an interhem nodal attribute by getting the average
         # of the interhem values for all edges which connect to the node
         interhem_list = [G.adj[m][n]['interhem']
                          for m, n in G.edges(nbunch=node)]
-        G.node[node]['interhem'] = sum(interhem_list)
-        G.node[node]['interhem_proportion'] = np.mean(interhem_list)
+        G.nodes[node]['interhem'] = sum(interhem_list)
+        G.nodes[node]['interhem_proportion'] = np.mean(interhem_list)
     return G
 
 
