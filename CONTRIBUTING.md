@@ -99,7 +99,7 @@ The current list of labels are [here][link_labels] and include:
 
 Once you've identified one of the issues above that you feel you can contribute to, you're ready to make a change to the project repository! :tada::smiley:
 
-1. First, describe what you're planning to do as a comment to the issue, (and this might mean making a new issue).
+1. First, describe what you're planning to do as a comment on the issue, (and this might mean making a new issue).
 
     Check in with one of the scona development team to ensure you aren't overlapping with work that's currently underway and that everyone is on the same page with the goal of the work you're going to carry out.
 
