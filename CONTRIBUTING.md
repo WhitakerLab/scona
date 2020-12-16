@@ -43,7 +43,7 @@ The current list of labels are [here][link_labels] and include:
     To reply, read the question and then respond in a variety of different ways:
 
     * If you want to just agree with everything you can [react to the post][link_react] with one of :+1: :smile: :heart: :tada: :rocket:
-    * Alternatively you could write a comment to:
+    * Alternatively, you could write a comment to:
       * express your emotions more dramatically (check out this [cheat sheet][link_emojis] for emojis you might need)
       * provide a more nuanced description of your answer (using your words)
       * ask for a clarification
@@ -53,7 +53,7 @@ The current list of labels are [here][link_labels] and include:
 
 * [![no-code](https://img.shields.io/badge/-no--code-207de5.svg)][link_nocode] These issues don't require any coding knowledge.
 
-    If you're looking to contribute but aren't very confident in your coding skills these issues are a great place to start.
+    If you're looking to contribute but aren't very confident in your coding skills, these issues are a great place to start.
 
     All issues with the no code label are suggesting documentation tasks, or asking for feedback or suggestions.
 
@@ -73,7 +73,7 @@ The current list of labels are [here][link_labels] and include:
 
 * [![help-wanted](https://img.shields.io/badge/-help--wanted-159818.svg)][link_helpwanted] These issues contain a task that a member of the team has determined we need additional help with.
 
-    If you have particular skills then consider reading through these issues as they are a great place to offer your expertise.
+    If you have particular skills, then consider reading through these issues as they are a great place to offer your expertise.
 
     If you aren't sure what to offer, you could also recommend issues to your friends/colleagues who may be able to help.
 
@@ -89,17 +89,17 @@ The current list of labels are [here][link_labels] and include:
 
 * [![request](https://img.shields.io/badge/-request-fbca04.svg)][link_request] These issues are asking for features (or anything else) to be added to the project.
 
-    If you have a good idea and would like to see it implemented in the scona project please open a new issue and add in as much detail as possible.
+    If you have a good idea and would like to see it implemented in the scona project, please open a new issue and add in as much detail as possible.
 
     Please try to make sure that your feature is distinct from any others that have already been requested or implemented.
-    If you find one that's similar but there are subtle differences please reference the other request in your issue.
+    If you find one that's similar, but there are subtle differences, please reference the other request in your issue.
 
 
 ## Make a change
 
 Once you've identified one of the issues above that you feel you can contribute to, you're ready to make a change to the project repository! :tada::smiley:
 
-1. First, describe what you're planning to do as a comment to the issue, (and this might mean making a new issue).
+1. First, describe what you're planning to do as a comment on the issue, (and this might mean making a new issue).
 
     Check in with one of the scona development team to ensure you aren't overlapping with work that's currently underway and that everyone is on the same page with the goal of the work you're going to carry out.
 
@@ -108,7 +108,7 @@ Once you've identified one of the issues above that you feel you can contribute 
 2. [Fork][link_fork] the [`scona`][link_brainnetworksrepo] to your profile.
 
     You can now do whatever you want with this copy of the project.
-    You won't mess up anyone else's work so you're super safe.
+    You won't mess up anyone else's work, so you're super safe.
 
     Make sure to [keep your fork up to date][link_updateupstreamwiki] with the master repository.
 
