@@ -258,12 +258,12 @@ def is_anatomical_match(G,
 
 def weighted_graph_from_matrix(M, create_using=None):
     '''
-    Create a weighted graph from an correlation matrix.
+    Create a weighted graph from a correlation matrix.
 
     Parameters
     ----------
     M : :class:`numpy.array`
-        an correlation matrix
+        a correlation matrix
     create_using : :class:`networkx.Graph`, optional
         Use specified graph for result. The default is Graph()
 
@@ -369,7 +369,7 @@ def threshold_graph(G, cost, mst=True):
     germ.remove_edges_from(G.edges)
 
     if mst:
-        # Calculate minimum spanning tree
+        # Calculate minimum spanning trees
         germ.add_edges_from(nx.minimum_spanning_edges(H))
 
     # Make a list of the germ graph's edges
