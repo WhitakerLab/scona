@@ -2,12 +2,13 @@ from setuptools import setup, find_packages
 PACKAGES = find_packages()
 
 install_requires = [
-   "pandas",
+   "pandas<1.5",
    "python-louvain==0.11",
-   "numpy",
+   "numpy<1.20.0",
+   "matplotlib<3.6",
    "scikit-learn",
    "scipy",
-   "networkx>=2.2",
+   "networkx>=2.2,<3",
    "seaborn",
    "forceatlas2",
    "nilearn==0.5.2"]
