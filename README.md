@@ -54,7 +54,7 @@ We welcome any contributions to extend these "standard analysis" into a suite of
 `scona` ties together the excellent graph theoretical analyses provided by [`NetworkX`](https://networkx.github.io) along with some neuroscience know-how.
 For example, we've incorporated methods to include anatomical locations of your regions of interest, double edge swapping to preserve degree distribution in random graphs, and some standard reporting mechanisms that would be expected in a neuroimaging journal article.
 
-Our target audience are researchers who have structural brain imaging data and would like to run quite standard structural covariance network analyses.
+Scona is intended for researchers who have structural brain imaging data and would like to run standard structural covariance network analyses.
 We don't want experts in neuroimaging to have to also become expert in building reproducible pipelines and well tested software.
 (Although we'd love to answer questions if you are interested in improving your development skills!)
 `scona` is available to help researchers get started (and publish) their analyses quickly and reliably.
